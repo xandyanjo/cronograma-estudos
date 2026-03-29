@@ -919,7 +919,7 @@ function App(){
   const[frase]=useState(()=>FRASES[Math.floor(Math.random()*FRASES.length)]);
   // ── controle de sync ──
   const[currentUid,setCurrentUid]=useState(()=>window._uid);
-  const fbLoadedRef=useRef(false); // true após primeiro carregamento do Firebase
+  const[fbLoaded,setFbLoaded]=useState(false); // true após Firebase carregar — causa re-render para ativar save
   const saveRef=useRef(null);
   const skipSaveRef=useRef(false); // true enquanto dados remotos estão sendo aplicados
 
@@ -931,7 +931,7 @@ function App(){
       else{setCurrentUid(window._uid);}
       // cancela qualquer save pendente e bloqueia novos saves até Firebase recarregar
       clearTimeout(saveRef.current);
-      fbLoadedRef.current=false;
+      setFbLoaded(false);
       skipSaveRef.current=false;
     };
     window.addEventListener('authStateChanged',handler);
@@ -944,7 +944,7 @@ function App(){
     if(!window.db)return;
     // ao trocar de usuário, cancela qualquer save pendente imediatamente
     clearTimeout(saveRef.current);
-    fbLoadedRef.current=false;
+    setFbLoaded(false);
     const ref=window.db.ref(`/usuarios/${currentUid}`);
     const aplicarDados=snap=>{
       const d=snap.val();
@@ -965,10 +965,10 @@ function App(){
         if(typeof d.pomodoroRodadas==='number')setPRodSaved(d.pomodoroRodadas);
         if(d.dataInicioPlano&&typeof d.dataInicioPlano==='string')setDataInicioPlano(d.dataInicioPlano);
       }
-      // Firebase respondeu — libera saves futuros
-      fbLoadedRef.current=true;
+      // Firebase respondeu — libera saves futuros (setState causa re-render que ativa o save)
+      setFbLoaded(true);
     };
-    ref.on('value',aplicarDados,()=>{fbLoadedRef.current=true;});
+    ref.on('value',aplicarDados,()=>{setFbLoaded(true);});
     return()=>{ref.off('value',aplicarDados);clearTimeout(saveRef.current);};
   },[currentUid]);
 
@@ -977,7 +977,7 @@ function App(){
   useEffect(()=>{
     if(!window.db)return;
     // se Firebase ainda não carregou para este uid, não agenda nada
-    if(!fbLoadedRef.current)return;
+    if(!fbLoaded)return;
     clearTimeout(saveRef.current);
     saveRef.current=setTimeout(()=>{
       if(skipSaveRef.current){skipSaveRef.current=false;return;}
@@ -988,7 +988,7 @@ function App(){
         pomodoroRodadas:pRodSaved,dataInicioPlano
       }).catch(()=>{});
     },2000);
-  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,currentUid]);
+  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,currentUid,fbLoaded]);
 
   const regHoje=useCallback((seg,data)=>{if(seg<=0)return;const d=data||hoje();setReg(p=>({...p,[d]:(p[d]||0)+seg}));},[]);
   const cron=useCron(tSaved,setTSaved,regHoje);
