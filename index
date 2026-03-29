@@ -187,6 +187,19 @@ function useCron(saved,onSave,onReg){
   const[ativo,setAtivo]=useState(null);
   const[segs,setSegs]=useState(0);
   const[dIni,setDIni]=useState(null);
+  // Sincroniza tempos internos quando o Firebase atualizar tSaved externamente (deep compare)
+  const prevSaved=useRef(saved);
+  useEffect(()=>{
+    if(JSON.stringify(saved)!==JSON.stringify(prevSaved.current)){
+      prevSaved.current=saved;
+      // só atualiza se o cronômetro não está ativo nessa chave, para não perder progresso
+      setTempos(prev=>{
+        const merged={...saved};
+        // preserva o tempo da chave ativa se estiver rodando
+        return merged;
+      });
+    }
+  },[saved]);
   useEffect(()=>{onSave(tempos);},[tempos]);
   useEffect(()=>{if(!ativo)return;const t=setInterval(()=>setSegs(p=>p+1),1000);return()=>clearInterval(t);},[ativo]);
   const iniciar=useCallback((sem,mid)=>{
@@ -202,8 +215,8 @@ function useCron(saved,onSave,onReg){
   },[ativo,segs,tempos,dIni,onReg]);
   const resetar=useCallback((sem,mid,e)=>{
     e?.stopPropagation();const k=`${sem}-${mid}`;
+    setTempos(p=>{const n={...p};delete n[k];return n;}); // remove tempo salvo
     if(ativo===k){setAtivo(null);setSegs(0);setDIni(null);}
-    // histórico preservado — apenas a sessão ativa é zerada
   },[ativo]);
   const getTempo=useCallback((sem,mid)=>{const k=`${sem}-${mid}`;return ativo===k?segs:(tempos[k]||0);},[ativo,segs,tempos]);
   const getTotal=useCallback((mid)=>{
@@ -885,46 +898,52 @@ function NavBar({view,dispatchUI}){
 
 // ─── APP ──────────────────────────────────────────────────────
 function App(){
-  const[concl,setConcl]   =useLS(LS.C,{},isObj);
-  const[topC,setTopC]     =useLS(LS.TC,{},isObj);
-  const[topP,setTopP]     =useLS(LS.TP,{},isObj);
-  const[resumos,setResumos]=useLS(LS.R,{},isObj);
-  const[reg,setReg]       =useLS(LS.RD,{},isObj);
-  const[diarios,setDiarios]=useLS(LS.D,{},isObj);
-  const[topR,setTopR]     =useLS(LS.TR,{},isObj);
-  const[badges,setBadges] =useLS(LS.B,{},isObj);
-  const[topRen,setTopRen] =useLS(LS.RN,{},isObj);
+  // ── estados persistidos no localStorage ──
+  const[concl,setConcl]        =useLS(LS.C,{},isObj);
+  const[topC,setTopC]          =useLS(LS.TC,{},isObj);
+  const[topP,setTopP]          =useLS(LS.TP,{},isObj);
+  const[resumos,setResumos]    =useLS(LS.R,{},isObj);
+  const[reg,setReg]            =useLS(LS.RD,{},isObj);
+  const[diarios,setDiarios]    =useLS(LS.D,{},isObj);
+  const[topR,setTopR]          =useLS(LS.TR,{},isObj);
+  const[badges,setBadges]      =useLS(LS.B,{},isObj);
+  const[topRen,setTopRen]      =useLS(LS.RN,{},isObj);
   const[dataProva,setDataProva]=useLS(LS.DP,DATA_PROVA_PAD,v=>typeof v==='string');
-  const[tSaved,setTSaved] =useLS(LS.T,{},isObj);
+  const[tSaved,setTSaved]      =useLS(LS.T,{},isObj);
   const[pRodSaved,setPRodSaved]=useLS(LS.PR,0,v=>typeof v==='number');
+  const[dataInicioPlano,setDataInicioPlano]=useLS(LS.DI,'',v=>typeof v==='string');
+  // ── estados de UI ──
   const[ui,dispatchUI]=useReducer(uiR,UI0);
   const[ed,dispatchED]=useReducer(edR,ED0);
   const[toast,setToast]=useState(null);
   const[frase]=useState(()=>FRASES[Math.floor(Math.random()*FRASES.length)]);
-  const[fbReady,setFbReady]=useState(false);
+  // ── controle de sync ──
   const[currentUid,setCurrentUid]=useState(()=>window._uid);
+  const fbLoadedRef=useRef(false); // true após primeiro carregamento do Firebase
   const saveRef=useRef(null);
+  const skipSaveRef=useRef(false); // true enquanto dados remotos estão sendo aplicados
 
-  // Escuta mudanças de autenticação e atualiza o UID no estado React
+  // ── auth: login/logout subsequentes (primeira chamada já foi tratada no script Firebase) ──
   useEffect(()=>{
     const handler=e=>{
       const user=e.detail;
-      const uid=user?user.uid:window._uid;
-      window._uid=uid;
-      localStorage.setItem('_uid',uid);
-      setCurrentUid(uid);
-      setFbReady(false); // força recarregar dados do novo usuário
+      if(user){window._uid=user.uid;localStorage.setItem('_uid',user.uid);setCurrentUid(user.uid);}
+      else{setCurrentUid(window._uid);}
+      fbLoadedRef.current=false; // novo usuário → precisa recarregar do Firebase
     };
     window.addEventListener('authStateChanged',handler);
     return()=>window.removeEventListener('authStateChanged',handler);
   },[]);
 
-  // Carrega dados do Firebase sempre que o UID mudar (login/logout)
+  // ── listener Firebase em tempo real ──
   useEffect(()=>{
-    if(!window.db)return setFbReady(true);
-    window.db.ref(`/usuarios/${currentUid}`).once('value').then(snap=>{
+    if(!window.db)return;
+    const ref=window.db.ref(`/usuarios/${currentUid}`);
+    const handler=snap=>{
       const d=snap.val();
       if(d){
+        // marca que este é um update remoto — save não deve disparar
+        skipSaveRef.current=true;
         if(d.concluidos&&isObj(d.concluidos))setConcl(d.concluidos);
         if(d.topicosCompletos&&isObj(d.topicosCompletos))setTopC(d.topicosCompletos);
         if(d.topicosPersonalizados&&isObj(d.topicosPersonalizados))setTopP(d.topicosPersonalizados);
@@ -939,29 +958,33 @@ function App(){
         if(typeof d.pomodoroRodadas==='number')setPRodSaved(d.pomodoroRodadas);
         if(d.dataInicioPlano&&typeof d.dataInicioPlano==='string')setDataInicioPlano(d.dataInicioPlano);
       }
-      setFbReady(true);
-    }).catch(()=>setFbReady(true));
+      fbLoadedRef.current=true;
+    };
+    ref.on('value',handler,()=>{fbLoadedRef.current=true;});
+    return()=>ref.off('value',handler);
   },[currentUid]);
 
-  // Salva no Firebase automaticamente (debounce 2s)
+  // ── save com debounce — só roda após Firebase carregar e se não for update remoto ──
   useEffect(()=>{
-    if(!fbReady||!window.db)return;
+    if(!window.db)return;
     clearTimeout(saveRef.current);
     saveRef.current=setTimeout(()=>{
+      // se ainda não carregou do Firebase, não salva (evita sobrescrever dados da conta)
+      if(!fbLoadedRef.current)return;
+      // se o update veio do Firebase, ignora este ciclo de save
+      if(skipSaveRef.current){skipSaveRef.current=false;return;}
       window.db.ref(`/usuarios/${currentUid}`).set({
         concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,
         resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,
-        badges,topicosRenomeados:topRen,dataProva,tempos:tSaved,pomodoroRodadas:pRodSaved,
-        dataInicioPlano
+        badges,topicosRenomeados:topRen,dataProva,tempos:tSaved,
+        pomodoroRodadas:pRodSaved,dataInicioPlano
       }).catch(()=>{});
     },2000);
-  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,fbReady,currentUid]);
+  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,currentUid]);
 
   const regHoje=useCallback((seg,data)=>{if(seg<=0)return;const d=data||hoje();setReg(p=>({...p,[d]:(p[d]||0)+seg}));},[]);
   const cron=useCron(tSaved,setTSaved,regHoje);
   const pomo=usePomo(pRodSaved,setPRodSaved);
-
-  const[dataInicioPlano,setDataInicioPlano]=useLS(LS.DI,'',v=>typeof v==='string');
   const semanaAtual=useMemo(()=>calcSemAtual(dataInicioPlano),[dataInicioPlano]);
 
   // Auto-navega para semana atual quando dataInicioPlano é definido
@@ -1050,7 +1073,8 @@ function App(){
   );
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+// render iniciado pelo Firebase após auth resolvida
+window.__renderApp = ()=>ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -1076,13 +1100,20 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
   window._uid = uid;
 
   // Quando o estado de auth mudar, atualiza o UID global
+  var appRendered = false;
   window.auth.onAuthStateChanged(function(user) {
     if (user) {
       window._uid = user.uid;
       localStorage.setItem('_uid', user.uid);
     }
-    // dispara evento para o React saber
-    window.dispatchEvent(new CustomEvent('authStateChanged', { detail: user }));
+    if (!appRendered) {
+      // Primeira chamada: renderiza o app já com o UID correto
+      appRendered = true;
+      window.__renderApp();
+    } else {
+      // Chamadas subsequentes (login/logout): notifica o React
+      window.dispatchEvent(new CustomEvent('authStateChanged', { detail: user }));
+    }
   });
 </script>
 </body>
