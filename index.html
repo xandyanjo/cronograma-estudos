@@ -802,6 +802,65 @@ function Toast({badge}){if(!badge)return null;return(
   </div>
 );}
 
+// ─── GOOGLE LOGIN BTN ─────────────────────────────────────────
+function GoogleLoginBtn(){
+  const[user,setUser]=useState(null);
+  const[loading,setLoading]=useState(false);
+
+  useEffect(()=>{
+    const u=window.auth&&window.auth.currentUser;
+    if(u)setUser(u);
+    const handler=e=>setUser(e.detail);
+    window.addEventListener('authStateChanged',handler);
+    return()=>window.removeEventListener('authStateChanged',handler);
+  },[]);
+
+  const login=async()=>{
+    if(!window.auth||!window.googleProvider)return;
+    setLoading(true);
+    try{await window.auth.signInWithPopup(window.googleProvider);}
+    catch(e){if(e.code!=='auth/popup-closed-by-user')alert('Erro ao fazer login: '+e.message);}
+    finally{setLoading(false);}
+  };
+
+  const logout=async()=>{
+    if(!window.auth)return;
+    if(!confirm('Sair da conta Google?'))return;
+    await window.auth.signOut();
+    let uid=localStorage.getItem('_uid_anon');
+    if(!uid){uid='u_'+Date.now().toString(36)+Math.random().toString(36).slice(2);localStorage.setItem('_uid_anon',uid);}
+    window._uid=uid;localStorage.setItem('_uid',uid);
+  };
+
+  if(loading)return(
+    <button disabled style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:11,color:'#9ca3af',border:'none',background:'none',padding:'8px 10px'}}>
+      <span style={{fontSize:18,lineHeight:1}}>⏳</span>
+      <span>...</span>
+    </button>
+  );
+
+  if(user)return(
+    <button onClick={logout} title={`Logado: ${user.displayName||user.email}`}
+      style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:11,color:'#34d399',border:'none',background:'none',cursor:'pointer',padding:'8px 10px',transition:'color .2s',maxWidth:64}}>
+      {user.photoURL
+        ?<img src={user.photoURL} alt="" style={{width:20,height:20,borderRadius:'50%',border:'2px solid #34d399'}}/>
+        :<span style={{fontSize:18,lineHeight:1}}>👤</span>}
+      <span style={{overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',maxWidth:56}}>
+        {(user.displayName||user.email||'').split(' ')[0]}
+      </span>
+    </button>
+  );
+
+  return(
+    <button onClick={login} title="Entrar com Google para sincronizar"
+      style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:11,color:'#6b7280',border:'none',background:'none',cursor:'pointer',padding:'8px 10px',transition:'color .2s'}}
+      className="hover:text-white">
+      <span style={{fontSize:18,lineHeight:1}}>🔐</span>
+      <span>Login</span>
+    </button>
+  );
+}
+
 // ─── NAVBAR ───────────────────────────────────────────────────
 function NavBar({view,dispatchUI}){
   const abas=[{id:'dashboard',l:'Dashboard',ic:'📊'},{id:'cronograma',l:'Cronograma',ic:'📅'},{id:'revisao',l:'Revisão',ic:'⚠'},{id:'conquistas',l:'Conquistas',ic:'🏆'}];
@@ -814,6 +873,8 @@ function NavBar({view,dispatchUI}){
           <span>{a.l}</span>
         </button>
       ))}
+      <div style={{width:1,alignSelf:'stretch',margin:'8px 0',background:'#1f2937'}}/>
+      <GoogleLoginBtn/>
     </nav>
   );
 }
@@ -974,6 +1035,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
 </script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 <script>
   const firebaseConfig = {
     apiKey: "AIzaSyBR3MoezjKyBdnasY9asVqdxD3nMtoS44Q",
@@ -986,10 +1048,23 @@ ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
   };
   firebase.initializeApp(firebaseConfig);
   window.db = firebase.database();
+  window.auth = firebase.auth();
+  window.googleProvider = new firebase.auth.GoogleAuthProvider();
 
+  // UID anônimo de fallback (usado antes do login)
   let uid = localStorage.getItem('_uid');
   if (!uid) { uid = 'u_' + Date.now().toString(36) + Math.random().toString(36).slice(2); localStorage.setItem('_uid', uid); }
   window._uid = uid;
+
+  // Quando o estado de auth mudar, atualiza o UID global
+  window.auth.onAuthStateChanged(function(user) {
+    if (user) {
+      window._uid = user.uid;
+      localStorage.setItem('_uid', user.uid);
+    }
+    // dispara evento para o React saber
+    window.dispatchEvent(new CustomEvent('authStateChanged', { detail: user }));
+  });
 </script>
 </body>
 </html>
