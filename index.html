@@ -4,28 +4,6 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>📚 Cronograma de Estudos</title>
-<!-- Firebase ANTES do React -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-<script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyBR3MoezjKyBdnasY9asVqdxD3nMtoS44Q",
-    authDomain: "cronogram-de-estudos.firebaseapp.com",
-    databaseURL: "https://cronogram-de-estudos-default-rtdb.firebaseio.com",
-    projectId: "cronogram-de-estudos",
-    storageBucket: "cronogram-de-estudos.appspot.com",
-    messagingSenderId: "742013544348",
-    appId: "1:742013544348:web:e27311a9b16a18a9ca4a59"
-  };
-
-  firebase.initializeApp(firebaseConfig);
-
-  window.auth = firebase.auth();
-  window.db   = firebase.database();
-
-  console.log('[Firebase] ✅ Inicializado. db:', !!window.db, '| auth:', !!window.auth);
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
@@ -52,7 +30,14 @@ const {useState,useEffect,useReducer,useMemo,useCallback,useRef}=React;
 const STREAK_MIN=300,HEATMAP_DIAS=84,TOAST_MS=5000,DATA_PROVA_PAD='2025-05-15';
 const LS={T:'tempos_estudo',C:'concluidos_estudo',TC:'topicos_completos',TP:'topicos_personalizados',
   R:'resumos_topicos',RD:'registros_diarios',D:'diarios_semanais',TR:'topicos_revisar',
-  B:'badges_ganhos',PR:'pomodoro_rodadas',RN:'topicos_renomeados',DP:'data_prova'};
+  B:'badges_ganhos',PR:'pomodoro_rodadas',RN:'topicos_renomeados',DP:'data_prova',DI:'data_inicio_plano'};
+
+function calcSemAtual(di){
+  if(!di)return 1;
+  const diff=Date.now()-new Date(di+'T12:00:00').getTime();
+  return Math.min(28,Math.max(1,Math.floor(diff/(7*86400000))+1));
+}
+const _diSaved=(()=>{try{return JSON.parse(localStorage.getItem('data_inicio_plano'))||'';}catch{return '';}})();
 
 // ─── DADOS ───────────────────────────────────────────────────
 const CONTEUDOS={
@@ -218,7 +203,7 @@ function useCron(saved,onSave,onReg){
   const resetar=useCallback((sem,mid,e)=>{
     e?.stopPropagation();const k=`${sem}-${mid}`;
     if(ativo===k){setAtivo(null);setSegs(0);setDIni(null);}
-    setTempos(p=>{const n={...p};delete n[k];return n;});
+    // histórico preservado — apenas a sessão ativa é zerada
   },[ativo]);
   const getTempo=useCallback((sem,mid)=>{const k=`${sem}-${mid}`;return ativo===k?segs:(tempos[k]||0);},[ativo,segs,tempos]);
   const getTotal=useCallback((mid)=>{
@@ -245,7 +230,7 @@ function usePomo(rodIni,onSave){
 }
 
 // ─── REDUCERS ─────────────────────────────────────────────────
-const UI0={view:'cronograma',sem:1,exp:{},showS:false,termoS:'',resS:[],showP:false};
+const UI0={view:'cronograma',sem:calcSemAtual(_diSaved),exp:{},showS:false,termoS:'',resS:[],showP:false};
 function uiR(s,a){switch(a.t){
   case'V':return{...s,view:a.p};case'SEM':return{...s,sem:a.p};
   case'EXP':return{...s,exp:{...s.exp,[a.p]:!s.exp[a.p]}};
@@ -291,18 +276,39 @@ function Heatmap({reg}){
 
 // ─── DASHBOARD ────────────────────────────────────────────────
 function Dashboard({S}){
-  const{streak,diasR,tempoTot,totTop,totSem,frase,reg,badges,pomo,cron,proGeral,dispatchUI}=S;
+  const{streak,diasR,tempoTot,totTop,totSem,frase,reg,badges,pomo,cron,proGeral,dispatchUI,dataInicioPlano,setDataInicioPlano,semanaAtual,deficitTotal,deficitPorMateria}=S;
   const h=(tempoTot/3600).toFixed(1);
   const dias=Object.values(reg).filter(v=>v>0).length;
   const med=dias>0?(tempoTot/3600/dias).toFixed(1):'0.0';
   const totB=Object.keys(badges).length;
   const progMat=useMemo(()=>Object.keys(CONTEUDOS).map(id=>{const mat=CONTEUDOS[id];let t=0,c=0;mat.categorias.forEach((cat,ci)=>{cat.topicos.forEach((_,ti)=>{t++;if(S.topC[`${id}-${ci}-${ti}`])c++;});(S.topP[`${id}-${ci}`]||[]).forEach((_,ti)=>{t++;if(S.topC[`${id}-${ci}-custom-${ti}`])c++;});});return{id,nome:mat.nome,pct:t?Math.round(c/t*100):0};}),[S.topC,S.topP]);
   const matT=useMemo(()=>Object.keys(CONTEUDOS).map(id=>({id,nome:CONTEUDOS[id].nome.split(' ')[0],t:cron.getTotal(id)})).filter(m=>m.t>0).sort((a,b)=>b.t-a.t),[cron]);
+  const defMats=Object.entries(deficitPorMateria).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
   return(
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 p-4">
       <div className="max-w-4xl mx-auto space-y-4">
         <div className="bg-white bg-opacity-10 rounded-2xl p-4 border border-white border-opacity-20 text-center">
           <p className="text-white text-opacity-80 italic text-sm">"{frase}"</p>
+        </div>
+        {/* Plano de estudos config */}
+        <div className="rounded-2xl p-4 border" style={{background:'rgba(255,255,255,0.07)',borderColor:'rgba(255,255,255,0.1)'}}>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div className="text-white font-semibold text-sm">📅 Plano de Estudos</div>
+              {dataInicioPlano
+                ?<div className="text-xs mt-1" style={{color:'rgba(255,255,255,0.5)'}}>Início: {new Date(dataInicioPlano+'T12:00:00').toLocaleDateString('pt-BR')} · <span className="text-blue-300 font-semibold">Semana {semanaAtual}/28</span></div>
+                :<div className="text-xs mt-1" style={{color:'rgba(255,165,0,0.8)'}}>⚠ Defina a data de início para detectar semana automaticamente</div>
+              }
+            </div>
+            <div className="flex items-center gap-2">
+              <input type="date" value={dataInicioPlano||''} onChange={e=>setDataInicioPlano(e.target.value)}
+                className="text-xs rounded-xl px-3 py-1.5 outline-none"
+                style={{background:'rgba(255,255,255,0.1)',border:'1px solid rgba(255,255,255,0.2)',color:'white'}}/>
+              {dataInicioPlano&&<button onClick={()=>dispatchUI({t:'V',p:'cronograma'})}
+                className="text-xs px-3 py-1.5 rounded-xl transition-colors"
+                style={{background:'rgba(59,130,246,0.3)',color:'#93c5fd'}}>Ir para semana atual →</button>}
+            </div>
+          </div>
         </div>
         <div className="grid grid-cols-2 gap-3" style={{gridTemplateColumns:'repeat(4,1fr)'}}>
           {[
@@ -326,6 +332,35 @@ function Dashboard({S}){
           </div>
           <div className="text-white text-opacity-40 text-xs mt-1 text-right">{totSem}/28 semanas concluídas</div>
         </div>
+        {/* Déficit acumulado */}
+        {dataInicioPlano&&semanaAtual>1&&(
+          <div className="rounded-2xl p-4 border" style={{background:deficitTotal>0?'rgba(239,68,68,0.1)':'rgba(34,197,94,0.1)',borderColor:deficitTotal>0?'rgba(239,68,68,0.3)':'rgba(34,197,94,0.3)'}}>
+            <div className="flex justify-between items-center mb-2">
+              <span className="font-semibold text-sm" style={{color:deficitTotal>0?'#fca5a5':'#86efac'}}>
+                {deficitTotal>0?'⚠️ Déficit Acumulado':'✅ Em dia com o plano'}
+              </span>
+              {deficitTotal>0&&<span className="font-bold text-sm" style={{color:'#fca5a5'}}>{(deficitTotal/3600).toFixed(1)}h em atraso</span>}
+            </div>
+            {deficitTotal>0&&defMats.length>0&&(
+              <div className="space-y-1 mt-2">
+                {defMats.map(([mid,def])=>{
+                  const nome=CONTEUDOS[mid]?.nome||mid;
+                  const w=Math.min(100,(def/3600/5)*100);
+                  return(
+                    <div key={mid} className="flex items-center gap-2">
+                      <span className="text-xs shrink-0" style={{color:'rgba(255,255,255,0.5)',width:100}}>{nome.split(' ')[0]}</span>
+                      <div className="flex-1 rounded-full" style={{height:5,background:'rgba(255,255,255,0.1)'}}>
+                        <div className="h-full rounded-full bg-red-400 transition-all" style={{width:`${w}%`}}/>
+                      </div>
+                      <span className="text-xs shrink-0" style={{color:'#fca5a5',width:44,textAlign:'right'}}>{(def/3600).toFixed(1)}h</span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            {deficitTotal===0&&<p className="text-xs" style={{color:'rgba(255,255,255,0.4)'}}>Todas as semanas anteriores com meta atingida 🎉</p>}
+          </div>
+        )}
         <div className="bg-white bg-opacity-10 rounded-2xl p-4 border border-white border-opacity-20">
           <h3 className="text-white font-semibold mb-3">📚 Progresso por Matéria</h3>
           <div className="space-y-2">
@@ -464,20 +499,29 @@ function PomoModal({pomo,onClose}){
 
 // ─── CRONOGRAMA VIEW ──────────────────────────────────────────
 function CronogramaView({S}){
-  const{ui,dispatchUI,ed,dispatchED,concl,setConcl,diarios,cron,salvarDiario}=S;
+  const{ui,dispatchUI,ed,dispatchED,concl,setConcl,diarios,cron,salvarDiario,semanaAtual,dataInicioPlano}=S;
   const sem=ui.sem;const setSem=n=>dispatchUI({t:'SEM',p:n});
   const cfg=CRONOGRAMA[sem]||{f:0};
   const fase=FASES[cfg.f]||FASES[0];
   const tempoSem=useMemo(()=>{let t=0;Object.entries(cron.tempos).forEach(([k,v])=>{if(k.startsWith(`${sem}-`))t+=v;});if(cron.ativo?.startsWith(`${sem}-`))t+=cron.segs-(cron.tempos[cron.ativo]||0);return t;},[sem,cron]);
   const metaSem=useMemo(()=>fase.materias.reduce((a,m)=>a+m.horas*3600,0),[fase]);
   const pct=metaSem>0?Math.min(100,Math.round(tempoSem/metaSem*100)):0;
+  const eAtual=dataInicioPlano&&sem===semanaAtual;
+  const atrasado=dataInicioPlano&&sem<semanaAtual&&pct<100;
   return(
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900">
       <div style={{position:'sticky',top:0,zIndex:30,padding:'12px 16px',background:'rgba(30,58,138,0.9)',backdropFilter:'blur(8px)',borderBottom:'1px solid rgba(255,255,255,0.1)'}}>
         <div className="max-w-3xl mx-auto">
           <div className="flex justify-between items-center mb-2">
-            <div><h1 className="text-white font-bold">📚 Semana {sem}/28</h1><p style={{color:'rgba(255,255,255,0.5)',fontSize:12}}>{fase.nome} · {cfg.foco||''}</p></div>
-            <div className="text-right"><span className="text-white font-bold">{pct}%</span><div style={{color:'rgba(255,255,255,0.3)',fontSize:11}}>{fmt(tempoSem)}</div></div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-white font-bold">📚 Semana {sem}/28</h1>
+                {eAtual&&<span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{background:'rgba(96,165,250,0.2)',color:'#93c5fd'}}>📍 atual</span>}
+                {atrasado&&<span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{background:'rgba(239,68,68,0.2)',color:'#fca5a5'}}>⚠ atraso</span>}
+              </div>
+              <p style={{color:'rgba(255,255,255,0.5)',fontSize:12}}>{fase.nome} · {cfg.foco||''}</p>
+            </div>
+            <div className="text-right"><span className="text-white font-bold">{pct}%</span><div style={{color:'rgba(255,255,255,0.3)',fontSize:11}}>{fmt(tempoSem)} / {fmt(metaSem)}</div></div>
           </div>
           <div className="w-full rounded-full" style={{height:6,background:'rgba(255,255,255,0.1)'}}>
             <div className="rounded-full transition-all h-full bg-gradient-to-r from-blue-400 to-green-400" style={{width:`${pct}%`}}/>
@@ -775,7 +819,7 @@ function NavBar({view,dispatchUI}){
 }
 
 // ─── APP ──────────────────────────────────────────────────────
-function App({uid,userName,onLogout}){
+function App(){
   const[concl,setConcl]   =useLS(LS.C,{},isObj);
   const[topC,setTopC]     =useLS(LS.TC,{},isObj);
   const[topP,setTopP]     =useLS(LS.TP,{},isObj);
@@ -792,81 +836,84 @@ function App({uid,userName,onLogout}){
   const[ed,dispatchED]=useReducer(edR,ED0);
   const[toast,setToast]=useState(null);
   const[frase]=useState(()=>FRASES[Math.floor(Math.random()*FRASES.length)]);
-  const[syncOk,setSyncOk]=useState(null);
+  const[fbReady,setFbReady]=useState(false);
   const saveRef=useRef(null);
-  const listenerRef=useRef(null);
 
-  // ── SOLUÇÃO DEFINITIVA ──────────────────────────────────────
-  // Tudo parte do onAuthStateChanged: listener + save só rodam
-  // quando o uid real do Google já está confirmado pelo Firebase.
+  // Carrega dados do Firebase na inicialização
   useEffect(()=>{
-    if(!window.auth||!window.db)return;
-
-    const unsub=window.auth.onAuthStateChanged(firebaseUser=>{
-      // Segurança: ignora se o user autenticado não bater com o prop uid
-      if(!firebaseUser||firebaseUser.uid!==uid)return;
-
-      // Guarda uid confirmado em window para o save poder acessar
-      window._confirmedUid=firebaseUser.uid;
-
-      // Remove listener anterior se existir
-      if(listenerRef.current){
-        window.db.ref(`/usuarios/${window._confirmedUid}`).off('value',listenerRef.current);
+    if(!window.db)return setFbReady(true);
+    window.db.ref(`/usuarios/${window._uid}`).once('value').then(snap=>{
+      const d=snap.val();
+      if(d){
+        if(d.concluidos&&isObj(d.concluidos))setConcl(d.concluidos);
+        if(d.topicosCompletos&&isObj(d.topicosCompletos))setTopC(d.topicosCompletos);
+        if(d.topicosPersonalizados&&isObj(d.topicosPersonalizados))setTopP(d.topicosPersonalizados);
+        if(d.resumos&&isObj(d.resumos))setResumos(d.resumos);
+        if(d.registrosDiarios&&isObj(d.registrosDiarios))setReg(d.registrosDiarios);
+        if(d.diarios&&isObj(d.diarios))setDiarios(d.diarios);
+        if(d.topicosRevisar&&isObj(d.topicosRevisar))setTopR(d.topicosRevisar);
+        if(d.badges&&isObj(d.badges))setBadges(d.badges);
+        if(d.topicosRenomeados&&isObj(d.topicosRenomeados))setTopRen(d.topicosRenomeados);
+        if(d.dataProva&&typeof d.dataProva==='string')setDataProva(d.dataProva);
+        if(d.tempos&&isObj(d.tempos))setTSaved(d.tempos);
+        if(typeof d.pomodoroRodadas==='number')setPRodSaved(d.pomodoroRodadas);
+        if(d.dataInicioPlano&&typeof d.dataInicioPlano==='string')setDataInicioPlano(d.dataInicioPlano);
       }
+      setFbReady(true);
+    }).catch(()=>setFbReady(true));
+  },[]);
 
-      // ✅ Listener em tempo real — qualquer device que salvar, todos recebem
-      const ref=window.db.ref(`/usuarios/${window._confirmedUid}`);
-      listenerRef.current=ref.on('value',snap=>{
-        const d=snap.val();
-        if(d){
-          if(d.concluidos&&isObj(d.concluidos))setConcl(d.concluidos);
-          if(d.topicosCompletos&&isObj(d.topicosCompletos))setTopC(d.topicosCompletos);
-          if(d.topicosPersonalizados&&isObj(d.topicosPersonalizados))setTopP(d.topicosPersonalizados);
-          if(d.resumos&&isObj(d.resumos))setResumos(d.resumos);
-          if(d.registrosDiarios&&isObj(d.registrosDiarios))setReg(d.registrosDiarios);
-          if(d.diarios&&isObj(d.diarios))setDiarios(d.diarios);
-          if(d.topicosRevisar&&isObj(d.topicosRevisar))setTopR(d.topicosRevisar);
-          if(d.badges&&isObj(d.badges))setBadges(d.badges);
-          if(d.topicosRenomeados&&isObj(d.topicosRenomeados))setTopRen(d.topicosRenomeados);
-          if(d.dataProva&&typeof d.dataProva==='string')setDataProva(d.dataProva);
-          if(d.tempos&&isObj(d.tempos))setTSaved(d.tempos);
-          if(typeof d.pomodoroRodadas==='number')setPRodSaved(d.pomodoroRodadas);
-        }
-        setSyncOk(true);
-      },()=>setSyncOk(false));
-    });
-
-    return()=>{
-      unsub();
-      if(listenerRef.current&&window._confirmedUid){
-        window.db.ref(`/usuarios/${window._confirmedUid}`).off('value',listenerRef.current);
-      }
-    };
-  },[uid]);
-
-  // ✅ Save com .update() — nunca sobrescreve, mescla os dados
-  // Só roda se _confirmedUid existir (ou seja, auth já confirmou)
+  // Salva no Firebase automaticamente (debounce 2s)
   useEffect(()=>{
+    if(!fbReady||!window.db)return;
     clearTimeout(saveRef.current);
     saveRef.current=setTimeout(()=>{
-      const confirmedUid=window._confirmedUid;
-      if(!window.db||!confirmedUid){
-        console.warn('[Firebase] Save bloqueado — uid ainda não confirmado.');
-        return;
-      }
-      console.log('[Firebase] Salvando em /usuarios/'+confirmedUid);
-      window.db.ref(`/usuarios/${confirmedUid}`).update({
+      window.db.ref(`/usuarios/${window._uid}`).set({
         concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,
         resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,
-        badges,topicosRenomeados:topRen,dataProva,tempos:tSaved,pomodoroRodadas:pRodSaved
-      }).then(()=>{console.log('[Firebase] ✅ Salvo!');setSyncOk(true);})
-        .catch(e=>{console.error('[Firebase] ❌ Erro:',e.message);setSyncOk(false);});
-    },3000);
-  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved]);
+        badges,topicosRenomeados:topRen,dataProva,tempos:tSaved,pomodoroRodadas:pRodSaved,
+        dataInicioPlano
+      }).catch(()=>{});
+    },2000);
+  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,fbReady]);
 
   const regHoje=useCallback((seg,data)=>{if(seg<=0)return;const d=data||hoje();setReg(p=>({...p,[d]:(p[d]||0)+seg}));},[]);
   const cron=useCron(tSaved,setTSaved,regHoje);
   const pomo=usePomo(pRodSaved,setPRodSaved);
+
+  const[dataInicioPlano,setDataInicioPlano]=useLS(LS.DI,'',v=>typeof v==='string');
+  const semanaAtual=useMemo(()=>calcSemAtual(dataInicioPlano),[dataInicioPlano]);
+
+  // Auto-navega para semana atual quando dataInicioPlano é definido
+  useEffect(()=>{if(dataInicioPlano)dispatchUI({t:'SEM',p:calcSemAtual(dataInicioPlano)});},[dataInicioPlano]);
+
+  // Déficit acumulado total (semanas passadas)
+  const deficitTotal=useMemo(()=>{
+    if(!dataInicioPlano)return 0;
+    let def=0;
+    for(let s=1;s<semanaAtual;s++){
+      const cfg=CRONOGRAMA[s]||{f:0};const fase=FASES[cfg.f]||FASES[0];
+      const meta=fase.materias.reduce((a,m)=>a+m.horas*3600,0);
+      const tempo=Object.entries(tSaved).filter(([k])=>k.startsWith(`${s}-`)).reduce((a,[,v])=>a+v,0);
+      def+=Math.max(0,meta-tempo);
+    }
+    return def;
+  },[dataInicioPlano,semanaAtual,tSaved]);
+
+  // Déficit acumulado por matéria
+  const deficitPorMateria=useMemo(()=>{
+    if(!dataInicioPlano)return {};
+    const d={};
+    for(let s=1;s<semanaAtual;s++){
+      const cfg=CRONOGRAMA[s]||{f:0};const fase=FASES[cfg.f]||FASES[0];
+      fase.materias.forEach(mat=>{
+        const meta=mat.horas*3600;const tempo=tSaved[`${s}-${mat.id}`]||0;
+        const def=Math.max(0,meta-tempo);
+        if(def>0)d[mat.id]=(d[mat.id]||0)+def;
+      });
+    }
+    return d;
+  },[dataInicioPlano,semanaAtual,tSaved]);
 
   const streak=useMemo(()=>{let c=0;const d=new Date();const hj=d.toISOString().split('T')[0];if(!reg[hj]||reg[hj]<STREAK_MIN)d.setDate(d.getDate()-1);for(let i=0;i<365;i++){const s=d.toISOString().split('T')[0];if(reg[s]&&reg[s]>=STREAK_MIN){c++;d.setDate(d.getDate()-1);}else break;}return c;},[reg]);
   const diasR=useMemo(()=>{const p=new Date(`${dataProva}T12:00:00`);return Math.max(0,Math.ceil((p-new Date())/86400000));},[dataProva]);
@@ -887,7 +934,7 @@ function App({uid,userName,onLogout}){
   const importar=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d||typeof d!=='object'){alert('❌ Arquivo inválido.');return;}if(d.concluidos)setConcl(d.concluidos);if(d.topicosCompletos)setTopC(d.topicosCompletos);if(d.topicosPersonalizados)setTopP(d.topicosPersonalizados);if(d.resumos)setResumos(d.resumos);if(d.registrosDiarios)setReg(d.registrosDiarios);if(d.diarios)setDiarios(d.diarios);if(d.topicosRevisar)setTopR(d.topicosRevisar);if(d.badgesGanhos)setBadges(d.badgesGanhos);if(d.topicosRenomeados)setTopRen(d.topicosRenomeados);if(d.dataProva)setDataProva(d.dataProva);if(d.tempos)setTSaved(d.tempos);alert(`✅ Dados importados! (v${d.versao||'?'})`);}catch(err){alert('❌ Erro: '+err.message);}};r.readAsText(f);e.target.value='';};
   const resetar=()=>{if(!confirm('⚠️ Apagar TODOS os dados? Esta ação é irreversível.\n\nExporte um backup antes!'))return;try{Object.values(LS).forEach(k=>localStorage.removeItem(k));setTimeout(()=>window.location.reload(),100);}catch(err){alert('Erro: '+err.message);}};
 
-  const S={ui,dispatchUI,ed,dispatchED,concl,setConcl,topC,setTopC,topP,setTopP,resumos,setResumos,reg,setReg,diarios,topR,setTopR,badges,setBadges,topRen,setTopRen,dataProva,setDataProva,streak,diasR,tempoTot,totTop,totSem,proGeral,frase,cron,pomo,salvarResumo,salvarDiario,FASES,CRONOGRAMA};
+  const S={ui,dispatchUI,ed,dispatchED,concl,setConcl,topC,setTopC,topP,setTopP,resumos,setResumos,reg,setReg,diarios,topR,setTopR,badges,setBadges,topRen,setTopRen,dataProva,setDataProva,dataInicioPlano,setDataInicioPlano,semanaAtual,deficitTotal,deficitPorMateria,streak,diasR,tempoTot,totTop,totSem,proGeral,frase,cron,pomo,salvarResumo,salvarDiario,FASES,CRONOGRAMA};
   const{view}=ui;
 
   return(
@@ -916,13 +963,6 @@ function App({uid,userName,onLogout}){
           </label>
           <div style={{width:1,height:16,background:'#374151'}}/>
           <button onClick={resetar} title="Limpar todos os dados" style={{color:'#6b7280',background:'none',border:'none',cursor:'pointer',fontSize:14,padding:'4px 8px'}} className="hover:text-red-400 transition-colors">🗑</button>
-          <div style={{width:1,height:16,background:'#374151'}}/>
-          <span title={syncOk===true?'Sincronizado com a nuvem':syncOk===false?'Salvo localmente (sem sync)':'Sincronizando...'} style={{fontSize:16,cursor:'default',padding:'4px 4px'}}>
-            {syncOk===true?'☁️':syncOk===false?'💾':'🔄'}
-          </span>
-          <button onClick={onLogout} title="Sair da conta Google" style={{color:'#6b7280',background:'none',border:'none',cursor:'pointer',fontSize:11,padding:'4px 6px',maxWidth:80,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}} className="hover:text-blue-400 transition-colors">
-            👤 {userName}
-          </button>
         </div>
       </div>
       <NavBar view={view} dispatchUI={dispatchUI}/>
@@ -930,87 +970,26 @@ function App({uid,userName,onLogout}){
   );
 }
 
-// ─── TELA DE LOGIN GOOGLE ─────────────────────────────────────
-function LoginScreen({onLogin,loading,erro}){
-  return(
-    <div style={{minHeight:'100vh',background:'linear-gradient(135deg,#0f172a 0%,#1e3a5f 50%,#0f172a 100%)',display:'flex',alignItems:'center',justifyContent:'center',padding:16}}>
-      <div style={{width:'100%',maxWidth:360,background:'rgba(255,255,255,0.07)',border:'1px solid rgba(255,255,255,0.15)',borderRadius:24,padding:32,textAlign:'center'}}>
-        <div style={{fontSize:56,marginBottom:12}}>⚓</div>
-        <h1 style={{color:'white',fontSize:22,fontWeight:'bold',margin:'0 0 8px'}}>Cronograma de Estudos</h1>
-        <p style={{color:'rgba(255,255,255,0.45)',fontSize:13,margin:'0 0 32px',lineHeight:1.5}}>
-          Entre com sua conta Google para sincronizar seu progresso em qualquer dispositivo
-        </p>
-
-        <button onClick={onLogin} disabled={loading}
-          style={{width:'100%',padding:'14px 20px',borderRadius:14,border:'none',
-            background:loading?'#374151':'white',color:loading?'#9ca3af':'#1f2937',
-            fontSize:15,fontWeight:'bold',cursor:loading?'not-allowed':'pointer',
-            display:'flex',alignItems:'center',justifyContent:'center',gap:10,transition:'all .2s'}}>
-          {loading
-            ? <><span style={{fontSize:18}}>🔄</span> Entrando...</>
-            : <><svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="none" d="M0 0h48v48H0z"/></svg>
-              Entrar com Google</>
-          }
-        </button>
-
-        {erro&&<p style={{color:'#f87171',fontSize:12,marginTop:14}}>{erro}</p>}
-
-        <div style={{marginTop:24,padding:12,background:'rgba(59,130,246,0.1)',border:'1px solid rgba(59,130,246,0.2)',borderRadius:12}}>
-          <p style={{color:'rgba(255,255,255,0.4)',fontSize:11,margin:0,lineHeight:1.6}}>
-            💡 Use a mesma conta Google no PC e no celular — seus dados ficam sincronizados automaticamente.
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ─── AUTH WRAPPER ─────────────────────────────────────────────
-function AuthWrapper(){
-  const[user,setUser]=useState(null);
-  const[loading,setLoading]=useState(true);
-  const[erro,setErro]=useState('');
-
-  // onAuthStateChanged é a fonte de verdade — detecta login/logout automaticamente
-  useEffect(()=>{
-    if(!window.auth){setLoading(false);return;}
-    const unsub=window.auth.onAuthStateChanged(u=>{
-      setUser(u||null);
-      setLoading(false);
-    });
-    return()=>unsub();
-  },[]);
-
-  const login=()=>{
-    if(!window.auth){setErro('Firebase não disponível.');return;}
-    setErro('');
-    const provider=new firebase.auth.GoogleAuthProvider();
-    window.auth.signInWithPopup(provider)
-      .catch(e=>{setErro('Erro ao entrar: '+e.message);});
-    // setUser é feito automaticamente pelo onAuthStateChanged acima
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBR3MoezjKyBdnasY9asVqdxD3nMtoS44Q",
+    authDomain: "cronogram-de-estudos.firebaseapp.com",
+    databaseURL: "https://cronograma-de-estudos-default-rtdb.firebaseio.com",
+    projectId: "cronogram-de-estudos",
+    storageBucket: "cronogram-de-estudos.firebasestorage.app",
+    messagingSenderId: "742013544348",
+    appId: "1:742013544348:web:e27311a9b16a18a9ca4a59"
   };
+  firebase.initializeApp(firebaseConfig);
+  window.db = firebase.database();
 
-  const logout=()=>{
-    if(window.auth)window.auth.signOut();
-    // setUser(null) é feito automaticamente pelo onAuthStateChanged
-  };
-
-  if(loading)return(
-    <div style={{minHeight:'100vh',background:'#0f172a',display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:16}}>
-      <div style={{fontSize:48}}>⚓</div>
-      <div style={{color:'white',fontSize:16}}>Verificando login...</div>
-      <div style={{width:40,height:40,border:'4px solid rgba(255,255,255,0.1)',borderTop:'4px solid #3b82f6',borderRadius:'50%',animation:'spin 1s linear infinite'}}/>
-      <style>{`@keyframes spin{to{transform:rotate(360deg);}}`}</style>
-    </div>
-  );
-
-  if(!user)return <LoginScreen onLogin={login} loading={loading} erro={erro}/>;
-
-  const nome=user.displayName||user.email||'Usuário';
-  return <App uid={user.uid} userName={nome} onLogout={logout}/>;
-}
-
-ReactDOM.createRoot(document.getElementById('root')).render(<AuthWrapper/>);
+  let uid = localStorage.getItem('_uid');
+  if (!uid) { uid = 'u_' + Date.now().toString(36) + Math.random().toString(36).slice(2); localStorage.setItem('_uid', uid); }
+  window._uid = uid;
 </script>
 </body>
 </html>
