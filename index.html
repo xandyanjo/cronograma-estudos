@@ -958,7 +958,6 @@ function App(){
         if(d.tempos&&isObj(d.tempos))setTSaved(d.tempos);
         if(typeof d.pomodoroRodadas==='number')setPRodSaved(d.pomodoroRodadas);
         if(d.dataInicioPlano&&typeof d.dataInicioPlano==='string')setDataInicioPlano(d.dataInicioPlano);
-        setTimeout(()=>{isRemoteUpdate.current=false;},0);
       }
       setFbReady(true);
     };
@@ -967,11 +966,15 @@ function App(){
   },[currentUid]);
 
   // Salva no Firebase automaticamente (debounce 2s)
+  // isRemoteUpdate permanece true durante todo o debounce para não sobrescrever dados remotos
   useEffect(()=>{
     if(!fbReady||!window.db)return;
     clearTimeout(saveRef.current);
     saveRef.current=setTimeout(()=>{
-      if(isRemoteUpdate.current)return;
+      if(isRemoteUpdate.current){
+        isRemoteUpdate.current=false; // reseta AQUI, após o debounce — não antes
+        return;
+      }
       window.db.ref(`/usuarios/${currentUid}`).set({
         concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,
         resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,
