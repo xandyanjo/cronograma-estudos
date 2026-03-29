@@ -958,7 +958,6 @@ function App(){
         if(d.tempos&&isObj(d.tempos))setTSaved(d.tempos);
         if(typeof d.pomodoroRodadas==='number')setPRodSaved(d.pomodoroRodadas);
         if(d.dataInicioPlano&&typeof d.dataInicioPlano==='string')setDataInicioPlano(d.dataInicioPlano);
-      }
         setTimeout(()=>{isRemoteUpdate.current=false;},0);
       }
       setFbReady(true);
