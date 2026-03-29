@@ -187,6 +187,11 @@ function useCron(saved,onSave,onReg){
   const[ativo,setAtivo]=useState(null);
   const[segs,setSegs]=useState(0);
   const[dIni,setDIni]=useState(null);
+  // Sincroniza tempos internos quando o Firebase atualizar tSaved externamente
+  const prevSaved=useRef(saved);
+  useEffect(()=>{
+    if(saved!==prevSaved.current){prevSaved.current=saved;setTempos(saved);}
+  },[saved]);
   useEffect(()=>{onSave(tempos);},[tempos]);
   useEffect(()=>{if(!ativo)return;const t=setInterval(()=>setSegs(p=>p+1),1000);return()=>clearInterval(t);},[ativo]);
   const iniciar=useCallback((sem,mid)=>{
@@ -961,11 +966,11 @@ function App(){
     },2000);
   },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,fbReady,currentUid]);
 
+  const[dataInicioPlano,setDataInicioPlano]=useLS(LS.DI,'',v=>typeof v==='string');
+
   const regHoje=useCallback((seg,data)=>{if(seg<=0)return;const d=data||hoje();setReg(p=>({...p,[d]:(p[d]||0)+seg}));},[]);
   const cron=useCron(tSaved,setTSaved,regHoje);
   const pomo=usePomo(pRodSaved,setPRodSaved);
-
-  const[dataInicioPlano,setDataInicioPlano]=useLS(LS.DI,'',v=>typeof v==='string');
   const semanaAtual=useMemo(()=>calcSemAtual(dataInicioPlano),[dataInicioPlano]);
 
   // Auto-navega para semana atual quando dataInicioPlano é definido
