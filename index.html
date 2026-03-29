@@ -187,10 +187,18 @@ function useCron(saved,onSave,onReg){
   const[ativo,setAtivo]=useState(null);
   const[segs,setSegs]=useState(0);
   const[dIni,setDIni]=useState(null);
-  // Sincroniza tempos internos quando o Firebase atualizar tSaved externamente
+  // Sincroniza tempos internos quando o Firebase atualizar tSaved externamente (deep compare)
   const prevSaved=useRef(saved);
   useEffect(()=>{
-    if(saved!==prevSaved.current){prevSaved.current=saved;setTempos(saved);}
+    if(JSON.stringify(saved)!==JSON.stringify(prevSaved.current)){
+      prevSaved.current=saved;
+      // só atualiza se o cronômetro não está ativo nessa chave, para não perder progresso
+      setTempos(prev=>{
+        const merged={...saved};
+        // preserva o tempo da chave ativa se estiver rodando
+        return merged;
+      });
+    }
   },[saved]);
   useEffect(()=>{onSave(tempos);},[tempos]);
   useEffect(()=>{if(!ativo)return;const t=setInterval(()=>setSegs(p=>p+1),1000);return()=>clearInterval(t);},[ativo]);
@@ -207,8 +215,8 @@ function useCron(saved,onSave,onReg){
   },[ativo,segs,tempos,dIni,onReg]);
   const resetar=useCallback((sem,mid,e)=>{
     e?.stopPropagation();const k=`${sem}-${mid}`;
+    setTempos(p=>{const n={...p};delete n[k];return n;}); // remove tempo salvo
     if(ativo===k){setAtivo(null);setSegs(0);setDIni(null);}
-    // histórico preservado — apenas a sessão ativa é zerada
   },[ativo]);
   const getTempo=useCallback((sem,mid)=>{const k=`${sem}-${mid}`;return ativo===k?segs:(tempos[k]||0);},[ativo,segs,tempos]);
   const getTotal=useCallback((mid)=>{
@@ -909,7 +917,7 @@ function App(){
   const[fbReady,setFbReady]=useState(false);
   const[currentUid,setCurrentUid]=useState(()=>window._uid);
   const saveRef=useRef(null);
-  const isSaving=useRef(false); // flag para evitar loop: salvar → listener → salvar
+  const isRemoteUpdate=useRef(false); // flag: true quando update veio do Firebase
 
   // Escuta mudanças de autenticação e atualiza o UID no estado React
   useEffect(()=>{
@@ -934,9 +942,9 @@ function App(){
     if(!window.db){setFbReady(true);return;}
     const ref=window.db.ref(`/usuarios/${currentUid}`);
     const handler=snap=>{
-      if(isSaving.current)return; // ignora updates disparados pelo próprio dispositivo
       const d=snap.val();
       if(d){
+        isRemoteUpdate.current=true;
         if(d.concluidos&&isObj(d.concluidos))setConcl(d.concluidos);
         if(d.topicosCompletos&&isObj(d.topicosCompletos))setTopC(d.topicosCompletos);
         if(d.topicosPersonalizados&&isObj(d.topicosPersonalizados))setTopP(d.topicosPersonalizados);
@@ -951,6 +959,8 @@ function App(){
         if(typeof d.pomodoroRodadas==='number')setPRodSaved(d.pomodoroRodadas);
         if(d.dataInicioPlano&&typeof d.dataInicioPlano==='string')setDataInicioPlano(d.dataInicioPlano);
       }
+        setTimeout(()=>{isRemoteUpdate.current=false;},0);
+      }
       setFbReady(true);
     };
     ref.on('value',handler,()=>setFbReady(true));
@@ -962,13 +972,13 @@ function App(){
     if(!fbReady||!window.db)return;
     clearTimeout(saveRef.current);
     saveRef.current=setTimeout(()=>{
-      isSaving.current=true;
+      if(isRemoteUpdate.current)return;
       window.db.ref(`/usuarios/${currentUid}`).set({
         concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,
         resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,
         badges,topicosRenomeados:topRen,dataProva,tempos:tSaved,pomodoroRodadas:pRodSaved,
         dataInicioPlano
-      }).then(()=>{setTimeout(()=>{isSaving.current=false;},500);}).catch(()=>{isSaving.current=false;});
+      }).catch(()=>{});
     },2000);
   },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,fbReady,currentUid]);
 
