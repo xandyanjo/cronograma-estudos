@@ -810,6 +810,7 @@ function GoogleLoginBtn(){
   useEffect(()=>{
     const u=window.auth&&window.auth.currentUser;
     if(u)setUser(u);
+    // só atualiza o ícone visual — a lógica de sync fica no App
     const handler=e=>setUser(e.detail);
     window.addEventListener('authStateChanged',handler);
     return()=>window.removeEventListener('authStateChanged',handler);
@@ -829,7 +830,10 @@ function GoogleLoginBtn(){
     await window.auth.signOut();
     let uid=localStorage.getItem('_uid_anon');
     if(!uid){uid='u_'+Date.now().toString(36)+Math.random().toString(36).slice(2);localStorage.setItem('_uid_anon',uid);}
-    window._uid=uid;localStorage.setItem('_uid',uid);
+    window._uid=uid;
+    localStorage.setItem('_uid',uid);
+    // dispara o evento para o React atualizar o estado
+    window.dispatchEvent(new CustomEvent('authStateChanged',{detail:null}));
   };
 
   if(loading)return(
@@ -898,12 +902,27 @@ function App(){
   const[toast,setToast]=useState(null);
   const[frase]=useState(()=>FRASES[Math.floor(Math.random()*FRASES.length)]);
   const[fbReady,setFbReady]=useState(false);
+  const[currentUid,setCurrentUid]=useState(()=>window._uid);
   const saveRef=useRef(null);
 
-  // Carrega dados do Firebase na inicialização
+  // Escuta mudanças de autenticação e atualiza o UID no estado React
+  useEffect(()=>{
+    const handler=e=>{
+      const user=e.detail;
+      const uid=user?user.uid:window._uid;
+      window._uid=uid;
+      localStorage.setItem('_uid',uid);
+      setCurrentUid(uid);
+      setFbReady(false); // força recarregar dados do novo usuário
+    };
+    window.addEventListener('authStateChanged',handler);
+    return()=>window.removeEventListener('authStateChanged',handler);
+  },[]);
+
+  // Carrega dados do Firebase sempre que o UID mudar (login/logout)
   useEffect(()=>{
     if(!window.db)return setFbReady(true);
-    window.db.ref(`/usuarios/${window._uid}`).once('value').then(snap=>{
+    window.db.ref(`/usuarios/${currentUid}`).once('value').then(snap=>{
       const d=snap.val();
       if(d){
         if(d.concluidos&&isObj(d.concluidos))setConcl(d.concluidos);
@@ -922,21 +941,21 @@ function App(){
       }
       setFbReady(true);
     }).catch(()=>setFbReady(true));
-  },[]);
+  },[currentUid]);
 
   // Salva no Firebase automaticamente (debounce 2s)
   useEffect(()=>{
     if(!fbReady||!window.db)return;
     clearTimeout(saveRef.current);
     saveRef.current=setTimeout(()=>{
-      window.db.ref(`/usuarios/${window._uid}`).set({
+      window.db.ref(`/usuarios/${currentUid}`).set({
         concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,
         resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,
         badges,topicosRenomeados:topRen,dataProva,tempos:tSaved,pomodoroRodadas:pRodSaved,
         dataInicioPlano
       }).catch(()=>{});
     },2000);
-  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,fbReady]);
+  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,fbReady,currentUid]);
 
   const regHoje=useCallback((seg,data)=>{if(seg<=0)return;const d=data||hoje();setReg(p=>({...p,[d]:(p[d]||0)+seg}));},[]);
   const cron=useCron(tSaved,setTSaved,regHoje);
