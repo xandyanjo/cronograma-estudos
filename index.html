@@ -909,6 +909,7 @@ function App(){
   const[fbReady,setFbReady]=useState(false);
   const[currentUid,setCurrentUid]=useState(()=>window._uid);
   const saveRef=useRef(null);
+  const isSaving=useRef(false); // flag para evitar loop: salvar → listener → salvar
 
   // Escuta mudanças de autenticação e atualiza o UID no estado React
   useEffect(()=>{
@@ -928,10 +929,12 @@ function App(){
     return()=>window.removeEventListener('authStateChanged',handler);
   },[]);
 
-  // Carrega dados do Firebase sempre que o UID mudar (login/logout)
+  // Escuta dados do Firebase em tempo real (atualiza quando outro dispositivo salvar)
   useEffect(()=>{
-    if(!window.db)return setFbReady(true);
-    window.db.ref(`/usuarios/${currentUid}`).once('value').then(snap=>{
+    if(!window.db){setFbReady(true);return;}
+    const ref=window.db.ref(`/usuarios/${currentUid}`);
+    const handler=snap=>{
+      if(isSaving.current)return; // ignora updates disparados pelo próprio dispositivo
       const d=snap.val();
       if(d){
         if(d.concluidos&&isObj(d.concluidos))setConcl(d.concluidos);
@@ -949,7 +952,9 @@ function App(){
         if(d.dataInicioPlano&&typeof d.dataInicioPlano==='string')setDataInicioPlano(d.dataInicioPlano);
       }
       setFbReady(true);
-    }).catch(()=>setFbReady(true));
+    };
+    ref.on('value',handler,()=>setFbReady(true));
+    return()=>ref.off('value',handler);
   },[currentUid]);
 
   // Salva no Firebase automaticamente (debounce 2s)
@@ -957,12 +962,13 @@ function App(){
     if(!fbReady||!window.db)return;
     clearTimeout(saveRef.current);
     saveRef.current=setTimeout(()=>{
+      isSaving.current=true;
       window.db.ref(`/usuarios/${currentUid}`).set({
         concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,
         resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,
         badges,topicosRenomeados:topRen,dataProva,tempos:tSaved,pomodoroRodadas:pRodSaved,
         dataInicioPlano
-      }).catch(()=>{});
+      }).then(()=>{setTimeout(()=>{isSaving.current=false;},500);}).catch(()=>{isSaving.current=false;});
     },2000);
   },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,fbReady,currentUid]);
 
