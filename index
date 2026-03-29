@@ -923,26 +923,33 @@ function App(){
   const saveRef=useRef(null);
   const skipSaveRef=useRef(false); // true enquanto dados remotos estão sendo aplicados
 
-  // ── auth: login/logout subsequentes (primeira chamada já foi tratada no script Firebase) ──
+  // ── auth: login/logout subsequentes ──
   useEffect(()=>{
     const handler=e=>{
       const user=e.detail;
       if(user){window._uid=user.uid;localStorage.setItem('_uid',user.uid);setCurrentUid(user.uid);}
       else{setCurrentUid(window._uid);}
-      fbLoadedRef.current=false; // novo usuário → precisa recarregar do Firebase
+      // cancela qualquer save pendente e bloqueia novos saves até Firebase recarregar
+      clearTimeout(saveRef.current);
+      fbLoadedRef.current=false;
+      skipSaveRef.current=false;
     };
     window.addEventListener('authStateChanged',handler);
     return()=>window.removeEventListener('authStateChanged',handler);
   },[]);
 
   // ── listener Firebase em tempo real ──
+  // Quando currentUid muda: cancela timer de save, aguarda Firebase, aplica dados
   useEffect(()=>{
     if(!window.db)return;
+    // ao trocar de usuário, cancela qualquer save pendente imediatamente
+    clearTimeout(saveRef.current);
+    fbLoadedRef.current=false;
     const ref=window.db.ref(`/usuarios/${currentUid}`);
-    const handler=snap=>{
+    const aplicarDados=snap=>{
       const d=snap.val();
       if(d){
-        // marca que este é um update remoto — save não deve disparar
+        // bloqueia save enquanto aplica dados remotos
         skipSaveRef.current=true;
         if(d.concluidos&&isObj(d.concluidos))setConcl(d.concluidos);
         if(d.topicosCompletos&&isObj(d.topicosCompletos))setTopC(d.topicosCompletos);
@@ -958,20 +965,21 @@ function App(){
         if(typeof d.pomodoroRodadas==='number')setPRodSaved(d.pomodoroRodadas);
         if(d.dataInicioPlano&&typeof d.dataInicioPlano==='string')setDataInicioPlano(d.dataInicioPlano);
       }
+      // Firebase respondeu — libera saves futuros
       fbLoadedRef.current=true;
     };
-    ref.on('value',handler,()=>{fbLoadedRef.current=true;});
-    return()=>ref.off('value',handler);
+    ref.on('value',aplicarDados,()=>{fbLoadedRef.current=true;});
+    return()=>{ref.off('value',aplicarDados);clearTimeout(saveRef.current);};
   },[currentUid]);
 
-  // ── save com debounce — só roda após Firebase carregar e se não for update remoto ──
+  // ── save com debounce ──
+  // Regras: 1) só salva após Firebase ter carregado  2) ignora ciclo causado por update remoto
   useEffect(()=>{
     if(!window.db)return;
+    // se Firebase ainda não carregou para este uid, não agenda nada
+    if(!fbLoadedRef.current)return;
     clearTimeout(saveRef.current);
     saveRef.current=setTimeout(()=>{
-      // se ainda não carregou do Firebase, não salva (evita sobrescrever dados da conta)
-      if(!fbLoadedRef.current)return;
-      // se o update veio do Firebase, ignora este ciclo de save
       if(skipSaveRef.current){skipSaveRef.current=false;return;}
       window.db.ref(`/usuarios/${currentUid}`).set({
         concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,
