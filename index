@@ -1135,10 +1135,29 @@ window.__renderApp = ()=>ReactDOM.createRoot(document.getElementById('root')).re
     messagingSenderId: "742013544348",
     appId: "1:742013544348:web:e27311a9b16a18a9ca4a59"
   };
-  firebase.initializeApp(firebaseConfig);
-  window.db = firebase.database();
-  window.auth = firebase.auth();
-  window.googleProvider = new firebase.auth.GoogleAuthProvider();
+ firebase.initializeApp(firebaseConfig);
+
+window.db = firebase.database();
+window.auth = firebase.auth();
+
+let appRendered = false;
+
+window.auth.onAuthStateChanged(function(user) {
+  if (user) {
+    window._uid = user.uid;
+    localStorage.setItem('_uid', user.uid);
+
+    if (!appRendered) {
+      appRendered = true;
+      window.__renderApp();
+    } else {
+      window.dispatchEvent(new CustomEvent('authStateChanged', { detail: user }));
+    }
+  } else {
+    // 🔥 AQUI ESTÁ O PONTO PRINCIPAL
+    firebase.auth().signInAnonymously().catch(console.error);
+  }
+});
 
   // UID anônimo de fallback (usado antes do login)
   let uid = localStorage.getItem('_uid');
