@@ -1140,24 +1140,22 @@ window.__renderApp = ()=>ReactDOM.createRoot(document.getElementById('root')).re
 window.db = firebase.database();
 window.auth = firebase.auth();
 
-let appRendered = false;
+ firebase.auth().onAuthStateChanged(function(user) {
 
-window.auth.onAuthStateChanged(function(user) {
-  if (user) {
-    window._uid = user.uid;
-    localStorage.setItem('_uid', user.uid);
+    console.log("USER:", user);
 
-    if (!appRendered) {
-      appRendered = true;
-      window.__renderApp();
+    if (user) {
+      window._uid = user.uid;
     } else {
-      window.dispatchEvent(new CustomEvent('authStateChanged', { detail: user }));
+      console.log("NÃO LOGADO");
+      firebase.auth().signInAnonymously().catch(console.error);
     }
-  } else {
-    // 🔥 AQUI ESTÁ O PONTO PRINCIPAL
-    firebase.auth().signInAnonymously().catch(console.error);
-  }
-});
+
+    // renderiza app só depois do login
+    if (window.__renderApp) {
+      window.__renderApp();
+    }
+  });
 
   // UID anônimo de fallback (usado antes do login)
   let uid = localStorage.getItem('_uid');
