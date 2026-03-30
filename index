@@ -1119,10 +1119,13 @@ function App(){
   );
 }
 
-// Renderiza o app — tudo dentro do bloco Babel para garantir ordem de execução
+// Root criado uma única vez
+let __appRoot = null;
 function renderApp() {
-  const root = ReactDOM.createRoot(document.getElementById('root'));
-  root.render(<App />);
+  if (!__appRoot) {
+    __appRoot = ReactDOM.createRoot(document.getElementById('root'));
+  }
+  __appRoot.render(<App />);
 }
 
 // Aguarda Firebase carregar, depois inicializa
