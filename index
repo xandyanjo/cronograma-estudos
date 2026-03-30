@@ -1146,22 +1146,6 @@ window.__renderApp = () => {
 window.db = firebase.database();
 window.auth = firebase.auth();
 
- firebase.auth().onAuthStateChanged(function(user) {
-
-    console.log("USER:", user);
-
-    if (user) {
-      window._uid = user.uid;
-    } else {
-      console.log("NÃO LOGADO");
-      firebase.auth().signInAnonymously().catch(console.error);
-    }
-
-    // renderiza app só depois do login
-    if (window.__renderApp) {
-      window.__renderApp();
-    }
-  });
 
   // UID anônimo de fallback (usado antes do login)
   let uid = localStorage.getItem('_uid');
