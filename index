@@ -1121,7 +1121,7 @@ function App(){
 
 // render iniciado pelo Firebase após auth resolvida
 if (!window.__root) {
-  window.__root = ReactDOM.createRoot(document.getElementById('root'));
+ window.__root = ReactDOM.createRoot(document.getElementById('root')); 
 }
 
 window.__renderApp = () => {
