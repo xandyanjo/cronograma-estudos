@@ -1129,7 +1129,7 @@ window.__renderApp = ()=>ReactDOM.createRoot(document.getElementById('root')).re
   const firebaseConfig = {
     apiKey: "AIzaSyBR3MoezjKyBdnasY9asVqdxD3nMtoS44Q",
     authDomain: "cronogram-de-estudos.firebaseapp.com",
-    databaseURL: "https://cronograma-de-estudos-default-rtdb.firebaseio.com",
+    databaseURL: "https://cronogram-de-estudos-default-rtdb.firebaseio.com",
     projectId: "cronogram-de-estudos",
     storageBucket: "cronogram-de-estudos.firebasestorage.app",
     messagingSenderId: "742013544348",
