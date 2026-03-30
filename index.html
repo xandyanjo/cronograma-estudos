@@ -834,13 +834,7 @@ function GoogleLoginBtn(){
     return()=>window.removeEventListener('authStateChanged',handler);
   },[]);
 
-  const login=async()=>{
-    if(!window.auth||!window.googleProvider)return;
-    setLoading(true);
-    try{await window.auth.signInWithPopup(window.googleProvider);}
-    catch(e){if(e.code!=='auth/popup-closed-by-user')alert('Erro ao fazer login: '+e.message);}
-    finally{setLoading(false);}
-  };
+  const login=()=>{ window.loginGoogle(); };
 
   const logout=async()=>{
     if(!window.auth)return;
@@ -1119,13 +1113,25 @@ function App(){
   );
 }
 
-// render iniciado pelo Firebase após auth resolvida
-window.__renderApp = ()=>ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
-</script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script>
+// Root criado uma única vez
+let __appRoot = null;
+function renderApp() {
+  if (!__appRoot) {
+    __appRoot = ReactDOM.createRoot(document.getElementById('root'));
+  }
+  __appRoot.render(<App />);
+}
+
+// Aguarda Firebase carregar, depois inicializa (guard contra dupla execução)
+let __firebaseInited = false;
+function initFirebase() {
+  if (typeof firebase === 'undefined') {
+    setTimeout(initFirebase, 50);
+    return;
+  }
+  if (__firebaseInited) return;
+  __firebaseInited = true;
+
   const firebaseConfig = {
     apiKey: "AIzaSyBR3MoezjKyBdnasY9asVqdxD3nMtoS44Q",
     authDomain: "cronogram-de-estudos.firebaseapp.com",
@@ -1135,49 +1141,43 @@ window.__renderApp = ()=>ReactDOM.createRoot(document.getElementById('root')).re
     messagingSenderId: "742013544348",
     appId: "1:742013544348:web:e27311a9b16a18a9ca4a59"
   };
- firebase.initializeApp(firebaseConfig);
 
-window.db = firebase.database();
-window.auth = firebase.auth();
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  window.db   = firebase.database();
+  window.auth = firebase.auth();
+  window.googleProvider = new firebase.auth.GoogleAuthProvider();
+  window.loginGoogle = function() {
+    window.auth.signInWithPopup(window.googleProvider)
+      .then(function(r){ console.log("LOGADO:", r.user.displayName); })
+      .catch(function(e){ console.error("ERRO LOGIN:", e); alert("Erro: " + e.message); });
+  };
 
- firebase.auth().onAuthStateChanged(function(user) {
-
-    console.log("USER:", user);
-
-    if (user) {
-      window._uid = user.uid;
-    } else {
-      console.log("NÃO LOGADO");
-      firebase.auth().signInAnonymously().catch(console.error);
-    }
-
-    // renderiza app só depois do login
-    if (window.__renderApp) {
-      window.__renderApp();
-    }
-  });
-
-  // UID anônimo de fallback (usado antes do login)
   let uid = localStorage.getItem('_uid');
-  if (!uid) { uid = 'u_' + Date.now().toString(36) + Math.random().toString(36).slice(2); localStorage.setItem('_uid', uid); }
+  if (!uid) {
+    uid = 'u_' + Date.now().toString(36) + Math.random().toString(36).slice(2);
+    localStorage.setItem('_uid', uid);
+  }
   window._uid = uid;
 
-  // Quando o estado de auth mudar, atualiza o UID global
-  var appRendered = false;
+  // Renderiza o app imediatamente — não depende de auth
+  renderApp();
+  window.auth.getRedirectResult().then(function(r){if(r&&r.user)console.log("Redirect OK:",r.user.displayName);}).catch(function(e){if(e.code!=="auth/no-current-user")console.error("Redirect error:",e);});
+
+  // Auth apenas atualiza o UID e notifica o React
   window.auth.onAuthStateChanged(function(user) {
+    console.log("USER:", user);
     if (user) {
       window._uid = user.uid;
       localStorage.setItem('_uid', user.uid);
     }
-    if (!appRendered) {
-      // Primeira chamada: renderiza o app já com o UID correto
-      appRendered = true;
-      window.__renderApp();
-    } else {
-      // Chamadas subsequentes (login/logout): notifica o React
-      window.dispatchEvent(new CustomEvent('authStateChanged', { detail: user }));
-    }
+    window.dispatchEvent(new CustomEvent('authStateChanged', { detail: user }));
   });
+}
+
+initFirebase();
 </script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 </body>
 </html>
