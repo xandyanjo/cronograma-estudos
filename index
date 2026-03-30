@@ -1120,10 +1120,12 @@ function App(){
 }
 
 // render iniciado pelo Firebase após auth resolvida
-const root = ReactDOM.createRoot(document.getElementById('root'));
+if (!window.__root) {
+  window.__root = ReactDOM.createRoot(document.getElementById('root'));
+}
 
 window.__renderApp = () => {
-  root.render(<App />);
+  window.__root.render(<App />);
 };
 </script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
