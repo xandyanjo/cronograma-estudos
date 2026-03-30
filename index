@@ -189,18 +189,23 @@ function useCron(saved,onSave,onReg){
   const[dIni,setDIni]=useState(null);
   // Sincroniza tempos internos quando o Firebase atualizar tSaved externamente (deep compare)
   const prevSaved=useRef(saved);
+  const fromFirebaseRef=useRef(false); // flag: mudança veio do Firebase (não dispara onSave)
+  const mountedRef=useRef(false);      // flag: evita onSave no mount inicial
   useEffect(()=>{
     if(JSON.stringify(saved)!==JSON.stringify(prevSaved.current)){
       prevSaved.current=saved;
-      // só atualiza se o cronômetro não está ativo nessa chave, para não perder progresso
+      fromFirebaseRef.current=true; // marca que a mudança veio do Firebase
       setTempos(prev=>{
         const merged={...saved};
-        // preserva o tempo da chave ativa se estiver rodando
         return merged;
       });
     }
   },[saved]);
-  useEffect(()=>{onSave(tempos);},[tempos]);
+  useEffect(()=>{
+    if(!mountedRef.current){mountedRef.current=true;return;} // pula mount inicial
+    if(fromFirebaseRef.current){fromFirebaseRef.current=false;return;} // pula se veio do Firebase
+    onSave(tempos); // só salva quando o usuário realmente alterou (parou/resetou timer)
+  },[tempos]);
   useEffect(()=>{if(!ativo)return;const t=setInterval(()=>setSegs(p=>p+1),1000);return()=>clearInterval(t);},[ativo]);
   const iniciar=useCallback((sem,mid)=>{
     const k=`${sem}-${mid}`;
@@ -869,11 +874,11 @@ function GoogleLoginBtn(){
   );
 
   return(
-    <button onClick={login} title="Entrar com Google para sincronizar"
-      style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:11,color:'#6b7280',border:'none',background:'none',cursor:'pointer',padding:'8px 10px',transition:'color .2s'}}
+    <button onClick={login} title="Entrar com Google para sincronizar entre dispositivos"
+      style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:11,color:'#f59e0b',border:'1px solid rgba(245,158,11,0.4)',background:'rgba(245,158,11,0.1)',cursor:'pointer',padding:'6px 10px',transition:'all .2s',borderRadius:8}}
       className="hover:text-white">
       <span style={{fontSize:18,lineHeight:1}}>🔐</span>
-      <span>Login</span>
+      <span>Sincronizar</span>
     </button>
   );
 }
@@ -927,9 +932,34 @@ function App(){
   useEffect(()=>{
     const handler=e=>{
       const user=e.detail;
-      if(user){window._uid=user.uid;localStorage.setItem('_uid',user.uid);setCurrentUid(user.uid);}
+      if(user){
+        const prevUid=window._uid; // UID anterior (pode ser anônimo u_xxx)
+        window._uid=user.uid;
+        localStorage.setItem('_uid',user.uid);
+
+        // ── MIGRAÇÃO: se vinha de UID anônimo, tenta copiar dados para o Google UID ──
+        if(prevUid&&prevUid.startsWith('u_')&&prevUid!==user.uid&&window.db){
+          const anonRef=window.db.ref(`/usuarios/${prevUid}`);
+          const googleRef=window.db.ref(`/usuarios/${user.uid}`);
+          // Só migra se o Google UID ainda não tem dados próprios
+          googleRef.once('value').then(snap=>{
+            if(!snap.val()){
+              // Google UID vazio → copia dados anônimos para ele
+              anonRef.once('value').then(anonSnap=>{
+                const d=anonSnap.val();
+                if(d){
+                  googleRef.set(d)
+                    .then(()=>{console.log('[Firebase] Dados migrados do UID anônimo para Google UID.');anonRef.remove();})
+                    .catch(err=>console.error('[Firebase] Erro na migração:',err));
+                }
+              });
+            }
+          });
+        }
+
+        setCurrentUid(user.uid);
+      }
       else{setCurrentUid(window._uid);}
-      // cancela qualquer save pendente e bloqueia novos saves até Firebase recarregar
       clearTimeout(saveRef.current);
       setFbLoaded(false);
       skipSaveRef.current=false;
@@ -986,7 +1016,15 @@ function App(){
         resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,
         badges,topicosRenomeados:topRen,dataProva,tempos:tSaved,
         pomodoroRodadas:pRodSaved,dataInicioPlano
-      }).catch(()=>{});
+      }).then(()=>{
+        // save ok — silencioso
+      }).catch(err=>{
+        console.error('[Firebase] Erro ao salvar dados:', err.code, err.message);
+        // Só alerta o usuário se for erro de permissão (ajuda no diagnóstico)
+        if(err.code==='PERMISSION_DENIED'){
+          console.warn('[Firebase] Permissão negada — verifique as regras do Realtime Database e se está logado.');
+        }
+      });
     },2000);
   },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,currentUid,fbLoaded]);
 
