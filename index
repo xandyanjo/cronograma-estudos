@@ -1164,7 +1164,15 @@ window.auth.onAuthStateChanged(function(user) {
     localStorage.setItem('_uid', user.uid);
   } else {
     firebase.auth().signInAnonymously().catch(console.error);
+
   }
+if (!window.__root) {
+  window.__root = ReactDOM.createRoot(document.getElementById('root'));
+}
+
+window.__renderApp = () => {
+  window.__root.render(<App />);
+};
 
   if (!appRendered) {
     appRendered = true;
