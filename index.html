@@ -189,18 +189,23 @@ function useCron(saved,onSave,onReg){
   const[dIni,setDIni]=useState(null);
   // Sincroniza tempos internos quando o Firebase atualizar tSaved externamente (deep compare)
   const prevSaved=useRef(saved);
+  const fromFirebaseRef=useRef(false); // flag: mudança veio do Firebase (não dispara onSave)
+  const mountedRef=useRef(false);      // flag: evita onSave no mount inicial
   useEffect(()=>{
     if(JSON.stringify(saved)!==JSON.stringify(prevSaved.current)){
       prevSaved.current=saved;
-      // só atualiza se o cronômetro não está ativo nessa chave, para não perder progresso
+      fromFirebaseRef.current=true; // marca que a mudança veio do Firebase
       setTempos(prev=>{
         const merged={...saved};
-        // preserva o tempo da chave ativa se estiver rodando
         return merged;
       });
     }
   },[saved]);
-  useEffect(()=>{onSave(tempos);},[tempos]);
+  useEffect(()=>{
+    if(!mountedRef.current){mountedRef.current=true;return;} // pula mount inicial
+    if(fromFirebaseRef.current){fromFirebaseRef.current=false;return;} // pula se veio do Firebase
+    onSave(tempos); // só salva quando o usuário realmente alterou (parou/resetou timer)
+  },[tempos]);
   useEffect(()=>{if(!ativo)return;const t=setInterval(()=>setSegs(p=>p+1),1000);return()=>clearInterval(t);},[ativo]);
   const iniciar=useCallback((sem,mid)=>{
     const k=`${sem}-${mid}`;
@@ -869,11 +874,11 @@ function GoogleLoginBtn(){
   );
 
   return(
-    <button onClick={login} title="Entrar com Google para sincronizar"
-      style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:11,color:'#6b7280',border:'none',background:'none',cursor:'pointer',padding:'8px 10px',transition:'color .2s'}}
+    <button onClick={login} title="Entrar com Google para sincronizar entre dispositivos"
+      style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:11,color:'#f59e0b',border:'1px solid rgba(245,158,11,0.4)',background:'rgba(245,158,11,0.1)',cursor:'pointer',padding:'6px 10px',transition:'all .2s',borderRadius:8}}
       className="hover:text-white">
       <span style={{fontSize:18,lineHeight:1}}>🔐</span>
-      <span>Login</span>
+      <span>Sincronizar</span>
     </button>
   );
 }
@@ -898,53 +903,84 @@ function NavBar({view,dispatchUI}){
 
 // ─── APP ──────────────────────────────────────────────────────
 function App(){
-  const[concl,setConcl]   =useLS(LS.C,{},isObj);
-  const[topC,setTopC]     =useLS(LS.TC,{},isObj);
-  const[topP,setTopP]     =useLS(LS.TP,{},isObj);
-  const[resumos,setResumos]=useLS(LS.R,{},isObj);
-  const[reg,setReg]       =useLS(LS.RD,{},isObj);
-  const[diarios,setDiarios]=useLS(LS.D,{},isObj);
-  const[topR,setTopR]     =useLS(LS.TR,{},isObj);
-  const[badges,setBadges] =useLS(LS.B,{},isObj);
-  const[topRen,setTopRen] =useLS(LS.RN,{},isObj);
+  // ── estados persistidos no localStorage ──
+  const[concl,setConcl]        =useLS(LS.C,{},isObj);
+  const[topC,setTopC]          =useLS(LS.TC,{},isObj);
+  const[topP,setTopP]          =useLS(LS.TP,{},isObj);
+  const[resumos,setResumos]    =useLS(LS.R,{},isObj);
+  const[reg,setReg]            =useLS(LS.RD,{},isObj);
+  const[diarios,setDiarios]    =useLS(LS.D,{},isObj);
+  const[topR,setTopR]          =useLS(LS.TR,{},isObj);
+  const[badges,setBadges]      =useLS(LS.B,{},isObj);
+  const[topRen,setTopRen]      =useLS(LS.RN,{},isObj);
   const[dataProva,setDataProva]=useLS(LS.DP,DATA_PROVA_PAD,v=>typeof v==='string');
-  const[tSaved,setTSaved] =useLS(LS.T,{},isObj);
+  const[tSaved,setTSaved]      =useLS(LS.T,{},isObj);
   const[pRodSaved,setPRodSaved]=useLS(LS.PR,0,v=>typeof v==='number');
+  const[dataInicioPlano,setDataInicioPlano]=useLS(LS.DI,'',v=>typeof v==='string');
+  // ── estados de UI ──
   const[ui,dispatchUI]=useReducer(uiR,UI0);
   const[ed,dispatchED]=useReducer(edR,ED0);
   const[toast,setToast]=useState(null);
   const[frase]=useState(()=>FRASES[Math.floor(Math.random()*FRASES.length)]);
-  const[fbReady,setFbReady]=useState(false);
+  // ── controle de sync ──
   const[currentUid,setCurrentUid]=useState(()=>window._uid);
+  const[fbLoaded,setFbLoaded]=useState(false); // true após Firebase carregar — causa re-render para ativar save
   const saveRef=useRef(null);
-  const isRemoteUpdate=useRef(false); // flag: true quando update veio do Firebase
+  const skipSaveRef=useRef(false); // true enquanto dados remotos estão sendo aplicados
 
-  // Escuta mudanças de autenticação e atualiza o UID no estado React
+  // ── auth: login/logout subsequentes ──
   useEffect(()=>{
     const handler=e=>{
       const user=e.detail;
       if(user){
+        const prevUid=window._uid; // UID anterior (pode ser anônimo u_xxx)
         window._uid=user.uid;
         localStorage.setItem('_uid',user.uid);
+
+        // ── MIGRAÇÃO: se vinha de UID anônimo, tenta copiar dados para o Google UID ──
+        if(prevUid&&prevUid.startsWith('u_')&&prevUid!==user.uid&&window.db){
+          const anonRef=window.db.ref(`/usuarios/${prevUid}`);
+          const googleRef=window.db.ref(`/usuarios/${user.uid}`);
+          // Só migra se o Google UID ainda não tem dados próprios
+          googleRef.once('value').then(snap=>{
+            if(!snap.val()){
+              // Google UID vazio → copia dados anônimos para ele
+              anonRef.once('value').then(anonSnap=>{
+                const d=anonSnap.val();
+                if(d){
+                  googleRef.set(d)
+                    .then(()=>{console.log('[Firebase] Dados migrados do UID anônimo para Google UID.');anonRef.remove();})
+                    .catch(err=>console.error('[Firebase] Erro na migração:',err));
+                }
+              });
+            }
+          });
+        }
+
         setCurrentUid(user.uid);
-      } else {
-        // logout: window._uid já foi atualizado para o UID anônimo pela função logout
-        setCurrentUid(window._uid);
       }
-      setFbReady(false);
+      else{setCurrentUid(window._uid);}
+      clearTimeout(saveRef.current);
+      setFbLoaded(false);
+      skipSaveRef.current=false;
     };
     window.addEventListener('authStateChanged',handler);
     return()=>window.removeEventListener('authStateChanged',handler);
   },[]);
 
-  // Escuta dados do Firebase em tempo real (atualiza quando outro dispositivo salvar)
+  // ── listener Firebase em tempo real ──
+  // Quando currentUid muda: cancela timer de save, aguarda Firebase, aplica dados
   useEffect(()=>{
-    if(!window.db){setFbReady(true);return;}
+    if(!window.db)return;
+    // ao trocar de usuário, cancela qualquer save pendente imediatamente
+    clearTimeout(saveRef.current);
+    setFbLoaded(false);
     const ref=window.db.ref(`/usuarios/${currentUid}`);
-    const handler=snap=>{
+    const aplicarDados=snap=>{
       const d=snap.val();
       if(d){
-        isRemoteUpdate.current=true;
+        // bloqueia save enquanto aplica dados remotos
+        skipSaveRef.current=true;
         if(d.concluidos&&isObj(d.concluidos))setConcl(d.concluidos);
         if(d.topicosCompletos&&isObj(d.topicosCompletos))setTopC(d.topicosCompletos);
         if(d.topicosPersonalizados&&isObj(d.topicosPersonalizados))setTopP(d.topicosPersonalizados);
@@ -959,32 +995,38 @@ function App(){
         if(typeof d.pomodoroRodadas==='number')setPRodSaved(d.pomodoroRodadas);
         if(d.dataInicioPlano&&typeof d.dataInicioPlano==='string')setDataInicioPlano(d.dataInicioPlano);
       }
-      setFbReady(true);
+      // Firebase respondeu — libera saves futuros (setState causa re-render que ativa o save)
+      setFbLoaded(true);
     };
-    ref.on('value',handler,()=>setFbReady(true));
-    return()=>ref.off('value',handler);
+    ref.on('value',aplicarDados,()=>{setFbLoaded(true);});
+    return()=>{ref.off('value',aplicarDados);clearTimeout(saveRef.current);};
   },[currentUid]);
 
-  // Salva no Firebase automaticamente (debounce 2s)
-  // isRemoteUpdate permanece true durante todo o debounce para não sobrescrever dados remotos
+  // ── save com debounce ──
+  // Regras: 1) só salva após Firebase ter carregado  2) ignora ciclo causado por update remoto
   useEffect(()=>{
-    if(!fbReady||!window.db)return;
+    if(!window.db)return;
+    // se Firebase ainda não carregou para este uid, não agenda nada
+    if(!fbLoaded)return;
     clearTimeout(saveRef.current);
     saveRef.current=setTimeout(()=>{
-      if(isRemoteUpdate.current){
-        isRemoteUpdate.current=false; // reseta AQUI, após o debounce — não antes
-        return;
-      }
+      if(skipSaveRef.current){skipSaveRef.current=false;return;}
       window.db.ref(`/usuarios/${currentUid}`).set({
         concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,
         resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,
-        badges,topicosRenomeados:topRen,dataProva,tempos:tSaved,pomodoroRodadas:pRodSaved,
-        dataInicioPlano
-      }).catch(()=>{});
+        badges,topicosRenomeados:topRen,dataProva,tempos:tSaved,
+        pomodoroRodadas:pRodSaved,dataInicioPlano
+      }).then(()=>{
+        // save ok — silencioso
+      }).catch(err=>{
+        console.error('[Firebase] Erro ao salvar dados:', err.code, err.message);
+        // Só alerta o usuário se for erro de permissão (ajuda no diagnóstico)
+        if(err.code==='PERMISSION_DENIED'){
+          console.warn('[Firebase] Permissão negada — verifique as regras do Realtime Database e se está logado.');
+        }
+      });
     },2000);
-  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,fbReady,currentUid]);
-
-  const[dataInicioPlano,setDataInicioPlano]=useLS(LS.DI,'',v=>typeof v==='string');
+  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,currentUid,fbLoaded]);
 
   const regHoje=useCallback((seg,data)=>{if(seg<=0)return;const d=data||hoje();setReg(p=>({...p,[d]:(p[d]||0)+seg}));},[]);
   const cron=useCron(tSaved,setTSaved,regHoje);
@@ -1087,16 +1129,33 @@ window.__renderApp = ()=>ReactDOM.createRoot(document.getElementById('root')).re
   const firebaseConfig = {
     apiKey: "AIzaSyBR3MoezjKyBdnasY9asVqdxD3nMtoS44Q",
     authDomain: "cronogram-de-estudos.firebaseapp.com",
-    databaseURL: "https://cronograma-de-estudos-default-rtdb.firebaseio.com",
+    databaseURL: "https://cronogram-de-estudos-default-rtdb.firebaseio.com",
     projectId: "cronogram-de-estudos",
     storageBucket: "cronogram-de-estudos.firebasestorage.app",
     messagingSenderId: "742013544348",
     appId: "1:742013544348:web:e27311a9b16a18a9ca4a59"
   };
-  firebase.initializeApp(firebaseConfig);
-  window.db = firebase.database();
-  window.auth = firebase.auth();
-  window.googleProvider = new firebase.auth.GoogleAuthProvider();
+ firebase.initializeApp(firebaseConfig);
+
+window.db = firebase.database();
+window.auth = firebase.auth();
+
+ firebase.auth().onAuthStateChanged(function(user) {
+
+    console.log("USER:", user);
+
+    if (user) {
+      window._uid = user.uid;
+    } else {
+      console.log("NÃO LOGADO");
+      firebase.auth().signInAnonymously().catch(console.error);
+    }
+
+    // renderiza app só depois do login
+    if (window.__renderApp) {
+      window.__renderApp();
+    }
+  });
 
   // UID anônimo de fallback (usado antes do login)
   let uid = localStorage.getItem('_uid');
