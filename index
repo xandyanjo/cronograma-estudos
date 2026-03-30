@@ -1128,12 +1128,15 @@ function renderApp() {
   __appRoot.render(<App />);
 }
 
-// Aguarda Firebase carregar, depois inicializa
+// Aguarda Firebase carregar, depois inicializa (guard contra dupla execução)
+let __firebaseInited = false;
 function initFirebase() {
   if (typeof firebase === 'undefined') {
     setTimeout(initFirebase, 50);
     return;
   }
+  if (__firebaseInited) return;
+  __firebaseInited = true;
 
   const firebaseConfig = {
     apiKey: "AIzaSyBR3MoezjKyBdnasY9asVqdxD3nMtoS44Q",
