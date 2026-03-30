@@ -1119,19 +1119,19 @@ function App(){
   );
 }
 
-// render iniciado pelo Firebase após auth resolvida
-if (!window.__root) {
- window.__root = ReactDOM.createRoot(document.getElementById('root')); 
+// Renderiza o app — tudo dentro do bloco Babel para garantir ordem de execução
+function renderApp() {
+  const root = ReactDOM.createRoot(document.getElementById('root'));
+  root.render(<App />);
 }
 
-window.__renderApp = () => {
-  window.__root.render(<App />);
-};
-</script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script>
+// Aguarda Firebase carregar, depois inicializa
+function initFirebase() {
+  if (typeof firebase === 'undefined') {
+    setTimeout(initFirebase, 50);
+    return;
+  }
+
   const firebaseConfig = {
     apiKey: "AIzaSyBR3MoezjKyBdnasY9asVqdxD3nMtoS44Q",
     authDomain: "cronogram-de-estudos.firebaseapp.com",
@@ -1141,49 +1141,41 @@ window.__renderApp = () => {
     messagingSenderId: "742013544348",
     appId: "1:742013544348:web:e27311a9b16a18a9ca4a59"
   };
- firebase.initializeApp(firebaseConfig);
 
-window.db = firebase.database();
-window.auth = firebase.auth();
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  window.db   = firebase.database();
+  window.auth = firebase.auth();
 
-
-  // UID anônimo de fallback (usado antes do login)
   let uid = localStorage.getItem('_uid');
-  if (!uid) { uid = 'u_' + Date.now().toString(36) + Math.random().toString(36).slice(2); localStorage.setItem('_uid', uid); }
+  if (!uid) {
+    uid = 'u_' + Date.now().toString(36) + Math.random().toString(36).slice(2);
+    localStorage.setItem('_uid', uid);
+  }
   window._uid = uid;
 
-  // Quando o estado de auth mudar, atualiza o UID global
- let appRendered = false;
+  let appRendered = false;
 
-window.auth.onAuthStateChanged(function(user) {
-
-  console.log("USER:", user);
-
-  if (user) {
-    window._uid = user.uid;
-    localStorage.setItem('_uid', user.uid);
-  } else {
-    firebase.auth().signInAnonymously().catch(console.error);
-
-  }
-if (!window.__root) {
-  window.__root = ReactDOM.createRoot(document.getElementById('root'));
-}
-
-window.__renderApp = () => {
-  window.__root.render(<App />);
-};
-
-  if (!appRendered) {
-    appRendered = true;
-    window.__renderApp();
-  }
-});
+  window.auth.onAuthStateChanged(function(user) {
+    console.log("USER:", user);
+    if (user) {
+      window._uid = user.uid;
+      localStorage.setItem('_uid', user.uid);
     } else {
-      // Chamadas subsequentes (login/logout): notifica o React
+      firebase.auth().signInAnonymously().catch(console.error);
+    }
+    if (!appRendered) {
+      appRendered = true;
+      renderApp();
+    } else {
       window.dispatchEvent(new CustomEvent('authStateChanged', { detail: user }));
     }
   });
+}
+
+initFirebase();
 </script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 </body>
 </html>
