@@ -1151,6 +1151,7 @@ function initFirebase() {
   if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
   window.db   = firebase.database();
   window.auth = firebase.auth();
+  window.googleProvider = new firebase.auth.GoogleAuthProvider();
 
   let uid = localStorage.getItem('_uid');
   if (!uid) {
@@ -1159,22 +1160,17 @@ function initFirebase() {
   }
   window._uid = uid;
 
-  let appRendered = false;
+  // Renderiza o app imediatamente — não depende de auth
+  renderApp();
 
+  // Auth apenas atualiza o UID e notifica o React
   window.auth.onAuthStateChanged(function(user) {
     console.log("USER:", user);
     if (user) {
       window._uid = user.uid;
       localStorage.setItem('_uid', user.uid);
-    } else {
-      firebase.auth().signInAnonymously().catch(console.error);
     }
-    if (!appRendered) {
-      appRendered = true;
-      renderApp();
-    } else {
-      window.dispatchEvent(new CustomEvent('authStateChanged', { detail: user }));
-    }
+    window.dispatchEvent(new CustomEvent('authStateChanged', { detail: user }));
   });
 }
 
