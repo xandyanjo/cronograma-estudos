@@ -1120,7 +1120,11 @@ function App(){
 }
 
 // render iniciado pelo Firebase após auth resolvida
-window.__renderApp = ()=>ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+window.__renderApp = () => {
+  root.render(<App />);
+};
 </script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
@@ -1163,16 +1167,24 @@ window.auth = firebase.auth();
   window._uid = uid;
 
   // Quando o estado de auth mudar, atualiza o UID global
-  var appRendered = false;
-  window.auth.onAuthStateChanged(function(user) {
-    if (user) {
-      window._uid = user.uid;
-      localStorage.setItem('_uid', user.uid);
-    }
-    if (!appRendered) {
-      // Primeira chamada: renderiza o app já com o UID correto
-      appRendered = true;
-      window.__renderApp();
+ let appRendered = false;
+
+window.auth.onAuthStateChanged(function(user) {
+
+  console.log("USER:", user);
+
+  if (user) {
+    window._uid = user.uid;
+    localStorage.setItem('_uid', user.uid);
+  } else {
+    firebase.auth().signInAnonymously().catch(console.error);
+  }
+
+  if (!appRendered) {
+    appRendered = true;
+    window.__renderApp();
+  }
+});
     } else {
       // Chamadas subsequentes (login/logout): notifica o React
       window.dispatchEvent(new CustomEvent('authStateChanged', { detail: user }));
