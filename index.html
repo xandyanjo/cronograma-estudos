@@ -4,21 +4,40 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>📚 Cronograma de Estudos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          outfit: ['Outfit', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
 <style>
   *{box-sizing:border-box;}
-  body{background:#0f172a;margin:0;font-family:system-ui,sans-serif;}
-  ::-webkit-scrollbar{width:4px;}
+  body{background:#0b0f19;margin:0;font-family:'Inter',system-ui,sans-serif;}
+  ::-webkit-scrollbar{width:6px;}
   ::-webkit-scrollbar-track{background:transparent;}
-  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:4px;}
-  input[type=range]{accent-color:#60a5fa;width:100%;}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px;}
+  ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2);}
+  input[type=range]{accent-color:#3b82f6;width:100%;}
   @keyframes slideIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
-  .slide-in{animation:slideIn .2s ease;}
+  .slide-in{animation:slideIn .25s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
   .pulse{animation:pulse 2s infinite;}
+  .glass-card{background:rgba(30,41,59,0.45);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);box-shadow:0 8px 32px 0 rgba(0,0,0,0.37);}
+  .glass-card-hover{transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1);}
+  .glass-card-hover:hover{background:rgba(30,41,59,0.6);border-color:rgba(96,165,250,0.25);transform:translateY(-2px);box-shadow:0 12px 40px 0 rgba(0,0,0,0.5);}
 </style>
 </head>
 <body>
@@ -26,11 +45,218 @@
 <script type="text/babel">
 const {useState,useEffect,useReducer,useMemo,useCallback,useRef}=React;
 
+// ─── AUDIO GENERATOR (WEB AUDIO API) ─────────────────────────
+function createWhiteNoise(ctx) {
+  const bufferSize = 2 * ctx.sampleRate;
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) {
+    data[i] = Math.random() * 2 - 1;
+  }
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+  source.loop = true;
+  return source;
+}
+
+function createPinkNoise(ctx) {
+  const bufferSize = 4 * ctx.sampleRate;
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+  for (let i = 0; i < bufferSize; i++) {
+    const white = Math.random() * 2 - 1;
+    b0 = 0.99886 * b0 + white * 0.0555179;
+    b1 = 0.99332 * b1 + white * 0.0750759;
+    b2 = 0.96900 * b2 + white * 0.1538520;
+    b3 = 0.86650 * b3 + white * 0.3104856;
+    b4 = 0.55000 * b4 + white * 0.5329522;
+    b5 = -0.7616 * b5 - white * 0.0168980;
+    data[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+    data[i] *= 0.11;
+    b6 = white * 0.115926;
+  }
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+  source.loop = true;
+  return source;
+}
+
+function createRain(ctx) {
+  const pink = createPinkNoise(ctx);
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'bandpass';
+  filter.frequency.value = 1000;
+  filter.Q.value = 1.0;
+  const hp = ctx.createBiquadFilter();
+  hp.type = 'highpass';
+  hp.frequency.value = 150;
+  
+  pink.connect(filter);
+  filter.connect(hp);
+  
+  return {
+    source: pink,
+    connect: (dest) => hp.connect(dest),
+    disconnect: () => {
+      try {
+        pink.disconnect();
+        filter.disconnect();
+        hp.disconnect();
+      } catch(e){}
+    },
+    start: () => pink.start(0),
+    stop: () => { try { pink.stop(); } catch(e) {} }
+  };
+}
+
+function createBinauralBeats(ctx) {
+  const oscL = ctx.createOscillator();
+  const oscR = ctx.createOscillator();
+  oscL.frequency.value = 100;
+  oscR.frequency.value = 105;
+  oscL.type = 'sine';
+  oscR.type = 'sine';
+  const pannerL = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+  const pannerR = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+  const gain = ctx.createGain();
+  gain.gain.value = 0.5;
+  if (pannerL && pannerR) {
+    pannerL.pan.value = -1;
+    pannerR.pan.value = 1;
+    oscL.connect(pannerL);
+    pannerL.connect(gain);
+    oscR.connect(pannerR);
+    pannerR.connect(gain);
+  } else {
+    oscL.connect(gain);
+    oscR.connect(gain);
+  }
+  return {
+    connect: (dest) => gain.connect(dest),
+    disconnect: () => {
+      try {
+        oscL.disconnect();
+        oscR.disconnect();
+        if (pannerL) pannerL.disconnect();
+        if (pannerR) pannerR.disconnect();
+        gain.disconnect();
+      } catch(e){}
+    },
+    start: () => { oscL.start(0); oscR.start(0); },
+    stop: () => { try { oscL.stop(); oscR.stop(); } catch(e) {} }
+  };
+}
+
+const FocusSounds = {
+  ctx: null,
+  gain: null,
+  activeNode: null,
+  currentType: null,
+  volume: 0.3,
+  listeners: new Set(),
+
+  subscribe(listener) {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  },
+
+  notify() {
+    this.listeners.forEach(l => l({
+      currentType: this.currentType,
+      volume: this.volume,
+      isPlaying: !!this.currentType
+    }));
+  },
+
+  init() {
+    if (this.ctx) return;
+    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    this.gain = this.ctx.createGain();
+    this.gain.gain.value = this.volume;
+    this.gain.connect(this.ctx.destination);
+  },
+
+  play(type) {
+    try {
+      this.init();
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume();
+      }
+      this.stop();
+
+      let node;
+      if (type === 'pink') {
+        node = createPinkNoise(this.ctx);
+        node.connect(this.gain);
+        node.start(0);
+        this.activeNode = node;
+      } else if (type === 'white') {
+        node = createWhiteNoise(this.ctx);
+        node.connect(this.gain);
+        node.start(0);
+        this.activeNode = node;
+      } else if (type === 'rain') {
+        node = createRain(this.ctx);
+        node.connect(this.gain);
+        node.start();
+        this.activeNode = node;
+      } else if (type === 'binaural') {
+        node = createBinauralBeats(this.ctx);
+        node.connect(this.gain);
+        node.start();
+        this.activeNode = node;
+      }
+      this.currentType = type;
+      this.notify();
+    } catch (e) {
+      console.error("Erro de áudio:", e);
+    }
+  },
+
+  stop() {
+    if (this.activeNode) {
+      try {
+        this.activeNode.stop();
+        this.activeNode.disconnect();
+      } catch (e) {}
+      this.activeNode = null;
+    }
+    this.currentType = null;
+    this.notify();
+  },
+
+  setVolume(vol) {
+    this.volume = vol;
+    if (this.gain) {
+      this.gain.gain.value = vol;
+    }
+    this.notify();
+  }
+};
+
+function useFocusSounds() {
+  const [state, setState] = useState({
+    currentType: FocusSounds.currentType,
+    volume: FocusSounds.volume,
+    isPlaying: !!FocusSounds.currentType
+  });
+  useEffect(() => {
+    return FocusSounds.subscribe(setState);
+  }, []);
+  return {
+    ...state,
+    play: (type) => FocusSounds.play(type),
+    stop: () => FocusSounds.stop(),
+    setVolume: (v) => FocusSounds.setVolume(v)
+  };
+}
+
 // ─── CONSTANTES ──────────────────────────────────────────────
 const STREAK_MIN=300,HEATMAP_DIAS=84,TOAST_MS=5000,DATA_PROVA_PAD='2025-05-15';
 const LS={T:'tempos_estudo',C:'concluidos_estudo',TC:'topicos_completos',TP:'topicos_personalizados',
   R:'resumos_topicos',RD:'registros_diarios',D:'diarios_semanais',TR:'topicos_revisar',
-  B:'badges_ganhos',PR:'pomodoro_rodadas',RN:'topicos_renomeados',DP:'data_prova',DI:'data_inicio_plano'};
+  B:'badges_ganhos',PR:'pomodoro_rodadas',RN:'topicos_renomeados',DP:'data_prova',DI:'data_inicio_plano',F:'estudos_flashcards'};
 
 function calcSemAtual(di){
   if(!di)return 1;
@@ -269,24 +495,134 @@ function edR(s,a){switch(a.t){
 // ─── HEATMAP ──────────────────────────────────────────────────
 function Heatmap({reg}){
   const base=useMemo(()=>{const d=new Date();d.setHours(12,0,0,0);return d;},[]);
-  const dias=useMemo(()=>{const r=[];for(let i=HEATMAP_DIAS-1;i>=0;i--){const d=new Date(base);d.setDate(d.getDate()-i);const ch=d.toISOString().split('T')[0];const s=reg[ch]||0;const eh=i===0;let cor='bg-gray-700';let op='opacity-30';if(s>=7200){cor='bg-green-500';op='opacity-100';}else if(s>=3600){cor='bg-green-500';op='opacity-70';}else if(s>=1800){cor='bg-green-500';op='opacity-50';}else if(s>0){cor='bg-green-500';op='opacity-30';}let df=ch;try{df=d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});}catch{}r.push({ch,s,eh,df,cor,op});}return r;},[reg,base]);
-  const off=useMemo(()=>{if(!dias.length)return 0;return new Date(dias[0].ch+'T12:00:00').getDay();},[dias]);
-  const cols=Math.ceil((dias.length+off)/7);
-  return(
-    <div className="bg-gray-800 rounded-2xl p-4 border border-gray-700">
-      <div className="flex justify-between items-center mb-3">
-        <span className="text-white font-semibold text-sm">🔥 Atividade — 12 semanas</span>
-        <div className="flex items-center gap-1 text-xs text-gray-500">
-          <span>menos</span>
-          {['bg-gray-700 opacity-30','bg-green-500 opacity-30','bg-green-500 opacity-50','bg-green-500 opacity-70','bg-green-500 opacity-100'].map((c,i)=><div key={i} className={`w-3 h-3 rounded-sm ${c}`}/>)}
-          <span>mais</span>
-        </div>
-      </div>
-      <div className="flex gap-1 overflow-x-auto pb-1">
-        {Array.from({length:cols},(_,ci)=>(
-          <div key={ci} className="flex flex-col gap-1">
-            {Array.from({length:7},(_,di)=>{const pos=ci*7+di-off;const d=dias[pos];if(!d)return<div key={di} className="w-3 h-3 opacity-0"/>;return<div key={di} className={`w-3 h-3 rounded-sm cursor-default transition-transform hover:scale-125 ${d.cor} ${d.op} ${d.eh?'ring-2 ring-white ring-offset-1 ring-offset-gray-800':''}`} title={d.s>0?`${d.df}: ${fmt(d.s)}`:`${d.df}: sem estudo`}/>;})}</div>
-        ))}
+  const dias=useMemo(()=>{const r=[];for(let i=HEATMAP_DIAS-1;i>=0;i--){const d=new Date(base);d.setDate(d.getDate()-i);const ch=d.toISOString().split('T')[0];const s=reg[ch]||0;const eh=i===0;let cor='bg-gray-700';let op='opacity-30';if(s>=7200){cor='bg-green-500';op='opacity-100';}else if(s>=3600){cor='bg-green-500';op='opacity-70';}else if(s>=1800){cor='bg-green-500';op='opacity-50';}else if(s>0){cor='bg-green-500';op='opacity-30';}let df=ch;try{df=d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});}catch{}r.push({ch,s,eh,df,cor,// ─── CHARTS ───────────────────────────────────────────────────
+function BarChart({ reg }) {
+  const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  const dados = useMemo(() => {
+    const res = [];
+    const hojeDate = new Date();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(hojeDate.getDate() - i);
+      const ch = d.toISOString().split('T')[0];
+      const s = reg[ch] || 0;
+      const h = s / 3600;
+      const diaLabel = diasSemana[d.getDay()];
+      res.push({ label: diaLabel, horas: h });
+    }
+    return res;
+  }, [reg]);
+
+  const maxHoras = Math.max(2, ...dados.map(d => d.horas));
+  const height = 130;
+  const width = 320;
+  const padding = { top: 15, right: 10, bottom: 20, left: 30 };
+  const graphHeight = height - padding.top - padding.bottom;
+  const graphWidth = width - padding.left - padding.right;
+  const barWidth = 22;
+  const barGap = (graphWidth - barWidth * dados.length) / (dados.length - 1);
+
+  return (
+    <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto">
+      <defs>
+        <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#60a5fa" />
+          <stop offset="100%" stopColor="#2563eb" />
+        </linearGradient>
+      </defs>
+      {[0, 0.5, 1].map((p, i) => {
+        const y = padding.top + graphHeight * (1 - p);
+        const val = (maxHoras * p).toFixed(1) + 'h';
+        return (
+          <g key={i}>
+            <line x1={padding.left} y1={y} x2={width - padding.right} y2={y} stroke="rgba(255,255,255,0.08)" strokeDasharray="2 2" />
+            <text x={padding.left - 5} y={y + 3} fill="rgba(255,255,255,0.4)" fontSize="8" textAnchor="end">{val}</text>
+          </g>
+        );
+      })}
+      {dados.map((d, i) => {
+        const barHeight = (d.horas / maxHoras) * graphHeight;
+        const x = padding.left + i * (barWidth + barGap);
+        const y = padding.top + graphHeight - barHeight;
+        return (
+          <g key={i}>
+            <rect x={x} y={y} width={barWidth} height={Math.max(2, barHeight)} rx="3" fill="url(#barGrad)" />
+            {d.horas > 0 && (
+              <text x={x + barWidth / 2} y={y - 3} fill="#93c5fd" fontSize="8" fontWeight="bold" textAnchor="middle">
+                {d.horas.toFixed(1)}
+              </text>
+            )}
+            <text x={x + barWidth / 2} y={height - 5} fill="rgba(255,255,255,0.5)" fontSize="8" textAnchor="middle">
+              {d.label}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+function DonutChart({ dados }) {
+  const total = useMemo(() => dados.reduce((a, d) => a + d.val, 0), [dados]);
+  const processados = useMemo(() => {
+    let acc = 0;
+    return dados.map(d => {
+      const pct = total > 0 ? (d.val / total) : 0;
+      const angle = pct * 360;
+      const startAngle = acc;
+      acc += angle;
+      return { ...d, pct, startAngle };
+    });
+  }, [dados, total]);
+
+  const cores = ['#60a5fa', '#34d399', '#a78bfa', '#fbbf24', '#f87171', '#2dd4bf', '#f472b6'];
+
+  if (total === 0) return <div className="text-center py-4 text-xs text-white/40 font-medium">Sem dados de tempo.</div>;
+
+  let cumPercent = 0;
+  return (
+    <div className="flex items-center gap-6 py-2">
+      <svg viewBox="0 0 120 120" className="w-24 h-24 shrink-0">
+        <circle cx="60" cy="60" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="12" />
+        {processados.map((d, i) => {
+          if (d.pct === 0) return null;
+          const r = 45;
+          const circ = 2 * Math.PI * r;
+          const strokeLength = d.pct * circ;
+          const strokeOffset = circ - (cumPercent * circ);
+          cumPercent += d.pct;
+          const cor = cores[i % cores.length];
+          return (
+            <circle
+              key={i}
+              cx="60"
+              cy="60"
+              r={r}
+              fill="none"
+              stroke={cor}
+              strokeWidth="12"
+              strokeDasharray={`${strokeLength} ${circ}`}
+              strokeDashoffset={strokeOffset}
+              transform="rotate(-90 60 60)"
+            />
+          );
+        })}
+        <circle cx="60" cy="60" r="38" fill="#1e293b" />
+      </svg>
+      <div className="flex-1 space-y-1.5">
+        {processados.map((d, i) => {
+          if (d.pct === 0) return null;
+          const cor = cores[i % cores.length];
+          return (
+            <div key={i} className="flex items-center justify-between text-[10px]">
+              <div className="flex items-center gap-1.5 text-white/80 truncate">
+                <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: cor }} />
+                <span className="truncate">{d.label}</span>
+              </div>
+              <span className="font-semibold text-white/50 text-[9px]">{(d.pct * 100).toFixed(0)}%</span>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
@@ -302,125 +638,124 @@ function Dashboard({S}){
   const progMat=useMemo(()=>Object.keys(CONTEUDOS).map(id=>{const mat=CONTEUDOS[id];let t=0,c=0;mat.categorias.forEach((cat,ci)=>{cat.topicos.forEach((_,ti)=>{t++;if(S.topC[`${id}-${ci}-${ti}`])c++;});(S.topP[`${id}-${ci}`]||[]).forEach((_,ti)=>{t++;if(S.topC[`${id}-${ci}-custom-${ti}`])c++;});});return{id,nome:mat.nome,pct:t?Math.round(c/t*100):0};}),[S.topC,S.topP]);
   const matT=useMemo(()=>Object.keys(CONTEUDOS).map(id=>({id,nome:CONTEUDOS[id].nome.split(' ')[0],t:cron.getTotal(id)})).filter(m=>m.t>0).sort((a,b)=>b.t-a.t),[cron]);
   const defMats=Object.entries(deficitPorMateria).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  const donutDados=useMemo(()=>matT.map(m=>({label:m.nome,val:m.t})),[matT]);
+
   return(
-    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4 pb-24">
       <div className="max-w-4xl mx-auto space-y-4">
-        <div className="bg-white bg-opacity-10 rounded-2xl p-4 border border-white border-opacity-20 text-center">
-          <p className="text-white text-opacity-80 italic text-sm">"{frase}"</p>
+        <div className="bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10 text-center">
+          <p className="text-white/80 italic text-sm">"{frase}"</p>
         </div>
         {/* Plano de estudos config */}
-        <div className="rounded-2xl p-4 border" style={{background:'rgba(255,255,255,0.07)',borderColor:'rgba(255,255,255,0.1)'}}>
+        <div className="glass-card rounded-2xl p-4">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <div className="text-white font-semibold text-sm">📅 Plano de Estudos</div>
+              <div className="text-white font-semibold text-sm font-outfit">📅 Plano de Estudos</div>
               {dataInicioPlano
-                ?<div className="text-xs mt-1" style={{color:'rgba(255,255,255,0.5)'}}>Início: {new Date(dataInicioPlano+'T12:00:00').toLocaleDateString('pt-BR')} · <span className="text-blue-300 font-semibold">Semana {semanaAtual}/28</span></div>
-                :<div className="text-xs mt-1" style={{color:'rgba(255,165,0,0.8)'}}>⚠ Defina a data de início para detectar semana automaticamente</div>
+                ?<div className="text-xs mt-1 text-white/50">Início: {new Date(dataInicioPlano+'T12:00:00').toLocaleDateString('pt-BR')} · <span className="text-blue-300 font-semibold">Semana {semanaAtual}/28</span></div>
+                :<div className="text-xs mt-1 text-amber-400/80">⚠ Defina a data de início para detectar semana automaticamente</div>
               }
             </div>
             <div className="flex items-center gap-2">
               <input type="date" value={dataInicioPlano||''} onChange={e=>setDataInicioPlano(e.target.value)}
-                className="text-xs rounded-xl px-3 py-1.5 outline-none"
-                style={{background:'rgba(255,255,255,0.1)',border:'1px solid rgba(255,255,255,0.2)',color:'white'}}/>
+                className="text-xs rounded-xl px-3 py-1.5 outline-none bg-white/10 border border-white/20 text-white" />
               {dataInicioPlano&&<button onClick={()=>dispatchUI({t:'V',p:'cronograma'})}
-                className="text-xs px-3 py-1.5 rounded-xl transition-colors"
-                style={{background:'rgba(59,130,246,0.3)',color:'#93c5fd'}}>Ir para semana atual →</button>}
+                className="text-xs px-3 py-1.5 rounded-xl transition-colors bg-blue-500/20 text-blue-300 border border-blue-500/30 hover:bg-blue-500/30">Ir para semana atual →</button>}
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-3" style={{gridTemplateColumns:'repeat(4,1fr)'}}>
+        <div className="grid grid-cols-4 gap-3">
           {[
             {v:streak,l:'Streak',sub:'dias seguidos',c:'text-orange-400',ic:'🔥'},
             {v:h+'h',l:'Total',sub:`~${med}h/dia`,c:'text-blue-400',ic:'⏱'},
             {v:totTop,l:'Tópicos ✓',sub:`${totSem} semanas`,c:'text-green-400',ic:'✅'},
             {v:diasR,l:'Dias p/prova',sub:'foco total',c:diasR<=30?'text-red-400':'text-yellow-400',ic:'🚩'},
           ].map((c,i)=>(
-            <div key={i} className="bg-white bg-opacity-10 rounded-2xl p-3 border border-white border-opacity-10">
+            <div key={i} className="glass-card rounded-2xl p-3">
               <div className="text-xl mb-1">{c.ic}</div>
-              <div className={`text-xl font-bold ${c.c}`}>{c.v}</div>
-              <div className="text-white text-opacity-50 text-xs">{c.l}</div>
-              <div className="text-white text-opacity-30 text-xs">{c.sub}</div>
+              <div className={`text-xl font-bold font-outfit ${c.c}`}>{c.v}</div>
+              <div className="text-white/50 text-xs font-medium">{c.l}</div>
+              <div className="text-white/30 text-[10px]">{c.sub}</div>
             </div>
           ))}
         </div>
-        <div className="bg-white bg-opacity-10 rounded-2xl p-4 border border-white border-opacity-20">
-          <div className="flex justify-between mb-2"><span className="text-white font-semibold">📈 Progresso Geral</span><span className="text-white font-bold">{proGeral}%</span></div>
-          <div className="w-full bg-white bg-opacity-10 rounded-full" style={{height:10}}>
-            <div className="h-full rounded-full bg-gradient-to-r from-blue-400 to-green-400 transition-all duration-700" style={{width:`${proGeral}%`}}/>
+        <div className="glass-card rounded-2xl p-4">
+          <div className="flex justify-between mb-2"><span className="text-white font-semibold font-outfit text-sm">📈 Progresso Geral</span><span className="text-white font-bold text-sm">{proGeral}%</span></div>
+          <div className="w-full bg-white/10 rounded-full h-2.5">
+            <div className="h-full rounded-full bg-gradient-to-r from-blue-500 to-emerald-500 transition-all duration-700" style={{width:`${proGeral}%`}}/>
           </div>
-          <div className="text-white text-opacity-40 text-xs mt-1 text-right">{totSem}/28 semanas concluídas</div>
+          <div className="text-white/40 text-[10px] mt-1.5 text-right">{totSem}/28 semanas concluídas</div>
         </div>
         {/* Déficit acumulado */}
         {dataInicioPlano&&semanaAtual>1&&(
-          <div className="rounded-2xl p-4 border" style={{background:deficitTotal>0?'rgba(239,68,68,0.1)':'rgba(34,197,94,0.1)',borderColor:deficitTotal>0?'rgba(239,68,68,0.3)':'rgba(34,197,94,0.3)'}}>
+          <div className="rounded-2xl p-4 border" style={{background:deficitTotal>0?'rgba(239,68,68,0.08)':'rgba(16,185,129,0.08)',borderColor:deficitTotal>0?'rgba(239,68,68,0.2)':'rgba(16,185,129,0.2)'}}>
             <div className="flex justify-between items-center mb-2">
-              <span className="font-semibold text-sm" style={{color:deficitTotal>0?'#fca5a5':'#86efac'}}>
+              <span className="font-semibold text-sm" style={{color:deficitTotal>0?'#fca5a5':'#6ee7b7'}}>
                 {deficitTotal>0?'⚠️ Déficit Acumulado':'✅ Em dia com o plano'}
               </span>
               {deficitTotal>0&&<span className="font-bold text-sm" style={{color:'#fca5a5'}}>{(deficitTotal/3600).toFixed(1)}h em atraso</span>}
             </div>
             {deficitTotal>0&&defMats.length>0&&(
-              <div className="space-y-1 mt-2">
+              <div className="space-y-1.5 mt-2">
                 {defMats.map(([mid,def])=>{
                   const nome=CONTEUDOS[mid]?.nome||mid;
                   const w=Math.min(100,(def/3600/5)*100);
                   return(
                     <div key={mid} className="flex items-center gap-2">
-                      <span className="text-xs shrink-0" style={{color:'rgba(255,255,255,0.5)',width:100}}>{nome.split(' ')[0]}</span>
-                      <div className="flex-1 rounded-full" style={{height:5,background:'rgba(255,255,255,0.1)'}}>
+                      <span className="text-[10px] text-white/50 shrink-0 w-24 truncate">{nome}</span>
+                      <div className="flex-1 rounded-full h-1.5 bg-white/10">
                         <div className="h-full rounded-full bg-red-400 transition-all" style={{width:`${w}%`}}/>
                       </div>
-                      <span className="text-xs shrink-0" style={{color:'#fca5a5',width:44,textAlign:'right'}}>{(def/3600).toFixed(1)}h</span>
+                      <span className="text-[10px] shrink-0 text-red-300 w-10 text-right">{(def/3600).toFixed(1)}h</span>
                     </div>
                   );
                 })}
               </div>
             )}
-            {deficitTotal===0&&<p className="text-xs" style={{color:'rgba(255,255,255,0.4)'}}>Todas as semanas anteriores com meta atingida 🎉</p>}
+            {deficitTotal===0&&<p className="text-xs text-white/40">Todas as semanas anteriores com meta atingida 🎉</p>}
           </div>
         )}
-        <div className="bg-white bg-opacity-10 rounded-2xl p-4 border border-white border-opacity-20">
-          <h3 className="text-white font-semibold mb-3">📚 Progresso por Matéria</h3>
-          <div className="space-y-2">
-            {progMat.map(m=>(
-              <div key={m.id}>
-                <div className="flex justify-between text-xs mb-1"><span className="text-white text-opacity-70">{m.nome}</span><span className="text-white text-opacity-50">{m.pct}%</span></div>
-                <div className="w-full bg-white bg-opacity-10 rounded-full" style={{height:6}}>
-                  <div className="h-full rounded-full bg-blue-400 transition-all" style={{width:`${m.pct}%`}}/>
-                </div>
-              </div>
-            ))}
+        
+        {/* Histórico Semanal (SVG Chart) */}
+        <div className="glass-card rounded-2xl p-4">
+          <h3 className="text-white font-semibold font-outfit text-sm mb-3">📈 Histórico de Estudos (Últimos 7 Dias)</h3>
+          <div className="bg-slate-900/50 rounded-xl p-2">
+            <BarChart reg={reg} />
           </div>
         </div>
-        {matT.length>0&&(
-          <div className="bg-white bg-opacity-10 rounded-2xl p-4 border border-white border-opacity-20">
-            <h3 className="text-white font-semibold mb-3">📊 Tempo por Matéria</h3>
-            <div className="space-y-2">
-              {matT.map(m=>{const w=Math.min(100,(m.t/3600/5)*100);return(
-                <div key={m.id} className="flex items-center gap-3">
-                  <span className="text-white text-opacity-60 text-sm" style={{width:80,flexShrink:0}}>{m.nome}</span>
-                  <div className="flex-1 bg-white bg-opacity-10 rounded-full" style={{height:8}}>
-                    <div className="h-full rounded-full bg-purple-400 transition-all" style={{width:`${w}%`}}/>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="glass-card rounded-2xl p-4 flex flex-col justify-between">
+            <h3 className="text-white font-semibold font-outfit text-sm mb-3">📚 Progresso por Matéria</h3>
+            <div className="space-y-2.5">
+              {progMat.map(m=>(
+                <div key={m.id}>
+                  <div className="flex justify-between text-[10px] mb-1"><span className="text-white/70 truncate mr-2">{m.nome}</span><span className="text-white/50">{m.pct}%</span></div>
+                  <div className="w-full bg-white/5 rounded-full h-1.5">
+                    <div className="h-full rounded-full bg-blue-500 transition-all" style={{width:`${m.pct}%`}}/>
                   </div>
-                  <span className="text-white text-opacity-50 text-xs" style={{width:56,textAlign:'right',flexShrink:0}}>{fmt(m.t)}</span>
                 </div>
-              );})}
+              ))}
             </div>
           </div>
-        )}
+          <div className="glass-card rounded-2xl p-4 flex flex-col justify-between">
+            <h3 className="text-white font-semibold font-outfit text-sm mb-3">📊 Tempo por Matéria</h3>
+            <DonutChart dados={donutDados} />
+          </div>
+        </div>
         <Heatmap reg={reg}/>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
-          <div className="bg-white bg-opacity-10 rounded-2xl p-4 border border-white border-opacity-20">
-            <h3 className="text-white font-semibold mb-2">🍅 Pomodoro</h3>
-            <div className="text-3xl font-bold text-white">{pomo.rod}</div>
-            <div className="text-white text-opacity-50 text-sm">ciclos · {(pomo.rod*25/60).toFixed(1)}h focadas</div>
+          <div className="glass-card rounded-2xl p-4">
+            <h3 className="text-white font-semibold font-outfit text-sm mb-2">🍅 Pomodoro</h3>
+            <div className="text-3xl font-bold text-white font-outfit">{pomo.rod}</div>
+            <div className="text-white/50 text-xs">ciclos · {(pomo.rod*25/60).toFixed(1)}h focadas</div>
           </div>
-          <div className="bg-white bg-opacity-10 rounded-2xl p-4 border border-white border-opacity-20">
+          <div className="glass-card rounded-2xl p-4">
             <div className="flex justify-between items-start mb-2">
-              <h3 className="text-white font-semibold">🏆 Conquistas</h3>
-              <button onClick={()=>dispatchUI({t:'V',p:'conquistas'})} className="text-xs text-yellow-400">Ver todas →</button>
+              <h3 className="text-white font-semibold font-outfit text-sm">🏆 Conquistas</h3>
+              <button onClick={()=>dispatchUI({t:'V',p:'conquistas'})} className="text-xs text-blue-400 hover:text-blue-300 font-medium">Ver todas →</button>
             </div>
-            <div className="text-3xl font-bold text-yellow-400">{totB}/{BADGES.length}</div>
+            <div className="text-3xl font-bold text-yellow-400 font-outfit">{totB}/{BADGES.length}</div>
             <div className="flex flex-wrap gap-1 mt-2">
               {BADGES.map(b=><span key={b.id} title={b.nome} className={b.id in badges?'text-xl':'text-xl opacity-20 grayscale'}>{b.ic}</span>)}
             </div>
@@ -430,7 +765,6 @@ function Dashboard({S}){
     </div>
   );
 }
-
 // ─── CONQUISTAS ───────────────────────────────────────────────
 function Conquistas({S}){
   const{badges,setBadges}=S;
@@ -477,13 +811,67 @@ function Conquistas({S}){
 }
 
 // ─── POMODORO MODAL ───────────────────────────────────────────
+function SoundControls() {
+  const { currentType, volume, isPlaying, play, stop, setVolume } = useFocusSounds();
+  const sounds = [
+    { id: 'white', label: '🤍 Branco', desc: 'Ruído foco' },
+    { id: 'pink', label: '💖 Rosa', desc: 'Ruído suave' },
+    { id: 'rain', label: '🌧️ Chuva', desc: 'Ambiental' },
+    { id: 'binaural', label: '🎧 Binaural', desc: '5Hz Theta' }
+  ];
+  return (
+    <div className="mt-4 pt-3 border-t border-gray-700">
+      <div className="text-xs text-gray-400 font-semibold mb-2 flex items-center justify-between">
+        <span>🔊 Sons de Foco</span>
+        {isPlaying && (
+          <button type="button" onClick={stop} className="text-red-400 font-medium hover:underline text-[10px]">
+            Parar
+          </button>
+        )}
+      </div>
+      <div className="grid grid-cols-2 gap-1.5 mb-2">
+        {sounds.map(s => (
+          <button
+            key={s.id}
+            type="button"
+            onClick={() => currentType === s.id ? stop() : play(s.id)}
+            className={`text-[9px] p-1.5 rounded-lg text-left transition-all ${
+              currentType === s.id
+                ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40 font-semibold'
+                : 'bg-gray-800 text-gray-400 border border-gray-700/50 hover:bg-gray-700/30'
+            }`}
+          >
+            <div className="font-semibold">{s.label}</div>
+            <div className="text-[7px] opacity-60 font-normal">{s.desc}</div>
+          </button>
+        ))}
+      </div>
+      <div className="flex items-center gap-1.5">
+        <span className="text-[8px] text-gray-500">Vol</span>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+          value={volume}
+          onChange={e => setVolume(parseFloat(e.target.value))}
+          className="h-1 flex-1 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+        />
+        <span className="text-[8px] font-mono text-gray-400 w-5 text-right">
+          {Math.round(volume * 100)}%
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function PomoModal({pomo,onClose}){
   const total=pomo.tipo==='estudo'?25*60:5*60;
   const pct=(total-pomo.seg)/total*100;
   const r=54,circ=2*Math.PI*r,off=circ*(1-pct/100);
   const cor=pomo.tipo==='estudo'?'#34d399':'#60a5fa';
   return(
-    <div className="fixed z-50 rounded-2xl p-4 shadow-2xl" style={{bottom:100,right:16,width:224,background:'#111827',border:'1px solid #374151'}}>
+    <div className="fixed z-50 rounded-2xl p-4 shadow-2xl" style={{bottom:100,right:16,width:240,background:'#111827',border:'1px solid #374151'}}>
       <div className="flex justify-between items-center mb-3">
         <span className="text-white font-semibold text-sm">🍅 Pomodoro</span>
         <button onClick={onClose} style={{color:'#6b7280'}} className="hover:text-white text-lg leading-none">✕</button>
@@ -511,6 +899,7 @@ function PomoModal({pomo,onClose}){
           {pomo.at?'⏸ Pausar':'▶ Iniciar'}
         </button>
       </div>
+      <SoundControls />
     </div>
   );
 }
@@ -808,6 +1197,312 @@ function SearchModal({S}){
         </div>
         {ui.resS.length>0&&<div className="px-4 py-2 text-xs" style={{borderTop:'1px solid #374151',color:'#6b7280'}}>{ui.resS.length} resultado(s) · ESC para fechar</div>}
       </div>
+function calcularSRS(rating, interval) {
+  let nextInterval = 1;
+  let nextTime = 0;
+  if (rating === 'again') {
+    nextInterval = 0;
+    nextTime = Date.now() + 60000;
+  } else if (rating === 'hard') {
+    nextInterval = 1;
+    nextTime = Date.now() + 86400000;
+  } else if (rating === 'good') {
+    nextInterval = interval === 0 ? 3 : Math.max(3, Math.round(interval * 2.0));
+    nextTime = Date.now() + nextInterval * 86400000;
+  } else if (rating === 'easy') {
+    nextInterval = interval === 0 ? 6 : Math.max(6, Math.round(interval * 3.5));
+    nextTime = Date.now() + nextInterval * 86400000;
+  }
+  return {
+    interval: nextInterval,
+    nextReview: new Date(nextTime).toISOString()
+  };
+}
+
+function FlashcardsView({ S }) {
+  const { flashcards, setFlashcards } = S;
+  const [materiaSel, setMateriaSel] = useState('');
+  const [abaInterna, setAbaInterna] = useState('decks');
+  const [deckAtual, setDeckAtual] = useState(null);
+  const [frente, setFrente] = useState('');
+  const [verso, setVerso] = useState('');
+  const [cardIndex, setCardIndex] = useState(0);
+  const [mostrarVerso, setMostrarVerso] = useState(false);
+
+  const Decks = useMemo(() => {
+    const d = {};
+    Object.keys(CONTEUDOS).forEach(mid => {
+      d[mid] = { id: mid, nome: CONTEUDOS[mid].nome, total: 0, due: 0, cards: [] };
+    });
+    const now = Date.now();
+    flashcards.forEach(c => {
+      if (d[c.materia]) {
+        d[c.materia].total++;
+        d[c.materia].cards.push(c);
+        const revisarData = new Date(c.revisarEm).getTime();
+        if (revisarData <= now) d[c.materia].due++;
+      }
+    });
+    return Object.values(d).filter(x => x.total > 0 || x.id !== 'revisao');
+  }, [flashcards]);
+
+  const cardsParaRevisar = useMemo(() => {
+    if (!deckAtual) return [];
+    const now = Date.now();
+    return flashcards.filter(c => c.materia === deckAtual && new Date(c.revisarEm).getTime() <= now);
+  }, [flashcards, deckAtual]);
+
+  const iniciarRevisao = (mid) => {
+    setDeckAtual(mid);
+    setCardIndex(0);
+    setMostrarVerso(false);
+    setAbaInterna('revisar');
+  };
+
+  const criarCard = (e) => {
+    e.preventDefault();
+    if (!materiaSel || !frente.trim() || !verso.trim()) return;
+    const novo = {
+      id: `fc_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+      materia: materiaSel,
+      frente: frente.trim(),
+      verso: verso.trim(),
+      criadoEm: new Date().toISOString(),
+      intervalo: 0,
+      revisarEm: new Date().toISOString(),
+    };
+    setFlashcards(p => [...p, novo]);
+    setFrente('');
+    setVerso('');
+    alert('Flashcard criado com sucesso!');
+  };
+
+  const responderSRS = (rating) => {
+    const card = cardsParaRevisar[cardIndex];
+    if (!card) return;
+    const r = calcularSRS(rating, card.intervalo);
+    setFlashcards(p => p.map(c => {
+      if (c.id === card.id) {
+        return {
+          ...c,
+          intervalo: r.interval,
+          revisarEm: r.nextReview
+        };
+      }
+      return c;
+    }));
+    if (cardIndex + 1 < cardsParaRevisar.length) {
+      setCardIndex(p => p + 1);
+      setMostrarVerso(false);
+    } else {
+      alert('Parabéns! Você concluiu a revisão deste deck.');
+      setAbaInterna('decks');
+      setDeckAtual(null);
+    }
+  };
+
+  const deletarCard = (id) => {
+    if (!confirm('Deseja realmente excluir este flashcard?')) return;
+    setFlashcards(p => p.filter(c => c.id !== id));
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4 pb-24">
+      <div className="max-w-xl mx-auto space-y-4">
+        <div className="flex justify-between items-center bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+          <div>
+            <h2 className="text-xl font-bold text-blue-400 font-outfit">📇 Flashcards</h2>
+            <p className="text-xs text-white/50">Estudo ativo e repetição espaçada</p>
+          </div>
+          <div className="flex gap-2">
+            {abaInterna !== 'decks' && (
+              <button onClick={() => { setAbaInterna('decks'); setDeckAtual(null); }} className="text-xs bg-white/10 px-3 py-1.5 rounded-xl text-white hover:bg-white/20 transition-all">
+                ← Voltar
+              </button>
+            )}
+            {abaInterna === 'decks' && (
+              <button onClick={() => setAbaInterna('novo')} className="text-xs bg-blue-500 hover:bg-blue-600 px-3 py-1.5 rounded-xl text-white font-semibold transition-all">
+                + Novo Card
+              </button>
+            )}
+          </div>
+        </div>
+
+        {abaInterna === 'decks' && (
+          <div className="space-y-3">
+            {Decks.map(d => (
+              <div key={d.id} className="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col justify-between gap-3 hover:border-blue-500/40 transition-all duration-300">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="font-semibold text-white text-base">{d.nome}</h3>
+                    <div className="flex gap-3 text-xs text-white/40 mt-1">
+                      <span>Total: <strong className="text-white">{d.total}</strong></span>
+                      <span>A revisar: <strong className={d.due > 0 ? "text-amber-400 font-bold" : "text-white/40"}>{d.due}</strong></span>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex gap-2 justify-end">
+                  {d.due > 0 ? (
+                    <button onClick={() => iniciarRevisao(d.id)} className="text-xs bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-xl transition-all shadow-lg shadow-amber-500/20">
+                      Revisar ({d.due})
+                    </button>
+                  ) : (
+                    <button disabled className="text-xs bg-white/5 text-white/20 px-4 py-2 rounded-xl">
+                      Em dia!
+                    </button>
+                  )}
+                  <button onClick={() => { setMateriaSel(d.id); setAbaInterna('novo'); }} className="text-xs bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-xl transition-all">
+                    + Adicionar
+                  </button>
+                </div>
+              </div>
+            ))}
+            {flashcards.length === 0 && (
+              <div className="text-center py-12 bg-white/5 border border-white/5 rounded-2xl p-6">
+                <div className="text-4xl mb-3">📇</div>
+                <h3 className="font-medium text-white/70">Nenhum flashcard criado ainda</h3>
+                <p className="text-xs text-white/40 mt-1 max-w-xs mx-auto">Adicione cartões para começar a treinar sua memória com repetição espaçada.</p>
+                <button onClick={() => setAbaInterna('novo')} className="mt-4 text-xs bg-blue-500 text-white px-4 py-2 rounded-xl font-semibold">
+                  Criar primeiro flashcard
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {abaInterna === 'revisar' && deckAtual && (
+          <div className="space-y-4">
+            {cardsParaRevisar.length > 0 ? (
+              <div className="space-y-4">
+                <div className="flex justify-between items-center text-xs text-white/40">
+                  <span>Revisando {CONTEUDOS[deckAtual]?.nome}</span>
+                  <span>{cardIndex + 1} de {cardsParaRevisar.length}</span>
+                </div>
+                
+                <div 
+                  onClick={() => !mostrarVerso && setMostrarVerso(true)}
+                  className="min-h-[220px] bg-slate-800/80 border border-white/10 rounded-3xl p-6 flex flex-col justify-between shadow-2xl cursor-pointer transition-all duration-300 relative overflow-hidden select-none hover:border-blue-400/40"
+                >
+                  <div className="absolute top-3 right-3 text-xs bg-white/5 text-white/30 px-2 py-0.5 rounded-full">
+                    {mostrarVerso ? 'Verso' : 'Frente - Clique para revelar'}
+                  </div>
+                  <div className="flex-1 flex items-center justify-center text-center px-4 py-6">
+                    <p className="text-base text-white font-medium whitespace-pre-wrap">
+                      {mostrarVerso ? cardsParaRevisar[cardIndex].verso : cardsParaRevisar[cardIndex].frente}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  {!mostrarVerso ? (
+                    <button 
+                      onClick={() => setMostrarVerso(true)} 
+                      className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-2xl font-bold transition-all shadow-lg shadow-blue-500/20"
+                    >
+                      Mostrar Resposta
+                    </button>
+                  ) : (
+                    <div className="grid grid-cols-4 gap-2">
+                      <button 
+                        onClick={() => responderSRS('again')} 
+                        className="bg-red-500/25 hover:bg-red-600 text-red-400 hover:text-white border border-red-500/30 py-3 rounded-xl text-xs font-semibold flex flex-col items-center justify-center transition-all"
+                      >
+                        <span>Errei</span>
+                        <span className="text-[10px] opacity-60">1 min</span>
+                      </button>
+                      <button 
+                        onClick={() => responderSRS('hard')} 
+                        className="bg-amber-500/25 hover:bg-amber-600 text-amber-400 hover:text-white border border-amber-500/30 py-3 rounded-xl text-xs font-semibold flex flex-col items-center justify-center transition-all"
+                      >
+                        <span>Difícil</span>
+                        <span className="text-[10px] opacity-60">1 dia</span>
+                      </button>
+                      <button 
+                        onClick={() => responderSRS('good')} 
+                        className="bg-blue-500/25 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 py-3 rounded-xl text-xs font-semibold flex flex-col items-center justify-center transition-all"
+                      >
+                        <span>Bom</span>
+                        <span className="text-[10px] opacity-60">3d+</span>
+                      </button>
+                      <button 
+                        onClick={() => responderSRS('easy')} 
+                        className="bg-green-500/25 hover:bg-green-600 text-green-400 hover:text-white border border-green-500/30 py-3 rounded-xl text-xs font-semibold flex flex-col items-center justify-center transition-all"
+                      >
+                        <span>Fácil</span>
+                        <span className="text-[10px] opacity-60">6d+</span>
+                      </button>
+                    </div>
+                  )}
+                  <button 
+                    onClick={() => deletarCard(cardsParaRevisar[cardIndex].id)} 
+                    className="mt-4 text-center text-xs text-red-400 hover:text-red-300 font-medium py-1.5 transition-all"
+                  >
+                    Excluir este card
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-12 bg-white/5 border border-white/5 rounded-2xl p-6">
+                <div className="text-4xl mb-3">🎉</div>
+                <h3 className="font-semibold text-white">Nenhum cartão para revisar</h3>
+                <p className="text-xs text-white/40 mt-1">Você concluiu todos os cartões deste deck por hoje!</p>
+                <button onClick={() => setAbaInterna('decks')} className="mt-4 text-xs bg-white/10 text-white px-4 py-2 rounded-xl">
+                  Voltar para os decks
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {abaInterna === 'novo' && (
+          <form onSubmit={criarCard} className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
+            <h3 className="font-semibold text-white text-base">Adicionar Flashcard</h3>
+            
+            <div className="space-y-1">
+              <label className="text-xs text-white/50 font-medium">Selecione a Matéria</label>
+              <select 
+                value={materiaSel} 
+                onChange={e => setMateriaSel(e.target.value)}
+                required
+                className="w-full bg-slate-800 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-blue-500"
+              >
+                <option value="">-- Escolha uma matéria --</option>
+                {Object.entries(CONTEUDOS).map(([id, mat]) => (
+                  <option key={id} value={id}>{mat.nome}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-white/50 font-medium">Pergunta (Frente)</label>
+              <textarea 
+                value={frente} 
+                onChange={e => setFrente(e.target.value)}
+                required 
+                placeholder="Ex: Qual foi a maior batalha naval da Primeira Guerra Mundial?"
+                rows={3}
+                className="w-full bg-slate-800 border border-white/10 rounded-xl p-3 text-sm text-white outline-none resize-none focus:border-blue-500"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-white/50 font-medium">Resposta (Verso)</label>
+              <textarea 
+                value={verso} 
+                onChange={e => setVerso(e.target.value)}
+                required 
+                placeholder="Ex: Batalha da Jutlândia (1916)..."
+                rows={3}
+                className="w-full bg-slate-800 border border-white/10 rounded-xl p-3 text-sm text-white outline-none resize-none focus:border-blue-500"
+              />
+            </div>
+
+            <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-sm transition-all">
+              Criar Flashcard
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   );
 }
@@ -879,13 +1574,19 @@ function GoogleLoginBtn(){
 
 // ─── NAVBAR ───────────────────────────────────────────────────
 function NavBar({view,dispatchUI}){
-  const abas=[{id:'dashboard',l:'Dashboard',ic:'📊'},{id:'cronograma',l:'Cronograma',ic:'📅'},{id:'revisao',l:'Revisão',ic:'⚠'},{id:'conquistas',l:'Conquistas',ic:'🏆'}];
+  const abas=[
+    {id:'dashboard',l:'Dashboard',ic:'📊'},
+    {id:'cronograma',l:'Cronograma',ic:'📅'},
+    {id:'flashcards',l:'Flashcards',ic:'📇'},
+    {id:'revisao',l:'Revisão',ic:'⚠'},
+    {id:'conquistas',l:'Conquistas',ic:'🏆'}
+  ];
   return(
     <nav style={{position:'fixed',bottom:0,left:0,right:0,zIndex:40,background:'rgba(17,24,39,0.95)',backdropFilter:'blur(8px)',borderTop:'1px solid #1f2937',display:'flex'}}>
       {abas.map(a=>(
         <button key={a.id} onClick={()=>dispatchUI({t:'V',p:a.id})}
-          style={{flex:1,padding:'8px 0',display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:11,color:view===a.id?'#60a5fa':'#6b7280',border:'none',background:'none',cursor:'pointer',transition:'color .2s'}}>
-          <span style={{fontSize:18,lineHeight:1}}>{a.ic}</span>
+          style={{flex:1,padding:'8px 0',display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:10,color:view===a.id?'#60a5fa':'#6b7280',border:'none',background:'none',cursor:'pointer',transition:'color .2s'}}>
+          <span style={{fontSize:16,lineHeight:1}}>{a.ic}</span>
           <span>{a.l}</span>
         </button>
       ))}
@@ -911,6 +1612,7 @@ function App(){
   const[tSaved,setTSaved]      =useLS(LS.T,{},isObj);
   const[pRodSaved,setPRodSaved]=useLS(LS.PR,0,v=>typeof v==='number');
   const[dataInicioPlano,setDataInicioPlano]=useLS(LS.DI,'',v=>typeof v==='string');
+  const[flashcards,setFlashcards]=useLS(LS.F,[],Array.isArray);
   // ── estados de UI ──
   const[ui,dispatchUI]=useReducer(uiR,UI0);
   const[ed,dispatchED]=useReducer(edR,ED0);
@@ -988,6 +1690,7 @@ function App(){
         if(d.tempos&&isObj(d.tempos))setTSaved(d.tempos);
         if(typeof d.pomodoroRodadas==='number')setPRodSaved(d.pomodoroRodadas);
         if(d.dataInicioPlano&&typeof d.dataInicioPlano==='string')setDataInicioPlano(d.dataInicioPlano);
+        if(d.flashcards&&Array.isArray(d.flashcards))setFlashcards(d.flashcards);
       }
       // Firebase respondeu — libera saves futuros (setState causa re-render que ativa o save)
       setFbLoaded(true);
@@ -1009,7 +1712,7 @@ function App(){
         concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,
         resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,
         badges,topicosRenomeados:topRen,dataProva,tempos:tSaved,
-        pomodoroRodadas:pRodSaved,dataInicioPlano
+        pomodoroRodadas:pRodSaved,dataInicioPlano,flashcards
       }).then(()=>{
         // save ok — silencioso
       }).catch(err=>{
@@ -1020,7 +1723,7 @@ function App(){
         }
       });
     },2000);
-  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,currentUid,fbLoaded]);
+  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,flashcards,currentUid,fbLoaded]);
 
   const regHoje=useCallback((seg,data)=>{if(seg<=0)return;const d=data||hoje();setReg(p=>({...p,[d]:(p[d]||0)+seg}));},[]);
   const cron=useCron(tSaved,setTSaved,regHoje);
@@ -1073,11 +1776,11 @@ function App(){
   const salvarResumo=useCallback((k,txt)=>{setResumos(p=>{if(!txt?.trim()){const n={...p};delete n[k];return n;}return{...p,[k]:txt.trim()};});dispatchED({t:'FR'});},[]);
   const salvarDiario=useCallback((sem,txt)=>{setDiarios(p=>({...p,[String(sem)]:txt}));dispatchED({t:'CD'});},[]);
 
-  const exportar=()=>{const d={versao:'2.0',exportadoEm:new Date().toISOString(),tempos:cron.tempos,concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,badgesGanhos:badges,pomodoroRodadas:pomo.rod,topicosRenomeados:topRen,dataProva};const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=`estudo-backup-${hoje()}.json`;a.click();URL.revokeObjectURL(u);};
-  const importar=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d||typeof d!=='object'){alert('❌ Arquivo inválido.');return;}if(d.concluidos)setConcl(d.concluidos);if(d.topicosCompletos)setTopC(d.topicosCompletos);if(d.topicosPersonalizados)setTopP(d.topicosPersonalizados);if(d.resumos)setResumos(d.resumos);if(d.registrosDiarios)setReg(d.registrosDiarios);if(d.diarios)setDiarios(d.diarios);if(d.topicosRevisar)setTopR(d.topicosRevisar);if(d.badgesGanhos)setBadges(d.badgesGanhos);if(d.topicosRenomeados)setTopRen(d.topicosRenomeados);if(d.dataProva)setDataProva(d.dataProva);if(d.tempos)setTSaved(d.tempos);alert(`✅ Dados importados! (v${d.versao||'?'})`);}catch(err){alert('❌ Erro: '+err.message);}};r.readAsText(f);e.target.value='';};
+  const exportar=()=>{const d={versao:'2.0',exportadoEm:new Date().toISOString(),tempos:cron.tempos,concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,badgesGanhos:badges,pomodoroRodadas:pomo.rod,topicosRenomeados:topRen,dataProva,flashcards};const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=`estudo-backup-${hoje()}.json`;a.click();URL.revokeObjectURL(u);};
+  const importar=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d||typeof d!=='object'){alert('❌ Arquivo inválido.');return;}if(d.concluidos)setConcl(d.concluidos);if(d.topicosCompletos)setTopC(d.topicosCompletos);if(d.topicosPersonalizados)setTopP(d.topicosPersonalizados);if(d.resumos)setResumos(d.resumos);if(d.registrosDiarios)setReg(d.registrosDiarios);if(d.diarios)setDiarios(d.diarios);if(d.topicosRevisar)setTopR(d.topicosRevisar);if(d.badgesGanhos)setBadges(d.badgesGanhos);if(d.topicosRenomeados)setTopRen(d.topicosRenomeados);if(d.dataProva)setDataProva(d.dataProva);if(d.tempos)setTSaved(d.tempos);if(d.flashcards&&Array.isArray(d.flashcards))setFlashcards(d.flashcards);alert(`✅ Dados importados! (v${d.versao||'?'})`);}catch(err){alert('❌ Erro: '+err.message);}};r.readAsText(f);e.target.value='';};
   const resetar=()=>{if(!confirm('⚠️ Apagar TODOS os dados? Esta ação é irreversível.\n\nExporte um backup antes!'))return;try{Object.values(LS).forEach(k=>localStorage.removeItem(k));setTimeout(()=>window.location.reload(),100);}catch(err){alert('Erro: '+err.message);}};
 
-  const S={ui,dispatchUI,ed,dispatchED,concl,setConcl,topC,setTopC,topP,setTopP,resumos,setResumos,reg,setReg,diarios,topR,setTopR,badges,setBadges,topRen,setTopRen,dataProva,setDataProva,dataInicioPlano,setDataInicioPlano,semanaAtual,deficitTotal,deficitPorMateria,streak,diasR,tempoTot,totTop,totSem,proGeral,frase,cron,pomo,salvarResumo,salvarDiario,FASES,CRONOGRAMA};
+  const S={ui,dispatchUI,ed,dispatchED,concl,setConcl,topC,setTopC,topP,setTopP,resumos,setResumos,reg,setReg,diarios,topR,setTopR,badges,setBadges,topRen,setTopRen,dataProva,setDataProva,dataInicioPlano,setDataInicioPlano,semanaAtual,deficitTotal,deficitPorMateria,streak,diasR,tempoTot,totTop,totSem,proGeral,frase,cron,pomo,salvarResumo,salvarDiario,flashcards,setFlashcards,FASES,CRONOGRAMA};
   const{view}=ui;
 
   return(
@@ -1088,6 +1791,7 @@ function App(){
       <div style={{paddingBottom:80}}>
         {view==='dashboard'  &&<Dashboard S={S}/>}
         {view==='cronograma' &&<CronogramaView S={S}/>}
+        {view==='flashcards' &&<FlashcardsView S={S}/>}
         {view==='revisao'    &&<RevisaoView S={S}/>}
         {view==='conquistas' &&<Conquistas S={S}/>}
       </div>
