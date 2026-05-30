@@ -495,7 +495,30 @@ function edR(s,a){switch(a.t){
 // ─── HEATMAP ──────────────────────────────────────────────────
 function Heatmap({reg}){
   const base=useMemo(()=>{const d=new Date();d.setHours(12,0,0,0);return d;},[]);
-  const dias=useMemo(()=>{const r=[];for(let i=HEATMAP_DIAS-1;i>=0;i--){const d=new Date(base);d.setDate(d.getDate()-i);const ch=d.toISOString().split('T')[0];const s=reg[ch]||0;const eh=i===0;let cor='bg-gray-700';let op='opacity-30';if(s>=7200){cor='bg-green-500';op='opacity-100';}else if(s>=3600){cor='bg-green-500';op='opacity-70';}else if(s>=1800){cor='bg-green-500';op='opacity-50';}else if(s>0){cor='bg-green-500';op='opacity-30';}let df=ch;try{df=d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});}catch{}r.push({ch,s,eh,df,cor,// ─── CHARTS ───────────────────────────────────────────────────
+  const dias=useMemo(()=>{const r=[];for(let i=HEATMAP_DIAS-1;i>=0;i--){const d=new Date(base);d.setDate(d.getDate()-i);const ch=d.toISOString().split('T')[0];const s=reg[ch]||0;const eh=i===0;let cor='bg-gray-700';let op='opacity-30';if(s>=7200){cor='bg-green-500';op='opacity-100';}else if(s>=3600){cor='bg-green-500';op='opacity-70';}else if(s>=1800){cor='bg-green-500';op='opacity-50';}else if(s>0){cor='bg-green-500';op='opacity-30';}let df=ch;try{df=d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});}catch{}r.push({ch,s,eh,df,cor,op});}return r;},[reg,base]);
+  const off=useMemo(()=>{if(!dias.length)return 0;return new Date(dias[0].ch+'T12:00:00').getDay();},[dias]);
+  const cols=Math.ceil((dias.length+off)/7);
+  return(
+    <div className="bg-gray-800 rounded-2xl p-4 border border-gray-700">
+      <div className="flex justify-between items-center mb-3">
+        <span className="text-white font-semibold text-sm">🔥 Atividade — 12 semanas</span>
+        <div className="flex items-center gap-1 text-xs text-gray-500">
+          <span>menos</span>
+          {['bg-gray-700 opacity-30','bg-green-500 opacity-30','bg-green-500 opacity-50','bg-green-500 opacity-70','bg-green-500 opacity-100'].map((c,i)=><div key={i} className={`w-3 h-3 rounded-sm ${c}`}/>)}
+          <span>mais</span>
+        </div>
+      </div>
+      <div className="flex gap-1 overflow-x-auto pb-1">
+        {Array.from({length:cols},(_,ci)=>(
+          <div key={ci} className="flex flex-col gap-1">
+            {Array.from({length:7},(_,di)=>{const pos=ci*7+di-off;const d=dias[pos];if(!d)return<div key={di} className="w-3 h-3 opacity-0"/>;return<div key={di} className={`w-3 h-3 rounded-sm cursor-default transition-transform hover:scale-125 ${d.cor} ${d.op} ${d.eh?'ring-2 ring-white ring-offset-1 ring-offset-gray-800':''}`} title={d.s>0?`${d.df}: ${fmt(d.s)}`:`${d.df}: sem estudo`}/>;})}</div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── CHARTS ───────────────────────────────────────────────────
 function BarChart({ reg }) {
   const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
   const dados = useMemo(() => {
