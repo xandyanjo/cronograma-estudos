@@ -259,7 +259,7 @@ function useFocusSounds() {
 const STREAK_MIN=300,HEATMAP_DIAS=84,TOAST_MS=5000,DATA_PROVA_PAD='2025-05-15';
 const LS={T:'tempos_estudo',C:'concluidos_estudo',TC:'topicos_completos',TP:'topicos_personalizados',
   R:'resumos_topicos',RD:'registros_diarios',D:'diarios_semanais',TR:'topicos_revisar',
-  B:'badges_ganhos',PR:'pomodoro_rodadas',RN:'topicos_renomeados',DP:'data_prova',DI:'data_inicio_plano',F:'estudos_flashcards'};
+  B:'badges_ganhos',PR:'pomodoro_rodadas',RN:'topicos_renomeados',DP:'data_prova',DI:'data_inicio_plano',F:'estudos_flashcards',H:'habitos_diarios'};
 
 function calcSemAtual(di){
   if(!di)return 1;
@@ -654,6 +654,285 @@ function DonutChart({ dados }) {
   );
 }
 
+// ─── META DIÁRIA ──────────────────────────────────────────────
+function MetaDiaria({S}){
+  const{reg,semanaAtual,cron}=S;
+  const hj=hoje();
+  const tempoHoje=reg[hj]||0;
+  const cfg=CRONOGRAMA[semanaAtual]||{f:0};
+  const fase=FASES[cfg.f]||FASES[0];
+  const metaSemana=fase.materias.reduce((a,m)=>a+m.horas*3600,0);
+  const metaDia=metaSemana/5;
+  const pct=metaDia>0?Math.min(100,Math.round(tempoHoje/metaDia*100)):0;
+  const faltam=Math.max(0,metaDia-tempoHoje);
+  const atingiu=tempoHoje>=metaDia&&metaDia>0;
+  const cor=atingiu?'#4ade80':pct>=60?'#fbbf24':'#60a5fa';
+  return(
+    <div className="glass-card rounded-2xl p-4">
+      <div className="flex justify-between items-start mb-3">
+        <div>
+          <h3 className="text-white font-semibold font-outfit text-sm">🎯 Meta de Hoje</h3>
+          <p className="text-white/40 text-[10px] mt-0.5">{fmt(tempoHoje)} estudados</p>
+        </div>
+        <div className="text-right">
+          <span className="font-bold text-sm" style={{color:cor}}>{pct}%</span>
+          <div className="text-white/30 text-[10px]">meta: {(metaDia/3600).toFixed(1)}h</div>
+        </div>
+      </div>
+      <div className="w-full bg-white/10 rounded-full h-3 mb-2 overflow-hidden">
+        <div className="h-full rounded-full transition-all duration-700 relative" style={{width:`${pct}%`,background:`linear-gradient(90deg,${cor}88,${cor})`}}>
+          {pct>15&&<div className="absolute inset-0 flex items-center justify-end pr-2"><span className="text-[8px] font-bold text-white/80">{fmt(tempoHoje)}</span></div>}
+        </div>
+      </div>
+      {atingiu
+        ?<p className="text-[11px] text-green-400 font-semibold text-center">🎉 Meta do dia atingida! Excelente!</p>
+        :<p className="text-[11px] text-white/40">Faltam <span className="text-white/70 font-semibold">{(faltam/3600).toFixed(1)}h</span> para atingir a meta diária</p>
+      }
+    </div>
+  );
+}
+
+// ─── HÁBITOS DIÁRIOS ──────────────────────────────────────────
+function HabitosDiarios({S}){
+  const{habitos,setHabitos}=S;
+  const hj=hoje();
+  const hjH=habitos[hj]||{};
+  const items=[
+    {id:'sono',ic:'😴',label:'Dormi bem',sub:'7h+'},
+    {id:'exercicio',ic:'🏃',label:'Exercitei',sub:'ativo'},
+    {id:'agua',ic:'💧',label:'Hidratado',sub:'2L+'},
+    {id:'foco',ic:'📵',label:'Sem celular',sub:'no estudo'},
+  ];
+  const toggle=id=>setHabitos(p=>({...p,[hj]:{...(p[hj]||{}),[id]:!(p[hj]||{})[id]}}));
+  const total=items.filter(i=>hjH[i.id]).length;
+  const ultimos7=Array.from({length:7},(_,i)=>{
+    const d=new Date();d.setDate(d.getDate()-(6-i));
+    const ch=d.toISOString().split('T')[0];
+    const hab=habitos[ch]||{};
+    const count=items.filter(it=>hab[it.id]).length;
+    return{ch,count,isToday:ch===hj};
+  });
+  const diasSem=['D','S','T','Q','Q','S','S'];
+  return(
+    <div className="glass-card rounded-2xl p-4">
+      <div className="flex justify-between items-center mb-3">
+        <h3 className="text-white font-semibold font-outfit text-sm">🗓️ Hábitos de Hoje</h3>
+        <span className="text-xs font-bold" style={{color:total===4?'#4ade80':total>=2?'#fbbf24':'#94a3b8'}}>{total}/4</span>
+      </div>
+      <div className="grid grid-cols-4 gap-2 mb-3">
+        {items.map(item=>{
+          const on=!!hjH[item.id];
+          return(
+            <button key={item.id} onClick={()=>toggle(item.id)}
+              className="rounded-xl p-2 flex flex-col items-center gap-1 transition-all duration-200 text-center"
+              style={{background:on?'rgba(96,165,250,0.15)':'rgba(255,255,255,0.04)',border:`1px solid ${on?'rgba(96,165,250,0.4)':'rgba(255,255,255,0.08)'}`,transform:on?'scale(1.05)':'scale(1)'}}>
+              <span style={{fontSize:20,filter:on?'none':'grayscale(1)',opacity:on?1:0.4}}>{item.ic}</span>
+              <span className="text-[9px] font-medium" style={{color:on?'#93c5fd':'rgba(255,255,255,0.3)'}}>{item.label}</span>
+              <span className="text-[8px]" style={{color:on?'rgba(147,197,253,0.6)':'rgba(255,255,255,0.15)'}}>{item.sub}</span>
+            </button>
+          );
+        })}
+      </div>
+      <div className="flex items-center justify-between">
+        <span className="text-[10px] text-white/30">Últimos 7 dias</span>
+        <div className="flex gap-1.5 items-center">
+          {ultimos7.map((d,i)=>{
+            const cor=d.count===4?'#4ade80':d.count>=2?'#fbbf24':d.count>0?'#60a5fa':'rgba(255,255,255,0.08)';
+            return(
+              <div key={i} className="flex flex-col items-center gap-0.5">
+                <div style={{width:14,height:14,borderRadius:4,background:cor,border:d.isToday?'1px solid rgba(255,255,255,0.4)':'none'}} title={`${d.ch}: ${d.count}/4`}/>
+                <span style={{fontSize:7,color:'rgba(255,255,255,0.2)'}}>{diasSem[new Date(d.ch+'T12:00:00').getDay()]}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── INTERLEAVING SUGESTÃO ────────────────────────────────────
+function InterleavingSugestao({S}){
+  const{cron,semanaAtual}=S;
+  const cfg=CRONOGRAMA[semanaAtual]||{f:0};
+  const fase=FASES[cfg.f]||FASES[0];
+  const temposHoje=useMemo(()=>{
+    const t={};
+    fase.materias.forEach(mat=>{t[mat.id]=cron.tempos[`${semanaAtual}-${mat.id}`]||0;});
+    return t;
+  },[cron.tempos,semanaAtual,fase]);
+  const analise=useMemo(()=>{
+    const dados=fase.materias.map(mat=>({...mat,tempo:temposHoje[mat.id]||0,meta:mat.horas*3600,pct:mat.horas>0?(temposHoje[mat.id]||0)/(mat.horas*3600):0}));
+    if(dados.length<2)return null;
+    const maisEstudada=[...dados].sort((a,b)=>b.tempo-a.tempo)[0];
+    const menosEstudada=[...dados].sort((a,b)=>a.pct-b.pct)[0];
+    if(maisEstudada.id===menosEstudada.id||maisEstudada.tempo<1800)return null;
+    return{maisEstudada,menosEstudada};
+  },[temposHoje,fase]);
+  const[dispensado,setDispensado]=useState(false);
+  if(!analise||dispensado)return null;
+  return(
+    <div className="rounded-2xl p-3 border slide-in" style={{background:'rgba(139,92,246,0.08)',borderColor:'rgba(139,92,246,0.3)'}}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start gap-2 flex-1 min-w-0">
+          <span style={{fontSize:18}}>🔀</span>
+          <div className="min-w-0">
+            <p className="text-xs font-semibold text-purple-300">Dica de Interleaving</p>
+            <p className="text-[11px] text-white/60 mt-0.5 leading-snug">
+              Você focou em <span className="text-white font-medium">{analise.maisEstudada.nome}</span> ({(analise.maisEstudada.tempo/3600).toFixed(1)}h).
+              Alterne para <span className="text-purple-300 font-semibold">{analise.menosEstudada.nome}</span>!
+            </p>
+          </div>
+        </div>
+        <button onClick={()=>setDispensado(true)} style={{color:'rgba(255,255,255,0.2)',fontSize:14,flexShrink:0}}>✕</button>
+      </div>
+    </div>
+  );
+}
+
+// ─── QUIZ ACTIVE RECALL ───────────────────────────────────────
+function QuizView({S}){
+  const{flashcards,setFlashcards}=S;
+  const[fase,setFase]=useState('selecao');
+  const[deckSel,setDeckSel]=useState('');
+  const[qtde,setQtde]=useState(5);
+  const[questoes,setQuestoes]=useState([]);
+  const[idx,setIdx]=useState(0);
+  const[mostrarVerso,setMostrarVerso]=useState(false);
+  const[respostas,setRespostas]=useState([]);
+  const[tempoInicio,setTempoInicio]=useState(null);
+  const[tempoFim,setTempoFim]=useState(null);
+  const decksDisp=useMemo(()=>{
+    const d={};
+    flashcards.forEach(c=>{if(!d[c.materia])d[c.materia]={id:c.materia,nome:CONTEUDOS[c.materia]?.nome||c.materia,total:0};d[c.materia].total++;});
+    return Object.values(d);
+  },[flashcards]);
+  const iniciarQuiz=()=>{
+    const pool=deckSel?flashcards.filter(c=>c.materia===deckSel):flashcards;
+    if(!pool.length){alert('Nenhum flashcard disponível!');return;}
+    const embaralhado=[...pool].sort(()=>Math.random()-0.5).slice(0,Math.min(qtde,pool.length));
+    setQuestoes(embaralhado);setIdx(0);setMostrarVerso(false);setRespostas([]);setTempoInicio(Date.now());setTempoFim(null);setFase('quiz');
+  };
+  const responder=acertou=>{
+    const card=questoes[idx];
+    const r=calcularSRS(acertou?'good':'again',card.intervalo);
+    setFlashcards(p=>p.map(c=>c.id===card.id?{...c,intervalo:r.interval,revisarEm:r.nextReview}:c));
+    const novas=[...respostas,acertou];
+    setRespostas(novas);
+    if(idx+1<questoes.length){setIdx(p=>p+1);setMostrarVerso(false);}
+    else{setTempoFim(Date.now());setFase('resultado');}
+  };
+  const reiniciar=()=>{setFase('selecao');setQuestoes([]);setRespostas([]);};
+  const acertos=respostas.filter(Boolean).length;
+  const tempoTotal=tempoFim&&tempoInicio?Math.round((tempoFim-tempoInicio)/1000):0;
+  return(
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 p-4 pb-24">
+      <div className="max-w-xl mx-auto space-y-4">
+        <div className="bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+          <h2 className="text-xl font-bold text-purple-400 font-outfit">🧠 Quiz Rápido</h2>
+          <p className="text-xs text-white/50 mt-0.5">Active Recall — teste sua memória</p>
+        </div>
+        {fase==='selecao'&&(
+          <div className="space-y-4">
+            {flashcards.length===0?(
+              <div className="text-center py-12 bg-white/5 border border-white/5 rounded-2xl p-6">
+                <div className="text-4xl mb-3">📇</div>
+                <h3 className="font-medium text-white/70">Nenhum flashcard ainda</h3>
+                <p className="text-xs text-white/40 mt-1">Crie flashcards na aba 📇 para começar.</p>
+              </div>
+            ):(
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
+                <h3 className="font-semibold text-white text-sm">Configurar Sessão</h3>
+                <div className="space-y-1">
+                  <label className="text-xs text-white/50">Deck (matéria)</label>
+                  <select value={deckSel} onChange={e=>setDeckSel(e.target.value)}
+                    className="w-full bg-slate-800 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-purple-500">
+                    <option value="">🎲 Todos os decks (misto)</option>
+                    {decksDisp.map(d=><option key={d.id} value={d.id}>{d.nome} ({d.total})</option>)}
+                  </select>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs text-white/50">Questões: <span className="text-white font-bold">{qtde}</span></label>
+                  <input type="range" min={3} max={Math.min(20,flashcards.length)} value={qtde} onChange={e=>setQtde(Number(e.target.value))}/>
+                </div>
+                <button onClick={iniciarQuiz} className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-2xl text-sm transition-all shadow-lg shadow-purple-500/20">
+                  🚀 Iniciar Quiz
+                </button>
+              </div>
+            )}
+            <div className="bg-white/5 border border-white/5 rounded-2xl p-4">
+              <h3 className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">Como funciona</h3>
+              <div className="space-y-2">
+                {[['🃏','Veja a frente do flashcard'],['🧠','Tente lembrar a resposta'],['✅','Avalie: acertou ou errou'],['📊','SRS atualiza automaticamente']].map(([ic,txt])=>(
+                  <div key={txt} className="flex items-center gap-2 text-xs text-white/50"><span>{ic}</span><span>{txt}</span></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+        {fase==='quiz'&&questoes.length>0&&(
+          <div className="space-y-4">
+            <div className="flex justify-between items-center text-xs text-white/40">
+              <span>Questão {idx+1}/{questoes.length}</span>
+              <div className="flex gap-1">
+                {questoes.map((_,i)=><div key={i} style={{width:8,height:8,borderRadius:'50%',background:i<respostas.length?(respostas[i]?'#4ade80':'#f87171'):i===idx?'#a78bfa':'rgba(255,255,255,0.15)'}}/>)}
+              </div>
+            </div>
+            <div className="min-h-[220px] bg-slate-800/80 border border-white/10 rounded-3xl p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden select-none"
+              onClick={()=>!mostrarVerso&&setMostrarVerso(true)} style={{cursor:mostrarVerso?'default':'pointer'}}>
+              <div className="absolute top-3 right-3 text-xs bg-white/5 text-white/30 px-2 py-0.5 rounded-full">
+                {mostrarVerso?'Resposta':'Pergunta — toque para revelar'}
+              </div>
+              <div className="flex-1 flex flex-col items-center justify-center text-center px-2 py-6 gap-3">
+                {!mostrarVerso
+                  ?<p className="text-base text-white font-medium whitespace-pre-wrap">{questoes[idx].frente}</p>
+                  :<><p className="text-xs text-white/40 mb-1">{questoes[idx].frente}</p><div className="w-full h-px bg-white/10"/><p className="text-base text-green-300 font-semibold whitespace-pre-wrap">{questoes[idx].verso}</p></>
+                }
+              </div>
+            </div>
+            {!mostrarVerso
+              ?<button onClick={()=>setMostrarVerso(true)} className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-2xl font-bold transition-all">Revelar Resposta</button>
+              :<div className="grid grid-cols-2 gap-3">
+                <button onClick={()=>responder(false)} className="bg-red-500/20 hover:bg-red-500/40 border border-red-500/40 text-red-400 hover:text-white py-4 rounded-2xl font-bold text-sm transition-all flex flex-col items-center">
+                  <span>❌ Errei</span><span className="text-[10px] opacity-60 font-normal mt-0.5">revisar em breve</span>
+                </button>
+                <button onClick={()=>responder(true)} className="bg-green-500/20 hover:bg-green-500/40 border border-green-500/40 text-green-400 hover:text-white py-4 rounded-2xl font-bold text-sm transition-all flex flex-col items-center">
+                  <span>✅ Acertei</span><span className="text-[10px] opacity-60 font-normal mt-0.5">revisão adiada</span>
+                </button>
+              </div>
+            }
+          </div>
+        )}
+        {fase==='resultado'&&(
+          <div className="space-y-4">
+            <div className="bg-white/5 border border-white/10 rounded-3xl p-6 text-center space-y-3">
+              <div style={{fontSize:56}}>{acertos===questoes.length?'🏆':acertos>=questoes.length*0.7?'🌟':'💪'}</div>
+              <h2 className="text-2xl font-bold text-white font-outfit">{acertos}/{questoes.length}</h2>
+              <p className="text-white/50 text-sm">acertos em {fmtMM(tempoTotal)}</p>
+              <div className="w-full bg-white/10 rounded-full h-3">
+                <div className="h-full rounded-full transition-all" style={{width:`${Math.round(acertos/questoes.length*100)}%`,background:acertos===questoes.length?'linear-gradient(90deg,#4ade80,#22c55e)':'linear-gradient(90deg,#a78bfa,#7c3aed)'}}/>
+              </div>
+              <p className="text-xs text-white/40">{Math.round(acertos/questoes.length*100)}% de aproveitamento</p>
+            </div>
+            <div className="space-y-2">
+              {questoes.map((q,i)=>(
+                <div key={q.id} className="rounded-xl px-4 py-3 flex items-start gap-3 text-xs"
+                  style={{background:respostas[i]?'rgba(34,197,94,0.08)':'rgba(239,68,68,0.08)',border:`1px solid ${respostas[i]?'rgba(74,222,128,0.2)':'rgba(248,113,113,0.2)'}`}}>
+                  <span>{respostas[i]?'✅':'❌'}</span>
+                  <div><p className="text-white/70">{q.frente}</p><p className="text-white/40 mt-0.5">{q.verso}</p></div>
+                </div>
+              ))}
+            </div>
+            <button onClick={reiniciar} className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-2xl text-sm transition-all">
+              🔄 Novo Quiz
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── DASHBOARD ────────────────────────────────────────────────
 function Dashboard({S}){
   const{streak,diasR,tempoTot,totTop,totSem,frase,reg,badges,pomo,cron,proGeral,dispatchUI,dataInicioPlano,setDataInicioPlano,semanaAtual,deficitTotal,deficitPorMateria}=S;
@@ -769,6 +1048,8 @@ function Dashboard({S}){
             <DonutChart dados={donutDados} />
           </div>
         </div>
+        <MetaDiaria S={S}/>
+        <HabitosDiarios S={S}/>
         <Heatmap reg={reg}/>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
           <div className="glass-card rounded-2xl p-4">
@@ -972,6 +1253,7 @@ function CronogramaView({S}){
             {[1,7,14,21,28].map(n=><button key={n} onClick={()=>setSem(n)} className={`hover:text-white transition-colors ${sem===n?'text-blue-400':''}`}>{n}</button>)}
           </div>
         </div>
+        <InterleavingSugestao S={S}/>
         {fase.materias.map(mat=><MateriaCard key={mat.id} mat={mat} sem={sem} S={S}/>)}
         <button onClick={()=>setConcl(p=>({...p,[sem]:!p[sem]}))}
           className="w-full rounded-2xl p-4 border flex items-center gap-3 transition-all"
@@ -1608,8 +1890,8 @@ function NavBar({view,dispatchUI}){
     {id:'dashboard',l:'Dashboard',ic:'📊'},
     {id:'cronograma',l:'Cronograma',ic:'📅'},
     {id:'flashcards',l:'Flashcards',ic:'📇'},
+    {id:'quiz',l:'Quiz',ic:'🧠'},
     {id:'revisao',l:'Revisão',ic:'⚠'},
-    {id:'conquistas',l:'Conquistas',ic:'🏆'}
   ];
   return(
     <nav style={{position:'fixed',bottom:0,left:0,right:0,zIndex:40,background:'rgba(17,24,39,0.95)',backdropFilter:'blur(8px)',borderTop:'1px solid #1f2937',display:'flex'}}>
@@ -1643,6 +1925,7 @@ function App(){
   const[pRodSaved,setPRodSaved]=useLS(LS.PR,0,v=>typeof v==='number');
   const[dataInicioPlano,setDataInicioPlano]=useLS(LS.DI,'',v=>typeof v==='string');
   const[flashcards,setFlashcards]=useLS(LS.F,[],Array.isArray);
+  const[habitos,setHabitos]      =useLS(LS.H,{},isObj);
   // ── estados de UI ──
   const[ui,dispatchUI]=useReducer(uiR,UI0);
   const[ed,dispatchED]=useReducer(edR,ED0);
@@ -1721,6 +2004,7 @@ function App(){
         if(typeof d.pomodoroRodadas==='number')setPRodSaved(d.pomodoroRodadas);
         if(d.dataInicioPlano&&typeof d.dataInicioPlano==='string')setDataInicioPlano(d.dataInicioPlano);
         if(d.flashcards&&Array.isArray(d.flashcards))setFlashcards(d.flashcards);
+        if(d.habitos&&isObj(d.habitos))setHabitos(d.habitos);
       }
       // Firebase respondeu — libera saves futuros (setState causa re-render que ativa o save)
       setFbLoaded(true);
@@ -1742,18 +2026,17 @@ function App(){
         concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,
         resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,
         badges,topicosRenomeados:topRen,dataProva,tempos:tSaved,
-        pomodoroRodadas:pRodSaved,dataInicioPlano,flashcards
+        pomodoroRodadas:pRodSaved,dataInicioPlano,flashcards,habitos
       }).then(()=>{
         // save ok — silencioso
       }).catch(err=>{
         console.error('[Firebase] Erro ao salvar dados:', err.code, err.message);
-        // Só alerta o usuário se for erro de permissão (ajuda no diagnóstico)
         if(err.code==='PERMISSION_DENIED'){
           console.warn('[Firebase] Permissão negada — verifique as regras do Realtime Database e se está logado.');
         }
       });
     },2000);
-  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,flashcards,currentUid,fbLoaded]);
+  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,flashcards,habitos,currentUid,fbLoaded]);
 
   const regHoje=useCallback((seg,data)=>{if(seg<=0)return;const d=data||hoje();setReg(p=>({...p,[d]:(p[d]||0)+seg}));},[]);
   const cron=useCron(tSaved,setTSaved,regHoje);
@@ -1810,7 +2093,7 @@ function App(){
   const importar=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d||typeof d!=='object'){alert('❌ Arquivo inválido.');return;}if(d.concluidos)setConcl(d.concluidos);if(d.topicosCompletos)setTopC(d.topicosCompletos);if(d.topicosPersonalizados)setTopP(d.topicosPersonalizados);if(d.resumos)setResumos(d.resumos);if(d.registrosDiarios)setReg(d.registrosDiarios);if(d.diarios)setDiarios(d.diarios);if(d.topicosRevisar)setTopR(d.topicosRevisar);if(d.badgesGanhos)setBadges(d.badgesGanhos);if(d.topicosRenomeados)setTopRen(d.topicosRenomeados);if(d.dataProva)setDataProva(d.dataProva);if(d.tempos)setTSaved(d.tempos);if(d.flashcards&&Array.isArray(d.flashcards))setFlashcards(d.flashcards);alert(`✅ Dados importados! (v${d.versao||'?'})`);}catch(err){alert('❌ Erro: '+err.message);}};r.readAsText(f);e.target.value='';};
   const resetar=()=>{if(!confirm('⚠️ Apagar TODOS os dados? Esta ação é irreversível.\n\nExporte um backup antes!'))return;try{Object.values(LS).forEach(k=>localStorage.removeItem(k));setTimeout(()=>window.location.reload(),100);}catch(err){alert('Erro: '+err.message);}};
 
-  const S={ui,dispatchUI,ed,dispatchED,concl,setConcl,topC,setTopC,topP,setTopP,resumos,setResumos,reg,setReg,diarios,topR,setTopR,badges,setBadges,topRen,setTopRen,dataProva,setDataProva,dataInicioPlano,setDataInicioPlano,semanaAtual,deficitTotal,deficitPorMateria,streak,diasR,tempoTot,totTop,totSem,proGeral,frase,cron,pomo,salvarResumo,salvarDiario,flashcards,setFlashcards,FASES,CRONOGRAMA};
+  const S={ui,dispatchUI,ed,dispatchED,concl,setConcl,topC,setTopC,topP,setTopP,resumos,setResumos,reg,setReg,diarios,topR,setTopR,badges,setBadges,topRen,setTopRen,dataProva,setDataProva,dataInicioPlano,setDataInicioPlano,semanaAtual,deficitTotal,deficitPorMateria,streak,diasR,tempoTot,totTop,totSem,proGeral,frase,cron,pomo,salvarResumo,salvarDiario,flashcards,setFlashcards,habitos,setHabitos,FASES,CRONOGRAMA};
   const{view}=ui;
 
   return(
@@ -1822,6 +2105,7 @@ function App(){
         {view==='dashboard'  &&<Dashboard S={S}/>}
         {view==='cronograma' &&<CronogramaView S={S}/>}
         {view==='flashcards' &&<FlashcardsView S={S}/>}
+        {view==='quiz'       &&<QuizView S={S}/>}
         {view==='revisao'    &&<RevisaoView S={S}/>}
         {view==='conquistas' &&<Conquistas S={S}/>}
       </div>
