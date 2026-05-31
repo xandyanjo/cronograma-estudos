@@ -271,48 +271,70 @@ const _diSaved=(()=>{try{return JSON.parse(localStorage.getItem('data_inicio_pla
 // ─── DADOS ───────────────────────────────────────────────────
 const CONTEUDOS={
   historia:{nome:'História Militar Naval',categorias:[
-    {titulo:'1. Antiguidade',topicos:['Egito Antigo e Fenícia','Grécia Antiga','Batalha Naval de Salamina','Guerra do Peloponeso','Alexandre, o Grande','Roma x Cartago','Batalha de Mylae','Guerras Civis Romanas','Mare Nostrum']},
-    {titulo:'2. Idade Média',topicos:['Civilização x Barbárie','Expansão Islâmica (Sombra do Crescente)','Vikings','Repúblicas Marítimas Italianas','Navio de Guerra Medieval','Guerra e Comércio na Idade Média','Batalha de Lepanto']},
-    {titulo:'3. História do Brasil 1 (Período Colonial)',topicos:['Formação do Estado Português','Pioneirismo Português nas Grandes Navegações','Chegada dos Portugueses ao Brasil','Expedições Guarda-Costas','Martim Afonso de Souza','Invasões Francesas (RJ e MA)','Invasores na Foz do Amazonas','Defesa do Império Marítimo Português (séc. XVI-XVIII)']},
-    {titulo:'4. História do Brasil 2 (Brasil Império - Formação)',topicos:['Vinda da Família Real','Conquista de Caiena','Ocupação da Banda Oriental','Independência do Brasil','Guerra da Independência','Marinha no Reinado de D. Pedro I','Guerra da Cisplatina','Revoltas Regenciais']},
-    {titulo:'5. Idade Moderna (Europa e Expansão Marítima)',topicos:['Espanha e o Mar','Invencível Armada','Holanda e o Mar','Guerras Anglo-Holandesas','Inglaterra e França no cenário naval','Conflitos navais do século XVIII','Trafalgar','Revoluções do século XVIII']},
-    {titulo:'6. História do Brasil 3 (Segundo Reinado)',topicos:['Guerra contra Oribe e Rosas','Guerra da Tríplice Aliança','Batalha Naval do Riachuelo','Marinha Imperial na Guerra do Paraguai','Evolução tecnológica naval (vela → vapor / madeira → aço)']},
-    {titulo:'7. Mundo Contemporâneo',topicos:['Guerra da Crimeia','Guerra da Secessão','Guerras Imperialistas (Lissa, Franco-Prussiana)','Guerra Russo-Japonesa (Tsushima)','Primeira Guerra Mundial','Batalha da Jutlândia','Segunda Guerra Mundial','Batalha do Atlântico','Midway','Golfo de Leyte']},
-    {titulo:'8. História do Brasil 4 (República Velha e Era Vargas)',topicos:['Marinha nas primeiras décadas da República','Primeira Guerra e atuação da Marinha do Brasil','Segunda Guerra Mundial e atuação da Marinha','Conturbações políticas','Modernização naval']},
-    {titulo:'9. História Geral (Evolução Tecnológica e Estratégia)',topicos:['Evolução tecnológica naval (séculos XIX-XX)','Couraça x Canhão','Dreadnought','Submarinos','Aviação Naval','Energia nuclear','Evolução do pensamento estratégico naval']},
-    {titulo:'10. História do Brasil 5 (Pós-1945)',topicos:['Política Marítima Brasileira no Pós-Guerra','Programa de Reaparelhamento','Projeto Paralelo','PND e MD','Aquisição do NAE São Paulo','Pensamento Estratégico Naval Brasileiro (1970-atualidade)','Emprego Permanente do Poder Naval']},
-    {titulo:'11. Marinha do Brasil na Era Vargas',topicos:['Reorganização da Marinha','Política de reaparelhamento','Contexto estratégico do período','Preparação para a Segunda Guerra Mundial']},
+    {titulo:'1. Antiguidade e Idade Média',topicos:['Egito Antigo e Fenícia','Grécia Antiga','Batalha Naval de Salamina','Guerra do Peloponeso','Alexandre, o Grande','Roma x Cartago','Batalha de Mylae','Guerras Civis Romanas','Mare Nostrum','Civilização x Barbárie','Expansão Islâmica (Sombra do Crescente)','Vikings','Repúblicas Marítimas Italianas','Navio de Guerra Medieval','Guerra e Comércio na Idade Média','Batalha de Lepanto']},
+    {titulo:'2. Idade Moderna — Expansão Marítima Europeia',topicos:['Formação do Estado Português','Pioneirismo Português nas Grandes Navegações','Navegações Espanholas','Expansão do Comércio Marítimo','Chegada dos Portugueses ao Brasil','Expedições Guarda-Costas','Martim Afonso de Souza','Invasões Francesas (RJ e MA)','Invasores na Foz do Amazonas','Papel das Marinhas na colonização da América','Espanha e o Mar','Invencível Armada','Holanda e o Mar','Guerras Anglo-Holandesas','Inglaterra e França no cenário naval','Conflitos navais do século XVIII','Trafalgar']},
+    {titulo:'3. Guerras Napoleônicas e Formação da Marinha Imperial',topicos:['Guerras Napoleônicas e o Poder Naval','Vinda da Família Real','Conquista de Caiena','Ocupação da Banda Oriental','Independência do Brasil','Guerra da Independência','Marinha no Reinado de D. Pedro I','Guerra da Cisplatina','Revoltas Regenciais','Ação da Marinha Imperial na consolidação do Império']},
+    {titulo:'4. Segundo Reinado e Revolução Industrial Naval',topicos:['Guerra contra Oribe e Rosas','Guerra da Tríplice Aliança','Batalha Naval do Riachuelo','Marinha Imperial na Guerra do Paraguai','Revolução Industrial e novas tecnologias navais','Evolução tecnológica naval (vela → vapor / madeira → aço)','Couraça x Canhão','Dreadnought']},
+    {titulo:'5. República Velha e Era Vargas',topicos:['Marinha nas primeiras décadas da República','Reorganização da Marinha','Política de reaparelhamento (Era Vargas)','Contexto estratégico do período','Guerra da Crimeia','Guerra da Secessão','Guerras Imperialistas (Lissa, Franco-Prussiana)','Guerra Russo-Japonesa (Tsushima)']},
+    {titulo:'6. Primeira e Segunda Guerra Mundial',topicos:['Primeira Guerra Mundial (1914-1918) e o papel das Marinhas','A Marinha do Brasil na 1ª Guerra — a DNOG','Batalha da Jutlândia','O Brasil e o mundo entre as Guerras','Marinha do Brasil no entre Guerras','Segunda Guerra Mundial (1939-1945)','Batalha do Atlântico','Midway','Golfo de Leyte','Submarinos','Aviação Naval','A Marinha do Brasil na 2ª Guerra Mundial']},
+    {titulo:'7. Mundo Pós-1945 e Marinha Contemporânea',topicos:['Marinhas na manutenção da paz (pós-guerra)','Política Marítima Brasileira no Pós-Guerra','Marinha do Brasil após a 2ª Guerra','Programa de Reaparelhamento','Programa Antártico Brasileiro (PROANTAR)','Projeto Paralelo — Programa Nuclear','PND e MD','Pensamento Estratégico Naval Brasileiro (1970-atualidade)','Emprego Permanente do Poder Naval','Energia nuclear','Evolução do pensamento estratégico naval']},
   ]},
   geografia:{nome:'Geografia Econômica',categorias:[
-    {titulo:'🌍 BASE CONCEITUAL (Fundamentos)',topicos:['Capitalismo','Globalização','Desenvolvimento Humano','Geografia da População','Questão Ambiental']},
-    {titulo:'🏭 PROCESSO DE INDUSTRIALIZAÇÃO (Mundo)',topicos:['Países Pioneiros no Processo de Industrialização','Industrialização Planificada na Rússia','Industrialização Planificada na China','Países de Industrialização Tardia','Países Recentemente Industrializados','Tigres Asiáticos','Indústrias 1','Indústrias 2','Indústrias 3','Indústrias 4']},
-    {titulo:'🌎 ECONOMIA GLOBAL',topicos:['Comércio Mundial e Blocos Econômicos Regionais','Geografia e Política da Energia','Geografia da Energia e Transporte no Brasil']},
-    {titulo:'🌍 GEOPOLÍTICA MUNDIAL',topicos:['Pós-Guerra e Guerra Fria','Oriente Médio','África','Regiões Polares','Austrália e Nova Zelândia']},
-    {titulo:'🇧🇷 BRASIL',topicos:['Produção do Território Brasileiro','Industrialização Brasileira','Geografia Urbana','Geografia Agrária','Política Ambiental Brasileira (SNUC)','Amazônia','Nordeste','Centro-Sul']},
+    {titulo:'🌍 ESPAÇO GEOGRÁFICO E SISTEMA MUNDO',topicos:['Processos de regionalização','Desenvolvimento × Subdesenvolvimento','Primeiro Mundo, Segundo Mundo e Terceiro Mundo','Centro-Periferia e Norte-Sul','Sistema Mundo e nova (des)ordem mundial','Capitalismo','Globalização']},
+    {titulo:'🌐 GLOBALIZAÇÃO E MUNDO CONTEMPORÂNEO',topicos:['Processos de desenvolvimento do capitalismo','Globalização e Blocos Econômicos Supranacionais','Papel do Estado e do Mercado','Redes e fluxos — impactos no mercado de trabalho','Expansão da desigualdade social','Poder da Comunicação e grande Mídia','Pandemias e impactos na economia mundial']},
+    {titulo:'👥 POPULAÇÃO',topicos:['Características e crescimento da população mundial','Fluxos migratórios e estrutura da população','Migrações: diversidade e desigualdade','Desenvolvimento Humano (IDH)']},
+    {titulo:'🏭 INDUSTRIALIZAÇÃO E MEIO TÉCNICO-CIENTÍFICO',topicos:['Países Pioneiros no Processo de Industrialização','Industrialização Planificada na Rússia','Industrialização Planificada na China','Países de Industrialização Tardia','Países Recentemente Industrializados','Tigres Asiáticos','Taylorismo, Fordismo e Toyotismo','Grandes Corporações Transnacionais','Distribuição territorial da produção agropecuária mundial']},
+    {titulo:'⚡ ENERGIA E MEIO AMBIENTE',topicos:['Geopolítica da Energia','Geografia da Energia e Transporte no Brasil','Meio Ambiente e ONGs','Mudanças climáticas e aquecimento global','Biodiversidade e protagonistas do debate ambiental','Questão Ambiental']},
+    {titulo:'🏛️ POLÍTICA, CULTURA E GEOPOLÍTICA',topicos:['Estado e Território','Nações e Nacionalismos','Civilizações e Identidades Culturais','Choque de culturas ou integração?','Pós-Guerra e Guerra Fria','Geografia das guerras e violência','Fim da Guerra Fria: contradições e conflitos','Organizações Intergovernamentais (OIG)']},
+    {titulo:'🌎 ESPAÇOS REGIONAIS — MUNDO HEGEMÔNICO',topicos:['Consolidação do Capitalismo nas Grandes Potências','Estados Unidos: formação, expansão e limites','Política estadunidense no espaço mundial','União Europeia: trajetórias e contradições','Integração Europeia: um bloco em crise?','Da União Soviética à Rússia: difícil transição','A Rússia e seu entorno estratégico','Ascensão do Leste Asiático','Japão: emergência toyotista e crise','China: potência regional rumo ao poder global','Tigres Asiáticos: dinâmica do capital na Ásia']},
+    {titulo:'🌏 ESPAÇOS REGIONAIS — MUNDO CONTRA-HEGEMÔNICO',topicos:['América Latina: formação, integração e crises','Geopolítica do Oriente Médio','Contradições do subcontinente Indiano','Diversidade do Sudeste Asiático','Inserção da África na economia mundial','Comércio Mundial e Blocos Econômicos Regionais']},
+    {titulo:'🧊 ANTÁRTICA',topicos:['O Continente Antártico e gestões multilaterais','Sistema do Tratado da Antártica (STA)','Programa Antártico Brasileiro (PROANTAR)','Estrutura do Programa Antártico Brasileiro','Regiões Polares']},
+    {titulo:'🇧🇷 PRODUÇÃO DO TERRITÓRIO BRASILEIRO',topicos:['Formação do território nacional','Apropriação e valorização do território nacional','Dinâmica das fronteiras e políticas nacionais','Modelo econômico e dinâmicas territoriais','Espaço industrial brasileiro','Energia e Meio Ambiente no Brasil','Agropecuária no Brasil e complexos agroindustriais','Industrialização Brasileira']},
+    {titulo:'🏙️ SOCIEDADE E ESPAÇO GEOGRÁFICO BRASILEIRO',topicos:['População brasileira e nova dinâmica demográfica','Trabalhadores e mercado de trabalho','Questão agrária e distribuição de renda','Espaço das cidades e segregação socioespacial','Geografia Urbana']},
+    {titulo:'🌿 POLÍTICAS TERRITORIAIS E COOPERAÇÃO',topicos:['Conferências de defesa do meio ambiente','Política Ambiental Brasileira (SNUC)','Políticas Territoriais: Amazônia, Nordeste e Centro-Sul','Brasil nos processos de integração sul-americana','Brasil e seu entorno estratégico','Inserção do Brasil nas Relações Internacionais','Austrália e Nova Zelândia']},
   ]},
   portugues:{nome:'Português',categorias:[
-    {titulo:'🔹 1️⃣ Base da palavra (estrutura e ortografia)',topicos:['Processo de formação das palavras','Plural dos substantivos','Graus dos adjetivos','Acentuação','Hífen','Homônimos e parônimos','Estudo do porquê']},
-    {titulo:'🔹 2️⃣ Classes de palavras (morfologia)',topicos:['Verbos 1','Verbos 2','Verbos 3','Estudo dos pronomes oblíquos e retos','Estudo do SE','Vozes verbais']},
-    {titulo:'🔹 3️⃣ Sintaxe (estrutura da oração)',topicos:['Análise sintática 1','Análise sintática 2','Período composto','Orações subordinadas substantivas e adjetivas','Regência verbal e nominal','Crase','Concordância verbal','Concordância nominal','Colocação pronominal']},
-    {titulo:'🔹 4️⃣ Pontuação e organização do texto',topicos:['Pontuação','Coesão e coerência']},
-    {titulo:'🔹 5️⃣ Interpretação e estilística',topicos:['Tipologia textual','Tipos de discurso','Funções da linguagem','Figuras de linguagem','Tópicos especiais']},
+    {titulo:'🔹 1️⃣ Base da palavra (estrutura e ortografia)',topicos:['Processo de formação das palavras','Plural dos substantivos','Graus dos adjetivos','Acentuação gráfica','Ortografia','Hífen','Homônimos e parônimos','Sinonímia e Antonímia','Polissemia','Estudo do porquê']},
+    {titulo:'🔹 2️⃣ Classes de palavras (morfologia)',topicos:['Verbos 1 — conjugação e modos','Verbos 2 — irregulares e defectivos','Verbos 3 — auxiliares e locuções','Estudo dos pronomes oblíquos e retos','Pronomes relativos (que, quem, cujo, onde...)','Estudo do SE','Vozes verbais','Flexão nominal e verbal']},
+    {titulo:'🔹 3️⃣ Sintaxe (estrutura da oração)',topicos:['Análise sintática 1 — termos essenciais','Análise sintática 2 — termos acessórios','Período composto — coordenação','Período composto — subordinação','Orações subordinadas substantivas','Orações subordinadas adjetivas','Orações subordinadas adverbiais','Regência verbal e nominal','Crase','Concordância verbal','Concordância nominal','Colocação pronominal']},
+    {titulo:'🔹 4️⃣ Semântica e construção do texto',topicos:['Denotação e Conotação','Figuras de linguagem','Figuras de sintaxe (elipse, zeugma, anacoluto, pleonasmo)','Pontuação','Coesão e coerência','Intertextualidade']},
+    {titulo:'🔹 5️⃣ Interpretação e gêneros textuais',topicos:['Interpretação, compreensão e reescritura de textos','Noções de textualidade','Tipologia textual (narração, descrição, dissertação)','Gêneros textuais (conto, crônica, artigo, carta...)','Tipos de discurso (direto, indireto, indireto livre)','Funções da linguagem']},
   ]},
   matematica:{nome:'Matemática',categorias:[
-    {titulo:'📐 Álgebra Básica',topicos:['Conjuntos','Conjuntos Numéricos','Funções - Domínio e Contradomínio','Funções - Classificação','Sequências - PA','Sequências - PG']},
-    {titulo:'📏 Geometria Plana',topicos:['Geometria Plana - Semelhança','Geometria Plana - Relações Métricas']},
-    {titulo:'📊 Trigonometria',topicos:['Trigonometria - Arcos e Ângulos','Trigonometria - Funções','Trigonometria - Identidades']},
-    {titulo:'🎲 Análise Combinatória',topicos:['Combinatória','Probabilidade']},
-    {titulo:'🔢 Álgebra Avançada',topicos:['Números Complexos','Polinômios','Matrizes','Determinantes','Sistemas Lineares']},
-    {titulo:'📦 Geometria Espacial',topicos:['Geometria Espacial - Áreas','Geometria Espacial - Volumes']},
-    {titulo:'📈 Geometria Analítica e Vetorial',topicos:['Cálculo Vetorial','Geometria Analítica - Vetores R²','Geometria Analítica - Vetores R³','Geometria Analítica - Equação da Reta','Geometria Analítica - Equação do Plano']},
+    {titulo:'📐 Conjuntos e Funções',topicos:['Conjuntos — noções, pertinência e operações','Conjuntos numéricos (N, Z, Q, I, R, C)','Módulo de número real e propriedades','Plano cartesiano','Funções — domínio, contradomínio e imagem','Funções — classificação (injetiva, sobrejetiva, bijetiva)','Função polinomial (1º e 2º grau)','Função exponencial','Função logarítmica','Logaritmos e suas propriedades','Funções inversas','Composição de funções','Gráficos de funções reais','Equações e Inequações algébricas de grau n']},
+    {titulo:'📊 Sequências e Análise Combinatória',topicos:['Sequências aritméticas (PA)','Sequências geométricas (PG)','Combinatória — princípio fundamental','Arranjos, permutações e combinações','Probabilidade']},
+    {titulo:'📏 Geometria Plana',topicos:['Semelhança de triângulos e polígonos','Relações métricas nos triângulos','Relações métricas nos polígonos e círculos','Posições relativas de retas e planos','Áreas de figuras planas']},
+    {titulo:'📐 Trigonometria',topicos:['Medidas de arcos e ângulos (graus e radianos)','Arcos congruos','Funções trigonométricas (seno, cosseno, tangente)','Funções trigonométricas inversas','Identidades trigonométricas','Fórmulas de adição de arcos','Arco duplo e arco metade','Transformação de soma em produto','Equações trigonométricas','Inequações trigonométricas','Lei dos Senos e Cossenos (resolução de triângulos)']},
+    {titulo:'🔢 Álgebra Avançada',topicos:['Números Complexos','Polinômios','Equações algébricas e relações de Girard','Matrizes','Determinantes','Sistemas Lineares']},
+    {titulo:'📦 Geometria Espacial',topicos:['Posição relativa de retas e planos no espaço','Prismas — áreas e volumes','Pirâmides — áreas e volumes','Cilindros — áreas e volumes','Cones — áreas e volumes','Troncos de pirâmide e cone','Esferas — área e volume']},
+    {titulo:'📈 Geometria Analítica e Vetorial',topicos:['Vetores no R² — adição e multiplicação por escalar','Vetores no R³','Produto escalar de vetores','Produto vetorial de vetores','Produto misto','Módulo, direção e sentido de vetores','Geometria analítica — sistema de coordenadas','Equação da reta no plano','Equação do plano no espaço','Interseção de reta e plano','Perpendicularidade e ortogonalidade','Medida angular e distâncias']},
+    {titulo:'📊 Estatística',topicos:['População e Amostra','Representação de dados em tabelas','Gráficos de setores, barras e histogramas','Gráficos de linhas e polígonos de frequência','Medidas de centralidade — Média','Medidas de centralidade — Mediana','Medidas de centralidade — Moda','Medidas de dispersão — Desvio médio','Medidas de dispersão — Variância','Medidas de dispersão — Desvio padrão']},
   ]},
   militar:{nome:'Conhecimento Militar Naval',categorias:[
-    {titulo:'⚓ Fundamentos Militares',topicos:['Cerimonial','Liderança','OGSA','NODAM','Justiça e Disciplina','Estatuto dos Militares','RDM']},
-    {titulo:'🚢 Conhecimentos Marítimos',topicos:['Embarcações Miúdas','Apresentação Marinheira','Segurança da Tripulação a Bordo','CAV','CBINC']},
+    {titulo:'⚓ OGSA — Ordenança Geral para o Serviço da Armada',topicos:['Organização da Armada','Deveres do Pessoal','Deveres dos Oficiais em cargos colaterais','Serviço de Oficiais','Atributos dos Oficiais e Praças','Tradições Navais','Tratamento verbal e escrito']},
+    {titulo:'🎖️ Liderança',topicos:['Elementos conceituais de liderança','Exercício da liderança pelo pessoal da MB','Principais atributos de um líder','Juramento à Bandeira e Rosa das Virtudes','Orientação sobre expedição de ordens']},
+    {titulo:'🚢 Procedimentos Marinheiros',topicos:['Embarcações miúdas','Segurança da Tripulação a bordo','Incêndio — agentes extintores','Extintores portáteis','Organização de Combate do CAv','Organização Administrativa do CAv','Grupo de Socorro Externo']},
+    {titulo:'⚖️ Justiça e Disciplina na MB',topicos:['Disposições gerais','Sindicância','Inquérito Policial Militar (IPM)','Deserção','Prisão em flagrante','Execução Penal']},
+    {titulo:'🗺️ PEM-2040 — Plano Estratégico da Marinha',topicos:['Ambiente Operacional','Ameaças estratégicas','Conceito Estratégico Marítimo-Naval','Mapa Estratégico da Marinha','Ações Estratégicas Navais']},
+    {titulo:'📄 Documentação Administrativa (NODAM)',topicos:['Tipos de documentos administrativos','Classificação dos documentos','Gestão de documentos','Documentos digitais na MB']},
+    {titulo:'🎌 Cerimonial da Marinha do Brasil',topicos:['Considerações gerais','Bandeiras — características e disposição','Salvas e visitas','Honras aos Oficiais de Marinha','Honras às Autoridades Civis e Militares','Datas Festivas','Honras às Nações e Autoridades Estrangeiras','Honras Fúnebres']},
+    {titulo:'📜 Legislação Militar-Naval',topicos:['Estatuto dos Militares — obrigações e deveres','Estatuto dos Militares — direitos e prerrogativas','RDM — Regulamento Disciplinar da Marinha','Contravenções disciplinares','Penas disciplinares','Da parte, prisão imediata e recursos']},
   ]},
   revisao:{nome:'Revisão Geral',categorias:[{titulo:'📚 Ciclos de Revisão',topicos:['Revisão Português','Revisão Geografia','Revisão História','Revisão Matemática','Revisão Militar-Naval']}]},
   exercicios:{nome:'Exercícios',categorias:[{titulo:'✍️ Resolução de Questões',topicos:['Questões de Português','Questões de Geografia','Questões de História','Questões de Matemática','Questões de Militar-Naval']}]},
   simulados:{nome:'Simulados',categorias:[{titulo:'🎯 Provas Completas',topicos:['Simulado 1','Simulado 2','Simulado 3','Simulado 4','Simulado 5','Simulado 6']}]},
+};
+
+// ─── PESOS POR MATÉRIA (baseado no padrão CA-AA-AFN) ─────────
+const MATERIAS_PESO={
+  portugues: {questoes:20,nivel:'alto',  cor:'#ef4444',label:'🔴 ALTO', dica:'Maior peso. Foco em interpretação e gramática.'},
+  matematica: {questoes:20,nivel:'alto',  cor:'#ef4444',label:'🔴 ALTO', dica:'Maior peso. Estatística é novidade — priorize!'},
+  militar:    {questoes:20,nivel:'alto',  cor:'#ef4444',label:'🔴 ALTO', dica:'Maior peso. Conteúdo específico e eliminatório da MB.'},
+  historia:   {questoes:15,nivel:'medio', cor:'#f59e0b',label:'🟡 MÉDIO',dica:'Foco em Marinha Imperial, Guerras Mundiais e DNOG.'},
+  geografia:  {questoes:15,nivel:'medio', cor:'#f59e0b',label:'🟡 MÉDIO',dica:'Foco em Brasil, PROANTAR e Geopolítica mundial.'},
+  revisao:    {questoes:0, nivel:'apoio', cor:'#22c55e',label:'🟢 APOIO',dica:'Ciclos de revisão para consolidar o conteúdo.'},
+  exercicios: {questoes:0, nivel:'apoio', cor:'#22c55e',label:'🟢 APOIO',dica:'Resolução de questões para fixar o aprendizado.'},
+  simulados:  {questoes:0, nivel:'apoio', cor:'#22c55e',label:'🟢 APOIO',dica:'Treino de prova completa e gestão de tempo.'},
 };
 
 const FASES=[
@@ -1049,6 +1071,37 @@ function Dashboard({S}){
           </div>
         </div>
         <MetaDiaria S={S}/>
+        <div className="glass-card rounded-2xl p-4">
+          <h3 className="text-white font-semibold font-outfit text-sm mb-3">🎯 Prioridade por Matéria</h3>
+          <div className="space-y-2">
+            {[
+              {id:'portugues', nome:'Português'},
+              {id:'matematica',nome:'Matemática'},
+              {id:'militar',   nome:'Militar-Naval'},
+              {id:'historia',  nome:'História'},
+              {id:'geografia', nome:'Geografia'},
+            ].map(({id,nome})=>{
+              const p=MATERIAS_PESO[id];if(!p)return null;
+              const prog=progMat.find(m=>m.id===id);
+              const pct=prog?prog.pct:0;
+              return(
+                <div key={id} className="flex items-center gap-3">
+                  <span className="text-xs font-semibold w-20 shrink-0" style={{color:p.cor}}>{p.label}</span>
+                  <div className="flex-1">
+                    <div className="flex justify-between text-xs mb-0.5">
+                      <span className="text-white/70">{nome}</span>
+                      <span style={{color:p.cor}}>~{p.questoes}q · {pct}% ✓</span>
+                    </div>
+                    <div className="w-full rounded-full" style={{height:4,background:'rgba(255,255,255,0.1)'}}>
+                      <div className="h-full rounded-full transition-all" style={{width:`${pct}%`,background:p.cor}}/>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <p className="text-white/30 text-[10px] mt-3">* Estimativa baseada no histórico do CA-AA-AFN. Confirme no edital oficial.</p>
+        </div>
         <HabitosDiarios S={S}/>
         <Heatmap reg={reg}/>
         <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
@@ -1313,6 +1366,7 @@ function MateriaCard({mat,sem,S}){
         </div>
         <div className="flex justify-between items-center">
           <span className="text-xs" style={{color:'rgba(255,255,255,0.3)'}}>{progT}% tópicos ✓</span>
+          {(()=>{const p=MATERIAS_PESO[mat.id];return p&&p.questoes>0?(<span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{background:`${p.cor}22`,color:p.cor,border:`1px solid ${p.cor}44`}}>{p.label} · ~{p.questoes}q</span>):null;})()}
           {md&&<button onClick={toggle} className="text-xs flex items-center gap-1 transition-colors" style={{color:'#93c5fd'}}>{exp?'▾ Ocultar':'▸ Tópicos'}</button>}
         </div>
       </div>
