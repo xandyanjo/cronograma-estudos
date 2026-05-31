@@ -326,15 +326,27 @@ const CONTEUDOS={
 };
 
 // ─── PESOS POR MATÉRIA (baseado no padrão CA-AA-AFN) ─────────
+// Dados reais baseados em análise de 4 provas: 2021, 2022, 2023 e 2024 (NotebookLM)
+// Total da prova: 50 questões objetivas com distribuição FIXA
 const MATERIAS_PESO={
-  portugues: {questoes:20,nivel:'alto',  cor:'#ef4444',label:'🔴 ALTO', dica:'Maior peso. Foco em interpretação e gramática.'},
-  matematica: {questoes:20,nivel:'alto',  cor:'#ef4444',label:'🔴 ALTO', dica:'Maior peso. Estatística é novidade — priorize!'},
-  militar:    {questoes:20,nivel:'alto',  cor:'#ef4444',label:'🔴 ALTO', dica:'Maior peso. Conteúdo específico e eliminatório da MB.'},
-  historia:   {questoes:15,nivel:'medio', cor:'#f59e0b',label:'🟡 MÉDIO',dica:'Foco em Marinha Imperial, Guerras Mundiais e DNOG.'},
-  geografia:  {questoes:15,nivel:'medio', cor:'#f59e0b',label:'🟡 MÉDIO',dica:'Foco em Brasil, PROANTAR e Geopolítica mundial.'},
-  revisao:    {questoes:0, nivel:'apoio', cor:'#22c55e',label:'🟢 APOIO',dica:'Ciclos de revisão para consolidar o conteúdo.'},
-  exercicios: {questoes:0, nivel:'apoio', cor:'#22c55e',label:'🟢 APOIO',dica:'Resolução de questões para fixar o aprendizado.'},
-  simulados:  {questoes:0, nivel:'apoio', cor:'#22c55e',label:'🟢 APOIO',dica:'Treino de prova completa e gestão de tempo.'},
+  militar:    {questoes:20,pct:40,nivel:'critico',cor:'#a855f7',label:'🟣 40% da prova',range:'Q31–Q50',
+               dica:'O maior bloco da prova (40%). Estudo rigoroso diário é a estratégia mais rentável.',
+               quentes:['OGSA — Ordenança Geral','Estatuto dos Militares','RDM — Regulamento Disciplinar','Liderança (EMA-137)','Procedimentos Marinheiros','Justiça e Disciplina (DGPM-315)','PEM-2040','Cerimonial','NODAM','CAv e CBINC']},
+  portugues:  {questoes:8, pct:16,nivel:'alto',   cor:'#ef4444',label:'🔴 16% da prova',range:'Q01–Q08',
+               dica:'8 questões — cada ponto vale muito. Interpretação é a maior fatia.',
+               quentes:['Interpretação de texto','Mecanismos de coesão','Sinonímia e Antonímia','Colocação pronominal','Crase','Concordância verbal','Regência verbal','Pronomes relativos']},
+  geografia:  {questoes:8, pct:16,nivel:'alto',   cor:'#f97316',label:'🔴 16% da prova',range:'Q16–Q23',
+               dica:'Empatada com Português em questões. Foco em geopolítica e Brasil.',
+               quentes:['Geopolítica mundial (Guerra Fria, conflitos atuais)','Brasil — produção do território','PROANTAR e Antártica','Globalização e blocos econômicos','Industrialização (Toyotismo, Fordismo)','América Latina','China e EUA','Questão ambiental']},
+  matematica: {questoes:7, pct:14,nivel:'medio',  cor:'#f59e0b',label:'🟡 14% da prova',range:'Q09–Q15',
+               dica:'7 questões — mas são as mais difíceis. Priorize os temas mais recorrentes.',
+               quentes:['Funções (domínio, gráficos)','Trigonometria — identidades e resolução','Geometria Plana — relações métricas','PA e PG','Probabilidade','Geometria Espacial — volumes','Análise Combinatória']},
+  historia:   {questoes:7, pct:14,nivel:'medio',  cor:'#3b82f6',label:'🟡 14% da prova',range:'Q24–Q30',
+               dica:'7 questões — foco total na Marinha do Brasil e guerras navais.',
+               quentes:['Marinha Imperial — Independência e consolidação','Guerra da Tríplice Aliança e Riachuelo','1ª Guerra Mundial — DNOG','2ª Guerra Mundial — MB no Atlântico','Guerras Napoleônicas e Poder Naval','República Velha — Marinha','Expansão Marítima Europeia']},
+  revisao:    {questoes:0,pct:0,nivel:'apoio',cor:'#22c55e',label:'🟢 APOIO',range:'—',dica:'Ciclos de revisão para consolidar o conteúdo.',quentes:[]},
+  exercicios: {questoes:0,pct:0,nivel:'apoio',cor:'#22c55e',label:'🟢 APOIO',range:'—',dica:'Resolução de questões para fixar o aprendizado.',quentes:[]},
+  simulados:  {questoes:0,pct:0,nivel:'apoio',cor:'#22c55e',label:'🟢 APOIO',range:'—',dica:'Treino de prova completa e gestão de tempo.',quentes:[]},
 };
 
 const FASES=[
@@ -1072,35 +1084,81 @@ function Dashboard({S}){
         </div>
         <MetaDiaria S={S}/>
         <div className="glass-card rounded-2xl p-4">
-          <h3 className="text-white font-semibold font-outfit text-sm mb-3">🎯 Prioridade por Matéria</h3>
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="text-white font-semibold font-outfit text-sm">🎯 Distribuição Real da Prova</h3>
+            <span className="text-white/30 text-[10px]">50 questões · dados 2021–2024</span>
+          </div>
+          <p className="text-white/40 text-[10px] mb-3">Análise de 4 provas reais (NotebookLM). Padrão fixo de distribuição.</p>
+          {/* Barra visual da prova toda */}
+          <div className="flex rounded-full overflow-hidden mb-3" style={{height:10}}>
+            {[
+              {id:'militar',  w:40,cor:'#a855f7'},
+              {id:'portugues',w:16,cor:'#ef4444'},
+              {id:'geografia',w:16,cor:'#f97316'},
+              {id:'matematica',w:14,cor:'#f59e0b'},
+              {id:'historia', w:14,cor:'#3b82f6'},
+            ].map(x=><div key={x.id} style={{width:`${x.w}%`,background:x.cor,transition:'width .5s'}} title={`${MATERIAS_PESO[x.id]?.questoes}q`}/>)}
+          </div>
+          <div className="flex flex-wrap gap-x-3 gap-y-0.5 mb-3 text-[9px]">
+            {[{id:'militar',nome:'Mil-Naval'},{id:'portugues',nome:'Português'},{id:'geografia',nome:'Geografia'},{id:'matematica',nome:'Matemática'},{id:'historia',nome:'História'}].map(x=>{
+              const p=MATERIAS_PESO[x.id];
+              return <span key={x.id} style={{color:p?.cor}}>■ {x.nome} {p?.pct}%</span>;
+            })}
+          </div>
+          {/* Listagem por matéria */}
           <div className="space-y-2">
             {[
+              {id:'militar',   nome:'Mil-Naval'},
               {id:'portugues', nome:'Português'},
-              {id:'matematica',nome:'Matemática'},
-              {id:'militar',   nome:'Militar-Naval'},
-              {id:'historia',  nome:'História'},
               {id:'geografia', nome:'Geografia'},
+              {id:'matematica',nome:'Matemática'},
+              {id:'historia',  nome:'História'},
             ].map(({id,nome})=>{
-              const p=MATERIAS_PESO[id];if(!p)return null;
+              const p=MATERIAS_PESO[id];if(!p||!p.questoes)return null;
               const prog=progMat.find(m=>m.id===id);
-              const pct=prog?prog.pct:0;
+              const progPct=prog?prog.pct:0;
+              const [open,setOpen]=React.useState(false);
               return(
-                <div key={id} className="flex items-center gap-3">
-                  <span className="text-xs font-semibold w-20 shrink-0" style={{color:p.cor}}>{p.label}</span>
-                  <div className="flex-1">
-                    <div className="flex justify-between text-xs mb-0.5">
-                      <span className="text-white/70">{nome}</span>
-                      <span style={{color:p.cor}}>~{p.questoes}q · {pct}% ✓</span>
-                    </div>
-                    <div className="w-full rounded-full" style={{height:4,background:'rgba(255,255,255,0.1)'}}>
-                      <div className="h-full rounded-full transition-all" style={{width:`${pct}%`,background:p.cor}}/>
+                <div key={id} className="rounded-xl p-2.5" style={{background:`${p.cor}11`,border:`1px solid ${p.cor}33`}}>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <div className="flex-1">
+                      <div className="flex justify-between items-baseline">
+                        <span className="text-xs font-semibold" style={{color:p.cor}}>{nome}</span>
+                        <span className="text-[10px] text-white/40">{p.range} · {p.questoes}q ({p.pct}%)</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 mt-1">
+                        {/* barra de peso da prova */}
+                        <div className="rounded-full" style={{height:4,width:`${p.pct*1.8}px`,maxWidth:'60%',background:p.cor,opacity:0.6}}/>
+                        {/* barra de progresso do aluno */}
+                        <div className="flex-1 rounded-full" style={{height:4,background:'rgba(255,255,255,0.08)'}}>
+                          <div className="h-full rounded-full transition-all" style={{width:`${progPct}%`,background:'rgba(255,255,255,0.35)'}}/>
+                        </div>
+                        <span className="text-[10px] shrink-0" style={{color:p.cor}}>{progPct}%✓</span>
+                      </div>
                     </div>
                   </div>
+                  {/* tópicos quentes */}
+                  {p.quentes?.length>0&&(
+                    <div>
+                      <button onClick={()=>setOpen(o=>!o)} className="text-[9px] flex items-center gap-1" style={{color:p.cor,opacity:0.7}}>
+                        {open?'▾':'▸'} Tópicos mais cobrados
+                      </button>
+                      {open&&(
+                        <div className="mt-1.5 flex flex-wrap gap-1">
+                          {p.quentes.map((t,i)=>(
+                            <span key={i} className="text-[9px] px-1.5 py-0.5 rounded-full" style={{background:`${p.cor}22`,color:p.cor}}>
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               );
             })}
           </div>
-          <p className="text-white/30 text-[10px] mt-3">* Estimativa baseada no histórico do CA-AA-AFN. Confirme no edital oficial.</p>
+          <p className="text-white/20 text-[9px] mt-2">✦ Fonte: análise NotebookLM de 4 provas reais (2021–2024). Confirme no edital vigente.</p>
         </div>
         <HabitosDiarios S={S}/>
         <Heatmap reg={reg}/>
@@ -1366,7 +1424,7 @@ function MateriaCard({mat,sem,S}){
         </div>
         <div className="flex justify-between items-center">
           <span className="text-xs" style={{color:'rgba(255,255,255,0.3)'}}>{progT}% tópicos ✓</span>
-          {(()=>{const p=MATERIAS_PESO[mat.id];return p&&p.questoes>0?(<span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{background:`${p.cor}22`,color:p.cor,border:`1px solid ${p.cor}44`}}>{p.label} · ~{p.questoes}q</span>):null;})()}
+          {(()=>{const p=MATERIAS_PESO[mat.id];return p&&p.questoes>0?(<span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{background:`${p.cor}22`,color:p.cor,border:`1px solid ${p.cor}44`}} title={p.dica}>{p.label} · {p.questoes}q ({p.range})</span>):null;})()}
           {md&&<button onClick={toggle} className="text-xs flex items-center gap-1 transition-colors" style={{color:'#93c5fd'}}>{exp?'▾ Ocultar':'▸ Tópicos'}</button>}
         </div>
       </div>
