@@ -1,0 +1,324 @@
+=== PAGINA 1 ===
+PROGRAMA E BIBLIOGRAFIA PARA A PROVA DO CONCURSO DE ADMISSÃO AO CURSO DE
+FORMAÇÃO DE OFICIAIS AUXILIARES DA ARMADA E DE FUZILEIROS NAVAIS (CA-AA-AFN/ 2026)
+CONHECIMENTOS GERAIS
+PORTUGUÊS
+GRAMÁTICA
+- Interpretação, compreensão, reescritura de textos;
+- Noções de textualidade: intertextualidade, coesão, coerência;
+- Aspectos morfológicos: classes de palavras, flexão (nominal e verbal); processos de formação
+de palavras;
+- Organização sintá(cid:415)ca da frase e do período: os termos da oração, subordinação e
+coordenação;
+- Correção grama(cid:415)cal: concordância (nominal e verbal), regência (nominal e verbal), função e
+emprego dos pronomes rela(cid:415)vos, colocação pronominal, acentuação gráfica, pontuação e
+ortografia;
+- As relações de sen(cid:415)do na construção do texto: sinonímia, antonímia, polissemia, denotação e
+conotação, figuras de sintaxe;
+- Tipos e gêneros textuais.
+BIBLIOGRAFIA
+CUNHA, Celso; CYNTRA, Luís F. Lindley. Nova Gramá(cid:415)ca do Português Contemporâneo. 3. ed. Rio
+de Janeiro: Nova Fronteira, 2001.
+HOUAISS, Antônio; VILLAR, Mauro de Salles. Dicionário Houaiss da língua portuguesa. Rio de
+Janeiro: Obje(cid:415)va, 2009.
+KOCH, Ingedore Villaça; ELIAS, Vanda Maria. Ler e compreender os sen(cid:415)dos do texto. 2. ed. São
+Paulo: Editora Contexto, 2008.
+KOCH, Ingedore Villaça; ELIAS, Vanda Maria. O texto e a construção dos sen(cid:415)dos. 10. ed. São
+Paulo: Editora Contexto, 2014.
+MATEMÁTICA
+ÁLGEBRA - Noções sobre conjuntos; Per(cid:415)nência; Partes de um conjunto; Operações: união,
+interseção, diferença, complemento; Propriedade das operações; Conjuntos numéricos: naturais,
+inteiros, racionais e irracionais, reais e complexos; Módulo de um número real; Propriedades do
+módulo; Plano cartesiano; Funções: domínio, contradomínio; Imagens de um conjunto por uma
+função; Funções reais de uma variável real: Domínio, contradomínio, gráfico cartesiano;
+Classificação de funções: sobreje(cid:415)va, inje(cid:415)va, bije(cid:415)va; Principais funções reais: função polinomial,
+
+=== PAGINA 2 ===
+funções racionais, função exponencial, função logarítmica e funções trigonométricas; Funções
+inversas; Composição de funções; Gráficos de funções reais; Logaritmos e suas propriedades;
+Sequências numéricas: sequências aritmé(cid:415)cas e sequências geométricas; Combinatória e
+Probabilidade; Números Complexos; Polinômios; Equações e Inequações Algébricas de grau n, n ∈
+ℝ; Matrizes; Determinantes; Sistemas Lineares; Aplicações.
+GEOMETRIA PLANA E ESPACIAL - Semelhança de triângulos e de polígonos; Relações métricas
+nos triângulos, polígonos e círculos; Posições rela(cid:415)vas de retas e planos; Áreas de figuras planas;
+Áreas e volumes e elementos dos sólidos usuais: Prismas, Pirâmides, Cilindros, Cones, Troncos e
+Esferas; Aplicações.
+TRIGONOMETRIA - Medidas de arcos e de ângulos em graus e radianos; Arcos côngruos;
+Fórmula de adição, arco duplo e arco metade; Transformação de soma em produto; Funções
+trigonométricas; Funções trigonométricas inversas; Relações fundamentais e transformações;
+Iden(cid:415)dades trigonométricas; Equações e Inequações trigonométricas; Elementos, Propriedades e
+Resolução de um triângulo retângulo e de um triângulo qualquer; Aplicações.
+CÁLCULO VETORIAL E GEOMETRIA ANALÍTICA - Vetores no ℝ² e ℝ³: adição de vetores,
+mul(cid:415)plicação por escalar, produto escalar, produto vetorial, produto misto, módulo de um vetor;
+aplicações geométricas; Geometria analí(cid:415)ca no ℝ² e ℝ³: sistema de coordenadas, equações da reta
+e do plano, interseção de reta e plano, posição rela(cid:415)va de retas e planos, perpendicularidade e
+ortogonalidade, medida angular e distâncias; Aplicações.
+ESTATÍSTICA - População e amostra; Representação e Interpretação de dados em tabelas e
+gráficos (setores, barras, histogramas, linhas); Medidas de centralidade (média, mediana e moda) e
+de dispersão (desvio médio, desvio padrão e variância); Aplicações.
+BIBLIOGRAFIA
+IEZZI, Gelson; MURAKAMI, Carlos. Fundamentos de Matemá(cid:415)ca Elementar, 1: conjuntos e
+funções. 9. ed. São Paulo: Atual, 2013.
+IEZZI, Gelson; DOLCE, Osvaldo; MURAKAMI, Carlos. Fundamentos de Matemá(cid:415)ca Elementar, 2:
+Logarítmos. 10. ed. São Paulo: Atual, 2013.
+IEZZI, Gelson. Fundamentos de Matemá(cid:415)ca Elementar, 3: trigonometria. 9. ed. SãoPaulo: Atual,
+2013.
+IEZZI, Gelson; HAZZAN, Samuel. Fundamentos de Matemá(cid:415)ca Elementar, 4: sequências,
+matrizes, determinantes e sistemas. 8. ed. São Paulo: Atual, 2013.
+HAZZAN, Samuel. Fundamentos de Matemá(cid:415)ca Elementar, 5: combinatória e probabilidade. 8.
+ed. São Paulo: Editora Atual, 2013.
+IEZZI, Gelson. Fundamentos de Matemá(cid:415)ca Elementar, 6: complexos, polinômios e equações.
+8. ed. São Paulo: Atual, 2013.
+IEZZI, Gelson. Fundamentos de Matemá(cid:415)ca Elementar, 7: geometria analí(cid:415)ca. 6. ed. São Paulo:
+Atual, 2013.
+DOLCE, Osvaldo; POMPEO, José Nicolau. Fundamentos de Matemá(cid:415)ca Elementar, 9: geometria
+plana. 9. ed. SãoPaulo: Atual, 2013.
+
+=== PAGINA 3 ===
+DOLCE, Osvaldo; POMPEO, José Nicolau. Fundamentos de Matemá(cid:415)ca Elementar, 10:
+geometria espacial - posição e métrica. 7. ed. São Paulo: Atual, 2013.
+IEZZI, Gelson; HAZZAN, Samuel; DEGENSZAJN, David. Fundamentos de Matemá(cid:415)ca Elementar,
+11: matemá(cid:415)ca comercial, matemá(cid:415)ca financeira e esta(cid:417)s(cid:415)ca descri(cid:415)va. 2. ed. São Paulo: Atual,
+2013.
+BOULOS, Paulo; CAMARGO, Ivan de. Geometria Analí(cid:415)ca: Um tratamento vetorial. 3. ed. São
+Paulo: McGraw-Hill, 2005.
+IEZZI, Gelson; DOLCE, Osvaldo; DEGENSZAJN, David; PÈRIGO, Roberto. Matemá(cid:415)ca: volume
+único. 4. ed. São Paulo: Atual, 2007.
+MORGADO, Augusto Cézar; CARVALHO, João Bosco Pitombeira; CARVALHO, Paulo Cezar Pinto;
+FERNANDEZ, Pedro. Análise Combinatória e Probabilidade. 11. ed. Rio de Janeiro: SBM, 2020.
+HISTÓRIA MILITAR-NAVAL
+AS IDADES ANTIGA E MÉDIA:
+- A relação das civilizações do Mediterrâneo e do Atlân(cid:415)co com os espaços marí(cid:415)mos-
+expansão, comércio e guerra.
+A IDADE MODERNA:
+- A Expansão Marí(cid:415)ma Europeia dos seculos XV a XVII;
+- As navegações portuguesas;
+- As navegações espanholas;
+- A expansão do comércio marí(cid:415)mo;
+- O Poder Marí(cid:415)mo e Naval e os conflitos europeus;
+- As expedições marí(cid:415)mas no processo de colonização da América; e
+- O papel das Marinhas nas disputas europeias pela colônia portuguesa na América.
+A FORMAÇÃO DO MUNDO CONTEMPORÂNEO:
+- As Guerras Napoleônicas e o Poder Naval;
+- A formação da Marinha Imperial e sua ação na Independência do Brasil;
+- Ação da Marinha Imperial na consolidação do Império: os conflitos internos no Primeiro
+Reinado e no Período Regencial;
+- Ação da Marinha Imperial nos conflitos externos: Guerra Cispla(cid:415)na e Campanha contra Oribe
+e Rosas;
+- A Revolução Industrial e a incorporação de novas tecnologias as Marinhas Mercante e de
+Guerra;
+- A atuação da Marinha do Brasil na Guerra da Tríplice Aliança contra o governo do Paraguai; e
+- A Marinha do Brasil na República Velha.
+O MUNDO CONTEMPORÂNEO A PARTIR DO SÉCULO XX:
+- A 1ª Guerra Mundial (1914-1918) e o papel das Marinhas;
+- A Marinha do Brasil na 1ª Guerra Mundial – a DNOG;
+- O Brasil e o mundo entre a 1ª e a 2ª Guerra Mundial;
+- A Marinha do Brasil no entre Guerras;
+- A 2ª Guerra Mundial (1939-1945);
+- A Marinha do Brasil na 2ª Guerra Mundial;
+- O mundo pós-guerra – as Marinhas na manutenção da paz;
+
+=== PAGINA 4 ===
+- A Marinha do Brasil apos a 2a Guerra Mundial;
+- A atuação da Marinha do Brasil no pós-64: programas de reaparelhamento e Programa
+Antár(cid:415)co Brasileiro; e
+- O emprego do Poder Naval.
+BIBLIOGRAFIA
+ABREU, Guilherme Ma(cid:425)os de. (Org.) Marinha do Brasil: Uma Síntese Histórica. Rio de Janeiro:
+Serviço de Documentação da Marinha, 2018.
+ALBUQUERQUE, Antonio Luiz Porto e; SILVA, Léo Fonseca e. Fatos da História Naval. 2.ed.
+Rio de Janeiro: Serviço de Documentação da Marinha, 2006. Disponível em:
+h(cid:425)p://www.redebim.dphdm.mar.mil.br/vinculos/00000b/00000bd4.pdf
+CAMINHA, João Carlos. História Marí(cid:415)ma. Rio de Janeiro: Biblioteca do Exército Editora, 1980.
+Introdução a História Marí(cid:415)ma Brasileira. Rio de Janeiro: Serviço de Documentação da
+Marinha, 2006. Disponível em:
+h(cid:425)p://www.redebim.dphdm.mar.mil.br/vinculos/000008/00000898.pdf
+HART, B. H. Liddell. As Grandes Guerras da História. 2.ed. São Paulo: IBRASA, Ins(cid:415)tuição
+Brasileira de Difusão Cultural S.A.
+SERAFIM, Carlos Frederico Simões (coord.); BITTENCOURT, Armando de Senna (org.).
+Coleção Explorando o Ensino – História: A Importância do Mar na Historia do Brasil. Vol. 13.
+Brasília: Ministério da Educação, Secretaria de Educação Básica, 2006. Disponível em:
+h(cid:425)ps://www.marinha.mil.br/secirm/sites/www.marinha.mil.br.secirm/files/historia.pdf
+VIDIGAL, Armando A. F. A evolução do pensamento estratégico naval brasileiro: meados da
+década de 70 até os dias atuais. Rio de Janeiro: Clube Naval, 2002.
+______. A Evolução tecnológica no setor naval na segunda metade do século XIX e as
+consequências para a Marinha do Brasil. In. Revista Marí(cid:415)ma Brasileira. V. 120/N.10-12. Rio de
+Janeiro, out/dez2000. pp. 131-197. Disponível em:
+h(cid:425)p://www.redebim.dphdm.mar.mil.br/vinculos/000008/000008a0.pdf
+VIDIGAL, Armando A. F.; ALMEIDA, Francisco E. Alves (Orgs.). Guerras no Mar: Batalhas e
+Campanhas Navais que Mudaram a História. Rio de Janeiro: Record, 2009.
+GEOGRAFIA ECONÔMICA
+O ESPAÇO GEOGRÁFICO MUNDIAL: ORIGENS E TRANSFORMAÇÕES:
+- Os processos de regionalização;
+- Desenvolvimento-Subdesenvolvimento;
+- Primeiro Mundo, Segundo Mundo e Terceiro Mundo;
+- Centro-Periferia;
+- Norte-Sul; e
+- A cons(cid:415)tuição do Sistema Mundo e a nova (des) ordem mundial.
+GLOBALIZAÇÃO E FRAGMENTAÇÃO DO MUNDO CONTEMPORÂNEO:
+- Os processos de desenvolvimento do capitalismo;
+
+=== PAGINA 5 ===
+- A Globalização e os Blocos Econômicos Supranacionais;
+- O Papel do Estado e do Mercado na economia mundial;
+- O Mundo das redes e fluxos e os impactos no mercado de Trabalho; e
+- A expansão da desigualdade social.
+POPULAÇÃO:
+- Caracterís(cid:415)cas e crescimento da população mundial;
+- Os fluxos migratórios e a estrutura da população; e
+- Migrações: diversidade e desigualdade.
+INDUSTRIALIZAÇÃO E O MEIO TÉCNICO CIENTÍFICO INFORMACIONAL:
+- O espaço das redes e dos fluxos e as Grandes Corporações Transnacionais;
+- Distribuição territorial da produção agropecuária mundial;
+- A geopolí(cid:415)ca da energia;
+- O poder da Comunicação e o papel da grande Mídia;
+- Países pioneiros no processo de industrialização;
+- Países de industrialização tardia;
+- Países de industrialização planificada;
+- Taylorismo, Fordismo e Toyo(cid:415)smo e as mudanças na geografia industrial;
+- Meio Ambiente e a Polí(cid:415)ca Internacional: as Organizações não governamentais (ONG);
+- Mudanças climá(cid:415)cas, aquecimento global e biodiversidade: a polêmica e seus protagonistas;
+e
+- A expansão das Pandemias e os impactos na economia mundial.
+POLÍTICA, CULTURA E FRONTEIRAS:
+- O Estado e o Território;
+- Nações e Nacionalismos;
+- Civilizações e Iden(cid:415)dades Culturais; e
+- Choque de culturas ou integração?
+GEOPOLÍTICA NO PÓS-SEGUNDA GUERRA MUNDIAL:
+- O mundo da Guerra Fria e suas heranças para a geografia contemporânea;
+- A geografia das guerras e a polí(cid:415)ca da violência;
+- O fim da Guerra Fria: contradições e conflitos;
+- Do Estado-nação ao Estado de Exceção; e
+- O papel das Organizações Intergovernamentais (OIG).
+OS ESPAÇOS REGIONAIS I - O MUNDO HEGEMÔNICO:
+- A Consolidação do Capitalismo nas Grandes Potências;
+- Estados Unidos: formação, expansão e limites;
+- A polí(cid:415)ca estadunidense no espaço mundial;
+- União Europeia - trajetórias, expansões e contradições;
+- A Integração Europeia: um bloco em crise?;
+- Da União Sovié(cid:415)ca à Rússia: di(cid:304)cil transição sistêmica;
+- A Rússia e o seu "entorno estratégico";
+- O roteiro do capitalismo na Ásia Oriental: a ascensão do Leste Asiá(cid:415)co;
+- Japão: da emergência toyo(cid:415)sta ao modelo econômico em crise;
+- China: uma potência regional rumo ao poder global?; e
+- "Tigres Asiá(cid:415)cos": espaços integrados a dinâmica do capital na Ásia Oriental.
+OS ESPAÇOS REGIONAIS II - MUNDO CONTRA-HEGEMÔNICO:
+- A expansão capitalista nos "espaços periféricos" da Economia Mundial;
+- América La(cid:415)na: formação, integração e crises regionais;
+- A geopolí(cid:415)ca do Oriente Médio;
+- As contradições do subcon(cid:415)nente indiano;
+- A diversidade espacial do Sudeste Asiá(cid:415)co; e
+- A inserção da África na economia mundial.
+
+=== PAGINA 6 ===
+ANTÁRTICA:
+- O Con(cid:415)nente Antár(cid:415)co e as gestões mul(cid:415)laterais no contexto da geografia mundial;
+- Sistema do Tratado da Antár(cid:415)ca (STA);
+- Programa Antár(cid:415)co Brasileiro (PROANTAR); e
+- Estrutura do Programa Antár(cid:415)co Brasileiro.
+A PRODUÇÃO DO TERRITÓRIO BRASILEIRO:
+- A formação do território nacional;
+- Apropriação e valorização do território nacional; e
+- A dinâmica das fronteiras e polí(cid:415)cas nacionais.
+ECONOMIA E ESPAÇO GEOGRÁFICO:
+- Modelo econômico e dinâmicas territoriais;
+- O espaço industrial;
+- Energia e Meio Ambiente;
+- Agropecuária no Brasil e no mundo; e
+- Os complexos agroindustriais; e
+- Urbanização brasileira e redes urbanas.
+SOCIEDADE E ESPAÇO GEOGRÁFICO:
+- A população brasileira;
+- A nova dinâmica demográfica;
+- Os trabalhadores e o mercado de trabalho;
+- A questão agrária;
+- Distribuição de renda, exclusão e pobreza;
+- O espaço das cidades; e
+- Segregação socioespacial.
+POLÍTICAS TERRITORIAIS E COOPERAÇÃO INTERNACIONAL:
+- As conferências de defesa do meio ambiente;
+- A questão ambiental brasileira;
+- Polí(cid:415)ca Ambiental: As Unidades de Conservação;
+- Polí(cid:415)cas Territoriais: Amazônia, Nordeste e Centro-Sul;
+- O Brasil nos processos de integração sul-americana;
+- O Brasil e o seu "entorno estratégico"; e
+- A inserção do Brasil na Geografia das Relações Internacionais.
+BIBLIOGRAFIA
+ALMEIDA, Lúcia Marina A. de; RIGOLIN, Tércio B. Fronteiras da Globalização. São Paulo: Á(cid:415)ca,
+2016. 3ª ed. 3 v.
+ALVES, Andressa; BOLIGIAN, Levon. Geografia, espaço e iden(cid:415)dade. São Paulo: Ed. Do Brasil, 2016.
+ARAÚJO, Regina Célia; MAGNOLI, Demétrio M. Geografia: a construção do mundo – Geografia
+Geral e do Brasil. São Paulo: Moderna, 2009. Volume Único.
+BRANCO, Anselmo L.; MENDONÇA, Cláudio; LUCCI, Elian A. Território e sociedade num mundo
+globalizado. São Paulo: Ed. Saraiva, 2016. 3ª ed. 3 v.
+LUCCI, Elian A.; BRANCO, Anselmo L.;FUGII, William. Geografia: território e sociedade, 8 º e 9º
+ano: ensino fundamental - anos finais. São Paulo: Ed. Saraiva, 2018.
+MOREIRA, João Carlos; SENE, Eustáquio de. Geografia geral e do Brasil: espaço geográfico e
+globalização: ensino médio. São Paulo : Scipione, 2016. 2ª e 3ª ed. 3 v.
+
+=== PAGINA 7 ===
+SENE, Eustáquio de; MOREIRA, João Carlos. Geografia Geral e do Brasil, 9º ano – ensino
+fundamental - anos finais. São Paulo: Ed. Scipione, 2018
+SENE, José Eustáquio de. Do seu jeito: Geografia. São Paulo: Á(cid:415)ca, 2024. Volume Único.
+SILVA, Angela C. da; OLIC, Nelson B.; LOZANO, Ruy. Geografia contexto e redes. São Paulo: Ed.
+Moderna, 2016.
+TÉRCIO, Lúcia Marina. Fronteiras da Globalização. São Paulo: Ed. Á(cid:415)ca, 2016.
+TERRA, Lygia; GUIMARÃES, Raul B.; ARAÚJO, Regina. Conexões - Estudo de Geografia Geral. São
+Paulo: Ed. Moderna, 2016.
+TERRA, Lygia; GUIMARÃES, Raul Borges; ARAÚJO, Regina. Moderna Plus Geografia. São Paulo:
+Moderna, 2024. 1ª ed. Volume Único.
+VESENTINI, José William. Geografia - Geral e do Brasil. São Paulo: Á(cid:415)ca, 2009. Volume Único.
+CONHECIMENTO MILITAR-NAVAL
+CORPO DE PRAÇAS DA ARMADA (CPA) E CORPO AUXILIAR DE PRAÇAS (CAP)
+ORDENANÇA GERAL PARA O SERVIÇO DA ARMADA - Organização; Deveres do Pessoal; Deveres
+dos Oficiais em outros cargos e encargos colaterais; Serviço de Oficiais; Atributos dos Oficiais e
+Praças; Tradições Navais; e Tratamento verbal e escrito.
+LIDERANÇA - Elementos conceituais de liderança; O exercício da liderança pelo pessoal da MB;
+Principais tributos de um líder; Juramento à Bandeira e Rosa das Virtudes; e Orientação sobre
+expedição de ordens.
+PROCEDIMENTOS MARINHEIROS - Embarcações miúdas; Segurança da Tripulação a bordo;
+Incêndio; Agentes extintores; Ex(cid:415)ntores portáteis; Organização de Combate do CAv; Organização
+Administra(cid:415)va do CAv; e Grupo de Socorro Externo.
+JUSTIÇA E DISCIPLINA NA MB - Disposições Gerais; Sindicância; Inquérito Policial Militar;
+Deserção; Prisão em flagrante; e Execução Penal.
+PLANO ESTRATÉGICO DA MARINHA (PEM-2040) - Ambiente Operacional; Ameaças; Conceito
+Estratégico Marí(cid:415)mo-Naval; Mapa Estratégico da Marinha e Ações Estratégicas Navais.
+DOCUMENTAÇÃO ADMINISTRATIVA NA MB - Documentos; Classificação dos Documentos
+Administrativos; Gestão de Documentos; Documentos Digitais; e Tipos dos Documentos
+Administra(cid:415)vos na MB.
+CERIMONIAL DA MARINHA DO BRASIL - Considerações Gerais; Bandeiras; Salvas; Visitas; Honras
+aos Oficiais de Marinha; Honras às Autoridades Civis e às Militares não Pertencentes à MB; Datas
+
+=== PAGINA 8 ===
+Festivas; Honras às Nações e Autoridades Estrangeiras; Honras Fúnebres; Caracterís(cid:415)cas das
+Bandeiras; Disposição das Bandeiras, Flâmulas e Pavilhões; e Resumo histórico.
+LEGISLAÇÃO MILITAR-NAVAL/CIVIL - Das obrigações e dos deveres dos Militares; Dos direitos e
+das prerroga(cid:415)vas dos Militares; Das contravenções disciplinares; Das penas disciplinares; e Da
+parte, prisão imediata e recursos.
+BIBLIOGRAFIA
+BRASIL. Marinha do Brasil. Centro de Instrução Almirante Marques de Leão. CAAML-703 -
+Procedimentos Marinheiros. MOD1. Rio de Janeiro, 2017. (capítulo 1 e anexo B).
+BRASIL. Marinha do Brasil. Centro de Instrução Almirante Marques de Leão. CAAML-1202 –
+Manual de Combate a Incêndio. 2.rev. Rio de Janeiro, 2017. (capítulos 2, 3 e 4).
+BRASIL. Marinha do Brasil. Centro de Instrução Almirante Marques de Leão. CAAML-1201 –
+Organização do Controle de Avarias. 2.rev. Rio de Janeiro, 2017. (capítulo 2 - itens 2.3, 2.4 e ca-
+pítulo 8 item 8.13).
+BRASIL. Marinha do Brasil. Diretoria-Geral do Pessoal da Marinha. DGPM-315 – Normas sobre
+Jus(cid:415)ça e Disciplina na MB. 3.rev. MOD1. Rio de Janeiro, 2022. (capítulos 1, 3, 8, 9, 10 e 11).
+BRASIL. Marinha do Brasil. Estado-Maior da Armada. EMA-137 – Doutrina de Liderança da
+Marinha. 1.rev. MOD-2. Brasília, 2013. (capítulos 1, 2 e Anexos A, B e C).
+BRASIL. Marinha do Brasil. Estado-Maior da Armada. EMA-300 – Plano Estratégico da Marinha
+(PEM 2040). Brasília, 2020.
+BRASIL. Marinha do Brasil. Secretaria Geral da Marinha. SGM-105 – Normas sobre
+Documentação Administra(cid:415)va e Arquivamento na Marinha (NODAM). 6.rev. Brasília, 2021.
+(Capítulos 1, 2, 3, 4, 5 e MaTDoc).
+Vade-Mécum Naval – Cerimonial da Marinha. Nova Ed.–Rio de Janeiro, 2022.
+Decreto nº 95.480, de 13 de dezembro de 1987. Ordenança Geral para o Serviço da Armada.
+Diretoria do Patrimonio Histórico e Documentação da Marinha. ed. rev. Rio de Janeiro, 2009.
+(Títulos II, IV, VI, VII e IX).
+Lei nº 6.880, de 9 dezembro de 1980. Estatuto dos Militares. Diretoria do Patrimonio
+Histórico e Documentação da Marinha. ed. rev. Rio de Janeiro, 2009. (Títulos II e III).
+Decreto nº 88.545, de 26 de julho de 1983. Regulamento Disciplinar para a Marinha.
+Diretoria do Patrimonio Histórico e Documentação da Marinha. ed. rev. Rio de Janeiro, 2009.
+

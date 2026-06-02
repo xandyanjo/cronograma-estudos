@@ -1996,6 +1996,128 @@ function GoogleLoginBtn(){
   );
 }
 
+// ─── QUESTOES VIEW ────────────────────────────────────────────
+function QuestoesView({S}){
+  const {bancoQuestoes, progressoQuestoes, setProgressoQuestoes} = S;
+  const [materiaSel, setMateriaSel] = useState('');
+  const [anoSel, setAnoSel] = useState('');
+  const [idx, setIdx] = useState(0);
+
+  const materiasDisp = useMemo(() => [...new Set(bancoQuestoes.map(q=>q.materiaNome))].sort(), [bancoQuestoes]);
+  const anosDisp = useMemo(() => [...new Set(bancoQuestoes.map(q=>q.ano))].sort((a,b)=>b-a), [bancoQuestoes]);
+
+  const filtradas = useMemo(() => {
+    return bancoQuestoes.filter(q => 
+      (!materiaSel || q.materiaNome === materiaSel) &&
+      (!anoSel || String(q.ano) === String(anoSel))
+    );
+  }, [bancoQuestoes, materiaSel, anoSel]);
+
+  useEffect(() => { setIdx(0); }, [materiaSel, anoSel]);
+
+  const responder = (id, altMarcada, correta) => {
+    setProgressoQuestoes(p => ({
+      ...p,
+      [id]: { acertou: altMarcada === correta, alternativa: altMarcada, data: new Date().toISOString() }
+    }));
+  };
+
+  if(!bancoQuestoes.length) {
+    return <div className="p-8 text-center text-white/50">Carregando Banco de Questões...</div>;
+  }
+
+  const q = filtradas[idx];
+  const resp = q ? progressoQuestoes[q.id] : null;
+
+  const totFeitas = filtradas.filter(fq => progressoQuestoes[fq.id]).length;
+  const totAcertos = filtradas.filter(fq => progressoQuestoes[fq.id]?.acertou).length;
+  const pctAcerto = totFeitas > 0 ? Math.round((totAcertos / totFeitas) * 100) : 0;
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4 pb-24">
+      <div className="max-w-2xl mx-auto space-y-4">
+        <div className="bg-white/5 backdrop-blur-md rounded-3xl p-5 border border-white/10 space-y-4 shadow-xl">
+          <div className="flex justify-between items-start">
+            <div>
+              <h2 className="text-xl font-bold text-blue-400 font-outfit">📝 Banco de Questões</h2>
+              <p className="text-xs text-white/50">Resolva provas anteriores para fixar o conteúdo</p>
+            </div>
+            {totFeitas > 0 && (
+              <div className="text-right">
+                <div className="text-2xl font-bold text-white">{pctAcerto}%</div>
+                <div className="text-[10px] text-white/40 uppercase">Aproveitamento</div>
+              </div>
+            )}
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <select value={materiaSel} onChange={e=>setMateriaSel(e.target.value)} className="bg-slate-800 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-blue-500">
+              <option value="">📚 Todas as Matérias</option>
+              {materiasDisp.map(m=><option key={m} value={m}>{m}</option>)}
+            </select>
+            <select value={anoSel} onChange={e=>setAnoSel(e.target.value)} className="bg-slate-800 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-blue-500">
+              <option value="">📅 Todos os Anos</option>
+              {anosDisp.map(a=><option key={a} value={a}>{a}</option>)}
+            </select>
+          </div>
+        </div>
+        <div className="flex justify-between items-center px-2 text-xs font-medium text-white/40">
+          <span>{filtradas.length} questões encontradas</span>
+          <span>{totFeitas} resolvidas ({totAcertos} acertos)</span>
+        </div>
+        {filtradas.length === 0 ? (
+          <div className="text-center py-12 bg-white/5 border border-white/5 rounded-3xl">
+            <div className="text-4xl mb-3 opacity-50">🔍</div>
+            <h3 className="font-medium text-white/70">Nenhuma questão encontrada</h3>
+            <p className="text-xs text-white/40 mt-1">Tente mudar os filtros acima.</p>
+          </div>
+        ) : (
+          <div className="bg-slate-800/80 border border-white/10 rounded-3xl p-5 md:p-6 space-y-5 shadow-2xl relative">
+            <div className="flex justify-between items-center">
+              <span className="bg-blue-500/20 text-blue-300 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                {q.materiaNome} • {q.ano} • Q{q.num}
+              </span>
+              <span className="text-xs text-white/40 font-medium">
+                Questão {idx + 1} de {filtradas.length}
+              </span>
+            </div>
+            <div className="text-[15px] md:text-base text-white/90 leading-relaxed whitespace-pre-wrap font-medium">
+              {q.enunciado}
+            </div>
+            <div className="space-y-2 mt-6">
+              {Object.entries(q.alternativas).map(([letra, texto]) => {
+                const foiRespondida = !!resp;
+                const isCorreta = letra === q.gabarito;
+                const foiMarcada = resp?.alternativa === letra;
+                let btnStyle = "bg-white/5 hover:bg-white/10 border-white/10 text-white/80";
+                if (foiRespondida) {
+                  if (isCorreta) btnStyle = "bg-green-500/20 border-green-500/50 text-green-300";
+                  else if (foiMarcada) btnStyle = "bg-red-500/20 border-red-500/50 text-red-300";
+                  else btnStyle = "bg-white/5 border-white/5 text-white/30 opacity-50";
+                }
+                return (
+                  <button key={letra} disabled={foiRespondida} onClick={() => responder(q.id, letra, q.gabarito)}
+                    className={`w-full text-left p-4 rounded-2xl border transition-all flex gap-3 items-start ${btnStyle} ${foiRespondida?'cursor-default':''}`}>
+                    <span className="font-bold mt-0.5 shrink-0">{letra})</span>
+                    <span className="text-sm leading-snug">{texto}</span>
+                  </button>
+                );
+              })}
+            </div>
+            <div className="pt-4 border-t border-white/10 flex justify-between gap-3">
+              <button disabled={idx === 0} onClick={() => setIdx(i => i - 1)} className="flex-1 bg-white/5 hover:bg-white/10 disabled:opacity-30 text-white font-medium py-3 rounded-xl text-sm transition-all">
+                ← Anterior
+              </button>
+              <button disabled={idx === filtradas.length - 1} onClick={() => setIdx(i => i + 1)} className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-30 text-white font-medium py-3 rounded-xl text-sm transition-all shadow-lg shadow-blue-500/20">
+                Próxima →
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 // ─── NAVBAR ───────────────────────────────────────────────────
 function NavBar({view,dispatchUI}){
   const abas=[
@@ -2003,6 +2125,7 @@ function NavBar({view,dispatchUI}){
     {id:'cronograma',l:'Cronograma',ic:'📅'},
     {id:'flashcards',l:'Flashcards',ic:'📇'},
     {id:'quiz',l:'Quiz',ic:'🧠'},
+    {id:'questoes',l:'Questões',ic:'📝'},
     {id:'revisao',l:'Revisão',ic:'⚠'},
   ];
   return(
@@ -2038,6 +2161,15 @@ function App(){
   const[dataInicioPlano,setDataInicioPlano]=useLS(LS.DI,'',v=>typeof v==='string');
   const[flashcards,setFlashcards]=useLS(LS.F,[],Array.isArray);
   const[habitos,setHabitos]      =useLS(LS.H,{},isObj);
+  const[progressoQuestoes,setProgressoQuestoes] = useLS('progresso_questoes',{},isObj);
+  const[bancoQuestoes,setBancoQuestoes] = useState([]);
+
+  useEffect(()=>{
+    fetch('banco_questoes.json')
+      .then(r=>r.json())
+      .then(d=>setBancoQuestoes(d.questoes||[]))
+      .catch(e=>console.error('Erro ao carregar banco_questoes.json', e));
+  },[]);
   // ── estados de UI ──
   const[ui,dispatchUI]=useReducer(uiR,UI0);
   const[ed,dispatchED]=useReducer(edR,ED0);
@@ -2201,11 +2333,11 @@ function App(){
   const salvarResumo=useCallback((k,txt)=>{setResumos(p=>{if(!txt?.trim()){const n={...p};delete n[k];return n;}return{...p,[k]:txt.trim()};});dispatchED({t:'FR'});},[]);
   const salvarDiario=useCallback((sem,txt)=>{setDiarios(p=>({...p,[String(sem)]:txt}));dispatchED({t:'CD'});},[]);
 
-  const exportar=()=>{const d={versao:'2.0',exportadoEm:new Date().toISOString(),tempos:cron.tempos,concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,badgesGanhos:badges,pomodoroRodadas:pomo.rod,topicosRenomeados:topRen,dataProva,flashcards};const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=`estudo-backup-${hoje()}.json`;a.click();URL.revokeObjectURL(u);};
-  const importar=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d||typeof d!=='object'){alert('❌ Arquivo inválido.');return;}if(d.concluidos)setConcl(d.concluidos);if(d.topicosCompletos)setTopC(d.topicosCompletos);if(d.topicosPersonalizados)setTopP(d.topicosPersonalizados);if(d.resumos)setResumos(d.resumos);if(d.registrosDiarios)setReg(d.registrosDiarios);if(d.diarios)setDiarios(d.diarios);if(d.topicosRevisar)setTopR(d.topicosRevisar);if(d.badgesGanhos)setBadges(d.badgesGanhos);if(d.topicosRenomeados)setTopRen(d.topicosRenomeados);if(d.dataProva)setDataProva(d.dataProva);if(d.tempos)setTSaved(d.tempos);if(d.flashcards&&Array.isArray(d.flashcards))setFlashcards(d.flashcards);alert(`✅ Dados importados! (v${d.versao||'?'})`);}catch(err){alert('❌ Erro: '+err.message);}};r.readAsText(f);e.target.value='';};
+  const exportar=()=>{const d={versao:'2.0',exportadoEm:new Date().toISOString(),tempos:cron.tempos,concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,badgesGanhos:badges,pomodoroRodadas:pomo.rod,topicosRenomeados:topRen,dataProva,flashcards,progressoQuestoes};const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=`estudo-backup-${hoje()}.json`;a.click();URL.revokeObjectURL(u);};
+  const importar=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d||typeof d!=='object'){alert('❌ Arquivo inválido.');return;}if(d.concluidos)setConcl(d.concluidos);if(d.topicosCompletos)setTopC(d.topicosCompletos);if(d.topicosPersonalizados)setTopP(d.topicosPersonalizados);if(d.resumos)setResumos(d.resumos);if(d.registrosDiarios)setReg(d.registrosDiarios);if(d.diarios)setDiarios(d.diarios);if(d.topicosRevisar)setTopR(d.topicosRevisar);if(d.badgesGanhos)setBadges(d.badgesGanhos);if(d.topicosRenomeados)setTopRen(d.topicosRenomeados);if(d.dataProva)setDataProva(d.dataProva);if(d.tempos)setTSaved(d.tempos);if(d.flashcards&&Array.isArray(d.flashcards))setFlashcards(d.flashcards);if(d.progressoQuestoes)setProgressoQuestoes(d.progressoQuestoes);alert(`✅ Dados importados! (v${d.versao||'?'})`);}catch(err){alert('❌ Erro: '+err.message);}};r.readAsText(f);e.target.value='';};
   const resetar=()=>{if(!confirm('⚠️ Apagar TODOS os dados? Esta ação é irreversível.\n\nExporte um backup antes!'))return;try{Object.values(LS).forEach(k=>localStorage.removeItem(k));setTimeout(()=>window.location.reload(),100);}catch(err){alert('Erro: '+err.message);}};
 
-  const S={ui,dispatchUI,ed,dispatchED,concl,setConcl,topC,setTopC,topP,setTopP,resumos,setResumos,reg,setReg,diarios,topR,setTopR,badges,setBadges,topRen,setTopRen,dataProva,setDataProva,dataInicioPlano,setDataInicioPlano,semanaAtual,deficitTotal,deficitPorMateria,streak,diasR,tempoTot,totTop,totSem,proGeral,frase,cron,pomo,salvarResumo,salvarDiario,flashcards,setFlashcards,habitos,setHabitos,FASES,CRONOGRAMA};
+  const S={ui,dispatchUI,ed,dispatchED,concl,setConcl,topC,setTopC,topP,setTopP,resumos,setResumos,reg,setReg,diarios,topR,setTopR,badges,setBadges,topRen,setTopRen,dataProva,setDataProva,dataInicioPlano,setDataInicioPlano,semanaAtual,deficitTotal,deficitPorMateria,streak,diasR,tempoTot,totTop,totSem,proGeral,frase,cron,pomo,salvarResumo,salvarDiario,flashcards,setFlashcards,habitos,setHabitos,FASES,CRONOGRAMA,progressoQuestoes,setProgressoQuestoes,bancoQuestoes};
   const{view}=ui;
 
   return(
@@ -2218,6 +2350,7 @@ function App(){
         {view==='cronograma' &&<CronogramaView S={S}/>}
         {view==='flashcards' &&<FlashcardsView S={S}/>}
         {view==='quiz'       &&<QuizView S={S}/>}
+        {view==='questoes'   &&<QuestoesView S={S}/>}
         {view==='revisao'    &&<RevisaoView S={S}/>}
         {view==='conquistas' &&<Conquistas S={S}/>}
       </div>
