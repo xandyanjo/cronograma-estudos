@@ -1,0 +1,8 @@
+PDF Headers Verification Report
+================================
+Year 2019: found 10 question headers in first few pages. Sample: ['QUESTÃO 1', 'QUESTÃO 2', 'QUESTÃO 3', 'QUESTÃO 4', 'QUESTÃO 5', 'QUESTÃO 6', 'QUESTÃO 7', 'QUESTÃO 8', 'QUESTÃO 9', 'QUESTÃO 10']
+Year 2020: found 8 question headers in first few pages. Sample: ['QUESTÃO 1', 'QUESTÃO 2', 'QUESTÃO 3', 'QUESTÃO 4', 'QUESTÃO 5', 'QUESTÃO 6', 'QUESTÃO 7', 'QUESTÃO 8']
+Year 2021: found 8 question headers in first few pages. Sample: ['QUESTÃO 1', 'QUESTÃO 2', 'QUESTÃO 3', 'QUESTÃO 4', 'QUESTÃO 5', 'QUESTÃO 6', 'QUESTÃO 7', 'QUESTÃO 8']
+Year 2022: found 8 question headers in first few pages. Sample: ['QUESTÃO 1', 'QUESTÃO 2', 'QUESTÃO 3', 'QUESTÃO 4', 'QUESTÃO 5', 'QUESTÃO 6', 'QUESTÃO 7', 'QUESTÃO 8']
+Year 2023: found 12 question headers in first few pages. Sample: ['QUESTÃO 1', 'QUESTÃO 2', 'QUESTÃO 3', 'QUESTÃO 4', 'QUESTÃO 5', 'QUESTÃO 6', 'QUESTÃO 7', 'QUESTÃO 8', 'QUESTÃO 9', 'QUESTÃO 10']
+Year 2024: found 8 question headers in first few pages. Sample: ['QUESTAO 1', 'QUESTÃO 2', 'QUESTAO 3', 'QUESTAO 4', 'QUESTAO 5', 'QUESTÃO 6', 'QUESTAO 7', 'QUESTAO 8']

@@ -1,0 +1,866 @@
+{
+  "meta": {
+    "concurso": "CA-AA-AFN/2023",
+    "orgao": "Marinha do Brasil - Serviço de Seleção do Pessoal da Marinha",
+    "prova": "Amarela",
+    "candidatos": "Oriundos do CPA e do CAP (Quadro Auxiliar da Armada)",
+    "total_questoes": 50,
+    "questoes_anuladas": [34],
+    "data_prova": "29/10/2023",
+    "publicacao_gabarito": "07/12/2023 (gabarito final após análise de recursos)",
+    "fonte_gabarito": "GAB_FINAL_AA_AFN_2023.pdf - Serviço de Seleção do Pessoal da Marinha",
+    "nota": "Gabarito final publicado em 07/12/2023 após análise de recursos. Questão 34 anulada."
+  },
+  "questoes": [
+    {
+      "id": 1,
+      "enunciado": "Assinale a opção em que há uso de objeto indireto.\n(A) \"[...] se confirmem em cada um de nós [...]\" (4ºS)\n(B) \"[...] mas só os bons levam a sério suas mensagens [...]\" (5ºS)\n(C) \"[...] dos conhecimentos propiciados pela literatura [...]\" (7ºS)\n(D) \"Para o fundador da psicanálise, [...]\" (7ºS)\n(E) \"[...] as medidas econômicas que levam a fome [...]\" (8ºS)",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "\"[...] se confirmem em cada um de nós [...]\" (4ºS)",
+        "B": "\"[...] mas só os bons levam a sério suas mensagens [...]\" (5ºS)",
+        "C": "\"[...] dos conhecimentos propiciados pela literatura [...]\" (7ºS)",
+        "D": "\"Para o fundador da psicanálise, [...]\" (7ºS)",
+        "E": "\"[...] as medidas econômicas que levam a fome [...]\" (8ºS)"
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": ["análise sintática", "objeto indireto", "transitividade verbal"],
+      "texto_base": "Para que serve a literatura (Walter Lúcio de Alencar Praxedes, Revista Espaço Acadêmico, 2008)",
+      "gabarito": "C"
+    },
+    {
+      "id": 2,
+      "enunciado": "Assinale a opção em que a palavra destacada no trecho possa ser substituída, sem alteração de sentido, pelo sinônimo apresentado.\n(A) \"[...] após a leitura de uma peça de Shakespeare com uma prática anti-humana, perversa e funesta.\" (3ºS) - nefasta.\n(B) \"[...] a literatura contribui para que se confirmem em cada um de nós [...]\" (4ºS) - confutem.\n(C) \"[...] aqueles traços que reputamos essenciais [...]\" (4ºS) - refutamos.\n(D) \"Bons livros não convencem uma pessoa má [...]\" (5ºS) - suscitam.\n(E) \"[...] na sua infância tenha sido um leitor assíduo [...]\" (5ºS) - fortuito.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "\"funesta\" → nefasta.",
+        "B": "\"confirmem\" → confutem.",
+        "C": "\"reputamos\" → refutamos.",
+        "D": "\"convencem\" → suscitam.",
+        "E": "\"assíduo\" → fortuito."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": ["sinonímia", "semântica", "vocabulário"],
+      "texto_base": "Para que serve a literatura (Walter Lúcio de Alencar Praxedes, Revista Espaço Acadêmico, 2008)",
+      "gabarito": "A"
+    },
+    {
+      "id": 3,
+      "enunciado": "No trecho \"Conta-se que no final da Segunda Guerra Mundial [...]\" (1ºS), a colocação do pronome oblíquo átono foi feita corretamente. Assinale a opção em que ocorre desvio da norma culta, em relação à colocação pronominal destacada.\n(A) Recusou a vaga fazendo-se de ingênua.\n(B) Machucar-te não era a minha intenção.\n(C) Nunca houve nada entre mim e ti.\n(D) Poucos deram-te a oportunidade.\n(E) Que o vento te leve os meus recados.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Recusou a vaga fazendo-se de ingênua.",
+        "B": "Machucar-te não era a minha intenção.",
+        "C": "Nunca houve nada entre mim e ti.",
+        "D": "Poucos deram-te a oportunidade.",
+        "E": "Que o vento te leve os meus recados."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": ["colocação pronominal", "próclise", "ênclise", "norma culta"],
+      "texto_base": "Para que serve a literatura (Walter Lúcio de Alencar Praxedes, Revista Espaço Acadêmico, 2008)",
+      "gabarito": "D"
+    },
+    {
+      "id": 4,
+      "enunciado": "A coesão textual pode ser definida como o fenômeno por meio do qual alguns mecanismos realizam a tessitura do texto. Entre tais mecanismos está a referência, constituída por elementos que dependem de outros itens do discurso para serem interpretados corretamente. Assim, assinale a opção que NÃO apresenta um exemplo de referência.\n(A) \"A leitura daquele livro não tornava seus leitores menos culpados [...]\" (2ºS)\n(B) \"[...] não impedia que cada um daqueles soldados literatos cumprissem com suas atribuições [...]\" (2ºS)\n(C) \"[...] as mensagens humanistas dos livros só atingem as pessoas predispostas para a sua recepção.\" (6ºS)\n(D) \"Para o fundador da psicanálise, '...os poetas e romancistas são aliados preciosos [...]'\" (7ºS)\n(E) \"[...] que descreve o sofrimento e a luta dos trabalhadores rurais portugueses [...]\" (8ºS)",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "\"A leitura daquele livro não tornava seus leitores menos culpados [...]\" (2ºS)",
+        "B": "\"[...] não impedia que cada um daqueles soldados literatos cumprissem com suas atribuições [...]\" (2ºS)",
+        "C": "\"[...] as mensagens humanistas dos livros só atingem as pessoas predispostas para a sua recepção.\" (6ºS)",
+        "D": "\"Para o fundador da psicanálise, '...os poetas e romancistas são aliados preciosos [...]'\" (7ºS)",
+        "E": "\"[...] que descreve o sofrimento e a luta dos trabalhadores rurais portugueses [...]\" (8ºS)"
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": ["coesão textual", "referência", "pronomes demonstrativos", "pronomes relativos"],
+      "texto_base": "Para que serve a literatura (Walter Lúcio de Alencar Praxedes, Revista Espaço Acadêmico, 2008)",
+      "gabarito": "E"
+    },
+    {
+      "id": 5,
+      "enunciado": "No trecho \"[...] o homem pode combinar a satisfação estética sentida após a leitura de uma peça de Shakespeare com uma prática anti-humana, perversa e funesta.\" (3ºS), a ortografia da palavra em destaque foi empregada corretamente. Assim, assinale a opção em que a palavra apresentada também foi escrita da forma correta.\n(A) Para-quedas.\n(B) Anti-aéreo.\n(C) Guarda Marinha.\n(D) Benfeitor.\n(E) Co-habitar.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Para-quedas.",
+        "B": "Anti-aéreo.",
+        "C": "Guarda Marinha.",
+        "D": "Benfeitor.",
+        "E": "Co-habitar."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": ["ortografia", "hífen", "composição", "prefixo"],
+      "texto_base": "Para que serve a literatura (Walter Lúcio de Alencar Praxedes, Revista Espaço Acadêmico, 2008)",
+      "gabarito": "D"
+    },
+    {
+      "id": 6,
+      "enunciado": "Leia as afirmativas abaixo.\nI- Um problema à toa atrapalhou o funcionamento do serviço.\nII- Ela sempre fazia alusão à palavras de seu chefe preferido.\nIII- O Oficial de Serviço entrou à bordo do Navio Patrulha.\nIV- O aluno se reportou àquele livro de Machado de Assis.\nV- O Sargento chegou à tempo de assumir o serviço.\nDe acordo com a norma culta padrão da Língua Portuguesa, em quais afirmativas apresentadas o acento grave foi corretamente empregado?\n(A) Apenas nas afirmativas I, II e III.\n(B) Apenas nas afirmativas I e IV.\n(C) Apenas nas afirmativas I, III e V.\n(D) Apenas nas afirmativas I, III, IV e V.\n(E) Apenas nas afirmativas III, IV e V.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Apenas nas afirmativas I, II e III.",
+        "B": "Apenas nas afirmativas I e IV.",
+        "C": "Apenas nas afirmativas I, III e V.",
+        "D": "Apenas nas afirmativas I, III, IV e V.",
+        "E": "Apenas nas afirmativas III, IV e V."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": ["crase", "acento grave", "norma culta", "locução adjetiva"],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 7,
+      "enunciado": "No trecho \"Sabe-se que as mensagens humanistas dos livros só atingem [...]\" (6ºS), qual é a correta classificação sintática do termo destacado?\n(A) Índice de indeterminação do sujeito.\n(B) Parte integrante do verbo.\n(C) Conjunção integrante.\n(D) Conjunção condicional.\n(E) Pronome apassivador.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Índice de indeterminação do sujeito.",
+        "B": "Parte integrante do verbo.",
+        "C": "Conjunção integrante.",
+        "D": "Conjunção condicional.",
+        "E": "Pronome apassivador."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": ["análise sintática", "pronome apassivador", "voz passiva sintética", "partícula se"],
+      "texto_base": "Para que serve a literatura (Walter Lúcio de Alencar Praxedes, Revista Espaço Acadêmico, 2008)",
+      "gabarito": "E"
+    },
+    {
+      "id": 8,
+      "enunciado": "Com base no texto 01, assinale a opção correta.\n(A) Segundo o autor, a leitura de um clássico humanista seria capaz de mudar a atitude e o pensamento de seus leitores/soldados no campo de concentração.\n(B) O autor afirma, categoricamente, que a literatura é indispensável, exceto para aqueles que já têm sua área de estudos ligada a ela.\n(C) Para o autor, as mensagens humanistas não conseguem instruir aqueles que já estão praticando o mal, somente os já convertidos.\n(D) Praxedes tem como tese a ideia de que a literatura não possui muito valor para aqueles que já possuem traços humanistas.\n(E) Segundo Praxedes, a literatura de Shakespeare comparada à prática nazista seria algo improvável para os defensores da humanização.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Segundo o autor, a leitura de um clássico humanista seria capaz de mudar a atitude e o pensamento de seus leitores/soldados no campo de concentração.",
+        "B": "O autor afirma, categoricamente, que a literatura é indispensável, exceto para aqueles que já têm sua área de estudos ligada a ela.",
+        "C": "Para o autor, as mensagens humanistas não conseguem instruir aqueles que já estão praticando o mal, somente os já convertidos.",
+        "D": "Praxedes tem como tese a ideia de que a literatura não possui muito valor para aqueles que já possuem traços humanistas.",
+        "E": "Segundo Praxedes, a literatura de Shakespeare comparada à prática nazista seria algo improvável para os defensores da humanização."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": ["interpretação de texto", "inferência", "artigo de opinião"],
+      "texto_base": "Para que serve a literatura (Walter Lúcio de Alencar Praxedes, Revista Espaço Acadêmico, 2008)",
+      "gabarito": "C"
+    },
+    {
+      "id": 9,
+      "enunciado": "A tabela 1 apresenta as notas na disciplina de Matemática de 10 alunos de três turmas diferentes (A, B e C), ordenadas de maneira crescente pelo número interno dos alunos em cada turma. A tabela 2 corresponde à tabela de frequência absoluta considerando todas as notas de todos os alunos das três turmas (30 notas no total). Assinale a opção que apresenta as relações corretas quanto aos valores das médias aritméticas (n_A, n_B, n_C), medianas (Me_A, Me_B, Me_C) e frequências absolutas (X1 a X5).\n(A) n_A < n_B = n_C; Me_A < Me_B = Me_C; X2 = X3\n(B) n_A > n_B = n_C; Me_A < Me_C < Me_B; X2 > X4\n(C) n_A < n_B = n_C; Me_A < Me_C < Me_B; X4 < X5\n(D) n_A < n_C < n_B; Me_A < Me_C < Me_B; X1 < X4\n(E) n_A < n_B = n_C; Me_A < Me_C < Me_B; X1 > X5",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "n_A < n_B = n_C; Me_A < Me_B = Me_C; X2 = X3",
+        "B": "n_A > n_B = n_C; Me_A < Me_C < Me_B; X2 > X4",
+        "C": "n_A < n_B = n_C; Me_A < Me_C < Me_B; X4 < X5",
+        "D": "n_A < n_C < n_B; Me_A < Me_C < Me_B; X1 < X4",
+        "E": "n_A < n_B = n_C; Me_A < Me_C < Me_B; X1 > X5"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": ["estatística", "média aritmética", "mediana", "frequência absoluta", "tabela"],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 10,
+      "enunciado": "Analise a expressão a seguir:\n{ [sen(π/2 + x) · cos(3π/2 - x)] + sen(2π - x) · cos(π - x) / tg(π/2 + x) · cotg(3π/2 - x) }\nA simplificação dessa expressão está corretamente representada em qual das opções abaixo?\n(A) -2 · cos(x) · sen(x)\n(B) sen(x) · cos(x)\n(C) cos²(x) + sen²(x)\n(D) cos(x)\n(E) sen(x)",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "-2 · cos(x) · sen(x)",
+        "B": "sen(x) · cos(x)",
+        "C": "cos²(x) + sen²(x)",
+        "D": "cos(x)",
+        "E": "sen(x)"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": ["trigonometria", "identidades trigonométricas", "redução ao primeiro quadrante", "simplificação"],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 11,
+      "enunciado": "Em Física, um certo vetor F é obtido pela expressão F = -q(v ∧ B), na qual q é um número real positivo e F, v e B são vetores no R³, definidos na mesma base ortonormal positiva (i, j, k). Dados: v = 2i + (3/2)j + 0k e B = 0i + 0j + 2k. Assinale a opção que apresenta corretamente o vetor F e seu módulo ||F||, em função do número real q.\n(A) F = 0i + 0j + 0k; ||F|| = 0\n(B) F = 3qi - 4qj + 0k; ||F|| = 5q\n(C) F = 3qi - 4qj + 0k; ||F|| = q√7\n(D) F = -3qi - 4qj + 0k; ||F|| = 5q\n(E) F = -3qi + 4qj + 0k; ||F|| = 5q",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "F = 0i + 0j + 0k; ||F|| = 0",
+        "B": "F = 3qi - 4qj + 0k; ||F|| = 5q",
+        "C": "F = 3qi - 4qj + 0k; ||F|| = q√7",
+        "D": "F = -3qi - 4qj + 0k; ||F|| = 5q",
+        "E": "F = -3qi + 4qj + 0k; ||F|| = 5q"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": ["vetores", "produto vetorial", "módulo de vetor", "álgebra vetorial", "R³"],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 12,
+      "enunciado": "Seja z um número complexo na forma z = a + bi, em que a e b ∈ R, b≠0 e i é a unidade imaginária. Assinale a opção que corresponde ao produto z · z̄, sabendo que log₁₂ a = 1/2, b é a parte imaginária do número complexo q = 7 + 2i e z̄ é o complexo conjugado de z.\n(A) 1\n(B) 16\n(C) 40\n(D) 40 · (1 - i · sen(30°) · cos(30°))\n(E) -16 · (1 + i · sen(30°) · cos(30°))",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "1",
+        "B": "16",
+        "C": "40",
+        "D": "40 · (1 - i · sen(30°) · cos(30°))",
+        "E": "-16 · (1 + i · sen(30°) · cos(30°))"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": ["números complexos", "módulo", "conjugado", "logaritmo"],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 13,
+      "enunciado": "Sejam r e s duas retas em R³. As equações paramétricas de r e s são respectivamente:\nr: x=0+4μ, y=2+2μ, z=1+0μ\ns: x=1+λ, y=1+λ, z=1+0λ\nnas quais os parâmetros μ e λ são reais e não nulos. Sendo assim, é correto afirmar que r e s:\n(A) interceptam-se no ponto P(4,4,1).\n(B) interceptam-se no ponto P(3,1,1).\n(C) são ortogonais e perpendiculares.\n(D) são ortogonais e reversas.\n(E) não se interceptam.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "interceptam-se no ponto P(4,4,1).",
+        "B": "interceptam-se no ponto P(3,1,1).",
+        "C": "são ortogonais e perpendiculares.",
+        "D": "são ortogonais e reversas.",
+        "E": "não se interceptam."
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": ["geometria analítica", "retas no espaço", "equações paramétricas", "retas reversas"],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 14,
+      "enunciado": "Uma esfera de raio R e um cilindro cujo raio da base mede r têm centros coincidentes com a origem de um sistema de coordenadas cartesianas. O cilindro está dentro da esfera, de modo que as circunferências das bases superior e inferior tocam a superfície da esfera. A reta que liga o centro a qualquer ponto comum ao cilindro e à esfera faz um ângulo φ com o eixo z. Dado: 2r/h = √3. Assinale a opção que apresenta o volume contido na região externa ao cilindro e interna à superfície da esfera.\n(A) πR³(16-3√3)/12\n(B) πR³\n(C) 7πR³/3\n(D) 7πR³/12\n(E) πR³(16+3√3)/12",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "πR³(16-3√3)/12",
+        "B": "πR³",
+        "C": "7πR³/3",
+        "D": "7πR³/12",
+        "E": "πR³(16+3√3)/12"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": ["geometria espacial", "volume", "esfera", "cilindro", "cálculo de região"],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 15,
+      "enunciado": "O montante M que estará na conta de um fundo de investimento após x meses pode ser calculado por M(x) = C(1,01)^x, em que C é o valor aplicado inicialmente. Ao completar três meses (x=3), o montante é aproximadamente M(3) = 1,03·C. Assinale a opção que mais se aproxima do valor, em reais, que estará na conta do fundo de investimento após 72 meses, em função do capital investido C.\n(A) (1,06)^24 · C\n(B) (1,06)^12 · C\n(C) (1,03)^36 · C\n(D) (1,09)^12 · C\n(E) (1,06)^36 · C",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "(1,06)^24 · C",
+        "B": "(1,06)^12 · C",
+        "C": "(1,03)^36 · C",
+        "D": "(1,09)^12 · C",
+        "E": "(1,06)^36 · C"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": ["função exponencial", "juros compostos", "CDB", "progressão geométrica"],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 16,
+      "enunciado": "Dentro da política de soberania e segurança nacionais, destacam-se o conceito de Faixa de Fronteira e os projetos Calha Norte, Sipam/Sivam e Radambrasil. Nesse contexto, assinale a opção correta.\n(A) A Faixa de Fronteira compreende uma extensão interna de cerca de 150 km de largura ao longo das fronteiras terrestres brasileiras.\n(B) O projeto Calha Norte foi criado efetivamente na década de 1960 pelo governo militar.\n(C) O Sipam funciona como uma rede de coleta e processamento de dados da Amazônia com centro de Coordenação Geral sediado em Brasília.\n(D) O Sivam abrange os estados do Acre, Amapá, Rondônia, Roraima, Amazonas, Pará, partes do Maranhão, Tocantins e Mato Grosso.\n(E) O Projeto Radam foi criado na década de 1970 e em 1975 foi estendido a todo o território brasileiro, passando a se chamar Radambrasil.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "A Faixa de Fronteira compreende uma extensão interna de cerca de 150 km de largura ao longo das fronteiras terrestres brasileiras.",
+        "B": "O projeto Calha Norte foi criado efetivamente na década de 1960 pelo governo militar.",
+        "C": "O Sipam funciona como uma rede de coleta e processamento de dados da Amazônia com centro de Coordenação Geral sediado em Brasília.",
+        "D": "O Sivam abrange os estados do Acre, Amapá, Rondônia, Roraima, Amazonas, Pará, partes do Maranhão, Tocantins e Mato Grosso.",
+        "E": "O Projeto Radam foi criado na década de 1970 e em 1975 foi estendido a todo o território brasileiro, passando a se chamar Radambrasil."
+      },
+      "disciplina": "Geografia / Atualidades",
+      "nivel": "concurso",
+      "tags": ["Faixa de Fronteira", "Calha Norte", "Sipam", "Sivam", "Radambrasil", "segurança nacional"],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 17,
+      "enunciado": "Em 1973, ocorreu o primeiro \"choque do petróleo\". Os países da OPEP promoveram um drástico aumento no preço do barril de petróleo, aproveitando-se de um conflito no Oriente Médio entre árabes e israelenses. Tal conflito foi:\n(A) a Guerra da Intifada.\n(B) a Guerra do Yom Kippur.\n(C) a Guerra de Suez.\n(D) a Guerra dos Seis Dias.\n(E) a Guerra da Palestina.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "a Guerra da Intifada.",
+        "B": "a Guerra do Yom Kippur.",
+        "C": "a Guerra de Suez.",
+        "D": "a Guerra dos Seis Dias.",
+        "E": "a Guerra da Palestina."
+      },
+      "disciplina": "História / Atualidades",
+      "nivel": "concurso",
+      "tags": ["choque do petróleo", "OPEP", "Guerra do Yom Kippur", "Oriente Médio", "Guerra Fria"],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 18,
+      "enunciado": "Acerca dos conceitos de Estado, território e soberania (referência à obra Antropogeografia de Friedrich Ratzel), assinale a opção correta.\n(A) A Soberania é um recorte do espaço geográfico sob o controle das próprias leis da natureza - o Território abstrato e suas esferas de biodiversidade.\n(B) O Estado é o recorte do espaço geográfico sob o controle de um poder eleito - o Território e suas esferas supranacionais.\n(C) A soberania é o recorte do espaço temporal sob o controle de um poder legítimo, possível apenas por curtos períodos reconhecidos somente pelos agentes internos legais.\n(D) O Território é o recorte do espaço geográfico sob o controle de um poder instituído - o Estado nacional e suas esferas subnacionais.\n(E) O Estado e o Território são o espaço geográfico sob o controle de uma percepção empírica - o Território nacional e suas esferas administrativas.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "A Soberania é um recorte do espaço geográfico sob o controle das próprias leis da natureza.",
+        "B": "O Estado é o recorte do espaço geográfico sob o controle de um poder eleito e suas esferas supranacionais.",
+        "C": "A soberania é o recorte do espaço temporal sob o controle de um poder legítimo.",
+        "D": "O Território é o recorte do espaço geográfico sob o controle de um poder instituído - o Estado nacional e suas esferas subnacionais.",
+        "E": "O Estado e o Território são o espaço geográfico sob o controle de uma percepção empírica."
+      },
+      "disciplina": "Geografia",
+      "nivel": "concurso",
+      "tags": ["Estado", "território", "soberania", "Friedrich Ratzel", "Antropogeografia"],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 19,
+      "enunciado": "De acordo com Magnoli (2002), o subcontinente indiano tornou-se independente em 1947 com a partilha do domínio britânico em dois Estados: a Índia (maioria hinduísta) e o Paquistão (maioria muçulmana). Sobre os conflitos no subcontinente indiano, assinale a opção correta.\n(A) A disputa entre Índia e Paquistão pelo controle territorial da Caxemira é motivo de preocupação mundial, pois ambos os países possuem armas nucleares.\n(B) O Tibete é uma fonte de tensão entre Paquistão e China. A região tibetana tem acesso ao mar da China.\n(C) Há uma disputa entre China e Índia pelo controle das Ilhas localizadas no arquipélago do Mar da China, em especial as ilhas Spratly.\n(D) A região de Nova Delhi é foco de disputa entre Paquistão e Índia desde a independência.\n(E) Há a disputa entre a Índia e a China pela anexação de Bangladesh.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "A disputa entre Índia e Paquistão pelo controle da Caxemira é motivo de preocupação mundial, pois ambos possuem armas nucleares.",
+        "B": "O Tibete é uma fonte de tensão entre Paquistão e China, com acesso ao mar da China.",
+        "C": "Há uma disputa entre China e Índia pelo controle das ilhas Spratly.",
+        "D": "A região de Nova Delhi é foco de disputa entre Paquistão e Índia desde a independência.",
+        "E": "Há disputa entre Índia e China pela anexação de Bangladesh."
+      },
+      "disciplina": "Geografia / Geopolítica",
+      "nivel": "concurso",
+      "tags": ["subcontinente indiano", "Caxemira", "Índia", "Paquistão", "conflitos regionais", "armas nucleares"],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 20,
+      "enunciado": "Sene e Moreira (2016) denominam o Capitalismo como o sistema econômico que se desenvolveu na Europa com a crise do feudalismo e se expandiu a partir do século XVI. Assinale a opção que apresenta corretamente a etapa, as doutrinas e os teóricos do Capitalismo, respectivamente.\n(A) Capitalismo Comercial; Liberalismo; Adam Smith e David Ricardo.\n(B) Capitalismo Industrial; Mercantilismo; Thomas Mun e Jean-Baptiste Colbert.\n(C) Capitalismo Financeiro; Keynesianismo; John Keynes e Charles Djavoux.\n(D) Capitalismo Informacional; Neoliberalismo; Alexander Rüstow e Milton Friedman.\n(E) Capitalismo Ambiental; Globalização; Manuel Castells e Ronald Reagan.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Capitalismo Comercial; Liberalismo; Adam Smith e David Ricardo.",
+        "B": "Capitalismo Industrial; Mercantilismo; Thomas Mun e Jean-Baptiste Colbert.",
+        "C": "Capitalismo Financeiro; Keynesianismo; John Keynes e Charles Djavoux.",
+        "D": "Capitalismo Informacional; Neoliberalismo; Alexander Rüstow e Milton Friedman.",
+        "E": "Capitalismo Ambiental; Globalização; Manuel Castells e Ronald Reagan."
+      },
+      "disciplina": "Geografia / Economia",
+      "nivel": "concurso",
+      "tags": ["capitalismo", "liberalismo", "neoliberalismo", "mercantilismo", "Adam Smith", "Milton Friedman"],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 21,
+      "enunciado": "Coloque (V) verdadeiro ou (F) falso nas afirmativas abaixo, quanto aos impactos no mercado de trabalho devido às transformações tecnológicas:\n( ) Segundo a OIT, em 2015 havia 73,4 milhões de jovens (15 a 24 anos) desempregados, mais de 37% do total do planeta.\n( ) A questão da informalidade vem se tornando cada vez mais complexa em razão da flexibilização das relações trabalhistas.\n( ) O desemprego em larga escala é um fenômeno exclusivo do mundo globalizado, algo não ocorrido com tanta intensidade em outros momentos da história.\n( ) A flexibilização das leis trabalhistas incentiva contratos temporários, de tempo parcial ou por conta própria, acompanhada de intensa terceirização.\n( ) O desemprego estrutural é provocado por crises econômicas; a crise de 2007-2008 ampliou o número de desempregados em todo o mundo.\n(A) (V)(V)(V)(F)(V)\n(B) (V)(V)(F)(V)(F)\n(C) (F)(F)(F)(V)(V)\n(D) (F)(V)(F)(F)(V)\n(E) (V)(F)(V)(V)(F)",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "(V)(V)(V)(F)(V)",
+        "B": "(V)(V)(F)(V)(F)",
+        "C": "(F)(F)(F)(V)(V)",
+        "D": "(F)(V)(F)(F)(V)",
+        "E": "(V)(F)(V)(V)(F)"
+      },
+      "disciplina": "Geografia / Sociologia",
+      "nivel": "concurso",
+      "tags": ["mercado de trabalho", "desemprego", "OIT", "informalidade", "flexibilização trabalhista", "terceirização"],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 22,
+      "enunciado": "Acerca das regiões metropolitanas brasileiras, assinale a alternativa correta.\n(A) Foram criadas por lei aprovada no Congresso Nacional em 1973, definidas como \"um conjunto de municípios contíguos e integrados socioeconomicamente a uma cidade central, com serviços públicos e infraestrutura comum\". A Constituição de 1988 permitiu a estadualização do reconhecimento legal das metrópoles.\n(B) Surgiram por meio de Decreto Presidencial em 1985. A Constituição de 1988 permitiu a municipalização do reconhecimento legal das metrópoles.\n(C) Passaram a existir por ação da iniciativa privada. A Constituição de 1988 permitiu a federalização do reconhecimento legal das metrópoles.\n(D) Têm como principal precursor administrativo o Estado Brasileiro, reconhecidas pelo Ministério das Cidades, Estados da Federação e com aval dos Municípios.\n(E) Foram definidas pelo Congresso Nacional em 1983 como \"um conjunto de municípios integrados socioeconomicamente a várias cidades do entorno\".",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Foram criadas por lei no Congresso Nacional em 1973; Constituição de 1988 permitiu a estadualização do reconhecimento.",
+        "B": "Surgiram por Decreto Presidencial em 1985; Constituição de 1988 permitiu a municipalização.",
+        "C": "Passaram a existir por ação da iniciativa privada; Constituição de 1988 permitiu a federalização.",
+        "D": "Têm como precursor o Estado Brasileiro, reconhecidas pelo Ministério das Cidades.",
+        "E": "Foram definidas pelo Congresso Nacional em 1983."
+      },
+      "disciplina": "Geografia",
+      "nivel": "concurso",
+      "tags": ["regiões metropolitanas", "urbanização", "Constituição de 1988", "metrópoles"],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 23,
+      "enunciado": "Acerca dos impactos da poluição atmosférica e dos efeitos climáticos na vida humana, assinale a opção correta.\n(A) O efeito estufa é um fenômeno artificial e prejudicial para a vida na Terra. Os seus efeitos estão restritos aos países em desenvolvimento.\n(B) As chuvas ácidas são resultado da combinação de gás carbônico e água presentes na atmosfera produzindo clorofluorocarbonetos (CFC).\n(C) Ilha de Calor é o fenômeno que resulta da elevação das temperaturas médias nas áreas urbanizadas das grandes cidades, em comparação com áreas vizinhas.\n(D) A inversão térmica é um fenômeno que ocorre de forma artificial em vários lugares da superfície terrestre.\n(E) O IPCC concluiu que houve um aumento no congelamento das águas do Ártico.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "O efeito estufa é um fenômeno artificial e prejudicial; seus efeitos estão restritos aos países em desenvolvimento.",
+        "B": "As chuvas ácidas são resultado da combinação de gás carbônico e água, produzindo CFC.",
+        "C": "Ilha de Calor é o fenômeno que resulta da elevação das temperaturas médias nas áreas urbanizadas.",
+        "D": "A inversão térmica é um fenômeno que ocorre de forma artificial.",
+        "E": "O IPCC concluiu que houve aumento no congelamento das águas do Ártico."
+      },
+      "disciplina": "Geografia / Meio Ambiente",
+      "nivel": "concurso",
+      "tags": ["ilha de calor", "efeito estufa", "chuva ácida", "inversão térmica", "IPCC", "poluição atmosférica"],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 24,
+      "enunciado": "De acordo com Caminha (1980), a Rússia, país continental por excelência, manifestou por muitos séculos um movimento instintivo urgindo pelo oceano. Em relação à Marinha russa, assinale a opção INCORRETA.\n(A) A contribuição da Marinha russa na Primeira Guerra Mundial foi modesta. Ela não foi capaz de ameaçar o domínio naval alemão no Báltico.\n(B) A revolução vermelha aniquilou praticamente o que ainda existia da Marinha russa, e os dirigentes comunistas pouca atenção deram à sua restauração até poucos anos antes da Segunda Guerra Mundial.\n(C) A contribuição da Marinha russa na Segunda Guerra Mundial não foi decisiva. Mais uma vez ela não disputou à Marinha alemã o domínio do mar Báltico.\n(D) Após a Segunda Guerra Mundial, a Rússia iniciou um vasto programa naval que a colocou, mais uma vez, em segundo lugar entre as potências marítimas.\n(E) No reinado de Catarina, a Grande, (1881-94), foi organizado um plano de vinte anos para construção de uma esquadra moderna.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "A contribuição da Marinha russa na 1ª Guerra Mundial foi modesta; não ameaçou o domínio naval alemão no Báltico.",
+        "B": "A revolução vermelha aniquilou a Marinha russa; dirigentes comunistas pouca atenção deram à sua restauração.",
+        "C": "A contribuição da Marinha russa na 2ª Guerra Mundial não foi decisiva; não disputou o domínio do Báltico.",
+        "D": "Após a 2ª Guerra Mundial, a Rússia iniciou vasto programa naval, colocando-se em segundo lugar entre as potências marítimas.",
+        "E": "No reinado de Catarina, a Grande (1881-94), foi organizado plano de vinte anos para construção de esquadra moderna."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": ["Marinha russa", "Catarina a Grande", "poder naval", "história naval", "Rússia"],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 25,
+      "enunciado": "Em relação à participação da Marinha de Guerra no último conflito mundial, correlacione as conclusões aos seus efetivos significados:\nCONCLUSÕES: I-Primeira, II-Segunda, III-Terceira, IV-Quarta, V-Quinta\nSIGNIFICADOS:\n( ) Adquirimos maior capacidade para controlar áreas marítimas e maior poder dissuasório, fruto do auxílio norte-americano.\n( ) Foi a oportunidade de a Marinha 'sentir o odor do combate', participar de ações de guerra e adquirir experiências da refrega.\n( ) Aponta para uma mudança de mentalidade na Marinha, com assimilação de novas técnicas de combate e incorporação de meios modernos.\n( ) Foi a nossa aproximação franca com os EUA, alinhando-nos com as doutrinas norte-americanas e ênfase na guerra antissubmarino.\n( ) Foi a percepção de que a logística ocupa lugar de suma importância, refletida na construção da Base Naval de Natal.\n(A) (III)(II)(I)(IV)(V)\n(B) (I)(III)(II)(V)(IV)\n(C) (I)(II)(III)(IV)(V)\n(D) (IV)(I)(V)(III)(II)\n(E) (I)(V)(IV)(III)(II)",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "(III)(II)(I)(IV)(V)",
+        "B": "(I)(III)(II)(V)(IV)",
+        "C": "(I)(II)(III)(IV)(V)",
+        "D": "(IV)(I)(V)(III)(II)",
+        "E": "(I)(V)(IV)(III)(II)"
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": ["Segunda Guerra Mundial", "Marinha do Brasil", "poder naval", "logística", "guerra antissubmarino"],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 26,
+      "enunciado": "Com relação à evolução do pensamento estratégico naval brasileiro, analise as afirmativas:\nI - O início da construção do NE 'Brasil' em 1981, da Cv 'Inhaúma' em 1983 e das Cvs 'Júlio de Noronha' e 'Frontin' em 1987 fizeram parte da continuidade do mini-programa de Reaparelhamento da Marinha de 1981.\nII - Em novembro de 1992, foi feito o primeiro lançamento do MAS Exocet AM-39 de uma aeronave brasileira por helicóptero do Esqd HS-1.\nIII - Na década de 90, o percentual de navios adquiridos no exterior foi muito grande. A F 'Rademaker', ex 'Battleaxe', quarta da classe 'Broadsword', construída em 1977 na Inglaterra, foi incorporada à Marinha.\nIV - Durante a revisão na Holanda para modernizar o Nael 'Minas Gerais', o Brasil negociou a compra de três estações de lançamento do míssil SAM Sea-Cat.\nAssinale a opção correta.\n(A) Apenas as afirmativas I e IV são verdadeiras.\n(B) Apenas as afirmativas II e III são verdadeiras.\n(C) Apenas as afirmativas II, III e IV são verdadeiras.\n(D) Apenas a afirmativa IV é verdadeira.\n(E) Apenas as afirmativas I, II e III são verdadeiras.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Apenas as afirmativas I e IV são verdadeiras.",
+        "B": "Apenas as afirmativas II e III são verdadeiras.",
+        "C": "Apenas as afirmativas II, III e IV são verdadeiras.",
+        "D": "Apenas a afirmativa IV é verdadeira.",
+        "E": "Apenas as afirmativas I, II e III são verdadeiras."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": ["Marinha do Brasil", "reaparelhamento naval", "Nael Minas Gerais", "Exocet", "pensamento estratégico naval"],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 27,
+      "enunciado": "Sobre a atuação da Divisão Naval em Operações de Guerra (DNOG) na participação brasileira na Primeira Guerra Mundial e um novo surto de gripe que atingiu todo o mundo, é correto afirmar que:\n(A) durante a travessia, no terceiro dia de viagem, o Almirantado britânico alertou para a presença de submarinos na rota e o Cruzador Bahia assinalou ao capitânia o avistamento de um objeto suspeito.\n(B) na véspera da chegada a Dacar, na noite de 25 de agosto, o Cruzador Rio Grande do Sul, o Contratorpedeiro Santa Catarina e o Rebocador Laurindo Pitta perceberam um submarino na superfície e abriram fogo.\n(C) o Rio Grande do Sul recebeu a incumbência de transportar sobressalentes para a Europa. O Laurindo Pitta regressou ao Brasil por não ser mais necessário.\n(D) durante a gripe, o Piauhy realizou patrulha antissubmarino na península de Freetown em apoio à Marinha espanhola.\n(E) um foguista em estado grave, quase ao delírio, apareceu calmamente em audiência com o comandante, com a fisionomia tranquila, solicitando licença para ir a terra, alegando ter recebido ordem do Almirante Frontin. Uma alucinação motivada pela gripe.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "No terceiro dia de viagem, o Almirantado britânico alertou sobre submarinos e o Cruzador Bahia avistou objeto suspeito.",
+        "B": "Na véspera da chegada a Dacar, o Cruzador Rio Grande do Sul, o Contratorpedeiro Santa Catarina e o Rebocador Laurindo Pitta perceberam submarino e abriram fogo.",
+        "C": "O Rio Grande do Sul transportou sobressalentes para a Europa; o Laurindo Pitta regressou ao Brasil.",
+        "D": "Durante a gripe, o Piauhy realizou patrulha antissubmarino em apoio à Marinha espanhola em Freetown.",
+        "E": "Um foguista delirante apareceu ao comandante em uniforme de passeio, alegando ter recebido ordem do Almirante Frontin para desembarcar — alucinação pela gripe."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": ["DNOG", "Primeira Guerra Mundial", "gripe espanhola", "Marinha do Brasil", "Almirante Frontin"],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 28,
+      "enunciado": "\"O ano de 1894 ficou marcado por um combate naval - a Batalha do Rio Yalu - que daria margens para grandes discussões sobre o duelo perene entre a couraça e o canhão, a defesa e o ataque.\" Sobre essa batalha, que envolveu as esquadras chinesas e japonesas, qual afirmação está INCORRETA?\n(A) A Esquadra japonesa tinha como núcleo dois encouraçados de fabricação alemã, lançados ao mar 12 anos antes, e dispunha de alguns torpedeiros.\n(B) A Esquadra japonesa era formada por um 'esquadrão voador', de cruzadores protegidos, relativamente novos e sobretudo rápidos, dispondo de grande número de canhões de tiro rápido de 6 e de 4,7 polegadas.\n(C) A Esquadra chinesa tentou usar a mesma tática usada em Lissa por Tegetthoff, aproando à Esquadra inimiga com a intenção de abalroar os seus navios.\n(D) A vitória japonesa deve ser atribuída principalmente à incompetência dos chineses e aos defeitos apresentados pela sua munição, contrapondo-se ao alto estado de eficiência e disciplina dos japoneses.\n(E) Os navios japoneses usaram sua superioridade para impedir que os chineses usassem seus torpedos com sucesso; os chineses derrotados retiraram-se para a Baía de Wei-Hai-Wei.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "A Esquadra japonesa tinha como núcleo dois encouraçados de fabricação alemã, lançados ao mar 12 anos antes.",
+        "B": "A Esquadra japonesa era formada por um 'esquadrão voador' de cruzadores protegidos, rápidos, com canhões de tiro rápido.",
+        "C": "A Esquadra chinesa tentou usar a tática de Tegetthoff em Lissa, aproando para abalroar os navios inimigos.",
+        "D": "A vitória japonesa deve-se principalmente à incompetência dos chineses e aos defeitos da sua munição.",
+        "E": "Os japoneses impediram o uso dos torpedos chineses; os chineses derrotados retiraram-se para Wei-Hai-Wei."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": ["Batalha do Rio Yalu", "guerra sino-japonesa", "poder naval", "tática naval", "século XIX"],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 29,
+      "enunciado": "O texto de Vidigal e Almeida (2009) refere-se às grandes campanhas e batalhas navais que definiram os rumos da História. Sobre essas narrativas da beligerância naval, assinale a opção correta.\n(A) A hegemonia romana no Mediterrâneo Oriental se estabelecera de forma incontestável ao final da Segunda Guerra Púnica (151 a 146 a.C.), quando o território cartaginês se tornara a primeira província romana fora do continente europeu.\n(B) Na luta pela posse das Falklands/Malvinas, a Grã-Bretanha deixou que sua superioridade econômica ditasse sua concepção estratégica, definindo uma força naval que, não fosse o conflito, se tornaria incapaz de cumprir as tarefas exigidas pela sociedade britânica.\n(C) A Batalha do Atlântico foi o mais importante evento bélico da Segunda Guerra Mundial, assim definido antes mesmo do seu desfecho pelos homens responsáveis por sua condução estratégica.\n(D) A guerra russo-japonesa (1904-1905) confirmou a importância do canhão de grosso calibre. A Batalha de Tsushima foi a última Batalha Naval em que o canhão foi a arma decisiva.\n(E) Em curto prazo, a Espanha foi a que mais sofreu como consequência direta da Batalha de Trafalgar (1805). Forçada pela ameaça das armas, a fazer uma aliança com a Inglaterra, primeiramente teve que desembolsar alto valor para se manter neutra.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "A hegemonia romana estabeleceu-se ao final da Segunda Guerra Púnica; território cartaginês tornou-se a primeira província romana fora da Europa.",
+        "B": "Na luta pelas Falklands/Malvinas, a Grã-Bretanha deixou que sua superioridade econômica ditasse sua concepção estratégica.",
+        "C": "A Batalha do Atlântico foi o mais importante evento bélico da 2ª Guerra, assim definido antes mesmo do seu desfecho.",
+        "D": "A Batalha de Tsushima foi a última Batalha Naval em que o canhão foi a arma decisiva.",
+        "E": "Em curto prazo, a Espanha foi a que mais sofreu com a Batalha de Trafalgar (1805)."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": ["Batalha do Atlântico", "Tsushima", "Trafalgar", "Falklands", "poder naval", "beligerância naval"],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 30,
+      "enunciado": "Com as explosões de Hiroxima e Nagasáqui, o Japão aceitava sua rendição incondicional e a Segunda Guerra Mundial chegava ao fim. Em relação à Política Marítima Brasileira no Pós-Guerra, é correto afirmar que:\n(A) a marinha mercante brasileira emergia da guerra teórica e diretamente subordinada à Casa Civil, que designava para a chefia da Comissão de Marinha Mercante oficiais-generais da Armada.\n(B) os contratorpedeiros Minas Gerais e São Paulo estavam obsoletos em face da nova estrutura que, em torno dos navios-aeródromos, formava as forças-tarefas vitoriosas nos recentes combates pelo domínio dos mares.\n(C) através do Eximbank, o governo brasileiro conseguiu financiamento para reequipar, de forma inédita, a navegação de cabotagem com uma frota padronizada de 20 cargueiros a serem construídos em estaleiros norte-americanos e canadenses.\n(D) a desmobilização política brasileira consolidou-se com a nova Constituição de 1945, que continha um dispositivo destinando parcelas da renda fiscal nacional para os vales dos rios Amazonas e São Francisco.\n(E) com a finalidade de coordenar defesa do projeto de orçamento de 1949, o governo do Presidente Dutra apresentaria um plano sob a sigla Salte, propondo medidas nas áreas de saúde, alimentação, transporte e energia, incluindo a construção de petroleiros para a Fronape.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "A marinha mercante brasileira emergiu da guerra subordinada à Casa Civil, que designava oficiais-generais para a Comissão de Marinha Mercante.",
+        "B": "Os contratorpedeiros Minas Gerais e São Paulo estavam obsoletos em face da nova estrutura centrada nos navios-aeródromos.",
+        "C": "Via Eximbank, o governo financiou uma frota padronizada de 20 cargueiros para a navegação de cabotagem.",
+        "D": "A Constituição de 1945 continha dispositivo destinando renda fiscal para os vales dos rios Amazonas e São Francisco.",
+        "E": "O plano Salte do governo Dutra propunha medidas em saúde, alimentação, transporte e energia, incluindo a criação da Fronape."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": ["política marítima", "pós-guerra", "Marinha Mercante", "plano Salte", "Fronape", "Segunda Guerra Mundial"],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 31,
+      "enunciado": "Assinale a opção INCORRETA em relação à Bandeira Nacional.\n(A) A Bandeira Nacional é arriada diariamente ao pôr do sol, mediante cerimonial específico, nas demais Organizações Militares que não mantenham serviço ininterrupto.\n(B) A Bandeira Nacional é arriada diariamente ao pôr do sol, mediante cerimonial específico, em todas as Organizações Militares que mantenham serviço ininterrupto.\n(C) A Bandeira Nacional é hasteada diariamente, às 8h, mediante cerimonial específico.\n(D) Salvo quando o Cerimonial da Marinha dispuser em contrário, o local de hasteamento é o pau da bandeira, disposto à popa, nos navios no dique, fundeados, atracados ou amarrados.\n(E) Salvo quando o Cerimonial da Marinha dispuser em contrário, o local de hasteamento é o mastro da fachada principal do edifício ou penol da carangueja do mastro para esse fim destinado, nas Organizações Militares de terra.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "A Bandeira Nacional é arriada diariamente ao pôr do sol nas OM que não mantenham serviço ininterrupto.",
+        "B": "A Bandeira Nacional é arriada diariamente ao pôr do sol em todas as OM que mantenham serviço ininterrupto.",
+        "C": "A Bandeira Nacional é hasteada diariamente, às 8h, mediante cerimonial específico.",
+        "D": "Nos navios no dique, fundeados, atracados ou amarrados, o hasteamento é no pau da bandeira à popa.",
+        "E": "Nas OM de terra, o hasteamento é no mastro da fachada principal ou penol da carangueja."
+      },
+      "disciplina": "Cerimonial Naval",
+      "nivel": "concurso",
+      "tags": ["Bandeira Nacional", "cerimonial", "hasteamento", "Marinha do Brasil", "OM"],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 32,
+      "enunciado": "Correlacione os seguintes agentes aos seus respectivos deveres/responsabilidades, de acordo com a Ordenança Geral para o Serviço da Armada (OGSA):\nAGENTES: I-Superior, II-Subordinado, III-Todos os militares\nDEVERES/RESPONSABILIDADES:\n( ) Responsabilizar-se por prejuízos causados à Fazenda Nacional.\n( ) Responsabilizar-se pelas consequências da omissão de ordens, nos casos em que for de seu dever providenciar.\n( ) Usar sempre expressões respeitosas em suas relações verbais ou escritas com os subordinados.\n( ) Exigir o respeito e a obediência que lhe são devidos por seus subordinados.\n( ) Obedecer às ordens dos superiores.\n( ) Executar as ordens que receber.\n(A) (-)(I)(III)(II)(II)(I)\n(B) (I)(I)(-)(III)(III)(II)\n(C) (III)(II)(-)(II)(I)(III)\n(D) (III)(I)(-)(I)(II)(II)\n(E) (II)(-)( I)(I)(II)(III)",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "(-)(I)(III)(II)(II)(I)",
+        "B": "(I)(I)(-)(III)(III)(II)",
+        "C": "(III)(II)(-)(II)(I)(III)",
+        "D": "(III)(I)(-)(I)(II)(II)",
+        "E": "(II)(-)(I)(I)(II)(III)"
+      },
+      "disciplina": "Normas Navais / OGSA",
+      "nivel": "concurso",
+      "tags": ["OGSA", "deveres militares", "superior", "subordinado", "responsabilidade"],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 33,
+      "enunciado": "De acordo com a SGM-105, qual é o formulário que formaliza a decisão de classificação, desclassificação, reclassificação ou redução do prazo de sigilo de informação classificada em qualquer grau de sigilo?\n(A) Anexo Sigiloso.\n(B) Termo de Classificação de Informação (TCI).\n(C) Comunicação Padronizada de Processos Judiciais (CPPJ).\n(D) Parecer.\n(E) Ordem de Serviço.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Anexo Sigiloso.",
+        "B": "Termo de Classificação de Informação (TCI).",
+        "C": "Comunicação Padronizada de Processos Judiciais (CPPJ).",
+        "D": "Parecer.",
+        "E": "Ordem de Serviço."
+      },
+      "disciplina": "Documentação Administrativa Naval",
+      "nivel": "concurso",
+      "tags": ["SGM-105", "TCI", "classificação de informação", "sigilo", "documentos administrativos"],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 34,
+      "enunciado": "A viúva do Primeiro-Sargento Rademaker, falecido há mais de dois anos, solicitou a inclusão de seu filho recém-nascido ao quadro de dependentes. Sobre essa situação, é correto afirmar que o recém-nascido:\n(A) Pode ser considerado dependente do militar por se tratar de filho de dependente, embora não seja enteado, filho adotivo ou tutelado do militar.\n(B) Pode ser considerado dependente do militar, desde que a criança viva sob a responsabilidade da viúva.\n(C) Pode ser considerado dependente do militar, desde que a viúva não tenha contraído novo matrimônio.\n(D) Não pode ser considerado dependente do militar porque o militar já é falecido há mais de dois anos.\n(E) Não pode ser considerado dependente do militar por não ser enteado, filho adotivo ou tutelado do militar.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Pode ser considerado dependente por ser filho de dependente, embora não seja enteado, filho adotivo ou tutelado.",
+        "B": "Pode ser considerado dependente, desde que a criança viva sob a responsabilidade da viúva.",
+        "C": "Pode ser considerado dependente, desde que a viúva não tenha contraído novo matrimônio.",
+        "D": "Não pode ser considerado dependente porque o militar já é falecido há mais de dois anos.",
+        "E": "Não pode ser considerado dependente por não ser enteado, filho adotivo ou tutelado do militar."
+      },
+      "disciplina": "Normas Navais / Estatuto dos Militares",
+      "nivel": "concurso",
+      "tags": ["dependente", "Estatuto dos Militares", "viúva", "benefícios"],
+      "texto_base": null,
+      "gabarito": "ANULADA"
+    },
+    {
+      "id": 35,
+      "enunciado": "De acordo com a SGM-105, qual é o Documento Administrativo (DA) de correspondência utilizado exclusivamente no âmbito interno da Marinha do Brasil, em continuação ao Ofício?\n(A) Requerimento.\n(B) Certidão.\n(C) Atestado.\n(D) Memorando.\n(E) Despacho.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Requerimento.",
+        "B": "Certidão.",
+        "C": "Atestado.",
+        "D": "Memorando.",
+        "E": "Despacho."
+      },
+      "disciplina": "Documentação Administrativa Naval",
+      "nivel": "concurso",
+      "tags": ["SGM-105", "Memorando", "Ofício", "documentos administrativos", "âmbito interno"],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 36,
+      "enunciado": "Um Primeiro-Tenente (S) graduado em Medicina solicitou autorização para realizar atendimentos, após o horário do expediente, em uma clínica da qual é sócio quotista. De acordo com o Estatuto dos Militares, ele:\n(A) não pode exercer atividade técnico-profissional no meio civil, mesmo que não prejudique o serviço. Além disso, incorre em contravenção disciplinar por ser sócio ou participar de sociedade.\n(B) pode exercer atividade técnico-profissional no meio civil, desde que não prejudique o serviço. No entanto, incorre em contravenção disciplinar por tomar parte na administração ou gerência de sociedade.\n(C) não pode exercer atividade técnico-profissional no meio civil. Porém, pode ser sócio desde que como acionista ou quotista em sociedade anônima ou por quotas de responsabilidade limitada.\n(D) pode exercer atividade técnico-profissional no meio civil, desde que não prejudique o serviço. E pode ser sócio desde que como acionista ou quotista em sociedade anônima ou por quotas de responsabilidade limitada.\n(E) pode exercer atividade técnico-profissional no meio civil, mesmo que prejudique o serviço, mediante autorização do Comandante. No entanto, incorre em contravenção disciplinar por ser sócio.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Não pode exercer atividade técnico-profissional no meio civil; incorre em contravenção por ser sócio.",
+        "B": "Pode exercer atividade técnico-profissional no meio civil, desde que não prejudique o serviço; incorre em contravenção por ser sócio-gerente.",
+        "C": "Não pode exercer atividade técnico-profissional no meio civil; pode ser sócio quotista em sociedade anônima.",
+        "D": "Pode exercer atividade técnico-profissional no meio civil sem prejuízo ao serviço; pode ser sócio quotista em sociedade de responsabilidade limitada.",
+        "E": "Pode exercer atividade técnico-profissional mesmo com prejuízo ao serviço, com autorização do Comandante; incorre em contravenção por ser sócio."
+      },
+      "disciplina": "Normas Navais / Estatuto dos Militares",
+      "nivel": "concurso",
+      "tags": ["Estatuto dos Militares", "atividade civil", "sociedade anônima", "contravenção disciplinar"],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 37,
+      "enunciado": "O comandante Romeo, ao sair para uma missão com a Fragata Papa, observou uma pequena confusão no passadiço em função da manobra de desatracação. Um dos seus motores propulsores veio a falhar, originando ordem equivocada pelo oficial de manobra. Percebendo a atitude precipitada de seu oficial, o comandante Romeo, em voz firme e fundamentada, ordenou: 'A manobra está comigo. Atenção leme a meio, solecar espias 1 e 6.' Sendo assim, é correto afirmar que, segundo o EMA-137, os seguintes atributos foram observados pelo comandante Romeo:\n(A) senso de justiça e entusiasmo.\n(B) altruísmo e flexibilidade.\n(C) determinação e humildade.\n(D) caráter e respeito.\n(E) competência profissional e capacidade decisória.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "senso de justiça e entusiasmo.",
+        "B": "altruísmo e flexibilidade.",
+        "C": "determinação e humildade.",
+        "D": "caráter e respeito.",
+        "E": "competência profissional e capacidade decisória."
+      },
+      "disciplina": "Liderança / EMA-137",
+      "nivel": "concurso",
+      "tags": ["EMA-137", "liderança", "atributos do líder", "competência profissional", "capacidade decisória"],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 38,
+      "enunciado": "Qual é o agente extintor que tem como componentes primários um ou mais componentes orgânicos que contenham um ou mais dos seguintes elementos: fluorino, bromino, clorino ou jodino, e que são considerados gases limpos, pois não deixam resíduo após a evaporação quando na supressão do incêndio, além de serem não condutores elétricos?\n(A) Pó químico.\n(B) Compostos halogenados.\n(C) Gás Carbônico.\n(D) Espuma mecânica.\n(E) Compostos halocarbonados.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Pó químico.",
+        "B": "Compostos halogenados.",
+        "C": "Gás Carbônico.",
+        "D": "Espuma mecânica.",
+        "E": "Compostos halocarbonados."
+      },
+      "disciplina": "Combate a Incêndio / CAAML",
+      "nivel": "concurso",
+      "tags": ["agente extintor", "halocarbonados", "gases limpos", "combate a incêndio", "fluorino"],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 39,
+      "enunciado": "De acordo com a DGPM-315, como é denominado o termo realizado pela autoridade competente pela lavratura do Termo de Deserção original, por determinação do STM, do Juiz-Auditor ou do Conselho de Justiça, a fim de sanar qualquer irregularidade no anteriormente encaminhado à Auditoria, constituindo condição para o prosseguimento da ação penal nos crimes de Deserção?\n(A) Deserção.\n(B) Deserção Restaurado.\n(C) Compromisso.\n(D) Conclusão.\n(E) Acareação.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Deserção.",
+        "B": "Deserção Restaurado.",
+        "C": "Compromisso.",
+        "D": "Conclusão.",
+        "E": "Acareação."
+      },
+      "disciplina": "Normas Navais / DGPM-315",
+      "nivel": "concurso",
+      "tags": ["DGPM-315", "deserção", "Termo de Deserção Restaurado", "STM", "ação penal"],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 40,
+      "enunciado": "Segundo o EMA-137, na definição de liderança, estão implícitos os seus agentes, ou seja, o líder e os liderados, as relações entre eles e a importância dos princípios que regem o comportamento humano. Quais são esses princípios?\n(A) psicológicos, religiosos e sociológicos.\n(B) sociológicos, psicológicos e pedagógicos.\n(C) filosóficos, psicológicos e sociológicos.\n(D) pedagógicos, religiosos e filosóficos.\n(E) sociológicos, pedagógicos e filosóficos.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "psicológicos, religiosos e sociológicos.",
+        "B": "sociológicos, psicológicos e pedagógicos.",
+        "C": "filosóficos, psicológicos e sociológicos.",
+        "D": "pedagógicos, religiosos e filosóficos.",
+        "E": "sociológicos, pedagógicos e filosóficos."
+      },
+      "disciplina": "Liderança / EMA-137",
+      "nivel": "concurso",
+      "tags": ["EMA-137", "liderança", "princípios do comportamento humano", "sociologia", "psicologia"],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 41,
+      "enunciado": "De acordo com o Regulamento Disciplinar para a Marinha (RDM), as contravenções disciplinares são classificadas em graves e leves. Algumas circunstâncias podem ser atenuantes da contravenção disciplinar. Assinale a opção que apresenta uma dessas circunstâncias atenuantes.\n(A) Prestação anterior de serviços relevantes já reconhecidos.\n(B) Ignorância plenamente comprovada da ordem transgredida.\n(C) Força maior ou caso fortuito plenamente comprovado.\n(D) Ordem de superior hierárquico.\n(E) Legítima defesa, própria ou de outrem.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Prestação anterior de serviços relevantes já reconhecidos.",
+        "B": "Ignorância plenamente comprovada da ordem transgredida.",
+        "C": "Força maior ou caso fortuito plenamente comprovado.",
+        "D": "Ordem de superior hierárquico.",
+        "E": "Legítima defesa, própria ou de outrem."
+      },
+      "disciplina": "Legislação Militar / RDM",
+      "nivel": "concurso",
+      "tags": ["RDM", "contravenção disciplinar", "atenuantes", "disciplina militar"],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 42,
+      "enunciado": "De acordo com a DGPM-315, assinale a opção correta em relação à escolta de presos:\n(A) O Comandante da OM, ao receber presos de justiça nas delegacias de polícia, deve verificar se está completa a documentação e verificar a integridade física dos presos.\n(B) O Distrito Naval da área do militar será responsável pelas escoltas de presos disciplinares que se fizerem necessárias.\n(C) A OM de origem de preso disciplinar não deverá providenciar escolta para qualquer atividade externa que o preso tiver de realizar.\n(D) Os presos de justiça que apresentem sinais de perturbação mental deverão ser encaminhados à perícia médica para avaliação, devidamente escoltados, antes de sua apresentação ao Presídio da Marinha (PM) ou à OM responsável pela custódia.\n(E) É permitido o transporte de presos em compartimento de proporções reduzidas, com ventilação deficiente ou ausência de luminosidade.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "O Comandante da OM deve verificar documentação e integridade física ao receber presos de justiça nas delegacias.",
+        "B": "O Distrito Naval da área será responsável pelas escoltas de presos disciplinares.",
+        "C": "A OM de origem não deverá providenciar escolta para atividade externa durante cumprimento da pena.",
+        "D": "Presos com sinais de perturbação mental devem ser encaminhados à perícia médica escoltados antes da apresentação ao PM.",
+        "E": "É permitido transporte em compartimento com ventilação deficiente ou ausência de luminosidade."
+      },
+      "disciplina": "Normas Navais / DGPM-315",
+      "nivel": "concurso",
+      "tags": ["DGPM-315", "escolta de presos", "preso disciplinar", "preso de justiça", "Presídio da Marinha"],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 43,
+      "enunciado": "Segundo o Cerimonial da Marinha do Brasil, é considerada uma prescrição especial para os dias de funeral e luto oficial:\n(A) serão executados toques de continência e dadas salvas especificamente autorizadas pelos Comandantes de OM.\n(B) é executado o Hino Nacional.\n(C) a Bandeira do Cruzeiro é hasteada à meia adriça acompanhando o galhardete Prep.\n(D) nas OM onde se realizem honras fúnebres, o oficial de serviço e contramestre têm as armas em funeral.\n(E) a Bandeira Nacional é hasteada à meia adriça, sendo observado o cerimonial completo, com todas as honras e toques de continência.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Serão executados toques de continência e salvas autorizadas pelos Comandantes de OM.",
+        "B": "É executado o Hino Nacional.",
+        "C": "A Bandeira do Cruzeiro é hasteada à meia adriça acompanhando o galhardete Prep.",
+        "D": "Nas OM onde se realizem honras fúnebres, o oficial de serviço e contramestre têm as armas em funeral.",
+        "E": "A Bandeira Nacional é hasteada à meia adriça, com cerimonial completo e todas as honras e toques de continência."
+      },
+      "disciplina": "Cerimonial Naval",
+      "nivel": "concurso",
+      "tags": ["cerimonial", "luto oficial", "funeral", "Bandeira Nacional", "meia adriça"],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 44,
+      "enunciado": "De acordo com o Regulamento Disciplinar para a Marinha (RDM), o superior deverá dar voz de prisão imediata ao contraventor e fazê-lo recolher-se à sua Organização Militar quando a contravenção ou suas circunstâncias assim o exigirem. Essa voz de prisão será dada em nome:\n(A) da autoridade a que o contraventor estiver diretamente subordinado, mesmo quando esta for menos graduada ou antiga do que quem dá a voz.\n(B) da autoridade a que o contraventor estiver diretamente subordinado, ou, quando esta for menos graduada ou antiga do que quem dá a voz, em nome da que se lhe seguir em escala ascendente.\n(C) da autoridade a que o contraventor estiver diretamente subordinado, ou, quando esta for menos graduada ou antiga do que quem dá a voz, em nome do Comandante do Distrito Naval ou do Comando Naval em cuja jurisdição ocorrer a prisão.\n(D) da autoridade a que o contraventor estiver diretamente subordinado, ou, quando esta for mais graduada ou antiga do que quem dá a voz, em nome do Comandante do Distrito Naval.\n(E) do Comandante do Distrito Naval ou do Comando Naval em cuja jurisdição ocorrer a prisão.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Da autoridade diretamente superior ao contraventor, mesmo quando menos graduada ou antiga do que quem dá a voz.",
+        "B": "Da autoridade diretamente superior ao contraventor ou, quando menos graduada, da que se lhe seguir em escala ascendente.",
+        "C": "Da autoridade diretamente superior ou, quando menos graduada, do Comandante do Distrito Naval.",
+        "D": "Da autoridade diretamente superior ou, quando mais graduada, do Comandante do Distrito Naval.",
+        "E": "Do Comandante do Distrito Naval ou do Comando Naval em cuja jurisdição ocorrer a prisão."
+      },
+      "disciplina": "Legislação Militar / RDM",
+      "nivel": "concurso",
+      "tags": ["RDM", "voz de prisão", "contravenção disciplinar", "autoridade militar", "prisão disciplinar"],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 45,
+      "enunciado": "De acordo com a SGM-105, o que se destina a divulgar os documentos que devem permanecer em uma coletânea, dela fazendo parte, e por isso não lhe cabendo a finalidade de cancelar qualquer documento, mesmo que nela não tenha sido relacionado?\n(A) Lista de Verificação Anual (LVA).\n(B) Termo de Classificação de Informação (TCI).\n(C) Tabela de Temporalidade e Destinação de Documentos (TTDD).\n(D) Instrução Permanente (INST).\n(E) Circular (Circ).",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Lista de Verificação Anual (LVA).",
+        "B": "Termo de Classificação de Informação (TCI).",
+        "C": "Tabela de Temporalidade e Destinação de Documentos (TTDD).",
+        "D": "Instrução Permanente (INST).",
+        "E": "Circular (Circ)."
+      },
+      "disciplina": "Documentação Administrativa Naval",
+      "nivel": "concurso",
+      "tags": ["SGM-105", "LVA", "coletânea de normas", "documentos administrativos"],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 46,
+      "enunciado": "Segundo a orientação sobre as expedições de ordens do Anexo C do EMA-137, depois de examinar as vantagens e desvantagens do uso de ordens minuciosas, Beckman enumera oportunidades que, a seu ver, devem ser usadas em ordens escritas. Analise as afirmativas abaixo:\nI - O trabalhador tem a compreensão vagarosa ou é 'esquecido'.\nII - É necessário perguntar se as ordens são claras - faça com que o trabalhador as repita.\nIII - É preciso adotar maneiras apropriadas ao indivíduo.\nIV - As ordens envolvem números precisos ou pormenores complicados.\nAssinale a opção que apresenta quando tais ordens devem ser por escrito.\n(A) Apenas as afirmativas I e III são verdadeiras.\n(B) Apenas as afirmativas I e IV são verdadeiras.\n(C) Apenas as afirmativas II e IV são verdadeiras.\n(D) Apenas as afirmativas II e III são verdadeiras.\n(E) Apenas a afirmativa IV é verdadeira.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Apenas as afirmativas I e III são verdadeiras.",
+        "B": "Apenas as afirmativas I e IV são verdadeiras.",
+        "C": "Apenas as afirmativas II e IV são verdadeiras.",
+        "D": "Apenas as afirmativas II e III são verdadeiras.",
+        "E": "Apenas a afirmativa IV é verdadeira."
+      },
+      "disciplina": "Liderança / EMA-137",
+      "nivel": "concurso",
+      "tags": ["EMA-137", "ordens escritas", "Beckman", "liderança", "expedição de ordens"],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 47,
+      "enunciado": "Segundo o CAAML-1201, em relação a turma de máscaras, o controlador controla o tempo de uso das máscaras de seu Reparo. Qual o limite máximo de militares ele pode controlar, para a segurança dos utilizadores?\n(A) 6\n(B) 7\n(C) 8\n(D) 9\n(E) 10",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "6",
+        "B": "7",
+        "C": "8",
+        "D": "9",
+        "E": "10"
+      },
+      "disciplina": "Combate a Incêndio / CAAML",
+      "nivel": "concurso",
+      "tags": ["CAAML-1201", "turma de máscaras", "controlador", "segurança", "reparo"],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 48,
+      "enunciado": "Segundo a Ordenança Geral para o Serviço da Armada (OGSA), qual ato administrativo complementa o Ato de Criação permitindo que, em âmbito geral, possam ser conhecidas a sua missão, organização, estrutura e outros dados de interesse?\n(A) Regulamento.\n(B) Regimento Interno.\n(C) Ordem Interna.\n(D) Portaria de Criação.\n(E) Termo de Referência.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Regulamento.",
+        "B": "Regimento Interno.",
+        "C": "Ordem Interna.",
+        "D": "Portaria de Criação.",
+        "E": "Termo de Referência."
+      },
+      "disciplina": "Normas Navais / OGSA",
+      "nivel": "concurso",
+      "tags": ["OGSA", "Regulamento", "Ato de Criação", "organização militar", "âmbito geral"],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 49,
+      "enunciado": "Segundo o CAAML-1201, quem aciona o Grupo de Socorro Externo (GSE) ao ser constatada a situação de emergência externa?\n(A) A bordo pelo Oficial de Serviço no porto ou pelo Oficial de Quarto no passadiço em viagem.\n(B) A bordo pelo CHEMAQ no porto ou pelo Encarregado do CAV no passadiço em viagem.\n(C) A bordo pelo Imediato no porto ou pelo Oficial de Quarto no passadiço em viagem.\n(D) A bordo pelo Oficial de Serviço no porto ou pelo CHEOPE no passadiço em viagem.\n(E) A bordo pelo EGA no porto ou pelo Oficial de Quarto no passadiço em viagem.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "A bordo pelo Oficial de Serviço no porto ou pelo Oficial de Quarto no passadiço em viagem.",
+        "B": "A bordo pelo CHEMAQ no porto ou pelo Encarregado do CAV no passadiço em viagem.",
+        "C": "A bordo pelo Imediato no porto ou pelo Oficial de Quarto no passadiço em viagem.",
+        "D": "A bordo pelo Oficial de Serviço no porto ou pelo CHEOPE no passadiço em viagem.",
+        "E": "A bordo pelo EGA no porto ou pelo Oficial de Quarto no passadiço em viagem."
+      },
+      "disciplina": "Combate a Incêndio / CAAML",
+      "nivel": "concurso",
+      "tags": ["CAAML-1201", "GSE", "Grupo de Socorro Externo", "emergência externa", "Oficial de Serviço"],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 50,
+      "enunciado": "De acordo com a DGPM-315, qual é o termo que registra a anexação à sindicância, mediante prévio despacho do encarregado, de qualquer documento ou papel que interesse à prova?\n(A) Precatória.\n(B) Oitiva.\n(C) Autuação.\n(D) Reunião e Ordem das Peças.\n(E) Juntada.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Precatória.",
+        "B": "Oitiva.",
+        "C": "Autuação.",
+        "D": "Reunião e Ordem das Peças.",
+        "E": "Juntada."
+      },
+      "disciplina": "Normas Navais / DGPM-315",
+      "nivel": "concurso",
+      "tags": ["DGPM-315", "juntada", "sindicância", "documentos administrativos", "processo administrativo"],
+      "texto_base": null,
+      "gabarito": "E"
+    }
+  ]
+}

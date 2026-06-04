@@ -1,0 +1,788 @@
+{
+  "metadata": {
+    "titulo": "CA-AA-AFN/2022 — Quadro Auxiliar da Armada (CPA/CAP)",
+    "prova": "Verde",
+    "candidatos": "Oriundos do CPA e do CAP",
+    "total_questoes": 50,
+    "fonte_gabarito": "Gabarito Final após análise de recursos (24/11/2022)"
+  },
+  "categorias": [
+    "Língua Portuguesa",
+    "Matemática",
+    "Geografia",
+    "História",
+    "Atualidades",
+    "Ciências Navais",
+    "Liderança e Administração Militar",
+    "Legislação e Regulamentos"
+  ],
+  "questoes": [
+    {
+      "numero": 1,
+      "categoria": "Língua Portuguesa",
+      "subcategoria": "Tipos Textuais",
+      "enunciado": "Com base no trecho: 'E se você quer que eu te considere um homem, antes de mais nada me devolve meu bodoque.' — qual tipo textual pode ser identificado no trecho em destaque?",
+      "alternativas": {
+        "A": "Narrativo.",
+        "B": "Descritivo.",
+        "C": "Argumentativo.",
+        "D": "Expositivo.",
+        "E": "Injuntivo."
+      },
+      "gabarito": "E",
+      "status": "válida"
+    },
+    {
+      "numero": 2,
+      "categoria": "Língua Portuguesa",
+      "subcategoria": "Linguagem Denotativa e Conotativa",
+      "enunciado": "Assinale a opção que apresenta o emprego de linguagem exclusivamente denotativa, com base nos trechos da crônica 'De Homem para Homem' de Fernando Sabino.",
+      "alternativas": {
+        "A": "'Deus é testemunha de que nunca consegui matar nem um passarinho com bodoque ou sem ele, era péssima a minha pontaria [...]'",
+        "B": "'Eu trazia o bodoque enrolado no bolso da calça e queria fazer uma surpresa, se não para o Newton e o Toninho, pelo menos para o Quico [...]'",
+        "C": "'Você já era meio compridão feito hoje, me lembro que me olhou de cima para baixo com esses olhos meio caídos que tem até hoje [...]'",
+        "D": "'Quando eu entendi que você me tinha tomado mesmo o bodoque por ser escoteiro, e escoteiro não pode matar passarinho, perdi a cabeça e comecei a gritar [...]'",
+        "E": "'Saí dali meio perplexo, já nem chorando mais, esmagado pelo peso de sua autoridade de escoteiro.'"
+      },
+      "gabarito": "B",
+      "status": "válida"
+    },
+    {
+      "numero": 3,
+      "categoria": "Língua Portuguesa",
+      "subcategoria": "Colocação Pronominal",
+      "enunciado": "No trecho 'Quando eu entendi que você me tinha tomado [...].' a colocação do pronome oblíquo átono, de forma proclítica, foi feita corretamente. Assinale a opção em que ocorre desvio da norma culta, concernente à colocação pronominal destacada.",
+      "alternativas": {
+        "A": "Ele deseja convidar-lhe para uma festa.",
+        "B": "Estou-me acostumando com a rotina.",
+        "C": "Teu amigo quer-lhe pedir um favor.",
+        "D": "Os parentes tinham ajudado-o na organização da festa.",
+        "E": "Eu me estou esforçando para fazer as coisas certas."
+      },
+      "gabarito": "D",
+      "status": "válida"
+    },
+    {
+      "numero": 4,
+      "categoria": "Língua Portuguesa",
+      "subcategoria": "Interpretação de Texto",
+      "enunciado": "No trecho: ''Me dá meu bodoque!' Acabei chorando de raiva e o próprio bodoque, digo, o próprio Armando insistia com você que não fizesse isso, deixe de coisa, dá o bodoque do menino.' — o narrador troca, por um instante, o nome de Armando pelo termo 'bodoque', a fim de salientar:",
+      "alternativas": {
+        "A": "A sua mentalidade infantilizada, já que crianças frequentemente confundem as palavras ao tentarem se expressar.",
+        "B": "A falta de perspicácia do protagonista, o qual acabara de entregar um item estimado em mãos erradas.",
+        "C": "A confusão mental causada pela situação imprevisível e revoltante em que o menino se encontrava.",
+        "D": "O caráter humorístico da crônica, através da falta de sentido daquilo que a personagem acabara de dizer.",
+        "E": "O desgosto que a criança tinha pelo seu amigo Armando, de quem ele mal se lembrava do nome."
+      },
+      "gabarito": "C",
+      "status": "válida"
+    },
+    {
+      "numero": 5,
+      "categoria": "Língua Portuguesa",
+      "subcategoria": "Sintaxe — Função Sintática do Pronome Relativo",
+      "enunciado": "No trecho '[...] eu tinha uma coleção de marcas de cigarro que troquei com Evandro [...]', assinale a opção em que o termo sublinhado exerce a mesma função sintática do pronome relativo destacado no trecho acima.",
+      "alternativas": {
+        "A": "'Deus é testemunha de que nunca consegui matar [...]'",
+        "B": "'Pois lhe conto agora [...]'",
+        "C": "'Eu trazia o bodoque enrolado no bolso [...]'",
+        "D": "'[...] insistia com você que não fizesse isso [...]'",
+        "E": "'Só porque era escoteiro'."
+      },
+      "gabarito": "C",
+      "status": "válida"
+    },
+    {
+      "numero": 6,
+      "categoria": "Língua Portuguesa",
+      "subcategoria": "Coesão Textual",
+      "enunciado": "Com relação às estratégias de coesão utilizadas no texto, analise as afirmativas sobre os termos destacados e marque a opção correta. I — '[...] servia para tudo [...]' — referente que sumariza a informação precedente. II — '[...] atiradeira ou estilingue' — termos utilizados para retomar o vocábulo 'bodoque', a fim de evitar repetição excessiva. III — '[...] então você explicou para ele [...]' — empregou-se a anáfora para a realização da progressão textual.",
+      "alternativas": {
+        "A": "Apenas a afirmativa I está correta.",
+        "B": "Apenas a afirmativa II está correta.",
+        "C": "Apenas a afirmativa III está correta.",
+        "D": "Apenas as afirmativas I e II estão corretas.",
+        "E": "Apenas as afirmativas I e III estão corretas."
+      },
+      "gabarito": "C",
+      "status": "válida"
+    },
+    {
+      "numero": 7,
+      "categoria": "Língua Portuguesa",
+      "subcategoria": "Classificação de Conjunções",
+      "enunciado": "Assinale a opção em que a classificação do termo destacado no trecho NÃO foi feita de acordo com o que preconiza a Nomenclatura Gramatical Brasileira.",
+      "alternativas": {
+        "A": "'Sei disso, porque naquele ano havia entrado para o grupo escolar' — conjunção subordinativa causal.",
+        "B": "'Nós chamávamos de bodoque [...] e não servia só para matar passarinho, como você insinuou, servia para tudo [...]' — conjunção subordinativa comparativa.",
+        "C": "'Aconteceu que naquele mesmo dia eu fui procurar Newton e Toninho para mostrar o meu bodoque, muito melhor do que os deles [...]' — conjunção subordinativa integrante.",
+        "D": "'[...] eu fui procurar Newton e Toninho para mostrar o meu bodoque, muito melhor do que os deles, não encontrei nem um, nem outro.' — conjunção coordenativa alternativa.",
+        "E": "'Quando eu entendi que você me tinha tomado mesmo o bodoque por ser escoteiro, e escoteiro não pode matar passarinho, perdi a cabeça e comecei a gritar [...]' — conjunção subordinativa temporal."
+      },
+      "gabarito": "ANULADA",
+      "status": "anulada"
+    },
+    {
+      "numero": 8,
+      "categoria": "Língua Portuguesa",
+      "subcategoria": "Interpretação de Texto / Crônica",
+      "enunciado": "Com relação ao texto de Fernando Sabino 'De Homem para Homem', marque a opção correta.",
+      "alternativas": {
+        "A": "Há uma quebra de expectativa com relação ao título, pois retrata um problema ocorrido na infância do narrador, que, mesmo já adulto, ainda deseja resolvê-lo de forma infantil.",
+        "B": "O bodoque era símbolo de autoridade para quem o possuía, aumentando a frustração do narrador mediante a sua perda.",
+        "C": "O narrador, quando cresceu, tornou-se escoteiro para possuir autoridade e confrontar o homem que tomou seu bodoque.",
+        "D": "De acordo com o penúltimo período do texto, a atitude do rapaz que tomou o bodoque do narrador não é aceitável dentro da cultura masculina.",
+        "E": "Não importa a qualificação ou status social de um homem, pois suas experiências passadas invalidam ou confirmam sua hombridade diante da sociedade."
+      },
+      "gabarito": "A",
+      "status": "válida"
+    },
+    {
+      "numero": 9,
+      "categoria": "Matemática",
+      "subcategoria": "Matrizes — Determinantes / Logaritmos",
+      "enunciado": "Assinale a opção que apresenta o valor da característica (ρ) da matriz A formada por logaritmos nas bases 3, 10 e 2 (log₃27, log₁₀₀₀, log₂8 / log₃243, log₁₀₀₀₀₀, log₂32 / log₃81, log₁₀₀₀₀, log₂16).",
+      "alternativas": {
+        "A": "0",
+        "B": "1",
+        "C": "2",
+        "D": "3",
+        "E": "4"
+      },
+      "gabarito": "B",
+      "status": "válida"
+    },
+    {
+      "numero": 10,
+      "categoria": "Matemática",
+      "subcategoria": "Matrizes — Operações",
+      "enunciado": "Dadas as matrizes A, B e C (3×3), é correto afirmar que a matriz X, tal que X + A = B − C, é:",
+      "alternativas": {
+        "A": "Simétrica.",
+        "B": "Antissimétrica.",
+        "C": "Inversível.",
+        "D": "Singular.",
+        "E": "Nula."
+      },
+      "gabarito": "C",
+      "status": "alterada",
+      "observacao": "Gabarito alterado para C após análise de recursos"
+    },
+    {
+      "numero": 11,
+      "categoria": "Matemática",
+      "subcategoria": "Progressão Geométrica — Interpolação",
+      "enunciado": "A interpolação de 8 meios geométricos (reais) entre 5/2 e 1280 formará, ao final, uma sequência geométrica de n termos. Assim, quanto valerá o produto dos 12 termos iniciais dessa sequência geométrica?",
+      "alternativas": {
+        "A": "2¹² · (2,5)⁶⁶",
+        "B": "2⁶⁶ · (2,5)⁸",
+        "C": "2⁶⁶ · (2,5)¹²",
+        "D": "2⁸ · (2,5)⁶⁶",
+        "E": "2⁵ · (2,5)¹²"
+      },
+      "gabarito": "C",
+      "status": "válida"
+    },
+    {
+      "numero": 12,
+      "categoria": "Matemática",
+      "subcategoria": "Trigonometria — Identidades",
+      "enunciado": "Com relação às identidades trigonométricas, assinale a opção INCORRETA.",
+      "alternativas": {
+        "A": "(1 + cotg²(x)) · (1 − cos²(x)) = 1 para todo x real, x ≠ kπ",
+        "B": "(1 − tg(x))² + (1 − cotg(x))² = … para todo x real, x ≠ kπ/2",
+        "C": "(1−cos(x))/sen(x) + sen(x) = (1−cos(x))/tg(x) + tg(x) para todo x real, x ≠ kπ/2",
+        "D": "sen(x)/cossec(x) + cos(x)/sec(x) = 0 para todo x real",
+        "E": "2·sen(x)·tg(x) = 1/(cossec(x)−1) + 1/(cossec(x)+1) para todo x real, x ≠ kπ/2 + kπ"
+      },
+      "gabarito": "ANULADA",
+      "status": "anulada"
+    },
+    {
+      "numero": 13,
+      "categoria": "Matemática",
+      "subcategoria": "Probabilidade",
+      "enunciado": "Em uma competição, 60% dos gols do Colégio Naval eram feitos após escanteio. A probabilidade de um escanteio resultar em gol é de 35% se o batedor for do CN e de 65% pelas demais escolas. Supondo que um escanteio a favor do CN foi marcado, a probabilidade de o escanteio ser cobrado por um atleta do CN e resultar em gol é de:",
+      "alternativas": {
+        "A": "5%",
+        "B": "21%",
+        "C": "35%",
+        "D": "65%",
+        "E": "80%"
+      },
+      "gabarito": "ANULADA",
+      "status": "anulada"
+    },
+    {
+      "numero": 14,
+      "categoria": "Matemática",
+      "subcategoria": "Geometria Analítica — Retas no Espaço",
+      "enunciado": "Dadas as retas r: {x = 9 + 3λ, y = 3λ, z = −3 + 3λ} e s: (x−3)/6 = (y−6)/(−6) = (z−3)/(−6), ambas no ℝ³. Sabendo que I é o ponto de interseção das retas r e s, qual é o valor da distância do ponto I até a origem O?",
+      "alternativas": {
+        "A": "√10",
+        "B": "2√10",
+        "C": "3√10",
+        "D": "10√2",
+        "E": "10√3"
+      },
+      "gabarito": "C",
+      "status": "válida"
+    },
+    {
+      "numero": 15,
+      "categoria": "Matemática",
+      "subcategoria": "Geometria Espacial — Esfera",
+      "enunciado": "Um plano alfa secciona uma esfera de raio 20 cm. Sabendo que a distância do centro da esfera ao plano alfa mede 12 cm, é correto afirmar que a área seccionada é igual a:",
+      "alternativas": {
+        "A": "36π cm²",
+        "B": "64π cm²",
+        "C": "256π cm²",
+        "D": "512π cm²",
+        "E": "1024π cm²"
+      },
+      "gabarito": "C",
+      "status": "válida"
+    },
+    {
+      "numero": 16,
+      "categoria": "Geografia",
+      "subcategoria": "Geografia Econômica do Brasil — PSI e Anos 1990",
+      "enunciado": "Com relação ao período em que vigorou a Política de Substituição de Importações (PSI) no Brasil e os anos 1990, assinale a opção correta.",
+      "alternativas": {
+        "A": "Até os anos 1970 havia forte intervenção do Estado na economia, bem como barreiras alfandegárias que protegiam a indústria da concorrência internacional. Além disso, o governo permitiu a instalação de indústrias estrangeiras para a produção de mercadorias que antes eram importadas.",
+        "B": "Entre os anos 1950 e o início da década de 1980, o Brasil foi a economia que menos cresceu no mundo, devido às indústrias nacionais se comportarem como periféricas no processo produtivo internacional.",
+        "C": "Nos anos 1990, a globalização e o crescimento do comércio mundial impuseram novas políticas de competitividade, impulsionando a expansão das indústrias brasileiras em detrimento dos setores de commodities.",
+        "D": "Nos anos 1990, as inovações tecnológicas aumentaram a eficiência dos processos produtivos e reduziram os custos de produção, fato beneficiado pelo Estado, que se isentou de suas ações políticas.",
+        "E": "Antes da década de 1990, a centralização do Estado brasileiro impediu que as corporações transnacionais possuíssem poder no mercado regional, uma vez que as fusões e aquisições eram proibidas por lei."
+      },
+      "gabarito": "A",
+      "status": "válida"
+    },
+    {
+      "numero": 17,
+      "categoria": "Geografia",
+      "subcategoria": "Unidades de Conservação — SNUC",
+      "enunciado": "O SNUC separa as Unidades de Conservação em Unidades de Proteção Integral e Unidades de Uso Sustentável. Assinale a opção correta que apresenta exemplos de Unidade de Uso Sustentável.",
+      "alternativas": {
+        "A": "Parque e área de relevante interesse ecológico.",
+        "B": "Reserva biológica e estação ecológica.",
+        "C": "Refúgio da vida silvestre e floresta.",
+        "D": "Área de proteção ambiental e reserva da fauna.",
+        "E": "Monumento natural e reserva extrativista."
+      },
+      "gabarito": "D",
+      "status": "válida"
+    },
+    {
+      "numero": 18,
+      "categoria": "Geografia",
+      "subcategoria": "Organização Espacial Brasileira — Centro-Sul",
+      "enunciado": "Sobre o espaço geoeconômico do Centro-Sul, formado pelos processos sociais e econômicos dos anos 1950, podemos afirmar que:",
+      "alternativas": {
+        "A": "O dinamismo do seu complexo agroindustrial depende da importação do fornecimento de insumos agrícolas e equipamentos dos países ricos, em função da incapacidade do país de produzi-los internamente.",
+        "B": "O seu desenvolvimento industrial foi impulsionado pelos investimentos vultosos da iniciativa privada em infraestrutura de transportes e na geração de energia, enquanto o Estado financiou os bens de consumo não duráveis.",
+        "C": "A densa malha viária e de telecomunicações possibilita o deslocamento de um intenso fluxo de pessoas, mercadorias, informações e capitais, revelando seu papel como articulador nacional do processo de integração intrarregional.",
+        "D": "A urbanização acelerada de metrópoles como Rio de Janeiro e São Paulo impulsionou o aumento das atividades produtivas e a oferta de emprego, imprimindo uma redução na segregação socioespacial.",
+        "E": "O modelo de desenvolvimento agrícola capitalista na região possibilitou a redução da concentração fundiária, em função do acesso dos pequenos e médios produtores rurais a amplas linhas de crédito."
+      },
+      "gabarito": "C",
+      "status": "válida"
+    },
+    {
+      "numero": 19,
+      "categoria": "História",
+      "subcategoria": "Imperialismo — Sociedades Geográficas Europeias",
+      "enunciado": "No contexto do Imperialismo, por que as Sociedades Geográficas possuíam relevância para as metrópoles europeias?",
+      "alternativas": {
+        "A": "A Geografia servia como instrumento de inserção da África no comércio internacional, por intermédio da cooperação econômica entre o colonizador e o colonizado.",
+        "B": "Embora atendessem aos interesses de políticos e cientistas, apropriaram-se da História e da Geografia e delimitaram o território por meio da manutenção da diversidade cultural e do respeito às múltiplas identidades.",
+        "C": "Eram financiadas por estadistas e comerciantes interessados em promover o desenvolvimento das comunidades no continente africano.",
+        "D": "Produziam um discurso geográfico comprometido com os interesses do colonizador, permitindo ao capitalismo europeu extrair os produtos necessários à indústria, desestruturar a economia doméstica e interferir no sistema político africano.",
+        "E": "As expedições pelos rios forneciam subsídios para as explorações africanas, por meio do mapeamento dos recursos naturais e do apoio às práticas civilizacionais."
+      },
+      "gabarito": "D",
+      "status": "válida"
+    },
+    {
+      "numero": 20,
+      "categoria": "História",
+      "subcategoria": "Hegemonia dos Estados Unidos no Sistema Internacional",
+      "enunciado": "Assinale a opção correta acerca da trajetória dos Estados Unidos na consolidação de sua hegemonia no Sistema Internacional.",
+      "alternativas": {
+        "A": "A Guerra de Secessão (1861-1865) pôs fim ao modelo escravocrata dos estados do Norte e estruturou a política doméstica na industrialização dos estados do Sul.",
+        "B": "Ao dar um caráter mais capitalista às suas forças produtivas, os EUA aceleraram a transição da economia para uma fase monopolista, embora subordinada ao capital inglês até a Segunda Guerra Mundial.",
+        "C": "A ascensão da União Soviética nas dimensões econômica e militar, no pós-Segunda Guerra Mundial, limitou a hegemonia norte-americana à produção de armas e de outros produtos da guerra.",
+        "D": "A hegemonia global dos EUA pautou-se nas esferas econômica e estratégica, privilegiando os investimentos na Europa e no Japão, em contraste com a baixa influência política nas regiões periféricas.",
+        "E": "No período entre as duas guerras mundiais, os EUA substituíram, na produção e na comercialização de mercadorias, os países europeus envolvidos no conflito, conquistando, assim, uma ampla fatia do mercado mundial."
+      },
+      "gabarito": "E",
+      "status": "válida"
+    },
+    {
+      "numero": 21,
+      "categoria": "Geografia",
+      "subcategoria": "Setor Energético Brasileiro",
+      "enunciado": "Sobre o setor energético no Brasil, considerando a crise de 2001 e o apagão de 2009, é correto afirmar que:",
+      "alternativas": {
+        "A": "A produção de energia hidrelétrica depende mais dos níveis dos reservatórios e dos regimes de chuva do que dos investimentos destinados ao setor pelo governo.",
+        "B": "As termelétricas encontram-se dispersas pelo território nacional, por isso são alternativas viáveis tanto do ponto de vista econômico quanto do ambiental.",
+        "C": "Os problemas ocorridos nos anos 2000 reforçam a ideia de que é preciso diversificar a matriz energética para utilizar outras fontes de energia em períodos de racionamento.",
+        "D": "Mesmo com elevados investimentos estatais em redes de transmissão e distribuição de energia, o problema do apagão ocorreu devido à redução dos índices pluviométricos.",
+        "E": "As privatizações, iniciadas nos anos 2000, foram responsáveis pela crise de abastecimento energético, devido à redução dos investimentos nos setores de geração, transmissão e distribuição energéticos."
+      },
+      "gabarito": "C",
+      "status": "válida"
+    },
+    {
+      "numero": 22,
+      "categoria": "Atualidades",
+      "subcategoria": "Geopolítica da Rússia — Entorno Estratégico",
+      "enunciado": "Coloque F (falso) e V (verdadeiro) nas afirmativas abaixo, quanto aos interesses geopolíticos e econômicos da Rússia em relação ao seu 'entorno estratégico': I — O Cáucaso entre os mares Cáspio e Negro possui interesses dos povos locais pelas águas, vias de comunicação e oleodutos. II — Para minimizar a dependência da Europa ao gás russo, europeus e estadunidenses formaram consórcio para desviar a rota dos dutos pelo território da Geórgia. III — Embora os ucranianos constituam a maioria da Península da Crimeia e sejam favoráveis à adesão à UE e à OTAN, os russos a anexaram pelo porto de Sebastopol. IV — A Rússia tem ameaçado constantemente o fornecimento de gás, tanto à Ucrânia quanto à UE, em virtude do conflito da Crimeia e das sanções econômicas.",
+      "alternativas": {
+        "A": "(V)(V)(F)(V)",
+        "B": "(V)(F)(F)(F)",
+        "C": "(V)(V)(V)(F)",
+        "D": "(F)(V)(V)(V)",
+        "E": "(F)(F)(F)(V)"
+      },
+      "gabarito": "A",
+      "status": "válida"
+    },
+    {
+      "numero": 23,
+      "categoria": "Atualidades",
+      "subcategoria": "Globalização — Setor Financeiro",
+      "enunciado": "Em um mundo globalizado, a financeirização da economia tem provocado impactos nas sociedades por meio de crises recorrentes. Assinale a opção correta com relação ao setor financeiro.",
+      "alternativas": {
+        "A": "O FMI possui um papel importante ao fornecer recursos financeiros e defender os interesses dos países pobres no combate à dívida externa, em detrimento do poder dos grandes bancos.",
+        "B": "O capital financeiro possui amplo domínio e influência nas sociedades devido às elevadas taxas sobre as transações comerciais, além da sujeição de muitos governos às decisões impostas por instituições internacionais.",
+        "C": "O capital especulativo, embora tenha se estendido rapidamente pelo mundo, tem enfrentado forte resistência dos Estados nacionais que impõem pesadas taxações à sua circulação.",
+        "D": "A crise financeira global que assolou os EUA em 2008 só não levou as diversas instituições financeiras nacionais à falência em virtude do maior aporte de capital de apoio ter sido proveniente do FMI.",
+        "E": "O desenvolvimento tecnológico e administrativo dos bancos e o endurecimento das legislações estatais têm impedido que redes ilegais legalizem a renda dessas atividades em investimentos produtivos."
+      },
+      "gabarito": "B",
+      "status": "válida"
+    },
+    {
+      "numero": 24,
+      "categoria": "Ciências Navais",
+      "subcategoria": "História da Marinha Brasileira — Entre Guerras",
+      "enunciado": "Sobre a Marinha brasileira no período entre guerras, tomando como referência o Relatório do Ministro da Marinha em 1932, Almirante Protógenes Pereira Guimarães, é correto afirmar que:",
+      "alternativas": {
+        "A": "Obteve, nos termos da Lei de Empréstimo e Arrendamento, com os EUA, o fornecimento de materiais bélicos necessários, sem operações financeiras imediatas, além do crédito de 200 milhões de dólares.",
+        "B": "As atividades de minagem e varredura ganharam novo fôlego, obedecendo ao novo programa naval aprovado, que decidiu pela construção, no Brasil, de uma série de navios mineiros varredores.",
+        "C": "Representou um divisor de águas, com a substituição da maioria dos meios navais da Esquadra de 1910, antes do fim da década de 1920, por meios mais modernos e produzidos no país com recursos nacionais.",
+        "D": "O desenvolvimento da mentalidade marítima do povo brasileiro revelou-se em toda a sua intensidade.",
+        "E": "O programa naval estabelecido em 1932, ajustado em 1936, com financiamento estadunidense e planejamento estratégico, criou uma Força Naval grandiosa com capacidade ilimitada para interferir no campo interno e externo."
+      },
+      "gabarito": "ANULADA",
+      "status": "anulada"
+    },
+    {
+      "numero": 25,
+      "categoria": "Ciências Navais",
+      "subcategoria": "História Marítima — Tripulação da Carreira da Índia",
+      "enunciado": "Com base no texto sobre a 'longa viagem a bordo das embarcações que faziam a Carreira da Índia', analise as afirmativas sobre as funções da tripulação: I — Marinheiro: pessoa sem experiência no mar, fazia atividades pesadas. II — Mestre: experimentado marinheiro cuja atribuição principal era a manobra do velame e a supervisão geral do convés. III — Capitão: seu mister era a navegação e, para isso, tinha conhecimentos acima da maioria do pessoal. IV — Meirinho: jovem de pouca idade subordinado ao guardião, encarregado das limpezas e varreduras do navio. V — Condestável: Oficial diretamente subordinado ao capitão, responsável pela operação e manutenção dos canhões de bordo.",
+      "alternativas": {
+        "A": "Apenas as afirmativas III e IV são verdadeiras.",
+        "B": "Apenas as afirmativas I e II são verdadeiras.",
+        "C": "Apenas as afirmativas I, II e V são verdadeiras.",
+        "D": "Apenas as afirmativas II e V são verdadeiras.",
+        "E": "Apenas as afirmativas II, III e IV são verdadeiras."
+      },
+      "gabarito": "D",
+      "status": "válida"
+    },
+    {
+      "numero": 26,
+      "categoria": "Ciências Navais",
+      "subcategoria": "História Naval — Guerra Hispano-Americana (1898)",
+      "enunciado": "Segundo Caminha, na Guerra Hispano-Americana (1898) um tipo de belonave mostrou-se tão eficiente em todas as formas de combate, aumentando ano a ano em tamanho, velocidade e poderio para atacar navios de sua espécie e ser empregado com eficiência contra todos os demais navios. Com base no texto, assinale a opção que identifica corretamente o tipo de navio mencionado.",
+      "alternativas": {
+        "A": "Fragata.",
+        "B": "Navio-Aeródromo.",
+        "C": "Contratorpedeiro.",
+        "D": "Encouraçado.",
+        "E": "Submarino."
+      },
+      "gabarito": "C",
+      "status": "válida"
+    },
+    {
+      "numero": 27,
+      "categoria": "Ciências Navais",
+      "subcategoria": "História do Brasil Colonial — Defesa do Território",
+      "enunciado": "De modo a garantir a posse do recém-descoberto território brasileiro no início do século XVI, qual foi a ação adotada pelo Reino de Portugal para coibir a presença de outros países, diante da ameaça francesa à costa do pau-brasil?",
+      "alternativas": {
+        "A": "Descartou, desde o início, a adoção de qualquer mecanismo diplomático para resolver a questão.",
+        "B": "Em 1512, enviou Nicolau Durand de Villegagnon para fundar uma colônia de povoamento na Baía de Guanabara.",
+        "C": "Autorizou a expedição comandada por Martim Afonso de Sousa exclusivamente para praticar a guerra de corso.",
+        "D": "Declarou guerra contra os franceses em 1509, cuja derrota resultou na perda do território da atual Guiana.",
+        "E": "Enviou expedições Guarda-Costas cuja principal missão era realizar o patrulhamento da costa brasileira."
+      },
+      "gabarito": "E",
+      "status": "válida"
+    },
+    {
+      "numero": 28,
+      "categoria": "Ciências Navais",
+      "subcategoria": "História — Marinha Imperial Brasileira",
+      "enunciado": "Sobre o processo de formação da Marinha Imperial Brasileira NÃO é correto afirmar que:",
+      "alternativas": {
+        "A": "A necessidade de dispor da Força Naval fez com que o governo imperial contratasse Lorde Thomas Cochrane como Comandante em Chefe da Esquadra.",
+        "B": "Foi um Oficial britânico, John Taylor, que comandou a primeira força naval ostentando no mar a Bandeira Nacional imperial. Até cerca de 1830, metade dos marujos e dois terços dos Oficiais eram estrangeiros.",
+        "C": "A rápida formação de uma Marinha de Guerra nacional constituía-se no melhor meio de transportar e concentrar tropas leais e suprimentos para as áreas de embate com os portugueses.",
+        "D": "Foram contratados Oficiais estrangeiros para a Marinha brasileira, cujo chefe foi o Almirante Thomas Cochrane, Conde de Dundonald, mais tarde também Marquês do Maranhão.",
+        "E": "Os portugueses haviam deixado por aqui algumas naus e outros navios, boa parte em péssimo estado de conservação. O governo, não tendo os recursos necessários, apelou ao povo por meio de subscrição pública."
+      },
+      "gabarito": "B",
+      "status": "válida"
+    },
+    {
+      "numero": 29,
+      "categoria": "Ciências Navais",
+      "subcategoria": "História Naval — Programas de Reaparelhamento Naval",
+      "enunciado": "Para tentar mitigar a desmobilização da Esquadra nos primeiros anos da República, foram apresentados dois Planos de Reaparelhamento Naval no início do século XX. Assinale a opção correta.",
+      "alternativas": {
+        "A": "Foram incorporados os Encouraçados Minas Gerais e São Paulo, pertencentes à classe dos 'dreadnoughts' mais poderosos do mundo.",
+        "B": "Foram incorporados a Fragata Nitcheroy, os Submarinos F1, F2, F3 e Humaitá, o Tender Ceará e outros navios auxiliares.",
+        "C": "Nesse programa, foi aprovado o projeto de um novo arsenal, bem como a modernização das instalações existentes na Baía de Todos os Santos.",
+        "D": "Em julho de 1904 foi apresentado na Câmara dos Deputados o Programa de Reaparelhamento Naval do Almirante Alexandrino de Alencar pelo Deputado Laurindo Pitta.",
+        "E": "Foram incorporados navios como os Encouraçados Minas Gerais e Rio de Janeiro, pertencentes à classe dos 'dreadnoughts'. Por motivos financeiros, deixou de ser incorporado o São Paulo, vendido à Turquia."
+      },
+      "gabarito": "A",
+      "status": "válida"
+    },
+    {
+      "numero": 30,
+      "categoria": "Ciências Navais",
+      "subcategoria": "Evolução Tecnológica Naval — Século XIX",
+      "enunciado": "Sobre a evolução tecnológica dos navios após a Revolução Industrial, é correto afirmar que:",
+      "alternativas": {
+        "A": "Lançado ao mar em 1887, na Inglaterra, o HMS 'Dreadnought' foi o primeiro navio dotado de couraça.",
+        "B": "Lançado ao mar em 1852, na França, o Cruzador 'Napoléon' foi o primeiro navio dotado de hélice.",
+        "C": "Lançado ao mar em 1872, nos EUA, o CSS 'Virginia' foi a primeira belonave a adotar o convés ao nível da água, sem borda livre.",
+        "D": "Lançado ao mar em 1917, nos EUA, o USS 'Eagle' foi o primeiro Navio-Aeródromo a entrar em serviço em uma Marinha.",
+        "E": "Lançado ao mar em 1889, na Inglaterra, o HMS 'Blake' foi o primeiro cruzador sem mastros para velas."
+      },
+      "gabarito": "E",
+      "status": "válida"
+    },
+    {
+      "numero": 31,
+      "categoria": "Liderança e Administração Militar",
+      "subcategoria": "Estilos de Liderança",
+      "enunciado": "Qual estilo de liderança é indicado para assuntos de natureza técnica e é eficaz quando exercido sobre pessoas altamente qualificadas e motivadas?",
+      "alternativas": {
+        "A": "Participativa ou Democrática.",
+        "B": "Transformacional.",
+        "C": "Orientada para Tarefa.",
+        "D": "Transacional.",
+        "E": "Delegativa."
+      },
+      "gabarito": "E",
+      "status": "válida"
+    },
+    {
+      "numero": 32,
+      "categoria": "Legislação e Regulamentos",
+      "subcategoria": "OGSA 2009 — Atribuições do Encarregado de Divisão",
+      "enunciado": "Segundo a Ordenança Geral para o Serviço da Armada (OGSA - 2009), assinale a opção que apresenta uma atribuição do Encarregado de Divisão, em navio onde haja Chefe de Departamento.",
+      "alternativas": {
+        "A": "Promover permanentemente a atualização do arquivo operativo e técnico.",
+        "B": "Responder pela correta escrituração dos livros, modelos e demais documentos.",
+        "C": "Assessorar diretamente o Comandante, independente de solicitação deste.",
+        "D": "Coordenar e controlar o preparo e o adestramento do pessoal subordinado.",
+        "E": "Ser o responsável direto pela disciplina de seus subordinados."
+      },
+      "gabarito": "E",
+      "status": "válida"
+    },
+    {
+      "numero": 33,
+      "categoria": "Legislação e Regulamentos",
+      "subcategoria": "Regulamento Militar — Deserção",
+      "enunciado": "Se o Termo de Deserção de um militar foi lavrado dia 04 de junho, em que dia foi lavrada sua Parte de Ausência?",
+      "alternativas": {
+        "A": "26 de maio.",
+        "B": "27 de maio.",
+        "C": "28 de maio.",
+        "D": "03 de junho.",
+        "E": "05 de junho."
+      },
+      "gabarito": "B",
+      "status": "válida"
+    },
+    {
+      "numero": 34,
+      "categoria": "Legislação e Regulamentos",
+      "subcategoria": "Documento Administrativo — Classificação por Precedência",
+      "enunciado": "O Documento Administrativo é classificado quanto ao âmbito, à precedência e ao acesso. Assinale a opção que apresenta uma classificação referente à precedência.",
+      "alternativas": {
+        "A": "Especial.",
+        "B": "Informação Pessoal.",
+        "C": "Reservado.",
+        "D": "Ostensivo.",
+        "E": "Sigiloso."
+      },
+      "gabarito": "A",
+      "status": "válida"
+    },
+    {
+      "numero": 35,
+      "categoria": "Legislação e Regulamentos",
+      "subcategoria": "IPM — Inquérito Policial Militar",
+      "enunciado": "Em um Inquérito Policial Militar (IPM) as testemunhas serão ouvidas em Termo:",
+      "alternativas": {
+        "A": "de Autuação.",
+        "B": "Declaratório.",
+        "C": "Interrogatório.",
+        "D": "de Inquirição.",
+        "E": "de Depoimento."
+      },
+      "gabarito": "D",
+      "status": "válida"
+    },
+    {
+      "numero": 36,
+      "categoria": "Legislação e Regulamentos",
+      "subcategoria": "RDM 2009 — Registro de Partes",
+      "enunciado": "De acordo com o Regulamento Disciplinar da Marinha (RDM de 2009), servindo superior e subalterno na mesma Organização Militar (OM) e sendo o subalterno Praça de graduação inferior a Suboficial, será efetuado o lançamento da parte no Livro de:",
+      "alternativas": {
+        "A": "Registro de Contravenções Disciplinares.",
+        "B": "Registro de Presos e Impedidos.",
+        "C": "Registro de Partes de Ocorrência.",
+        "D": "Quarto do Oficial de Serviço.",
+        "E": "Registro do Departamento Pessoal."
+      },
+      "gabarito": "A",
+      "status": "válida"
+    },
+    {
+      "numero": 37,
+      "categoria": "Liderança e Administração Militar",
+      "subcategoria": "Doutrina de Liderança — Expedição de Ordens (EMA-137)",
+      "enunciado": "De acordo com Beckman, citado na Doutrina de Liderança da Marinha (EMA-137 de 2013), são normas a respeito da expedição de ordens, EXCETO:",
+      "alternativas": {
+        "A": "Repita a ordem, se não entendida.",
+        "B": "Não dê várias ordens ao mesmo tempo.",
+        "C": "Não determine mais trabalho do que possa ser executado.",
+        "D": "Depois de expedir uma ordem, permaneça junto do trabalhador.",
+        "E": "Procure estar bem informado antes de dar a ordem."
+      },
+      "gabarito": "D",
+      "status": "válida"
+    },
+    {
+      "numero": 38,
+      "categoria": "Ciências Navais",
+      "subcategoria": "Organização do CAv — Funções e Atribuições",
+      "enunciado": "Correlacione as funções exercidas no Grupo de CAv de acordo com a Organização Administrativa do CAV às suas atribuições e assinale a opção correta. Funções: I-Fiel de CAv da Divisão; II-Encarregado de Divisão; III-Fiel de CAv do navio; IV-Imediato; V-Encarregado do CAv. Atribuições (em ordem): conduzir inspeções periódicas nos reparos; coordenar os Fiéis de Avarias das Divisões; realizar inspeções diárias na Divisão; fazer inspeções periódicas de acessórios; prover material e pessoal para auxílio; adotar medidas preventivas em suas áreas de responsabilidade.",
+      "alternativas": {
+        "A": "(V)(III)(I)(–)(IV)(II)",
+        "B": "(IV)(II)(–)(I)(III)(V)",
+        "C": "(III)(V)(I)(–)(IV)(II)",
+        "D": "(I)(–)(V)(IV)(II)(III)",
+        "E": "(–)(II)(IV)(III)(I)(V)"
+      },
+      "gabarito": "A",
+      "status": "válida"
+    },
+    {
+      "numero": 39,
+      "categoria": "Liderança e Administração Militar",
+      "subcategoria": "Atributos Profissionais de Oficiais e Praças",
+      "enunciado": "São atributos profissionais de Oficiais e Praças, constantes em documentos de avaliação, EXCETO:",
+      "alternativas": {
+        "A": "Inteligência.",
+        "B": "Conduta militar.",
+        "C": "Capacidade administrativa.",
+        "D": "Aptidão para o serviço.",
+        "E": "Cultura geral."
+      },
+      "gabarito": "B",
+      "status": "válida"
+    },
+    {
+      "numero": 40,
+      "categoria": "Liderança e Administração Militar",
+      "subcategoria": "Doutrina de Liderança da Marinha — Níveis (EMA-137)",
+      "enunciado": "Segundo a Doutrina de Liderança da Marinha (EMA-137 de 2013), quais são os níveis de liderança?",
+      "alternativas": {
+        "A": "Direta, Organizacional e Estratégica.",
+        "B": "Organizacional, Transacional e Direta.",
+        "C": "Estratégica, Organizacional e Transformacional.",
+        "D": "Direta, Estratégica e Democrática.",
+        "E": "Organizacional, Centralizadora e Orientada para o Relacionamento."
+      },
+      "gabarito": "A",
+      "status": "válida"
+    },
+    {
+      "numero": 41,
+      "categoria": "Legislação e Regulamentos",
+      "subcategoria": "Cerimonial da Marinha — Honras Fúnebres",
+      "enunciado": "De acordo com o Cerimonial da Marinha do Brasil, as honras fúnebres podem ser dispensadas, a critério da autoridade competente: I — quando o falecido as houver dispensado em vida; II — quando solicitação nesse sentido partir da própria família; III — nos dias de grande gala do país estrangeiro, em cujo porto se encontrar navio da MB; IV — nos dias de festa nacional; V — em condições adversas de tempo. Assinale a opção correta.",
+      "alternativas": {
+        "A": "Apenas as afirmativas I e IV são verdadeiras.",
+        "B": "Apenas as afirmativas III e V são verdadeiras.",
+        "C": "Apenas as afirmativas III e IV são verdadeiras.",
+        "D": "Apenas as afirmativas I, II e V são verdadeiras.",
+        "E": "Apenas a afirmativa IV é verdadeira."
+      },
+      "gabarito": "D",
+      "status": "válida"
+    },
+    {
+      "numero": 42,
+      "categoria": "Legislação e Regulamentos",
+      "subcategoria": "Regulamentos e Regimentos Internos das OM",
+      "enunciado": "A elaboração dos Regulamentos e Regimentos Internos das Organizações Militares (OM) de terra será pautada em normas de responsabilidade:",
+      "alternativas": {
+        "A": "Do Comandante da Organização Militar.",
+        "B": "Do Comandante da Marinha.",
+        "C": "Da Diretoria Geral do Pessoal da Marinha.",
+        "D": "Do Estado-Maior da Armada.",
+        "E": "Da Diretoria do Pessoal Militar da Marinha."
+      },
+      "gabarito": "D",
+      "status": "válida"
+    },
+    {
+      "numero": 43,
+      "categoria": "Ciências Navais",
+      "subcategoria": "Controle de Avarias — Backdraft",
+      "enunciado": "Em relação às condições que podem indicar uma situação de 'Backdraft', coloque F (falso) ou V (verdadeiro) nas afirmativas: I — Fumaça sem pressão, num ambiente fechado. II — Calor excessivo (nota-se pela temperatura na porta). III — Resíduos da fumaça impregnando o vidro das janelas. IV — Muito ruído em ambientes fechados onde houve um incêndio. V — Movimento de ar para fora do ambiente quando alguma abertura é feita (em alguns casos ouve-se o ar assoviando ao passar pelas frestas).",
+      "alternativas": {
+        "A": "(F)(V)(V)(F)(F)",
+        "B": "(V)(V)(F)(F)(V)",
+        "C": "(V)(V)(F)(V)(F)",
+        "D": "(F)(F)(V)(V)(V)",
+        "E": "(V)(F)(V)(F)(F)"
+      },
+      "gabarito": "A",
+      "status": "válida"
+    },
+    {
+      "numero": 44,
+      "categoria": "Legislação e Regulamentos",
+      "subcategoria": "OGSA 2009 — Competências do Oficial de Serviço",
+      "enunciado": "De acordo com a OGSA (2009), assinale a opção que completa corretamente as lacunas da sentença: 'O ___ mandará participar ao ___ a necessidade de sua presença no local de serviço quando lhe parecer haver risco para a segurança da OM. Da mesma forma procederá com o ___, nos casos referentes às atribuições deste.'",
+      "alternativas": {
+        "A": "Contramestre / Oficial de serviço / Imediato",
+        "B": "Oficial de serviço / Imediato / Comandante",
+        "C": "Oficial de serviço / Comandante / Imediato",
+        "D": "Comandante / Imediato / Oficial de Serviço",
+        "E": "Contramestre / Comandante / Oficial de Serviço"
+      },
+      "gabarito": "C",
+      "status": "válida"
+    },
+    {
+      "numero": 45,
+      "categoria": "Legislação e Regulamentos",
+      "subcategoria": "RDM 2009 — Circunstâncias Agravantes",
+      "enunciado": "De acordo com o Art. 10 do Regulamento Disciplinar da Marinha (RDM de 2009), NÃO é uma circunstância agravante da contravenção disciplinar:",
+      "alternativas": {
+        "A": "Conluio de duas ou mais pessoas.",
+        "B": "Premeditação.",
+        "C": "Maus antecedentes militares.",
+        "D": "Provocação.",
+        "E": "Reincidência."
+      },
+      "gabarito": "D",
+      "status": "válida"
+    },
+    {
+      "numero": 46,
+      "categoria": "Ciências Navais",
+      "subcategoria": "Procedimentos Marinheiros — Turcos (CAAML-703)",
+      "enunciado": "De acordo com o Manual de Procedimentos Marinheiros (CAAML-703 de 2017), qual o nome do turco que é recolhido ou disparado inclinando-se sobre um setor dentado que constitui seu pé e engraza numa cremalheira sobre o convés?",
+      "alternativas": {
+        "A": "Simples.",
+        "B": "De rebater.",
+        "C": "Rolante ou deslizante.",
+        "D": "Comum.",
+        "E": "Quadrantal."
+      },
+      "gabarito": "E",
+      "status": "válida"
+    },
+    {
+      "numero": 47,
+      "categoria": "Legislação e Regulamentos",
+      "subcategoria": "Estatuto dos Militares — Ética Militar (Art. 28)",
+      "enunciado": "De acordo com o Art. 28 do Estatuto dos Militares, assinale a opção que apresenta um preceito da ética militar.",
+      "alternativas": {
+        "A": "Disciplina e o respeito à hierarquia.",
+        "B": "Aprimoramento técnico-profissional.",
+        "C": "Espírito de corpo, orgulho do militar pela organização onde serve.",
+        "D": "Probidade e a lealdade em todas as circunstâncias.",
+        "E": "Praticar a camaradagem e desenvolver, permanentemente, o espírito de cooperação."
+      },
+      "gabarito": "E",
+      "status": "válida"
+    },
+    {
+      "numero": 48,
+      "categoria": "Legislação e Regulamentos",
+      "subcategoria": "RDM 2009 — Recursos de Parte ou Prisão Imediata",
+      "enunciado": "De acordo com o Regulamento Disciplinar da Marinha (RDM de 2009), sobre os recursos da parte ou prisão imediata, o recurso deve ser interposto após o cumprimento da pena e dentro do prazo de:",
+      "alternativas": {
+        "A": "Oito dias corridos.",
+        "B": "Oito dias úteis.",
+        "C": "Quinze dias corridos.",
+        "D": "Quinze dias úteis.",
+        "E": "Trinta dias corridos."
+      },
+      "gabarito": "B",
+      "status": "válida"
+    },
+    {
+      "numero": 49,
+      "categoria": "Legislação e Regulamentos",
+      "subcategoria": "DGPM-315 — Sindicância",
+      "enunciado": "Segundo a DGPM-315, o encarregado da Sindicância assume as atribuições que lhe foram delegadas pela autoridade nomeante por meio da respectiva Portaria de:",
+      "alternativas": {
+        "A": "Atuação.",
+        "B": "Delegação.",
+        "C": "Autuação.",
+        "D": "Instauração.",
+        "E": "Atribuição."
+      },
+      "gabarito": "C",
+      "status": "válida"
+    },
+    {
+      "numero": 50,
+      "categoria": "Legislação e Regulamentos",
+      "subcategoria": "Documento Administrativo — Atestado",
+      "enunciado": "Como é chamado o Documento Administrativo (DA) declaratório pelo qual os Titulares de Organizações Militares (OM) ou autoridade delegada comprovam, a pedido, um fato ou situação de que tenham conhecimento?",
+      "alternativas": {
+        "A": "Comunicação Padronizada.",
+        "B": "Atestado.",
+        "C": "Ofício.",
+        "D": "Certidão.",
+        "E": "Memorando."
+      },
+      "gabarito": "B",
+      "status": "válida"
+    }
+  ],
+  "resumo": {
+    "total": 50,
+    "validas": 44,
+    "anuladas": 4,
+    "alteradas": 2,
+    "por_categoria": {
+      "Língua Portuguesa": 8,
+      "Matemática": 7,
+      "Geografia": 5,
+      "História": 3,
+      "Atualidades": 2,
+      "Ciências Navais": 11,
+      "Liderança e Administração Militar": 5,
+      "Legislação e Regulamentos": 9
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "meta": {
+    "concurso": "CA-AA-AFN",
+    "tipo": "simulado_dificil",
+    "total": 2
+  },
+  "questoes": [
+    {
+      "id_global": "CAAAFN_2019_V_004",
+      "id": "q2019-04",
+      "num": 4,
+      "ano": 2019,
+      "prova": "Verde",
+      "candidatos": "CAP",
+      "disciplina": "Língua Portuguesa",
+      "materia": "portugues",
+      "materiaNome": "Português",
+      "assunto": "Acentuação Gráfica",
+      "subassunto": "Regras de Acentuação",
+      "nivel": "concurso",
+      "enunciado": "Assinale a opção em que a regra de acentuação da palavra destacada no trecho está corretamente apresentada.",
+      "alternativas": {
+        "A": "\"A prática do reúso hídrico, pouco conhecida dos brasileiros, tem de ser estimulada pelos governantes.' (2°§) - são acentuadas as palavras com i e u tônicos que formam ditongo.",
+        "B": "\"As pessoas ainda rejeitam a ideia de que podem bebê-la, quando reaproveitada, sem qualquer risco.\" (3°§) - não são acentuadas as paroxítonas com tritongos eia e oia.",
+        "C": "\"(...) no Aquapolo Ambiental do Polo Petroquímico da Petrobras (...)\" (5°§) - não são acentuadas as paroxítonas homógrafas de artigos, contrações, preposições e conjunções átonas.",
+        "D": "\"(...) a água é finita e que cada vez que é reutilizada maior será a contribuição para frear a escassez.\" (5°§) - não se acentuam as oxítonas terminadas em -a, -e, -o e -em seguida ou não de -s.",
+        "E": "\"No entanto experiências exitosas vêm ocorrendo (...)\" (5°§) - é sempre acentuada a terceira pessoa do plural do presente do indicativo dos verbos ter, ver e seus compostos."
+      },
+      "gabarito": "C",
+      "anulada": false,
+      "dificuldade": "dificil",
+      "comentario_gabarito": "A questão exige o conhecimento das regras de acentuação gráfica da Língua Portuguesa.\nAnalisando cada alternativa:\nA) Palavra: \"reúso\". A regra apresentada (\"são acentuadas as palavras com i e u tônicos que formam ditongo\") está incorreta. \"Reúso\" é acentuado porque o 'u' tônico forma um hiato com a vogal anterior e não é seguido de 'nh'. Não forma ditongo.\nB) Palavra: \"ideia\". A regra apresentada (\"não são acentuadas as paroxítonas com tritongos eia e oia\") está correta e se aplica à palavra \"ideia\", que é uma paroxítona terminada em -eia e, após o Acordo Ortográfico de 1990, não é mais acentuada.\nC) Palavra: \"Polo\". A regra apresentada (\"não são acentuadas as paroxítonas homógrafas de artigos, contrações, preposições e conjunções átonas\") é sobre a eliminação do acento diferencial em homógrafos. \"Polo\" (substantivo) nunca foi acentuado e não se enquadra diretamente nessa regra de acento diferencial que foi abolido (como em 'pelo' substantivo vs 'pelo' preposição+artigo). A palavra \"Polo\" é uma paroxítona terminada em -o, e paroxítonas terminadas em -o não são acentuadas. A regra apresentada não é a mais direta para justificar a não acentuação de \"Polo\" neste contexto.\nD) Palavra: \"escassez\". A regra apresentada (\"não se acentuam as oxítonas terminadas em -a, -e, -o e -em seguida ou não de -s\") está incorreta para a palavra. \"Escassez\" é uma paroxítona (es-cas-sez), não uma oxítona, e termina em -z, por isso não é acentuada. A regra citada é para oxítonas.\nE) Palavra: \"vêm\". A regra apresentada (\"é sempre acentuada a terceira pessoa do plural do presente do indicativo dos verbos ter, ver e seus compostos\") está correta. \"Vêm\" (do verbo vir) é a terceira pessoa do plural do presente do indicativo e é acentuada para diferenciá-la da terceira pessoa do singular \"vem\".\n\nReavaliando B e E: A alternativa B afirma que paroxítonas com tritongos -eia e -oia não são acentuadas, e \"ideia\" se encaixa perfeitamente nessa regra (não é acentuada). A alternativa E afirma que a 3ª pessoa do plural dos verbos 'ter', 'vir' e seus compostos é sempre acentuada, e 'vêm' se encaixa perfeitamente nessa regra. Ambas parecem corretas. No entanto, a regra para 'ideia' é mais específica para o Acordo Ortográfico. A regra para 'vêm' é uma regra geral de acentuação diferencial. Em provas de concurso, a regra para 'vêm' é frequentemente cobrada e é inequivocamente correta. A regra para 'ideia' é também correta, mas a formulação \"paroxítonas com tritongos eia e oia\" pode ser um pouco imprecisa, já que 'eia' e 'oia' formam ditongos crescentes em paroxítonas, não tritongos. No entanto, o ponto principal é que elas não são acentuadas. Considerando a clareza e a universalidade da regra, a E é a mais precisa e menos ambígua.\n\nConsiderando que a questão pede a opção em que a regra está *corretamente apresentada* e *aplicada* à palavra destacada, a alternativa E é a mais precisa. A palavra \"ideia\" (B) é uma paroxítona terminada em ditongo aberto 'ei', que perdeu o acento. A regra fala em 'tritongos eia e oia', o que é uma imprecisão terminológica, pois 'eia' e 'oia' em 'ideia' e 'joia' são ditongos abertos. A regra para 'vêm' é exata.",
+      "texto_base": "Cuidando da água\nEm tempos de seca prolongada no Nordeste, situação que se observa em outras regiões do planeta, a Organização das Nações Unidas (ONU) alerta para a necessidade urgente de adoção da prática de reciclagem da água em função da escassez de recursos hídricos em inúmeros países. A população mundial demorou a entender que a água não é recurso inesgotável. A sua falta, mostra o estudo do organismo internacional, faz-se sentir cada vez mais em diversas áreas, como na da saúde, com o surgimento de doenças associadas ao problema. E não há distinção entre nações pobres, ricas e em desenvolvimento.\nA prática do reúso hídrico, pouco conhecida dos brasileiros, tem de ser estimulada pelos governantes. Muitos países adotaram políticas nesse sentido, principalmente na agricultura, setor que mais explora esse recurso. No relatório \"Águas residuais: o recurso inexplorado\", recentemente lançado na África do Sul, a ONU aponta inúmeras possibilidades de reciclagem e mostra que existe tecnologia confiável para filtrar as impurezas e reaproveitar o produto sem qualquer risco para a população, se for para o consumo humano.\nA verdade é que as águas residuais não devem simplesmente ser descartadas, num flagrante desperdício, pois são recurso valioso num mundo onde não é inesgotável. Daí a necessidade urgente de seu reúso. Mas, para que isso se torne realidade, a barreira do preconceito tem de ser vencida, quando destinada ao consumo humano. As pessoas ainda rejeitam a ideia de que podem bebê-la, quando reaproveitada, sem qualquer risco. Isso porque a água residual pode ser aquela descartada no banho, no vaso sanitário e na máquina de lavar roupa, entre outras.\nA meta da ONU é reduzir à metade a proporção de águas residuais não tratadas e aumentar a reutilização de água potável até 2030. Para alcançar o objetivo, é fundamental aumentar a aceitação pública de seu reúso, o que já vem acontecendo em experiências de reutilização em larga escala. A população tem de entender que as águas residuais que acabam no esgoto não são um problema, mas parte da solução da crise hídrica em nível mundial. Em Singapura, por exemplo, bebe-se água reciclada de esgotos, completamente renovada e segura. O mesmo acontece em outros locais, como Japão e Califórnia.\nNo Brasil, onde a escassez não é tão grave como em outras regiões do planeta, o grande problema não é o consumo humano, mas o uso do insumo na indústria e na agricultura. No entanto experiências exitosas vêm ocorrendo, como em São Paulo, no Aquapolo Ambiental do Polo Petroquímico da Petrobras que, com iniciativas paralelas no Rio de Janeiro, Paraná e Pernambuco, utilizou água reciclada que daria para abastecer uma cidade de 600 mil habitantes por um ano. Iniciativas como essa devem receber todo estímulo. E a população tem de se conscientizar de que a água é finita e que cada vez que é reutilizada maior será a contribuição para frear a escassez.\nDisponível em: <<https://www.diariodepernambuco.com.br/app/noticia/politica/2017/06/19/interna_politica,709263/editorial-cuidando-da-agua.shtml>>. Texto adaptado.",
+      "tags": [
+        "acentuacao",
+        "gramatica",
+        "lingua portuguesa",
+        "regras de acentuacao"
+      ],
+      "fonte": "2019.pdf"
+    },
+    {
+      "id_global": "CAAAFN_2019_V_010",
+      "id": "q2019-10",
+      "num": 10,
+      "ano": 2019,
+      "prova": "Verde",
+      "candidatos": "CAP",
+      "disciplina": "Matemática",
+      "materia": "matematica",
+      "materiaNome": "Matemática",
+      "assunto": "Análise Combinatória",
+      "subassunto": "Princípio Fundamental da Contagem",
+      "nivel": "concurso",
+      "enunciado": "As placas de automóveis no padrão Mercosul começaram a ser usadas em São Paulo e no Rio de Janeiro e, em breve, serão usadas em todo o território brasileiro. Observe a imagem de uma nova possível placa: Ex: (1) RRT3A 25 Há ainda placas do tipo abaixo, conforme a figura, que ainda circulam nos carros nesses Estados. Ex: (2) RAT2019 Oberve que na placa acima, Ex: (1), a sequência será LLLNLNN, em que L é a letra e N é o número, nesta ordem. Já a placa do Ex: (2) será de LLLNNNN, em que L é a letra e N é o número, também nesta ordem. Considerando as do modelo Mercosul, em relação as que ainda circulam, quantas placas a mais serão confeccionadas, baseadas em nosso sistema de numeração de 0 a 9 e com o alfabeto de 26 letras?",
+      "alternativas": {
+        "A": "$10 \times 26^3 \times 16$",
+        "B": "$10^3 \times 26^3 \times 16$",
+        "C": "$10^3 \times 26^3 \times 16^3$",
+        "D": "$26^3 \times 10 \times 16$",
+        "E": "$26^4 \times 10^3 \times 16$"
+      },
+      "gabarito": "B",
+      "anulada": false,
+      "dificuldade": "dificil",
+      "comentario_gabarito": "Para resolver a questão, calculamos o número de placas possíveis para cada padrão e, em seguida, a diferença.\n1.  **Placas Mercosul (LLLNLNN):**\n    -   3 letras (L) no início: $26 \times 26 \times 26 = 26^3$ possibilidades.\n    -   1 número (N) em seguida: $10$ possibilidades.\n    -   1 letra (L) em seguida: $26$ possibilidades.\n    -   2 números (N) no final: $10 \times 10 = 10^2$ possibilidades.\n    Total de placas Mercosul: $26^3 \times 10 \times 26 \times 10^2 = 26^4 \times 10^3$.\n\n2.  **Placas Antigas (LLLNNNN):**\n    -   3 letras (L) no início: $26 \times 26 \times 26 = 26^3$ possibilidades.\n    -   4 números (N) em seguida: $10 \times 10 \times 10 \times 10 = 10^4$ possibilidades.\n    Total de placas Antigas: $26^3 \times 10^4$.\n\nO número de placas a mais que serão confeccionadas com o modelo Mercosul é a diferença entre as possibilidades do padrão Mercosul e do padrão antigo:\n$26^4 \times 10^3 - 26^3 \times 10^4$\nFatorando $26^3 \times 10^3$:\n$26^3 \times 10^3 \times (26 - 10)$\n$26^3 \times 10^3 \times 16$\n\nComparando com as alternativas, a opção B corresponde a este resultado.",
+      "texto_base": "",
+      "tags": [
+        "análise combinatória",
+        "princípio fundamental da contagem",
+        "placas de carro",
+        "matemática"
+      ],
+      "fonte": "2019.pdf"
+    }
+  ]
+}

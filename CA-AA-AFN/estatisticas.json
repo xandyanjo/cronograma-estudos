@@ -1,0 +1,27 @@
+{
+  "Língua Portuguesa": {
+    "Semântica": 1,
+    "Figuras de Linguagem": 1,
+    "Conectivos e Relações de Sentido": 1,
+    "Acentuação Gráfica": 1,
+    "Tipologia Textual": 1,
+    "Sintaxe": 1,
+    "Interpretação de Texto": 1,
+    "Crase": 1,
+    "Geral": 40
+  },
+  "Matemática": {
+    "Geometria Plana": 1,
+    "Análise Combinatória": 1,
+    "Geral": 40
+  },
+  "Geografia": {
+    "Geral": 48
+  },
+  "História": {
+    "Geral": 42
+  },
+  "Conhecimento Militar-Naval": {
+    "Geral": 120
+  }
+}

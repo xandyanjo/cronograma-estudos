@@ -1,0 +1,19 @@
+# Ignore large PDF files
+*.pdf
+**/*.pdf
+
+# Ignore cache files
+CA-AA-AFN/cache_extracao.json
+**/__pycache__/
+
+# Ignore system generated logs
+*.log
+**/*.log
+
+# Ignore scratch files
+pages_text_2019.txt
+raw_response_schema.json
+.gitignore.terabox.uploading.cfg
+
+# Ignore local secret key files
+CA-AA-AFN/key.txt

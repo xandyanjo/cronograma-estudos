@@ -1,0 +1,1126 @@
+{
+  "meta": {
+    "concurso": "CA-AA-AFN/2020",
+    "orgao": "Marinha do Brasil - Diretoria de Ensino da Marinha",
+    "prova": "Verde",
+    "candidatos": "Oriundos do CPA e do CAP (Quadro Auxiliar da Armada)",
+    "total_questoes": 50,
+    "questoes_anuladas": [
+      5,
+      14,
+      23,
+      29
+    ],
+    "data_prova": "06/12/2020",
+    "publicacao_gabarito": "02/03/2021",
+    "fonte_gabarito": "GABARITO_FINAL_AA_AFN_2020.pdf - Serviço de Seleção do Pessoal da Marinha"
+  },
+  "questoes": [
+    {
+      "id": 1,
+      "enunciado": "Em que opção a análise dos termos destacados está correta? (Referente ao texto 'Um não: muitos' sobre Transtorno do Espectro Autista)",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "De acordo com a norma-padrão da língua, os pronomes destacados em '[...] quando não se tem tanto apego emotivo [...].' (4ºS) e '[...] usam o termo para se identificar.' (2ºS) podem também aparecer pospostos ao verbo.",
+        "B": "Os pronomes relativos destacados em '[...] graças aos trabalhos que a psiquiatra inglesa [...].' (1ºS) e '[...] existem pessoas que levam vidas[...].' (2ºS) apresentam funções sintáticas distintas.",
+        "C": "Os termos destacados, respectivamente, em 'A ideia de espectro ganhou corpo na comunidade científica [...]' (1ºS) e '[...] passaram a ser reunidos sob o guarda-chuva[...].' (1ºS) foram empregados denotativa e conotativamente no texto.",
+        "D": "Em 'Essa explicação dá margem a uma discussão evolutiva.' (5ºS) e '[...] costuma caminhar lado a lado com QI's altos.' (6ºS), o uso da crase é facultativo, conforme as normas gramaticais vigentes.",
+        "E": "A regência dos termos destacados em '[...] algumas variantes genéticas geralmente associadas ao autismo também têm a ver com a inteligência.[...]. E disso a seleção natural gosta.' (6ºS) não está em conformidade com a norma-padrão da língua."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "gramática",
+        "pronomes",
+        "norma-padrão",
+        "regência",
+        "crase"
+      ],
+      "texto_base": "Um não: muitos (Revista Superinteressante, Ed. 410, dezembro de 2019)",
+      "gabarito": "B"
+    },
+    {
+      "id": 2,
+      "enunciado": "Cada gênero textual apresenta características que o definem. O texto 'Um não: muitos' analisa aspectos do Transtorno do Espectro Autista e pode ser classificado como:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "crônica.",
+        "B": "notícia.",
+        "C": "editorial.",
+        "D": "relatório científico.",
+        "E": "carta argumentativa."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "gêneros textuais",
+        "tipologia textual",
+        "artigo de divulgação científica"
+      ],
+      "texto_base": "Um não: muitos (Revista Superinteressante, Ed. 410, dezembro de 2019)",
+      "gabarito": "B"
+    },
+    {
+      "id": 3,
+      "enunciado": "O termo destacado em 'Na lógica darwinista, o autismo seria uma pedra no sapato [...]' (5ºS) apresenta, no contexto, a ideia de um:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "permanente empecilho.",
+        "B": "mal necessário.",
+        "C": "vigoroso auxílio.",
+        "D": "processo seletivo.",
+        "E": "forte concorrente."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "expressão idiomática",
+        "semântica",
+        "sentido contextual"
+      ],
+      "texto_base": "Um não: muitos (Revista Superinteressante, Ed. 410, dezembro de 2019)",
+      "gabarito": "A"
+    },
+    {
+      "id": 4,
+      "enunciado": "Com relação às ideias do texto, considere as afirmações abaixo.\nI - De acordo com o texto, a teoria da evolução ratifica o fato de os autistas apresentarem espectros que impossibilitam um diagnóstico fixo.\nII - Estudos científicos comprovam que disfunções cerebrais fazem com que os autistas apresentem algumas habilidades cognitivas inibidas enquanto outras são maximizadas.\nIII - O período 'Como comportamentos apresentados em alguns casos podem não aparecer em outros, fica difícil colar a mesma etiqueta em todos os pacientes.' (1ºS) ratifica a ideia de espectro, relacionada ao transtorno autista.\nAssinale a opção correta.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Apenas as afirmativas I e II são verdadeiras.",
+        "B": "Apenas as afirmativas II e III são verdadeiras.",
+        "C": "Apenas as afirmativas I e III são verdadeiras.",
+        "D": "Apenas a afirmativa III é verdadeira.",
+        "E": "Apenas a afirmativa II é verdadeira."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "interpretação de texto",
+        "autismo",
+        "afirmativas V/F"
+      ],
+      "texto_base": "Um não: muitos (Revista Superinteressante, Ed. 410, dezembro de 2019)",
+      "gabarito": "D"
+    },
+    {
+      "id": 5,
+      "enunciado": "Que figura de linguagem foi utilizada no período 'Por isso, urge pesquisa e análise de dados e estudo aprofundado para montar esse quebra-cabeça.' (7ºS)?",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Hipérbato.",
+        "B": "Pleonasmo.",
+        "C": "Zeugma.",
+        "D": "Elipse.",
+        "E": "Polissíndeto."
+      },
+      "gabarito": "Anulada",
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "figuras de linguagem",
+        "polissíndeto",
+        "estilística"
+      ],
+      "texto_base": "Um não: muitos (Revista Superinteressante, Ed. 410, dezembro de 2019)"
+    },
+    {
+      "id": 6,
+      "enunciado": "Assinale a opção em que a análise dos termos destacados está correta.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Em '[...] passaram a ser reunidos sob o guarda-chuva do espectro [...].' (1ºS), o substantivo destacado flexiona-se, no plural, da mesma forma que 'guarda-civil'.",
+        "B": "Os termos destacados em 'Wing foi a primeira a defender que não deveria existir uma régua única que reduzisse autismos[...].' (1ºS) pertencem à mesma categoria gramatical.",
+        "C": "A forma verbal destacada em '[...] adaptações mais favoráveis à sobrevivência tendem a ser incorporadas [...]' (5ºS) evidencia a construção de uma ideia hipotética.",
+        "D": "O substantivo destacado em '[...] um lado do cérebro [...].' e '[...] a parte direita e a esquerda do órgão [...].' (3ºS) estabelecem a sequenciação textual através de um hiperônimo e um hipônimo, respectivamente.",
+        "E": "Em 'Felizmente, como a parte direita e a esquerda do órgão [...].' (3ºS), o termo em destaque faz referência a uma declaração inteira, exprimindo um juízo pessoal do produtor do texto."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "morfologia",
+        "sintaxe",
+        "análise linguística",
+        "substantivos compostos"
+      ],
+      "texto_base": "Um não: muitos (Revista Superinteressante, Ed. 410, dezembro de 2019)",
+      "gabarito": "E"
+    },
+    {
+      "id": 7,
+      "enunciado": "Com relação ao que se afirma sobre os elementos linguísticos identificados, assinale a opção correta.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Em 'Isso, obviamente, não aconteceu.' (5ºS), o termo destacado retoma a ideia de o autismo ser 'uma pedra no sapato'.",
+        "B": "O pronome destacado em 'Essa explicação dá margem [...]' (5ºS) antecipa informações que aparecerão na sequência do texto.",
+        "C": "Há um desvio da norma-padrão na concordância de '[...] a publicação da quinta edição do Manual de Diagnóstico e Estatístico de Transtornos Mentais, feito pela Associação Americana [...].' (1ºS).",
+        "D": "As aspas, empregadas em 'espectro' (1ºS) podem ser interpretadas como uma intenção do autor de dar um sentido particular à palavra, destacando-a dentro do contexto.",
+        "E": "Em '[...] sapato - que deveria, em algum momento da história da evolução humana, ter sumido do mapa.' (5ºS), o uso do travessão sinaliza, neste contexto, a mudança de interlocutor."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "coesão textual",
+        "pronomes",
+        "sinais de pontuação",
+        "concordância"
+      ],
+      "texto_base": "Um não: muitos (Revista Superinteressante, Ed. 410, dezembro de 2019)",
+      "gabarito": "D"
+    },
+    {
+      "id": 8,
+      "enunciado": "Em que opção há termo que retoma a ideia de 'espectro', empregado no contexto do transtorno autista?",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Gene.",
+        "B": "Diagnóstico.",
+        "C": "Degradê.",
+        "D": "Limitação.",
+        "E": "Memória."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "semântica",
+        "sinonímia contextual",
+        "autismo",
+        "TEA"
+      ],
+      "texto_base": "Um não: muitos (Revista Superinteressante, Ed. 410, dezembro de 2019)",
+      "gabarito": "C"
+    },
+    {
+      "id": 9,
+      "enunciado": "Considere um tetraedro regular de aresta 2 cm. Escolhe-se um ponto P no interior desse tetraedro. Calcule a soma das distâncias de P às faces desse tetraedro, em seguida marque a opção correta para este resultado.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "2√5/3",
+        "B": "2√3/3",
+        "C": "√6/6",
+        "D": "√6/3",
+        "E": "2√6/3"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": [
+        "geometria espacial",
+        "tetraedro",
+        "distância ponto-plano",
+        "altura"
+      ],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 10,
+      "enunciado": "Dada a expressão m² = 1 + ((n⁴-1)/(2n²))², onde m e n são números reais e n ≠ 0. Nessas condições, o valor positivo de m é:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "(n⁴+1)/2",
+        "B": "(n⁴+1)/n²",
+        "C": "(n²+1)/(2n²)",
+        "D": "(n⁴+1)/(2n²)",
+        "E": "(n⁴+1)/(2n)"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": [
+        "álgebra",
+        "expressões algébricas",
+        "potenciação",
+        "simplificação"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 11,
+      "enunciado": "Um helicóptero é impedido de localizar com seu feixe cônico de luz uma embarcação. Um drone em formato de disco circular de 1 metro de raio voa paralelamente à base do cone luminoso e impede totalmente a visão da embarcação. Dado que a 400 m de altura o feixe ilumina um círculo de diâmetro 50 m na superfície da água, a que altura da superfície da água, no mínimo, deve ficar o drone para o sucesso do exercício?",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "392 m",
+        "B": "384 m",
+        "C": "350 m",
+        "D": "336 m",
+        "E": "160 m"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": [
+        "geometria espacial",
+        "cone",
+        "semelhança de triângulos",
+        "proporcionalidade"
+      ],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 12,
+      "enunciado": "Um condomínio é composto por 7 edifícios enfileirados. Na manutenção que está sendo feita, decidiu-se por pintar cada edifício com uma só cor. Além disso, dispõe-se de 4 cores diferentes e dois edifícios consecutivos não poderão ter a mesma cor. Nessas condições, quantas são as opções de pintura dos edifícios desse condomínio?",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "7⁴",
+        "B": "4⁷",
+        "C": "4 × 3⁶",
+        "D": "7!/(4!×3!)",
+        "E": "10!/(7!×3!)"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": [
+        "combinatória",
+        "princípio multiplicativo",
+        "contagem",
+        "coloração"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 13,
+      "enunciado": "Se a e b são arcos complementares da primeira volta positiva, e (sen a + sen b)/(sen a - sen b) = √3, o valor de sen(3a/5) + cos(3b) é:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "√5",
+        "B": "√3",
+        "C": "√2",
+        "D": "1",
+        "E": "0"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": [
+        "trigonometria",
+        "arcos complementares",
+        "seno",
+        "cosseno"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 14,
+      "enunciado": "Em um grupo de aspirantes a oficial, há 10 que são do corpo feminino e 15 que são do corpo masculino. Desse grupo, escolhe-se ao acaso dois aspirantes, um após o outro. Em porcentagem, qual a probabilidade de ser escolhido primeiro uma aspirante do corpo feminino e, em segundo, um aspirante do corpo masculino?",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "20%",
+        "B": "25%",
+        "C": "26%",
+        "D": "28%",
+        "E": "30%"
+      },
+      "gabarito": "Anulada",
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": [
+        "probabilidade",
+        "probabilidade condicional",
+        "sem reposição"
+      ],
+      "texto_base": null
+    },
+    {
+      "id": 15,
+      "enunciado": "Um mapeamento costeiro é aproximado por um plano cartesiano, monitorado por dois localizadores eletrônicos. As retas r e s indicam as trajetórias dos sensores, que marcaram o ponto A como sendo o local onde uma embarcação encalhou. Em D(65/14, 31/8), há uma embarcação de socorro. Usando √3 = 7/4, qual é a distância entre as embarcações em A e em D, em quilômetros?",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "6",
+        "B": "5,5",
+        "C": "5",
+        "D": "4,5",
+        "E": "4"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": [
+        "geometria analítica",
+        "distância entre pontos",
+        "plano cartesiano",
+        "trigonometria"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 16,
+      "enunciado": "Analise as proposições abaixo quanto ao desenvolvimento de novas tecnologias e a organização do trabalho nas fábricas no século XX.\nI - O Taylorismo propôs a especialização dos trabalhadores por meio da diferenciação das etapas do trabalho, como forma de reduzir o custo de produção ao produzir em menos tempo.\nII - O Fordismo passou a aplicar os princípios tayloristas através da chamada 'linha de produção' que deslocava o produto onde ficavam os operários.\nIII - A implantação do modelo fordista-taylorista nas fábricas possibilitou a relocalização das máquinas e dos trabalhadores, provocando grandes transformações na geografia do mundo.\nIV - O modelo Toyotista implementou formas de trabalho que tornaram os operários responsáveis por diversas fases do processo produtivo, instituiu a redução de estoques por meio do sistema 'just in time' e pela diversificação do mercado consumidor.\nAssinale a opção que apresenta as afirmativas corretas.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "As afirmativas I, II, III e IV.",
+        "B": "As afirmativas I, II e IV apenas.",
+        "C": "As afirmativas I e III apenas.",
+        "D": "As afirmativas II e III apenas.",
+        "E": "A afirmativa IV apenas."
+      },
+      "disciplina": "Geografia",
+      "nivel": "concurso",
+      "tags": [
+        "taylorismo",
+        "fordismo",
+        "toyotismo",
+        "organização do trabalho",
+        "revolução industrial"
+      ],
+      "texto_base": "COSTA, Mila Batista L. C. da. As relações de trabalho, a máquina e o fato. Revista do Tribunal Regional do Trabalho, 3º Reg., 2010.",
+      "gabarito": "A"
+    },
+    {
+      "id": 17,
+      "enunciado": "Assinale a opção correta quanto aos impactos produzidos no espaço mundial pelo aumento da densidade das redes geográficas.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Os avanços tecnológicos possibilitaram as grandes corporações decomporem o processo produtivo em escala mundial. Assim, as decisões estratégicas, as pesquisas de desenvolvimento até a produção de produtos deixam de ser locais para serem mundiais.",
+        "B": "A lógica transacional da empresa de negócios tem sido catalisador da 'identidade nacional' na expansão global do futebol, perceptível em torneios internacionais entre grandes times formados preferencialmente por jogadores nascidos nos países de origem desses superclubes.",
+        "C": "A agilidade e a eficiência das telecomunicações favoreceram a movimentação com grande rapidez dos capitais especulativos pelas economias dos países mais industrializados, que são os mais afetados nas crises financeiras.",
+        "D": "A modernização no sistema de transportes intensificou a concorrência entre empresas de aviação que baixaram preços, resultando na supremacia dos grupos sociais menos favorecidos nas viagens de turismo.",
+        "E": "A propagação das pandemias em um mundo globalizado tem se tornado preocupante em virtude da transmissão das doenças pelas fronteiras cada vez mais fragilizadas. A mobilidade de pessoas e vírus acompanha os avanços das novas tecnologias de transportes e os efeitos mais perversos ocorrem em áreas densamente urbanizadas e geralmente pobres."
+      },
+      "disciplina": "Geografia",
+      "nivel": "concurso",
+      "tags": [
+        "globalização",
+        "redes geográficas",
+        "geopolítica",
+        "tecnologia e espaço"
+      ],
+      "texto_base": "MOREIRA, Ruy. Da região à rede e ao lugar. Revista Ciência Geográfica, 1997.",
+      "gabarito": "E"
+    },
+    {
+      "id": 18,
+      "enunciado": "Sobre a influência da Guerra Fria no espaço econômico mundial, assinale a opção correta.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Ao término da II Guerra Mundial, os Estados Unidos se tornaram o maior credor global e promotor do sistema de comércio multilateral. Para instaurar um período de retomada do crescimento econômico, a potência hegemônica injetou recursos na reconstrução da economia japonesa por meio do Plano Marshall.",
+        "B": "A União Soviética foi incapaz de estabelecer acordos econômicos junto a sua área de influência na Europa Oriental. O envolvimento do Exército Vermelho soviético na libertação do Leste Europeu e os custos na implantação de partidos socialistas locais inviabilizaram qualquer plano de assistência mútua.",
+        "C": "A Revolução chinesa de 1949 foi conduzida por Mao Tsé-tung com forte apoio no campo. As condições sociais precarizadas com graves problemas na produção agrícola e no empobrecimento das áreas urbanas fizeram com que Mao construísse seu discurso pautado na valorização dos camponeses e dos operários.",
+        "D": "A capacidade destrutiva do mundo pelo uso de armas nucleares levou os EUA e a URSS a uma corrida desenfreada pelo controle de novas tecnologias. O desenvolvimento bélico possibilitou aos soviéticos a competitividade de sua estrutura industrial e levou a economia norte-americana a uma forte crise nos anos 1970.",
+        "E": "As intervenções e ameaças militares promovidas pelas superpotências estiveram restritas preferencialmente aos espaços europeus de grande valor econômico. Os chamados países do 'Terceiro Mundo' não faziam parte da agenda de interesses norte-americano e soviético."
+      },
+      "disciplina": "História",
+      "nivel": "concurso",
+      "tags": [
+        "Guerra Fria",
+        "geopolítica",
+        "economia mundial",
+        "capitalismo x socialismo"
+      ],
+      "texto_base": "FIORI, José Luis. Os 'milagres econômicos' da Guerra Fria. Revista Carta Maior, 2012.",
+      "gabarito": "C"
+    },
+    {
+      "id": 19,
+      "enunciado": "Assinale a opção correta sobre os Blocos internacionais de poder.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "A integração europeia teve início com a superação das rivalidades entre França e Inglaterra nos anos 1950, com a criação de uma comissão no setor mineiro-metalúrgico com adesão de outros países europeus.",
+        "B": "O Tratado de Maastricht entrou em vigor no início dos anos 1990 e definiu os novos rumos da União Europeia, com estabilização econômica, fortalecimento democrático, criação do euro como moeda única e definição de política externa comum.",
+        "C": "A criação da Comunidade para o Desenvolvimento da África Austral (SADC), nos anos 1990, representa a única iniciativa de integração regional no continente, devido ao permanente conflito político entre os países.",
+        "D": "O Mercosul teve início com a assinatura do Tratado de Assunção, em 1991, pelos governos do Brasil, Argentina, Uruguai, Paraguai e Venezuela.",
+        "E": "A Cooperação Econômica da Ásia e do Pacífico (Apec), formada em 1994, visava reduzir barreiras alfandegárias, com sucesso devido às pequenas disparidades políticas, econômicas, sociais e culturais entre seus países-membros."
+      },
+      "disciplina": "Geografia",
+      "nivel": "concurso",
+      "tags": [
+        "blocos econômicos",
+        "União Europeia",
+        "Mercosul",
+        "APEC",
+        "geopolítica"
+      ],
+      "texto_base": "HAESBAERT, Rogério. Blocos internacionais de poder. São Paulo: Contexto, 1990.",
+      "gabarito": "B"
+    },
+    {
+      "id": 20,
+      "enunciado": "Das diversas regionalizações produzidas sobre o espaço brasileiro, a organizada pelo geógrafo Pedro Pichas Geiger nos anos 1960 gerou a criação de três grandes complexos regionais pautados nas características geoeconômicas: a Amazônia, o Nordeste e o Centro-Sul. Assinale a opção correta em relação às características socioeconômicas dos três complexos.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "A regionalização brasileira pautada nos critérios geoeconômicos procurou superar a limitação das cinco macrorregiões estruturadas nos fatores naturais, mantendo a delimitação espacial dos limites dos Estados.",
+        "B": "A Amazônia é uma região de exuberância natural, fruto da articulação entre clima, vegetação e hidrografia. A diversidade de seu ecossistema restringiu o desenvolvimento regional às atividades industriais extrativistas voltadas para o mercado externo.",
+        "C": "Por ser o espaço da modernização, o Centro-Sul apresenta a maior concentração industrial, o setor agropecuário mais dinâmico e as mais densas redes de transportes e comunicações, com poucos desequilíbrios socioespaciais.",
+        "D": "O Sertão, sub-região nordestina, embora possua irregularidades pluviométricas, apresenta diversidade econômica como: criação extensiva de bovinos e caprinos, cultivos de feijão e cana de açúcar nas áreas úmidas chamadas de brejos e fruticultura irrigada no vale médio do rio São Francisco.",
+        "E": "No Nordeste, entre o Agreste de clima úmido e o Sertão mais seco, encontramos uma faixa de transição, a Zona da Mata, com economia diversificada com atividades que vão desde extração de petróleo, produção de açúcar a centros industriais como Campina Grande, Caruaru e Camaçari."
+      },
+      "disciplina": "Geografia",
+      "nivel": "concurso",
+      "tags": [
+        "regionalização do Brasil",
+        "complexos regionais",
+        "geoeconômico",
+        "Geiger",
+        "IBGE"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 21,
+      "enunciado": "De acordo com a organização do espaço econômico regional do Leste Asiático, coloque V(Verdadeiro) ou F(Falso) nas afirmativas abaixo e assinale a opção correta.\n( ) No processo de reconstrução da economia japonesa, no pós Segunda Guerra Mundial, os Estados Unidos funcionaram como um 'nó de impulsão' por meio de ajuda econômica com intuito de conter o avanço socialista chinês na região.\n( ) No momento em que o desenvolvimento interno transborda na busca de ajuste espaço-temporal, o Japão, os 'Tigres Asiáticos' e a China passam de receptores para exportadores líquidos.\n( ) Os países chamados 'Tigres Asiáticos' ascenderam economicamente em virtude da similaridade cultural sustentada na ética confucionista.\n( ) O neoliberalismo foi fundamental no crescimento capitalista do Japão, dos 'Tigres Asiáticos' e, mais ainda, da China.\n( ) As políticas implementadas pelo presidente Xi Jinping tornaram o país regionalmente muito mais homogêneo e menos desigual.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "(V) (V) (V) (F) (F)",
+        "B": "(V) (V) (F) (F) (V)",
+        "C": "(V) (F) (F) (V) (F)",
+        "D": "(F) (F) (V) (V) (V)",
+        "E": "(F) (V) (V) (F) (F)"
+      },
+      "disciplina": "Geografia",
+      "nivel": "concurso",
+      "tags": [
+        "Leste Asiático",
+        "Tigres Asiáticos",
+        "geopolítica",
+        "desenvolvimento econômico",
+        "China"
+      ],
+      "texto_base": "ARRIGHI, Giovanni. A ilusão do desenvolvimento. Petrópolis: Vozes, 1997.",
+      "gabarito": "A"
+    },
+    {
+      "id": 22,
+      "enunciado": "No que se refere à situação do Reino Unido e aos desdobramentos do Brexit, assinale a opção correta.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "O governo inglês alterou o ponto mais polêmico do acordo, o chamado 'backstop', conseguindo a aprovação no Parlamento da cláusula que estabelece o retorno de uma fronteira fechada entre a Irlanda do Norte (parte integrante da UE) e a República da Irlanda (parte integrante do Reino Unido).",
+        "B": "A grave recessão econômica e o aumento do número de refugiados reacenderam o sentimento anti-imigração, e a xenofobia e o medo de que estrangeiros passem a competir no mercado de trabalho com cidadãos britânicos foram fatores importantes para a vitória do Brexit.",
+        "C": "O fato de os britânicos optarem por sair da União Europeia não afeta os outros membros do bloco, pois essa é uma decisão isolada, com repercussão apenas nos assuntos socioeconômicos do arquipélago.",
+        "D": "A maior preocupação dos britânicos está na possibilidade de não terem mais o euro como moeda oficial, pois é um câmbio reconhecidamente forte e imponente no mundo.",
+        "E": "Por ser a maior potência econômica da União Europeia, a saída do Reino Unido fragilizará países como a Grécia e a Itália, que têm em Londres o seu aliado preferencial no comércio regional."
+      },
+      "disciplina": "Geografia",
+      "nivel": "concurso",
+      "tags": [
+        "Brexit",
+        "União Europeia",
+        "Reino Unido",
+        "geopolítica europeia"
+      ],
+      "texto_base": "BBC.com.br. Entenda o Brexit e seus impactos em 8 perguntas, 30/01/2020.",
+      "gabarito": "B"
+    },
+    {
+      "id": 23,
+      "enunciado": "Em 1990, Fernando Collor de Melo foi eleito o primeiro presidente por voto direto após os governos militares. O novo governo lançou um plano de estabilização econômica conhecido como 'Plano Collor'. Sobre as medidas tomadas por esse Plano, assinale a opção correta.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Estabeleceram o congelamento de preços, a redução das taxas de juros e implementaram mudanças na política cambial com adoção de uma nova moeda chamada Real.",
+        "B": "Facilitaram a entrada de bens de consumo duráveis com a redução de tarifas de importação, instituíram o confisco generalizado dos depósitos bancários em dinheiro superiores a 50 mil reais e reduziram a inflação.",
+        "C": "Aprovaram a privatização de empresas estatais, como as siderúrgicas, eliminaram os monopólios do Estado em telecomunicações e petróleo e reduziram os investimentos sociais.",
+        "D": "Aperfeiçoaram o combate à sonegação de impostos, ampliaram impostos sobre a movimentação financeira e reduziram drasticamente o déficit público com a queda da inflação.",
+        "E": "Fortaleceram a modernização do parque industrial, mas com elevados índices de desemprego estrutural, deram subsídios às exportações das indústrias de calçados, têxteis e brinquedos e elevaram a abertura da economia brasileira."
+      },
+      "gabarito": "Anulada",
+      "disciplina": "História",
+      "nivel": "concurso",
+      "tags": [
+        "Plano Collor",
+        "economia brasileira",
+        "redemocratização",
+        "inflação"
+      ],
+      "texto_base": null
+    },
+    {
+      "id": 24,
+      "enunciado": "Assinale a opção que apresenta a última grande batalha naval que envolveu apenas navios a vela.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Batalha de Lepanto, em que as forças navais da Santa Aliança derrotaram o Império Turco no Mediterrâneo.",
+        "B": "Batalha de Sinope, na qual os russos usaram munições explosivas contra os cascos de madeira dos navios turcos.",
+        "C": "Batalha da Baía de Navarino, na qual Inglaterra, França e Rússia venceram turcos e egípcios, garantindo a independência da Grécia.",
+        "D": "Batalha de Lissa, na qual os ianques foram derrotados pelos confederados pela última vez antes da introdução dos couraçados a vapor.",
+        "E": "Batalha de Lara-Quilmes, em que os brasileiros venceram os argentinos garantindo a continuidade do bloqueio do Rio da Prata."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": [
+        "batalhas navais",
+        "navios a vela",
+        "história marítima",
+        "Navarino"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 25,
+      "enunciado": "Assinale a opção correta acerca das relações entre as civilizações da Antiguidade e as atividades militares navais.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Os egípcios unificaram sua civilização pela navegação do Nilo, integrando primeiro os reinos do Alto e do Baixo Egito, para em seguida lançarem a sua expansão colonial no Mediterrâneo.",
+        "B": "Os fenícios inventaram o navio de guerra com o propósito de defender o tráfego marítimo em seu império comercial, que se estendeu até o extremo do Mediterrâneo Ocidental.",
+        "C": "Os gregos conseguiram derrotar as forças imensamente maiores do exército persa porque lograram cortar as suas linhas de abastecimento, em uma brilhante campanha naval.",
+        "D": "Os cartagineses conquistaram a Sicília ao Império Romano, confirmando a regra segundo a qual uma ilha não será eficazmente defendida por uma potência terrestre contra um poder naval superior.",
+        "E": "Os romanos consolidaram seu poder na Península Itálica depois que derrotaram o Império Cartaginês no Mediterrâneo, pois antes sofriam ataques constantes da potência rival pelo mar."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": [
+        "Antiguidade",
+        "civilizações antigas",
+        "poder naval",
+        "fenícios",
+        "gregos",
+        "romanos"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 26,
+      "enunciado": "De acordo com Abreu (2015), além de treinar o pessoal da Marinha do Líbano para que, no futuro, seja capaz de assumir o controle de suas águas territoriais, também é tarefa principal da missão FTM-UNIFIL:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "apoiar a Marinha do Líbano no patrulhamento e no monitoramento do seu mar territorial, por meio de operações de interdição marítima, prevenindo a entrada não autorizada de armas e materiais relacionados no seu território.",
+        "B": "realizar patrulhamento naval em áreas de interesse libanês, abstendo-se da promoção de operações de interdição marítima e de interferências no comércio da região.",
+        "C": "realizar a mediação de conflitos estabelecidos historicamente na região do Mar Mediterrâneo, visando a impedir a propagação de atividades criminosas e ataques armados à costa do Líbano.",
+        "D": "participar estritamente de patrulhas navais na Área Marítima de Operação, região frontal ao Líbano que perfaz uma área de cerca de 10.000 milhas náuticas quadradas.",
+        "E": "colaborar com a Marinha do Líbano no patrulhamento de regiões adjacentes ao seu mar territorial, por meio de ações coordenadas que impeçam o comércio marítimo e atividades ilegais na região."
+      },
+      "disciplina": "Atualidades Navais",
+      "nivel": "concurso",
+      "tags": [
+        "UNIFIL",
+        "Marinha do Brasil",
+        "operações de paz",
+        "ONU",
+        "Líbano"
+      ],
+      "texto_base": "ABREU, Guilherme Mattos de (Org.). Marinha do Brasil: uma síntese histórica. Rio de Janeiro: SDM, 2018.",
+      "gabarito": "A"
+    },
+    {
+      "id": 27,
+      "enunciado": "Assinale a opção que NÃO corresponde a uma das consequências da vitória de Lord Nelson, em 1805, na Batalha de Trafalgar.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Frustração da tentativa de Napoleão de eliminar o comércio inglês com a Europa, por meio do Bloqueio Continental.",
+        "B": "Quebra do projeto de ataque naval de Napoleão contra a Grã-Bretanha, pela captura da esquadra dinamarquesa em 1807.",
+        "C": "Conquista da Grã-Bretanha do senhorio sobre os mares e precipitação de seu declínio, apresentado durante o séc. XIX.",
+        "D": "Vitória inglesa na Guerra Peninsular (1808-1814), na qual os recursos militares de Napoleão ficaram isolados.",
+        "E": "Corte de fontes vitais de suprimento que abasteciam a França pelo mar, necessárias ao sustento de seu esforço de guerra."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": [
+        "Trafalgar",
+        "Napoleão",
+        "Nelson",
+        "poder marítimo",
+        "guerras napoleônicas"
+      ],
+      "texto_base": "CAMINHA, João Carlos. História Marítima. Rio de Janeiro: Biblioteca do Exército.",
+      "gabarito": "C"
+    },
+    {
+      "id": 28,
+      "enunciado": "Churchill referiu-se ao Almirante John Jellicoe, Comandante-em-Chefe das forças navais britânicas na Primeira Guerra Mundial, como 'o único homem dos dois lados que poderia ter perdido a guerra numa tarde'. Assinale a opção que confirma, acrescentando dados corretos, a sentença dita pelo Primeiro-Ministro do Reino Unido.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Num dia decisivo para a guerra, o Comandante da Marinha britânica evitou que a principal carga de suprimentos dos EUA para a Europa fosse torpedeada por submarinos, formando comboios escoltados que garantiram a vitória na Batalha do Atlântico.",
+        "B": "O Almirante Jellicoe coordenou com sucesso a evacuação emergencial de mais de 300 mil soldados das forças aliadas do território francês, através do Canal da Mancha, em Dunquerque.",
+        "C": "Em vez de combater os encouraçados, o Comando da Marinha Britânica, percebendo que os Dreadnoughts alemães tinham avançado para distrair sua frota, preferiu desferir um golpe definitivo contra os submarinos.",
+        "D": "Ao empregar com eficácia, na Batalha do Mar de Coral, os aeródromos, Jellicoe evitou a derrota repentina dos aliados, pois só os aviões de guerra poderiam conter a campanha submarina irrestrita alemã.",
+        "E": "O resultado da breve, porém grandiosa, Batalha da Jutlândia, embora não tenha alterado a situação dos principais contendores, teria decidido a guerra, caso os alemães vencessem, destruindo o bloqueio naval britânico que sufocava a economia germânica."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": [
+        "Primeira Guerra Mundial",
+        "Batalha da Jutlândia",
+        "Jellicoe",
+        "poder marítimo britânico"
+      ],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 29,
+      "enunciado": "Considerando o pioneirismo do Reino de Portugal na expansão marítima europeia e a capacidade das forças navais lusitanas frente aos povos do globo alcançados por seu Império, assinale a opção correta.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Depois de expulsar os muçulmanos de seu território ibérico, os portugueses atravessaram o Estreito de Gibraltar e conquistaram todo o litoral setentrional africano.",
+        "B": "Após concluir o domínio do Marrocos, o Infante D. Henrique capitaneou expedições ao Atlântico Sul que combateram contra civilizações urbanas da África Subsaariana detentoras de armas de fogo.",
+        "C": "Na América, os lusos buscaram apenas relações pacíficas com os nativos, visando à miscigenação para a multiplicação de súditos de Portugal, em prol da colonização e do fechamento da rota atlântica para as Índias.",
+        "D": "Na Batalha de Diu, os portugueses conquistaram o domínio do Oceano Índico, ao derrotarem os islâmicos que controlavam aquelas águas, apesar de estes possuírem navios artilhados pela República de Veneza.",
+        "E": "Sob a direção militar do Vice-Rei Afonso de Albuquerque, as forças navais de Portugal venceram os chineses e os japoneses, estabelecendo o primeiro Império Marítimo mundial."
+      },
+      "gabarito": "Anulada",
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": [
+        "expansão marítima portuguesa",
+        "Batalha de Diu",
+        "Império Português",
+        "navegação"
+      ],
+      "texto_base": null
+    },
+    {
+      "id": 30,
+      "enunciado": "O trecho a seguir descreve episódio de um conflito externo do qual a Marinha do Brasil participou durante o séc. XIX, envolvendo o Passo de Tonelero, nas proximidades da Barranca de Acevedo, onde o inimigo instalara uma fortificação guarnecida por 16 peças de artilharia e 2.800 homens. Analise as afirmativas:\nI - O texto faz alusão à participação da Marinha na Guerra contra Aguirre, com o comando entregue ao Chefe-de-Esquadra John Pascoe Grenfell.\nII - A passagem de Tonelero ocorreu na Guerra do Paraguai, quando a Força Naval de Inhaúma fez o bombardeio.\nIII - O trecho trata de embate no qual o Império Brasileiro se opôs à anexação do Uruguai pela Argentina e passou a apoiar o governo constituído do Uruguai, representado pelo Partido Colorado.\nIV - O texto refere-se à Guerra contra Oribe e Rosas, em que a ação da Marinha foi realizada em estreita colaboração com o Exército Imperial e o comando foi entregue ao Chefe-de-Esquadra John Pascoe Grenfell.\nV - A solução encontrada pelo comandante da Força Naval para irromper pelo passo fortificado de Tonelero foi o emprego conjunto dos navios a vela e a vapor.\nMarque a opção correta.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Apenas as afirmativas I e V são verdadeiras.",
+        "B": "Apenas as afirmativas III e IV são verdadeiras.",
+        "C": "Apenas as afirmativas II e V são verdadeiras.",
+        "D": "Apenas as afirmativas I e III são verdadeiras.",
+        "E": "Apenas as afirmativas III e V são verdadeiras."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": [
+        "Passo de Tonelero",
+        "Guerra contra Oribe e Rosas",
+        "Marinha do Brasil",
+        "século XIX"
+      ],
+      "texto_base": "SIMÕES, Carlos Frederico & BITTENCOURT, Armando de Senna. Introdução à História Marítima Brasileira. SDM, 2008.",
+      "gabarito": "B"
+    },
+    {
+      "id": 31,
+      "enunciado": "Leia o trecho extraído de Mateus 23, 2-3 sobre os escribas e os fariseus que dizem e não fazem. Considerando o trecho e sob a luz da Doutrina de Liderança da MB, pode-se afirmar que o locutor faz uma certa censura aos líderes 'escribas e fariseus' pois lhes faltou o seguinte atributo:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Humildade.",
+        "B": "Altruísmo.",
+        "C": "Exemplo.",
+        "D": "Integridade Ética.",
+        "E": "Senso de Justiça."
+      },
+      "disciplina": "Liderança / Ética Militar",
+      "nivel": "concurso",
+      "tags": [
+        "liderança",
+        "doutrina MB",
+        "exemplo",
+        "atributos de liderança"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 32,
+      "enunciado": "Com relação à Documentação Administrativa na MB, considere as afirmações:\nI - A reprodução do todo ou de parte de DA sigiloso terá o mesmo grau de sigilo do original.\nII - Um DA que contenha extrato de DA sigiloso classificado como Reservado só poderá ser ostensivo com a permissão da autoridade classificadora do DA sigiloso.\nIII - Documentos classificados com sigilo URGENTE exigem ação ou conhecimento imediato do recebedor.\nIV - O DA de Informação Pessoal deverá ter o mesmo tratamento do grau de sigilo Reservado.\nConsiderando o disposto na SGM-105, são verdadeiras apenas as afirmativas:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "I e II.",
+        "B": "I e III.",
+        "C": "I e IV.",
+        "D": "II e III.",
+        "E": "II e IV."
+      },
+      "disciplina": "Documentação Administrativa Naval",
+      "nivel": "concurso",
+      "tags": [
+        "SGM-105",
+        "documentação sigilosa",
+        "sigilo",
+        "DA",
+        "Marinha do Brasil"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 33,
+      "enunciado": "De acordo com a DGPM-315, após o conhecimento de um fato a ser apurado e que deva ser esclarecido (modelos do Anexo B), o IPM é iniciado mediante Portaria de Instauração, por uma das situações mencionadas no art. 10 do CPPM, num prazo máximo de:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "12 horas.",
+        "B": "24 horas.",
+        "C": "36 horas.",
+        "D": "48 horas.",
+        "E": "72 horas."
+      },
+      "disciplina": "Direito Militar / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "DGPM-315",
+        "IPM",
+        "Inquérito Policial Militar",
+        "CPPM",
+        "prazo"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 34,
+      "enunciado": "A Bandeira Nacional é hasteada diariamente, às 8h, mediante cerimonial específico. Nos navios em movimento, o local de hasteamento é o:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Pau da bandeira.",
+        "B": "Pau de surriola.",
+        "C": "Mastro da fachada.",
+        "D": "Penol da carangueja.",
+        "E": "Pau do jeque."
+      },
+      "disciplina": "Cerimonial Naval / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "bandeira nacional",
+        "hasteamento",
+        "cerimônia naval",
+        "navio em movimento"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 35,
+      "enunciado": "Assinale a opção que apresenta o Documento Administrativo usado pelo Comandante da Marinha e Titulares de Organizações Militares para registrarem uma ratificação de atos de subordinados.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Ordem de Serviço.",
+        "B": "Ofício.",
+        "C": "Portaria.",
+        "D": "Comunicação Interna.",
+        "E": "Carta."
+      },
+      "disciplina": "Documentação Administrativa Naval",
+      "nivel": "concurso",
+      "tags": [
+        "SGM-105",
+        "documentação administrativa",
+        "portaria",
+        "ratificação"
+      ],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 36,
+      "enunciado": "Salva é a honra prestada, por meio de tiros de canhão, à terra, navio, autoridade ou em data festiva. Quando devida, cabe a seguinte salva à autoridade:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Presidente da República - dezenove tiros.",
+        "B": "Vice-Almirante - dezessete tiros.",
+        "C": "Contra-Almirante - quinze tiros.",
+        "D": "Patrono da Marinha - vinte e um tiros.",
+        "E": "Ministro de Estado - dezenove tiros."
+      },
+      "disciplina": "Cerimonial Naval / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "salva de canhão",
+        "cerimonial naval",
+        "honrarias militares",
+        "autoridades"
+      ],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 37,
+      "enunciado": "A Bandeira do Cruzeiro é usada na seguinte condição:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "hasteada no tope do mastro principal nos navios incorporados à MB, substituindo a Flâmula de Comando.",
+        "B": "hasteada na proa das embarcações miúdas empregadas em serviços de saúde e das embarcações-hospital de forças de desembarque.",
+        "C": "hasteada à meia adriça quando assim o for a Bandeira Nacional, por motivo de luto ou funeral.",
+        "D": "hasteada no tope do mastro principal dos navios e OM de terra ou no lais da verga de boreste.",
+        "E": "em haste apropriada, denominada pau da flâmula, na proa das embarcações miúdas."
+      },
+      "disciplina": "Cerimonial Naval / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "Bandeira do Cruzeiro",
+        "hasteamento",
+        "pavesamento",
+        "normas navais"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 38,
+      "enunciado": "Segundo o Manual de Procedimentos Marinheiros, a faina para arriar uma embarcação é mais rápida, segura e precisa se sua guarnição executar a manobra de forma coordenada e disciplinada. Seguindo uma lista de verificação, é correto afirmar que:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "o Contra-Mestre verifica se foi cumprida a lista de verificação da embarcação pelo motorista da lancha.",
+        "B": "o Patrão verifica a boça de viagem.",
+        "C": "o Motorista cumpre as determinações do contramestre em relação ao regime de máquinas.",
+        "D": "o Patrão verifica os equipamentos de combate a incêndio.",
+        "E": "o Proeiro e o Popeiro verificam se estão a bordo as boças reservas."
+      },
+      "disciplina": "Marinharia / Procedimentos Navais",
+      "nivel": "concurso",
+      "tags": [
+        "faina",
+        "arriar embarcação",
+        "manobra",
+        "Manual de Procedimentos Marinheiros"
+      ],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 39,
+      "enunciado": "Tenente ALFA emprega sua antiguidade como elemento de autoridade, distribui as faixas apenas aos supervisores com trato formal e inspeciona diariamente as atividades. Tenente BRAVO reúne subordinados voluntários para fechar um plano de ação, deixa a condução das atividades aos militares tecnicamente mais experientes, mas não deixa de exercer sua autoridade. A melhor descrição da distinção entre os encarregados ALFA e BRAVO é que:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "ALFA foca no fator 'liderados' e BRAVO no fator 'comunicação'.",
+        "B": "ALFA trabalha a virtude da cooperação e BRAVO o espírito de sacrifício.",
+        "C": "ALFA trabalha a virtude da coragem e BRAVO da cooperação.",
+        "D": "ALFA exerce uma liderança orientada para relacionamento e BRAVO delegativa.",
+        "E": "ALFA exerce uma liderança mais centralizadora e BRAVO mais participativa."
+      },
+      "disciplina": "Liderança / Ética Militar",
+      "nivel": "concurso",
+      "tags": [
+        "estilos de liderança",
+        "liderança centralizadora",
+        "liderança participativa",
+        "doutrina MB"
+      ],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 40,
+      "enunciado": "Na Reunião de Gestão, três militares foram indicados para compor uma Equipe de Planejamento para aquisição de maquinários pesados para as oficinas da OM. Considerando que a Equipe de Planejamento responderá por uma atividade de aquisição envolvida em processos externos à OM, de acordo com a NODAM (SGM-105), a formalização desta equipe deverá ser realizada por meio de:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Ordem de Serviço de nomeação da Equipe de Planejamento.",
+        "B": "Portaria de designação da Equipe de Planejamento.",
+        "C": "Ordem Interna de funções da Equipe de Planejamento.",
+        "D": "Ofício Externo de comunicação da Equipe de Planejamento.",
+        "E": "Comunicação Padronizada de comunicação da Equipe de Planejamento."
+      },
+      "disciplina": "Documentação Administrativa Naval",
+      "nivel": "concurso",
+      "tags": [
+        "SGM-105",
+        "NODAM",
+        "portaria",
+        "equipe de planejamento",
+        "aquisição"
+      ],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 41,
+      "enunciado": "O Encarregado do CAv, administrativamente subordinado ao Chefe do Departamento de Máquinas, é o responsável no porto pela coordenação da manutenção do material, realizada pelos Encarregados de Divisões, e pela instrução e o adestramento de toda a tripulação. De acordo com o CAAML-1201, assinale a opção que apresenta uma outra atribuição do Encarregado do CAv.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Coordenar os Fiéis de Avarias das Divisões na manutenção dos equipamentos de Cav.",
+        "B": "Familiarizar-se com todas as fases dos procedimentos de controle de avarias e combate a incêndios.",
+        "C": "Manter uma patrulha contínua e irregular em todo o navio de acordo com uma lista de verificação.",
+        "D": "Conduzir inspeções periódicas no material de CAv dos reparos do navio.",
+        "E": "Manter o Comandante informado do estado de prontidão do CAv do navio, tanto em termos de material quanto em termos de pessoal."
+      },
+      "disciplina": "Controle de Avarias / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "CAAML-1201",
+        "controle de avarias",
+        "Encarregado do CAv",
+        "atribuições"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 42,
+      "enunciado": "Um método simples e eficiente para se comunicar com a estação da lancha ou do bote, tanto para o arriamento quanto para o içamento, é a utilização de bandeiras nas proximidades da asa do Passadiço. Assinale a opção correta que corresponde ao emprego da bandeira e sua respectiva manobra quando se está 'ARRIANDO UMA EMBARCAÇÃO'.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Bandeira encarnada na manobra corresponde à preparação da embarcação para arriar.",
+        "B": "Bandeira verde na estação corresponde à preparação para arriar a embarcação.",
+        "C": "Bandeira encarnada na estação corresponde à embarcação a contra bordo.",
+        "D": "Bandeira verde na manobra corresponde a arriar a embarcação.",
+        "E": "Bandeira encarnada na manobra corresponde à embarcação pronta para ser arriada."
+      },
+      "disciplina": "Marinharia / Procedimentos Navais",
+      "nivel": "concurso",
+      "tags": [
+        "arriar embarcação",
+        "sinais de bandeira",
+        "manobra naval",
+        "comunicação a bordo"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 43,
+      "enunciado": "Sobre a realização de sindicância, é correto afirmar que:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "tanto o escrivão quanto o encarregado da sindicância devem ser mais antigos na escala hierárquica do que o sindicado.",
+        "B": "o encarregado da sindicância, mesmo verificando indícios de contravenção disciplinar de militar mais antigo, por ter sido designado por portaria, poderá prosseguir as investigações devido à antiguidade funcional.",
+        "C": "os titulares de OM são as autoridades nomeantes das sindicâncias, mas, em situações especiais, a instauração de sindicância pode ser delegada a outros oficiais da ativa.",
+        "D": "a intimação de depoente deverá ser comunicada com 24h de antecedência.",
+        "E": "as solicitações externas serão realizadas por ofício redigido pelo escrivão, aprovadas pelo encarregado e assinadas pela autoridade nomeante."
+      },
+      "disciplina": "Direito Militar / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "sindicância",
+        "DGPM-315",
+        "apuração de fatos",
+        "normas militares"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 44,
+      "enunciado": "O Tenente ALFA determinou a execução de uma atividade ao Sargento BRAVO dizendo 'Quero um trabalho excelente, sem nenhum erro'. Poucos dias depois, verificando que ainda havia muito a fazer, determinou: 'Faça de qualquer jeito. Quero o pronto para ontem.' De acordo com as orientações sobre expedições de ordens do EMA-137, as ordens expressas pelo Tenente ALFA estão em desacordo com o seguinte dever do chefe:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "ter autocontrole.",
+        "B": "usar um tom de voz adequado.",
+        "C": "ter flexibilidade.",
+        "D": "evitar ordens contraditórias.",
+        "E": "evitar ordens simultâneas."
+      },
+      "disciplina": "Liderança / Ética Militar",
+      "nivel": "concurso",
+      "tags": [
+        "EMA-137",
+        "expedição de ordens",
+        "liderança",
+        "deveres do chefe",
+        "ordens contraditórias"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 45,
+      "enunciado": "Para que haja máxima uniformidade quanto aos procedimentos de avaliação de desempenho do pessoal, serão elaborados documentos nos quais sejam perfeitamente delineados e definidos os principais atributos para avaliação do desempenho de oficiais e praças. Marque a opção que apresenta um atributo profissional de acordo com a OGSA.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Coragem moral.",
+        "B": "Discrição.",
+        "C": "Inteligência.",
+        "D": "Cooperação.",
+        "E": "Conduta militar."
+      },
+      "disciplina": "Normas Navais / Recursos Humanos",
+      "nivel": "concurso",
+      "tags": [
+        "OGSA",
+        "avaliação de desempenho",
+        "atributos profissionais",
+        "oficiais e praças"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 46,
+      "enunciado": "A continência individual é a forma de saudação que o militar isolado, quando uniformizado, com ou sem cobertura, deve aos símbolos, à tropa formada e às autoridades. Marque a alternativa em que a continência individual deve ser executada pelo militar.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Militar de sentinela e armado de fuzil.",
+        "B": "Fazendo parte de tropa armada.",
+        "C": "Em postos de continência.",
+        "D": "Em postos de Parada.",
+        "E": "Integrando formatura comandada, em honra à Bandeira Nacional."
+      },
+      "disciplina": "Cerimonial Naval / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "continência individual",
+        "cerimonial militar",
+        "saudação militar"
+      ],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 47,
+      "enunciado": "O serviço de Oficiais por Quartos é o serviço executado por períodos de duração igual ou inferior a seis horas. De acordo com a Ordenança Geral para o Serviço da Armada, a duração dos quartos será fixada pelo:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Comandante do Distrito.",
+        "B": "Imediato.",
+        "C": "Comandante da Marinha.",
+        "D": "Comandante.",
+        "E": "COMIMSUP."
+      },
+      "disciplina": "Normas Navais / Serviço a Bordo",
+      "nivel": "concurso",
+      "tags": [
+        "serviço por quartos",
+        "Ordenança Geral",
+        "OGSA",
+        "duração dos quartos"
+      ],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 48,
+      "enunciado": "Considere que um determinado militar da MB se encontre na condição de envolvido, autor do fato, indiciado, investigado, denunciado ou querelado em procedimentos ou processos criminais, em sede policial ou judicial. Analise as afirmativas:\nI - Esse militar deverá, imediatamente, comunicar tal fato por escrito ao seu Comandante/Diretor, via canal de comando.\nII - Esse militar deverá manter seu Comandante/Diretor informado quanto ao andamento do procedimento ou do processo.\nIII - O Comandante/Diretor do referido militar deverá fazer imediata comunicação, por meio de mensagem, à DGPM ou ao CGCFN tão logo tome conhecimento do fato.\nIV - A OM em que serve o militar deverá buscar junto à autoridade judiciária ou policial competente a situação atual do procedimento ou processo.\nSegundo o disposto na DGPM-315, são verdadeiras apenas as afirmações:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "I e II.",
+        "B": "I, II e IV.",
+        "C": "I e III.",
+        "D": "III e IV.",
+        "E": "II e IV."
+      },
+      "disciplina": "Direito Militar / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "DGPM-315",
+        "processo criminal",
+        "militar indiciado",
+        "comunicação ao comando"
+      ],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 49,
+      "enunciado": "Sobre a Flâmula de Fim de Comissão, pode-se afirmar que:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Tem cor azul-marinho, forma retangular, metade do número de panos da Bandeira Nacional que for hasteada, dividida em quatro quadriláteros iguais por uma série de estrelas brancas.",
+        "B": "Tem cor branca, forma retangular, com uma cruz grega de cor vermelha no centro e os ramos paralelos aos lados da bandeira.",
+        "C": "Possui a forma retangular, farpada, da cor amarela da Bandeira Nacional, com vinte e uma estrelas azuis dispostas em cruz.",
+        "D": "É retangular, da cor verde da Bandeira Nacional, com as Armas Nacionais no centro.",
+        "E": "Tem cor azul-marinho, forma triangular, alongada, cuja base coincide com a tralha, sendo a altura igual à metade da guinda do mastro principal, ocupada por vinte e uma estrelas brancas, igualmente espaçadas entre si."
+      },
+      "disciplina": "Cerimonial Naval / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "Flâmula de Fim de Comissão",
+        "bandeiras navais",
+        "pavesamento",
+        "cerimonial"
+      ],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 50,
+      "enunciado": "Segundo o Manual de Procedimentos Marinheiros, existe uma embarcação miúda que apresenta, dentre outras, as seguintes vantagens: podem operar em condições piores de mar; manuseio mais rápido e fácil, apresentam boa manobrabilidade e conferem ao patrão amplo campo de visão. Assinale a opção que corresponde a essa embarcação miúda.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Botes Infláveis.",
+        "B": "Balsas Salva-Vidas.",
+        "C": "Embarcações de casco semi-rígido.",
+        "D": "Lanchas.",
+        "E": "Chalanas."
+      },
+      "disciplina": "Marinharia / Procedimentos Navais",
+      "nivel": "concurso",
+      "tags": [
+        "embarcações miúdas",
+        "casco semi-rígido",
+        "Manual de Procedimentos Marinheiros"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    }
+  ]
+}

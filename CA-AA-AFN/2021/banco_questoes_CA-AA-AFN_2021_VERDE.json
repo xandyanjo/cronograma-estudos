@@ -1,0 +1,1137 @@
+{
+  "meta": {
+    "concurso": "CA-AA-AFN/2021",
+    "orgao": "Marinha do Brasil - Serviço de Seleção do Pessoal da Marinha",
+    "prova": "Verde",
+    "candidatos": "Oriundos do CPA e do CAP (Quadro Auxiliar da Armada)",
+    "total_questoes": 50,
+    "questoes_anuladas": [],
+    "data_prova": "31/10/2021",
+    "publicacao_gabarito": "03/11/2021 (gabarito preliminar)",
+    "fonte_gabarito": "AA-AFN-2021_Gabarito.pdf - Serviço de Seleção do Pessoal da Marinha",
+    "nota": "Este é o gabarito preliminar publicado em 03/11/2021. Verificar gabarito final após análise de recursos."
+  },
+  "questoes": [
+    {
+      "id": 1,
+      "enunciado": "Assinale a opção que indica a correta relação estabelecida pelos termos de coesão destacados na frase.\n(A) 'Por mais modernos, avançados, biônicos, quânticos, incríveis que sejamos [...]' (1ºS) - indica uma incapacidade de impedir que uma ação contrária ocorra.\n(B) '[...] como nossas mães ou avós tanto tempo atrás [...].' (3ºS) - expressa uma elucidação em relação aos dizeres de mães e avós.\n(C) '[...] se as drogas forem controladas e a miséria extinta.' (8ºS) - estabelece uma relação de dúvida ou incerteza diante de possibilidades futuras.\n(D) '[...] porque de alguma forma seremos menos violentos.' (8ºS) - expressa a intenção ou objetivo de haver menos guerras.\n(E) 'Inesquecível, e delicioso, sobretudo quando chovia.' (9ºS) - indica proporção, visto que pode ser substituído pela conjunção 'ao passo que'.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "'Por mais modernos [...] que sejamos [...]' (1ºS) - indica uma incapacidade de impedir que uma ação contrária ocorra.",
+        "B": "'[...] como nossas mães ou avós tanto tempo atrás [...].' (3ºS) - expressa uma elucidação em relação aos dizeres de mães e avós.",
+        "C": "'[...] se as drogas forem controladas e a miséria extinta.' (8ºS) - estabelece uma relação de dúvida ou incerteza diante de possibilidades futuras.",
+        "D": "'[...] porque de alguma forma seremos menos violentos.' (8ºS) - expressa a intenção ou objetivo de haver menos guerras.",
+        "E": "'Inesquecível, e delicioso, sobretudo quando chovia.' (9ºS) - indica proporção, visto que pode ser substituído pela conjunção 'ao passo que'."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "coesão textual",
+        "conjunções",
+        "relações lógicas"
+      ],
+      "texto_base": "Como seremos amanhã? (Lya Luft, Veja, 2 mar. 2011)",
+      "gabarito": "A"
+    },
+    {
+      "id": 2,
+      "enunciado": "Assinale a opção em que a análise sintática das expressões destacadas está correta.\n(A) '[...] se as drogas forem controladas e a miséria extinta.' (8ºS) - predicativo do sujeito.\n(B) '[...] sendo atropelados pela incapacidade de fortalecer laços [...]' (4ºS) - complemento nominal.\n(C) '[...] feito o pó de pirlimpimpim da boneca Emília [...]' (7ºS) - adjunto adnominal.\n(D) 'Não creio em igualdade, mas em dignidade para todos.' (8ºS) - objeto direto preposicionado.\n(E) '[...] e não havia pílula anticoncepcional [...]' (4ºS) - sujeito.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "predicativo do sujeito — '[...] a miséria extinta.'",
+        "B": "complemento nominal — 'pela incapacidade de fortalecer laços'",
+        "C": "adjunto adnominal — 'da boneca Emília'",
+        "D": "objeto direto preposicionado — 'em dignidade para todos'",
+        "E": "sujeito — 'pílula anticoncepcional'"
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "análise sintática",
+        "predicativo",
+        "agente da passiva",
+        "complemento nominal"
+      ],
+      "texto_base": "Como seremos amanhã? (Lya Luft, Veja, 2 mar. 2011)",
+      "gabarito": "A"
+    },
+    {
+      "id": 3,
+      "enunciado": "Marque a opção em que o comentário acerca do verbo destacado está correto.\n(A) '[...] incríveis que sejamos [...]' (1ºS) - o verbo está conjugado no presente do subjuntivo e corresponde a uma dúvida ou questionamento.\n(B) '[...] se as drogas forem controladas [...]' (8ºS) - o verbo está conjugado no futuro do subjuntivo e marca uma possível ação futura.\n(C) 'Talvez haja menos guerras [...]' (8ºS) - o verbo corresponde ao modo imperativo afirmativo, indicando um conselho, ordem ou exortação.\n(D) 'Não sou de sermos infelizes juntos [...]' (4ºS) - o verbo encontra-se no infinitivo impessoal e indica atemporalidade.\n(E) 'Sempre me fascinaram as mudanças [...]' (3ºS) - o verbo, no pretérito perfeito, pode ser substituído pela forma composta deste tempo.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "sejamos - presente do subjuntivo, dúvida ou questionamento.",
+        "B": "forem - futuro do subjuntivo, possível ação futura.",
+        "C": "haja - imperativo afirmativo, conselho ou ordem.",
+        "D": "sermos - infinitivo impessoal, atemporalidade.",
+        "E": "fascinaram - pretérito perfeito, substituível pela forma composta."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "modos e tempos verbais",
+        "subjuntivo",
+        "infinitivo pessoal",
+        "pretérito"
+      ],
+      "texto_base": "Como seremos amanhã? (Lya Luft, Veja, 2 mar. 2011)",
+      "gabarito": "B"
+    },
+    {
+      "id": 4,
+      "enunciado": "Assinale a opção que apresenta o comentário correto acerca do termo destacado.\n(A) 'Por mais modernos, avançados, biônicos, quânticos, incríveis que sejamos [...].' (1ºS) - o termo 'que' classifica-se morfologicamente como pronome relativo.\n(B) 'Se antes namorar era difícil, o primeiro batom rosa-claro aos 15 anos [...].' (4ºS) - caso o substantivo 'batom' estivesse no plural, o adjetivo composto permaneceria invariável.\n(C) 'Não sempre, mas cada vez com mais frequência.' (5ºS) - o vocábulo 'mas' pode ser substituído por 'pois que', sem prejuízo semântico.\n(D) 'Fechar-se a elas é morrer estando vivo.' (2ºS) - morfologicamente, o 'se' é classificado como uma partícula de indeterminação do sujeito.\n(E) 'Dieta, que hoje se tornou obsessão, era impensável, sobretudo para crianças, [...]' (6ºS) - o termo 'sobretudo' pertence à classe gramatical dos advérbios.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "'que' - pronome relativo",
+        "B": "adjetivo composto 'rosa-claro' permaneceria invariável no plural",
+        "C": "'mas' pode ser substituído por 'pois que'",
+        "D": "'se' - partícula de indeterminação do sujeito",
+        "E": "'sobretudo' pertence à classe gramatical dos advérbios"
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "morfologia",
+        "adjetivo composto",
+        "advérbio",
+        "pronomes"
+      ],
+      "texto_base": "Como seremos amanhã? (Lya Luft, Veja, 2 mar. 2011)",
+      "gabarito": "E"
+    },
+    {
+      "id": 5,
+      "enunciado": "A partir das informações apresentadas pelo texto 1, é correto afirmar que:\n(A) todos os seres humanos, no fundo, sempre irão querer as mesmas coisas em relação aos costumes, relacionamentos, educação e saúde.\n(B) os avanços trouxeram diferentes benefícios para a área da saúde e, consequentemente, para a condição humana.\n(C) mesmo com todas as mudanças sociais, a condição humana permanece a mesma, e todos continuarão querendo as mesmas coisas.\n(D) o amor anda descomplicado demais, uma vez que os relacionamentos modernos estão muito efêmeros devido aos novos costumes.\n(E) as pessoas terão novas experiências e sensações, mas continuarão funcionando como máquinas, não atentando para sua condição humana.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "todos os seres humanos, no fundo, sempre irão querer as mesmas coisas.",
+        "B": "os avanços trouxeram diferentes benefícios para a área da saúde e para a condição humana.",
+        "C": "mesmo com todas as mudanças sociais, a condição humana permanece a mesma.",
+        "D": "o amor anda descomplicado demais; os relacionamentos modernos estão muito efêmeros.",
+        "E": "as pessoas terão novas experiências, mas continuarão funcionando como máquinas."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "interpretação de texto",
+        "inferência",
+        "crônica"
+      ],
+      "texto_base": "Como seremos amanhã? (Lya Luft, Veja, 2 mar. 2011)",
+      "gabarito": "D"
+    },
+    {
+      "id": 6,
+      "enunciado": "Em '[...] crianças muito precocemente sexualizadas pela moda, pela televisão, muitas vezes por mães alienadas, por teorias abstrusas e mal aplicadas [...]' (4ºS), a palavra destacada corresponde semanticamente a:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "abusivas.",
+        "B": "cínicas.",
+        "C": "obscuras.",
+        "D": "absurdas.",
+        "E": "hodiernas."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "semântica",
+        "vocabulário",
+        "sinonímia"
+      ],
+      "texto_base": "Como seremos amanhã? (Lya Luft, Veja, 2 mar. 2011)",
+      "gabarito": "C"
+    },
+    {
+      "id": 7,
+      "enunciado": "Analise as afirmativas abaixo sobre a tirinha 'Mafalda e Manolito'.\nI - Em 'Você acha certo todo mundo deixar o país para trabalhar no estrangeiro?' (1º quadrinho), há uma oração subordinada substantiva objetiva direta reduzida de infinitivo.\nII - Em 'Claro que sim!' (1º quadrinho), há uma oração subordinada introduzida por um pronome relativo.\nIII - Em 'Por acaso quando meu pai veio pra cá ele não deixou a pátria dele por um país estrangeiro?' (2º quadrinho), há uma oração subordinada adverbial temporal.\nIV - Em 'Como tem gente boba!' (4º quadrinho), há uma oração subordinada.\nAssinale a opção correta.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Apenas as afirmativas II, III e IV são verdadeiras.",
+        "B": "Apenas as afirmativas II e IV são verdadeiras.",
+        "C": "Apenas a afirmativa III é verdadeira.",
+        "D": "Apenas as afirmativas I, II e III são verdadeiras.",
+        "E": "Apenas as afirmativas I e III são verdadeiras."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "orações subordinadas",
+        "período composto",
+        "tirinha",
+        "sintaxe"
+      ],
+      "texto_base": "Mafalda e Manolito (QUINO, Toda Mafalda, 2010)",
+      "gabarito": "E"
+    },
+    {
+      "id": 8,
+      "enunciado": "A partir da leitura do texto 2 (tirinha Mafalda e Manolito), infere-se que:\n(A) Manolito também acha Mafalda boba por ela não entender o significado da expressão estrangeiro e pensar que seu país não pode ser estrangeiro.\n(B) Mafalda acredita que Manolito não a entendeu, pois ela não percebeu que é o ponto de referência dos interlocutores que define um país como estrangeiro.\n(C) Mafalda apresenta um posicionamento xenofóbico ao considerar errado o fato de uma pessoa trabalhar fora de seu país de origem.\n(D) Manolito considera o país de Mafalda como estrangeiro, uma vez que ele se considera cidadão da pátria de seu pai, que é estrangeiro.\n(E) Manolito muda seu posicionamento diante das afirmativas de Mafalda, pois ela demonstra chateação ao vê-lo discordar.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Manolito acha Mafalda boba por ela não entender o significado de estrangeiro.",
+        "B": "Mafalda acredita que Manolito não a entendeu; o ponto de referência dos interlocutores define um país como estrangeiro.",
+        "C": "Mafalda apresenta um posicionamento xenofóbico.",
+        "D": "Manolito considera o país de Mafalda como estrangeiro por se considerar cidadão da pátria do pai.",
+        "E": "Manolito muda seu posicionamento diante das afirmativas de Mafalda."
+      },
+      "disciplina": "Língua Portuguesa",
+      "nivel": "concurso",
+      "tags": [
+        "interpretação",
+        "tirinha",
+        "inferência",
+        "humor",
+        "ironia"
+      ],
+      "texto_base": "Mafalda e Manolito (QUINO, Toda Mafalda, 2010)",
+      "gabarito": "B"
+    },
+    {
+      "id": 9,
+      "enunciado": "Seja o sistema linear, de incógnitas x, y e z:\n2x - y + z = 1\nx - y + 3z = b\nax + 3y - z = 0\nSabendo que o sistema possui mais de uma solução, o valor de a/b é igual a:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "-2",
+        "B": "-1",
+        "C": "-1/2",
+        "D": "1",
+        "E": "2"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": [
+        "sistemas lineares",
+        "determinante",
+        "grau de liberdade",
+        "álgebra linear"
+      ],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 10,
+      "enunciado": "Sejam a e b as soluções da equação 6·3²ˣ - 13·6ˣ + 6·2²ˣ = 0. Assinale a opção que apresenta |a - b|.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "4",
+        "B": "3",
+        "C": "2",
+        "D": "1",
+        "E": "0"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": [
+        "equações exponenciais",
+        "logaritmo",
+        "mudança de variável"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 11,
+      "enunciado": "Sejam a e b os catetos de um triângulo retângulo de hipotenusa c. Seja r o raio da circunferência inscrita nesse triângulo. Desse modo, assinale a opção que apresenta o valor do raio r em função de a, b e c.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "(a+b+c)/2",
+        "B": "(-a-b+c)/2",
+        "C": "(a+b-c)/2",
+        "D": "(a-b+c)/2",
+        "E": "(-a+b+c)/2"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": [
+        "geometria plana",
+        "triângulo retângulo",
+        "circunferência inscrita",
+        "raio"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 12,
+      "enunciado": "Quantos são os anagramas da palavra MARINHA que NÃO possuem vogais juntas?",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "120",
+        "B": "240",
+        "C": "420",
+        "D": "720",
+        "E": "1680"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": [
+        "combinatória",
+        "anagramas",
+        "arranjos",
+        "vogais separadas"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 13,
+      "enunciado": "Seja o número x = 2⁷ × p. Sabendo que p é o número primo 2⁷ - 1, a soma de todos os divisores próprios (divisores naturais com exceção do próprio número) de x é igual a:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "12816",
+        "B": "15122",
+        "C": "16128",
+        "D": "16384",
+        "E": "32768"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": [
+        "teoria dos números",
+        "divisores",
+        "números primos de Mersenne",
+        "fatoração"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 14,
+      "enunciado": "Sejam o ponto P(0,0,3) e a reta r: {x - y + z = 3; -x + 2y + z = -1}. Sabendo que o ponto Q(a,b,c) é simétrico ao ponto P em relação à reta r, o valor da soma a + b + c é igual a:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "-7",
+        "B": "-7/3",
+        "C": "-5/3",
+        "D": "1/3",
+        "E": "7/3"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": [
+        "geometria analítica 3D",
+        "simetria em relação a reta",
+        "produto vetorial"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 15,
+      "enunciado": "Sabendo que log₁₂ 27 = a, calcule log₆ 16 e assinale a opção correta.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "(3+a)/(6-a)",
+        "B": "(8+4a)/(3+a)",
+        "C": "(8-a)/(6+a)",
+        "D": "(12-4a)/(3+a)",
+        "E": "(3-a)/(6+a)"
+      },
+      "disciplina": "Matemática",
+      "nivel": "concurso",
+      "tags": [
+        "logaritmos",
+        "mudança de base",
+        "propriedades logarítmicas"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 16,
+      "enunciado": "Sobre as conferências em defesa do meio ambiente, assinale a opção correta.\n(A) A Conferência de Estocolmo (1972) rediscutiu polêmicas sobre o antagonismo entre desenvolvimento e meio ambiente do Clube de Roma (1971), e ao final elaborou a Declaração de Estocolmo.\n(B) A Cúpula Mundial Sobre o Desenvolvimento Sustentável, conhecida como Rio-92, foi realizada em 1992, no Rio de Janeiro, discutindo erradicação da pobreza, mudanças no padrão de produção e consumo. O documento final foi o Plano de Implementação da Agenda 21.\n(C) Em 1971, o estudo 'Limites do Crescimento' (Clube de Roma) concluiu que o planeta entraria em colapso até 2000. Para evitar isso, foi assinado o Protocolo de Quioto (1971).\n(D) A criação do Pnuma e o Dia Internacional do Meio Ambiente foram deliberações da Conferência Rio+10.\n(E) A Conferência Rio+10, na fase preparatória, teve como subsídio o Relatório Brundtland e definiu resoluções para mudar o modelo consumista, elaborando as Convenções sobre Biodiversidade e sobre Mudanças Climáticas.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Conferência de Estocolmo rediscutiu o Clube de Roma e elaborou a Declaração de Estocolmo.",
+        "B": "Rio-92 discutiu pobreza e consumo sustentável; documento final foi o Plano de Implementação da Agenda 21.",
+        "C": "Clube de Roma (1971) levou ao Protocolo de Quioto (1971) para evitar colapso.",
+        "D": "Pnuma e Dia Internacional do Meio Ambiente foram deliberações da Rio+10.",
+        "E": "Rio+10 teve subsídio do Relatório Brundtland e elaborou as Convenções sobre Biodiversidade e Mudanças Climáticas."
+      },
+      "disciplina": "Geografia",
+      "nivel": "concurso",
+      "tags": [
+        "meio ambiente",
+        "conferências ambientais",
+        "Rio-92",
+        "Estocolmo",
+        "desenvolvimento sustentável"
+      ],
+      "texto_base": "Nosso futuro comum, p. 77.",
+      "gabarito": "A"
+    },
+    {
+      "id": 17,
+      "enunciado": "Sobre a industrialização americana, assinale a opção correta.\n(A) O Oeste dos EUA possui grandes reservas de carvão nas bacias sedimentares próximas aos Apalaches (Pensilvânia e Ohio) e importantes jazidas de minério de ferro próximas ao Lago Superior (Minnesota e Wisconsin).\n(B) A região metropolitana de Detroit, na costa Leste, abrigou as 'três grandes' - General Motors, Ford e Chrysler - tornando-se a 'capital do automóvel'.\n(C) O Vale do Silício foi o segundo tecnopolo implantado no mundo, atrás apenas de Boston, com impulso durante a Guerra Fria.\n(D) Os Grandes Lagos favoreceram os transportes, sendo interligados por canais artificiais ao Atlântico pelo Rio São Lourenço e pelo Rio Hudson.\n(E) Há décadas um processo de desconcentração industrial ocorre nos EUA. A última região a se industrializar foi o Sul, com destaque para disponibilidade de mão de obra e descoberta de petróleo no Texas.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Recursos naturais no Oeste dos EUA: carvão nos Apalaches e minério de ferro próximo ao Lago Superior.",
+        "B": "Detroit, na costa Leste, foi capital do automóvel com as 'três grandes'.",
+        "C": "Vale do Silício foi o segundo tecnopolo, atrás de Boston, impulsionado pela Guerra Fria.",
+        "D": "Grandes Lagos interligados por canais ao Atlântico pelo Rio São Lourenço e Hudson.",
+        "E": "Desconcentração industrial: o Sul foi a última região a se industrializar."
+      },
+      "disciplina": "Geografia",
+      "nivel": "concurso",
+      "tags": [
+        "industrialização americana",
+        "Vale do Silício",
+        "Detroit",
+        "Grandes Lagos",
+        "Sul dos EUA"
+      ],
+      "texto_base": "GALEANO, Eduardo. As veias abertas da América Latina, 1986.",
+      "gabarito": "D"
+    },
+    {
+      "id": 18,
+      "enunciado": "Sobre a integração Sul-americana, assinale a opção INCORRETA.\n(A) O Tratado de Assunção (1991) formalizou o Mercosul, surgido da aproximação Brasil-Argentina; Uruguai e Paraguai aderiram posteriormente.\n(B) A Região Platina é o núcleo geoeconômico do Mercosul, englobando a Bacia do Prata (rios Paraná, Paraguai e Uruguai), estendendo-se pelo Centro-Sul do Brasil, pampa argentino, Uruguai e porção oriental do Paraguai.\n(C) A integração econômica entre países sul-americanos necessita de infraestrutura de energia, transporte e comunicações. O Gasoduto Bolívia-Brasil é exemplo de integração energética.\n(D) A IIRSA estabeleceu 10 eixos prioritários de integração viária, entre eles o Eixo Interoceânico Central e o Eixo do Amazonas.\n(E) O Mercosul foi criado com o objetivo, dentre outros, de constituir um espaço sul-americano integrado. A base seria uma zona de livre-comércio integrando os países do bloco aos membros da Comunidade Andina, ao Chile, à Guiana e ao Suriname.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Tratado de Assunção (1991) formalizou o Mercosul.",
+        "B": "Região Platina é o núcleo geoeconômico do Mercosul.",
+        "C": "Gasoduto Bolívia-Brasil é exemplo de integração energética.",
+        "D": "IIRSA estabeleceu 10 eixos prioritários de integração viária.",
+        "E": "Mercosul criado para constituir espaço integrado com zona de livre-comércio abrangendo Comunidade Andina, Chile, Guiana e Suriname."
+      },
+      "disciplina": "Geografia",
+      "nivel": "concurso",
+      "tags": [
+        "Mercosul",
+        "integração sul-americana",
+        "IIRSA",
+        "Região Platina",
+        "blocos econômicos"
+      ],
+      "texto_base": "MATTOS, Carlos Meira. Geopolítica e Modernidade, 2002.",
+      "gabarito": "E"
+    },
+    {
+      "id": 19,
+      "enunciado": "Sobre a industrialização e o imperialismo japonês nos séculos XIX e XX, assinale a opção correta.\n(A) O Japão só se industrializou efetivamente após 1868, com o fim do xogunato Tokugawa e a restauração do império. O novo reinado, Era Meiji (até 1912), foi marcado por políticas modernizantes: infraestrutura, educação e abertura à tecnologia.\n(B) O governo japonês estimulou os Zaibatsus (grandes conglomerados), que surgiram de novos clãs de comerciantes, como Mitsubishi, Mitsui, Sumitomo e Yasuda, especializando-se exclusivamente em comércio e finanças.\n(C) A expansão territorial japonesa iniciou-se com a Guerra Sino-Japonesa (1884-95), garantindo Taiwan e, em 1910, a Coreia. A derrota na guerra contra a Rússia (1904-05) impediu o domínio das Ilhas Sacalinas.\n(D) Após a WWII, o Japão foi ocupado pelos aliados até 1952 (Tratado de São Francisco). Em 1947 foi aprovada uma lei de permissão de monopólios que levou à ascensão dos Zaibatsus.\n(E) A Constituição de 1947 permitiu o recomeço da fase militarista e o restabelecimento do exército japonês, além de garantir liberdade de culto e separação entre Estado e religião.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Industrialização após 1868 (fim do xogunato); Era Meiji até 1912: infraestrutura, educação, abertura tecnológica.",
+        "B": "Zaibatsus surgiram de novos clãs e especializaram-se exclusivamente em comércio e finanças.",
+        "C": "Expansão iniciou-se com a Guerra Sino-Japonesa; Ilhas Sacalinas não obtidas após derrota contra Rússia.",
+        "D": "Ocupação aliada até 1952; lei de permissão de monopólios em 1947 levou à ascensão dos Zaibatsus.",
+        "E": "Constituição de 1947 permitiu recomeço do militarismo e restabelecimento do exército."
+      },
+      "disciplina": "História",
+      "nivel": "concurso",
+      "tags": [
+        "Era Meiji",
+        "Japão",
+        "imperialismo",
+        "Zaibatsus",
+        "Segunda Guerra Mundial"
+      ],
+      "texto_base": "MOREIRA e SENE. Geografia geral e do Brasil. São Paulo: Scipione, 2010.",
+      "gabarito": "A"
+    },
+    {
+      "id": 20,
+      "enunciado": "Sobre o GATT e as rodadas de negociação, coloque F (falso) ou V (verdadeiro) nas afirmativas e marque a opção correta.\n( ) As cinco primeiras rodadas estiveram voltadas exclusivamente para a redução de barreiras tarifárias; as duas seguintes incluíram medidas não tarifárias e antidumping.\n( ) A sexta rodada (Rodada Uruguai), lançada em Punta del Este, pretendia incorporar às regras do GATT setores como o agrícola, o têxtil e o de serviços.\n( ) Prevista para quatro anos, a Rodada Uruguai extrapolou esse prazo por causa dos empecilhos impostos pelos países desenvolvidos, sobretudo da União Europeia.\n( ) Em 2001, a Rodada Doha (Catar) caracterizou-se pelo acordo entre os países desenvolvidos, que aceitaram reduzir os subsídios agrícolas.\n( ) Em setembro de 2003, na 5ª Conferência Ministerial da OMC em Cancún, o G-20, sob liderança do IBAS (Índia, Brasil e África do Sul), pressionou os países desenvolvidos.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "(V) (V) (V) (F) (F)",
+        "B": "(V) (F) (V) (F) (V)",
+        "C": "(V) (F) (F) (F) (V)",
+        "D": "(F) (V) (V) (F) (V)",
+        "E": "(F) (F) (V) (V) (F)"
+      },
+      "disciplina": "Geografia",
+      "nivel": "concurso",
+      "tags": [
+        "GATT",
+        "OMC",
+        "Rodada Uruguai",
+        "Rodada Doha",
+        "comércio internacional"
+      ],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 21,
+      "enunciado": "Sobre a inserção econômica do continente africano, analise as afirmativas.\nI - A demanda dos países emergentes (Brasil, Índia e China) modificou consideravelmente as trocas de matérias-primas, produtos manufaturados e serviços com a África, aumentando o fluxo de negócios para as cidades africanas, diminuindo as lutas internas pelo poder e melhorando indicadores sociais.\nII - A China se apresenta como grande parceiro comercial da África; os interesses comerciais chineses no continente têm relação com reservas minerais, energéticas e de matéria-prima. África do Sul, Angola e Sudão são exemplos de parceiros dos chineses.\nIII - A SADC é um bloco regional com membros da parte norte e alguns do sul da África. Em 2008, lançou uma área de livre comércio. O país mais importante é a África do Sul.\nIV - O Brasil não considera o continente africano como 'fonte de matéria-prima', mas como parceiro comercial; exemplo foi a abertura de uma agência da Embrapa em Gana para pesquisa de biocombustível.\nAssinale a opção correta.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Apenas as afirmativas I e II são verdadeiras.",
+        "B": "Apenas as afirmativas I e III são verdadeiras.",
+        "C": "Apenas as afirmativas II e III são verdadeiras.",
+        "D": "Apenas as afirmativas II e IV são verdadeiras.",
+        "E": "Apenas as afirmativas III e IV são verdadeiras."
+      },
+      "disciplina": "Geografia",
+      "nivel": "concurso",
+      "tags": [
+        "África",
+        "China",
+        "SADC",
+        "Brasil-África",
+        "relações comerciais"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 22,
+      "enunciado": "Assinale a opção que corresponde à guerra relatada no texto: guerra deflagrada sob alegação de que o Iraque possuía armas químicas; o Iraque foi ocupado e devastado pelos invasores, e nenhuma arma química foi encontrada.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Guerra do Afeganistão.",
+        "B": "Primeira Guerra do Golfo.",
+        "C": "Segunda Guerra do Golfo.",
+        "D": "Guerra dos Seis Dias.",
+        "E": "Guerra da Síria."
+      },
+      "disciplina": "História",
+      "nivel": "concurso",
+      "tags": [
+        "Segunda Guerra do Golfo",
+        "Iraque",
+        "armas de destruição em massa",
+        "geopolítica"
+      ],
+      "texto_base": "TERRA et al. Conexões: estudos de geografia geral. Moderna, 2009.",
+      "gabarito": "C"
+    },
+    {
+      "id": 23,
+      "enunciado": "Sobre o contexto pós-Segunda Guerra Mundial, assinale a opção correta.\n(A) No pós-guerra, a Europa perdeu a condição de centro do poder internacional, mas os Estados europeus não se alinharam com as superpotências. Na parte ocidental, formou-se um bloco de Estados-satélites da União Soviética.\n(B) Na conferência de Yalta, as potências ocidentais não aceitaram a exigência soviética de constituição de governos comandados pelos comunistas nos países do Leste Europeu.\n(C) A conferência de Potsdam reorganizou o território alemão. A Alemanha foi dividida em quatro zonas de ocupação; Berlim, na zona americana, foi dividida com ocupação soviética (parte ocidental) e americana (parte oriental).\n(D) A Guerra Fria gerou a divisão geopolítica da Europa: o Ocidente foi reestruturado pela planificação central da economia e o Leste organizado em torno da economia de mercado.\n(E) O Pacto de Varsóvia foi uma resposta soviética ao ingresso da Alemanha Ocidental à OTAN e funcionou como um dos pilares da Europa Oriental, consolidando a divisão da Europa pela 'Cortina de Ferro'.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Na parte ocidental da Europa, formou-se um bloco de Estados-satélites da União Soviética.",
+        "B": "Em Yalta, as potências ocidentais não aceitaram a exigência soviética de governos comunistas no Leste Europeu.",
+        "C": "Em Potsdam, Berlim foi dividida com ocupação soviética na parte ocidental e americana na oriental.",
+        "D": "A Guerra Fria dividiu a Europa: Ocidente com planificação central e Leste com economia de mercado.",
+        "E": "O Pacto de Varsóvia foi resposta soviética ao ingresso da Alemanha Ocidental à OTAN."
+      },
+      "disciplina": "História",
+      "nivel": "concurso",
+      "tags": [
+        "Guerra Fria",
+        "Yalta",
+        "Potsdam",
+        "Cortina de Ferro",
+        "OTAN",
+        "Pacto de Varsóvia"
+      ],
+      "texto_base": "MOREIRA e SENE. Geografia geral e do Brasil. São Paulo: Scipione, 2010.",
+      "gabarito": "E"
+    },
+    {
+      "id": 24,
+      "enunciado": "Considerando os acontecimentos relacionados à Marinha do Brasil no final do século XIX e início do século XX, assinale a opção correta.\n(A) As dificuldades em relação aos recursos destinados à Marinha se mantiveram por toda a década final do século XIX. A manutenção da titularidade de um único ministro favoreceu a elaboração de um programa naval condizente com as necessidades do país.\n(B) Ao assumir a pasta da Marinha em 15 de novembro de 1902, o Almirante Júlio de Noronha encontrou uma Força Naval constituída de navios modernos e recentemente adquiridos.\n(C) Em julho de 1904, foi apresentado à Câmara o projeto do Programa Naval do Almirante Júlio de Noronha. Todavia, a franca oposição do deputado Dr. Laurindo Pitta dificultou a aprovação do projeto.\n(D) Com a mudança do Presidente da República em 1906, assumiu a pasta da Marinha o Almirante Alexandrino Faria de Alencar. O novo Programa Naval tinha como alteração relevante a adição de três novos encouraçados do tipo dreadnought de 20 mil toneladas e a aquisição de terrenos na Ilha do Governador.\n(E) No Programa Naval do Almirante Alexandrino, foi cancelado o projeto de um novo arsenal. Em seu lugar, optou-se por modernizar as instalações da Ilha das Cobras e admitiu-se a construção de bases secundárias em Belém e Natal, além de um porto militar em Santa Catarina.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Titularidade de único ministro favoreceu programa naval condizente.",
+        "B": "Almirante Júlio de Noronha encontrou força naval moderna em 1902.",
+        "C": "Programa Naval de Júlio de Noronha teve oposição do deputado Dr. Laurindo Pitta.",
+        "D": "Programa Naval Alexandrino: três dreadnoughts de 20 mil toneladas e terrenos na Ilha do Governador.",
+        "E": "No Programa Alexandrino, cancelou-se novo arsenal; modernizou-se Ilha das Cobras e criaram-se bases em Belém, Natal e Santa Catarina."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": [
+        "Marinha do Brasil",
+        "República Velha",
+        "Programa Naval",
+        "Almirante Alexandrino",
+        "dreadnoughts"
+      ],
+      "texto_base": "SIMÕES e BITTENCOURT. A Importância do Mar na História do Brasil. Brasília: MEC, 2006.",
+      "gabarito": "E"
+    },
+    {
+      "id": 25,
+      "enunciado": "Marque a opção que apresenta corretamente as disputas pelas rotas comerciais durante a Idade Média.\n(A) Os vikings saquearam lugares na Europa; com o passar do tempo, tornaram-se a base da construção do Império Britânico e sua herança mercantil deu início ao futuro Poder Marítimo Inglês.\n(B) Para expulsar os muçulmanos vindos do norte da África, as Repúblicas Marítimas Italianas se uniram aos vikings e aos magiares. Pisa e Gênova coligaram-se para dominar o Mar Adriático.\n(C) Veneza, dentre as Repúblicas Marítimas, destacou-se pela posição geográfica favorável no Mar Adriático, próximo ao Império Bizantino. Seu apogeu marítimo-comercial ocorreu na primeira metade do século XV.\n(D) O canhão foi fator relevante para a conquista de Constantinopla. Os Bizantinos recuaram para o interior e a adequação dos canhões a bordo dos navios permitiu a retomada de Constantinopla após a derrota turca na Batalha Naval de Diu.\n(E) O tipo de navio da Idade Média pouco mudou em relação à Antiguidade: tanto cristãos quanto árabes e vikings combatiam com o drômon (navio rápido), com duas ordens de remos, já que a terceira fileira foi retirada para dar lugar a pequenos canhões.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Vikings saquearam Europa e tornaram-se base do Império Britânico, iniciando o Poder Marítimo Inglês.",
+        "B": "Repúblicas Marítimas Italianas uniram-se aos vikings e magiares para expulsar muçulmanos.",
+        "C": "Veneza destacou-se no Mar Adriático; apogeu comercial na 1ª metade do século XV.",
+        "D": "Canhões a bordo permitiram a retomada de Constantinopla após derrota turca na Batalha de Diu.",
+        "E": "Drômon: navio da Idade Média com duas ordens de remos, a terceira fileira substituída por canhões."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": [
+        "Idade Média",
+        "rotas comerciais",
+        "Veneza",
+        "vikings",
+        "Repúblicas Marítimas"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 26,
+      "enunciado": "Durante o Período Colonial, a respeito dos acontecimentos envolvendo potências europeias no território brasileiro, analise as opções e marque a correta.\n(A) Em meados do século XVI, Villegagnon desenvolveu projeto para instalar cidade fortificada em Salvador e colônia francesa no Rio de Janeiro, capital política e responsável pela administração do pacto colonial.\n(B) Em 1612, os franceses se instalaram no Maranhão (França Equinocial), liderados por Daniel de la Touche. Para expulsá-los, o governador de Pernambuco contou com Jerônimo de Albuquerque.\n(C) Os holandeses tentaram por duas vezes invadir a colônia. Em 1624, Salvador (capital), e em 1630, Pernambuco. Na primeira tentativa, a 'Jornada dos Vassalos' (força naval espanhola) não conseguiu libertar Salvador.\n(D) Corsários franceses liderados por François Duguay-Trouin transpuseram a defesa da Baía de Guanabara, saquearam o Rio de Janeiro. A Marinha Portuguesa, em Salvador, foi deslocada para efetuar o bloqueio e impedir a retirada dos corsários pelo mar — usando essa tática, os franceses foram derrotados.\n(E) Para expulsar os holandeses de Pernambuco, em dezembro de 1653, a quarta frota da Companhia de Comércio chegou ao Brasil com 'vontade de lutar'. A Holanda encontrava-se então numa guerra naval com a Inglaterra; as vitórias holandesas possibilitaram a permanência dos holandeses no nordeste até o final do século XVII.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Villegagnon planejou cidade em Salvador e colônia no Rio de Janeiro.",
+        "B": "França Equinocial (1612) no Maranhão; Jerônimo de Albuquerque expulsou os franceses.",
+        "C": "'Jornada dos Vassalos' não conseguiu libertar Salvador dos holandeses.",
+        "D": "Duguay-Trouin saqueou o Rio; a Marinha Portuguesa bloqueou a retirada pelo mar.",
+        "E": "Holandeses permaneceram no nordeste até o final do século XVII."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": [
+        "Período Colonial",
+        "França Equinocial",
+        "holandeses no Brasil",
+        "Duguay-Trouin",
+        "Jerônimo de Albuquerque"
+      ],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 27,
+      "enunciado": "Sobre o uso do mar, marinhas e combates navais ocorridos no período Antigo (4.000 a.C até 476 d.C) e suas relações com os outros períodos históricos, marque a opção correta.\n(A) Nas Guerras Médicas, a Batalha Naval de Salamina foi uma vitória do império unificado grego, com a Marinha Ateniense transportando guerreiros espartanos para o combate após a abordagem.\n(B) Para vencer os cartagineses, os romanos treinaram no seco e construíram sua frota seguindo o modelo de uma embarcação cartaginesa capturada, fortalecendo-se no mar para disputar a Sicília.\n(C) A disputa pelo comércio nas Guerras Púnicas assemelha-se às Guerras Anglo-Portuguesas, nas quais ingleses e portugueses disputaram o comércio marítimo global em meados do século XVII.\n(D) Além da Guerra Civil Romana, destaca-se a Guerra do Peloponeso (431-404 a.C): Atenas dominava o mar e era aristocrática e guerreira em terra, enquanto Esparta dominava a terra, era democrática e possuía grande marinha.\n(E) A tática naval na Antiguidade tinha apenas um componente marinheiro: as manobras de aproximação. O resto era batalha campal com uso de canhões primitivos e do corvo (prancha articulada para abordagem), utilizado após os canhões destruírem velas e mastros.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Batalha de Salamina: Marinha Ateniense transportou guerreiros espartanos para combate pós-abordagem.",
+        "B": "Romanos treinaram no seco e copiaram embarcação cartaginesa capturada para disputar a Sicília.",
+        "C": "Guerras Púnicas assemelham-se às Guerras Anglo-Portuguesas do século XVII.",
+        "D": "Guerra do Peloponeso: Atenas era aristocrática e guerreira em terra; Esparta era democrática.",
+        "E": "Tática naval antiga: apenas manobras de aproximação com canhões primitivos e corvo."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": [
+        "Batalha de Salamina",
+        "Guerra do Peloponeso",
+        "Guerras Púnicas",
+        "tática naval",
+        "Antiguidade"
+      ],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 28,
+      "enunciado": "Sobre as contendas motivadas pela política europeia para disputar e controlar rotas comerciais durante a Idade Moderna (séculos XV-XVIII) e a primeira metade do século XIX, marque a opção correta.\n(A) 'Invencível Armada': vitória da infantaria embarcada espanhola sobre a artilharia britânica afirmou o dogma religioso como componente vital.\n(B) O século XVII foi palco de três guerras nos mares entre ingleses e franceses pelo domínio do comércio marítimo. A vitória sobre a Espanha (1588) deu lastro para os ingleses derrotarem os franceses no Canal da Mancha, Mar do Norte e Mediterrâneo.\n(C) A Batalha de Trafalgar (1805) trouxe vitória britânica e consequências danosas para a Inglaterra, que perdeu recursos na estratégia indireta de financiar aliado no continente, enquanto empregava sua marinha para se defender da invasão francesa. A batalha não foi decisiva pois as Guerras Napoleônicas se estenderam até 1815.\n(D) A Tomada de Constantinopla pelos turcos otomanos marcou o fim da Idade Média. Em 1488, Bartolomeu Dias dobra o Cabo da Boa Esperança; em 1492, os muçulmanos são expulsos de Granada e Colombo chega às Antilhas.\n(E) Em 1571, na Batalha Naval de Lepanto, os turcos otomanos venceram a Santa Liga com relativa vantagem nos três setores; entre os fatores da derrota cristã estão a superioridade de artilharia dos turcos.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Invencível Armada: vitória espanhola da infantaria embarcada sobre artilharia britânica.",
+        "B": "Século XVII: ingleses vs. franceses pelo comércio, após vitória sobre Espanha (1588).",
+        "C": "Trafalgar (1805): vitória britânica; batalha não foi decisiva pois guerras napoleônicas se estenderam até 1815.",
+        "D": "Tomada de Constantinopla marcou fim da Idade Média; marcos: Bartolomeu Dias (1488), Colombo nas Antilhas (1492).",
+        "E": "Lepanto (1571): turcos otomanos venceram a Santa Liga nos três setores."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": [
+        "Invencível Armada",
+        "Batalha de Trafalgar",
+        "Batalha de Lepanto",
+        "Constantinopla",
+        "Idade Moderna"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 29,
+      "enunciado": "Sobre a Passagem de Humaitá durante a Guerra da Tríplice Aliança contra o Paraguai, é correto afirmar que:\n(A) apesar da tenaz resistência dos paraguaios, os navios da Esquadra conseguiram efetuar o forçamento sem grandes avarias.\n(B) vencida a fortaleza de Humaitá, imediatamente ocorreu o seu guarnecimento e controle, enquanto Solano Lopez conquistaria nova posição ofensiva ao sul do Chaco.\n(C) a passagem foi concretizada formando três pares compostos, cada um, por um encouraçado e um monitor amarrado ao seu contrabordo.\n(D) a passagem foi realizada em 19 de fevereiro de 1869, no Rio Paraná, ocasião em que a Esquadra efetuou, com sucesso, o forçamento da até então considerada inexpugnável fortificação.\n(E) por ocasião da Passagem de Humaitá, ao verificar o poder de fogo da esquadra inimiga, os paraguaios abandonaram a fortificação sem oferecer resistência.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Esquadra efetuou o forçamento sem grandes avarias.",
+        "B": "Vencida Humaitá, seu guarnecimento foi imediato.",
+        "C": "A passagem foi concretizada em três pares: encouraçado + monitor a contrabordo.",
+        "D": "Passagem em 19 de fevereiro de 1869, no Rio Paraná, forçando a até então inexpugnável fortificação.",
+        "E": "Os paraguaios abandonaram a fortificação sem oferecer resistência."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": [
+        "Passagem de Humaitá",
+        "Guerra do Paraguai",
+        "Tríplice Aliança",
+        "Marinha do Brasil",
+        "século XIX"
+      ],
+      "texto_base": "BITTENCOURT et al. Introdução à História Marítima Brasileira. SDM, 2006.",
+      "gabarito": "C"
+    },
+    {
+      "id": 30,
+      "enunciado": "Sobre os conflitos de interesses políticos, econômicos e sociais travados entre os países na Idade Contemporânea, marque a opção correta.\n(A) O Almirante Yamamoto foi responsável pela elaboração do plano de conquista do atol de Midway, inspirado na Batalha de Tsushima, pretendendo invadir as ilhas do atol.\n(B) As Batalhas de Tsushima e da Jutlândia alteraram a tática naval. O ensinamento de Tsushima foi a valorização do canhão de médio e grosso calibres. A Jutlândia foi a última grande batalha naval em que o canhão foi decisivo.\n(C) A Guerra Civil norte-americana trouxe a técnica para o campo de batalha, porém os europeus estavam à frente no desenvolvimento de navios a vapor blindados. O primeiro combate entre couraçados foi Hampton Roads: Virgínia (União) vs. Monitor (Confederados).\n(D) A Batalha do Atlântico foi o mais importante evento bélico da WWII. Churchill afirmou que o que mais o assustou foi 'o perigo dos porta-aviões' alemães. Roosevelt manteve o objetivo de vencer primeiro a ameaça nipônica.\n(E) A disputa pelas Falklands/Malvinas está ligada aos interesses da Guerra Fria: Argentina apoiada pela URSS e Reino Unido apoiado pelos EUA. O submarino nuclear Conqueror afundou o Cruzador Belgrano.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Yamamoto elaborou o plano de conquista de Midway, inspirado na Batalha de Tsushima.",
+        "B": "Tsushima valorizou o canhão; Jutlândia foi a última grande batalha onde o canhão foi decisivo.",
+        "C": "Hampton Roads: Virgínia (União) vs. Monitor (Confederados) — primeiros couraçados, europeus à frente.",
+        "D": "Batalha do Atlântico: Churchill temeu 'porta-aviões' alemães; Roosevelt queria vencer os japoneses primeiro.",
+        "E": "Falklands/Malvinas: Argentina (apoiada pela URSS) vs. Reino Unido (apoiado pelos EUA); submarino Conqueror afundou o Belgrano."
+      },
+      "disciplina": "História Naval",
+      "nivel": "concurso",
+      "tags": [
+        "Midway",
+        "Jutlândia",
+        "Hampton Roads",
+        "Batalha do Atlântico",
+        "Falklands Malvinas"
+      ],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 31,
+      "enunciado": "Com relação ao que preconiza o Regulamento Disciplinar para a Marinha, assinale a opção correta.\n(A) O superior deverá também dar voz de prisão imediata ao contraventor e fazê-lo recolher-se à sua OM quando a contravenção ou suas circunstâncias assim o exigirem, a bem da ordem pública, da disciplina ou da regularidade do serviço.\n(B) Servindo superior e subalterno na mesma OM e sendo o subalterno Praça de graduação inferior a Suboficial, será efetuado o lançamento da parte no livro de quarto do estabelecimento.\n(C) Caso o contraventor se recuse a declarar a OM em que serve, a voz de prisão será dada em nome do Comandante da Marinha.\n(D) Todo superior que tiver conhecimento direto ou indireto de contravenção cometida por qualquer subalterno deverá dar parte oral do fato à autoridade sob cujas ordens estiver.\n(E) A quem deu parte assiste o direito de pedir à respectiva autoridade, dentro de seis dias úteis, pelos meios legais, a reconsideração da solução, se julgar que esta deprime sua pessoa ou a dignidade de seu posto, não podendo o pedido ficar sem despacho.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Superior dá voz de prisão imediata ao contraventor quando a contravenção exigir.",
+        "B": "Subalterno Praça inferior a Suboficial: lançamento da parte no livro de quarto.",
+        "C": "Contraventor que se recusa a declarar a OM: voz de prisão em nome do Comandante da Marinha.",
+        "D": "Superior que tomar conhecimento de contravenção: dar parte oral à autoridade sob cujas ordens estiver.",
+        "E": "Quem deu parte pode pedir reconsideração da solução em seis dias úteis; pedido não pode ficar sem despacho."
+      },
+      "disciplina": "Direito Militar / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "Regulamento Disciplinar para a Marinha",
+        "contravenção disciplinar",
+        "voz de prisão",
+        "parte"
+      ],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 32,
+      "enunciado": "Com relação ao Manual de Procedimentos Marinheiros, assinale a opção correta.\n(A) Galhardetes e Bandeiras Insígnias enrascadas em adriças, quando içadas, comprometem o aspecto marinheiro da OM. Quando se trata do Pavilhão Nacional, isso passa a ser aceitável.\n(B) O passadiço é o 'cartão de visita' do navio e como tal tem que estar rigorosamente limpo e arrumado.\n(C) Embarcações não devem ser mantidas atracadas ao portaló dos navios ou às escadas do cais.\n(D) Não é demérito para nenhum militar de bordo, qualquer que seja a sua antiguidade, abaixar-se para recolher um resto de cigarro que algum descuidado deixou cair no piso e levá-lo à lixeira.\n(E) O rondar do vento ou o rabeio do navio isentam o Oficial de Serviço da responsabilidade pelo mau aspecto da Bandeira Nacional não-atopetada ou enroscada no respectivo mastro e adriça.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Pavilhão Nacional enrascado em adriça: aceitável, diferente das demais bandeiras.",
+        "B": "Passadiço é o 'cartão de visita' do navio: rigorosamente limpo e arrumado.",
+        "C": "Embarcações não devem ser mantidas atracadas ao portaló ou às escadas do cais.",
+        "D": "Não é demérito recolher restos de cigarro do piso, independente da antiguidade.",
+        "E": "Rondar do vento ou rabeio do navio isentam o Oficial de Serviço pelo mau aspecto da Bandeira Nacional."
+      },
+      "disciplina": "Marinharia / Procedimentos Navais",
+      "nivel": "concurso",
+      "tags": [
+        "Manual de Procedimentos Marinheiros",
+        "passadiço",
+        "Bandeira Nacional",
+        "adriça",
+        "aspecto marinheiro"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 33,
+      "enunciado": "As prerrogativas dos militares são constituídas pelas honras, dignidades e distinções devidas aos graus hierárquicos e cargos. Segundo o Estatuto dos Militares, é prerrogativa militar:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "o uso das designações hierárquicas.",
+        "B": "as honras, tratamento e sinais de respeito que lhes sejam assegurados em leis e regulamentos.",
+        "C": "a ocupação de cargo correspondente ao posto ou à graduação.",
+        "D": "a percepção de remuneração.",
+        "E": "a alimentação, assim entendida como as refeições fornecidas aos militares em atividade."
+      },
+      "disciplina": "Direito Militar / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "Estatuto dos Militares",
+        "prerrogativas militares",
+        "honras",
+        "hierarquia"
+      ],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 34,
+      "enunciado": "O artigo 6º do Regulamento Disciplinar para a Marinha define contravenção disciplinar como toda ação ou omissão contrária às obrigações ou aos deveres militares. É circunstância agravante da contravenção disciplinar:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "ignorância plenamente comprovada da ordem transgredida.",
+        "B": "força maior ou caso fortuito plenamente comprovado.",
+        "C": "ter cometido a falta em presença de subordinado.",
+        "D": "provocação.",
+        "E": "tratamento em serviço ordinário com rigor não autorizado pelos regulamentos militares."
+      },
+      "disciplina": "Direito Militar / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "Regulamento Disciplinar para a Marinha",
+        "circunstâncias agravantes",
+        "contravenção disciplinar"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 35,
+      "enunciado": "Com relação ao que preconiza a DGPM-315 sobre o IPM é correto afirmar que:\n(A) quando o IPM for instaurado a bordo, cópias do 'Relatório' e 'Solução' serão encaminhadas à DPMM ou ao CPesFN ou à DPCvVM e, conforme o caso, ao Órgão de Direção Setorial e ao CIM.\n(B) quando ficar constatado que o fato não caracteriza contravenção disciplinar nem crime, a autoridade nomeante deverá encaminhá-lo diretamente ao Juiz Auditor da Circunscrição Judiciária Militar.\n(C) a autoridade nomeante examinará as conclusões expostas no 'Relatório' pelo encarregado e decidirá por meio de 'Solução'.\n(D) caso o exame pericial seja realizado no âmbito da MB, os peritos não lavrarão o correspondente 'Laudo'.\n(E) como peritos, não poderão ser designados militares pertencentes às outras Forças Armadas, independente de entendimentos prévios entre os respectivos Comandos.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "IPM a bordo: cópias do Relatório e Solução encaminhadas à DPMM/CPesFN/DPCvVM e ao CIM.",
+        "B": "Fato sem crime nem contravenção: encaminhar ao Juiz Auditor da Circunscrição Judiciária Militar.",
+        "C": "Autoridade nomeante examina conclusões do Relatório e decide por Solução.",
+        "D": "Exame pericial na MB: os peritos não lavrarão o Laudo.",
+        "E": "Peritos de outras Forças Armadas não podem ser designados."
+      },
+      "disciplina": "Direito Militar / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "DGPM-315",
+        "IPM",
+        "inquérito policial militar",
+        "relatório",
+        "solução"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 36,
+      "enunciado": "Sobre o hasteamento das bandeiras insígnias, coloque V (verdadeiro) ou F (falso) nas afirmativas e assinale a opção correta.\n( ) São mantidas hasteadas em caráter transitório, nos navios capitânias, quando referente ao Comandante de Força embarcado.\n( ) São mantidas hasteadas em caráter transitório, na respectiva OM de terra, quando referente à autoridade exercendo o cargo de comando, enquanto esta permanecer a bordo.\n( ) São mantidas hasteadas em caráter permanente, no respectivo navio, unidade ou estabelecimento, quando referente à autoridade exercendo o cargo de comando.\n( ) São mantidas hasteadas em caráter permanente, na OM visitada, quando referente à autoridade superior pertencente à cadeia de comando.\n( ) São mantidas hasteadas em caráter eventual, na OM visitada, em honra à autoridade visitante não pertencente à cadeia de comando.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "(V)(F)(V)(V)(V)",
+        "B": "(F)(F)(V)(F)(V)",
+        "C": "(F)(V)(F)(F)(V)",
+        "D": "(V)(V)(F)(V)(F)",
+        "E": "(F)(V)(F)(V)(V)"
+      },
+      "disciplina": "Cerimonial Naval / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "bandeiras insígnias",
+        "hasteamento",
+        "cerimonial naval",
+        "normas navais"
+      ],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 37,
+      "enunciado": "Considerando o Manual de Combate a Incêndio, assinale a opção correta em relação aos métodos de extinção de incêndio.\n(A) O primeiro método básico de extinção de incêndios é o abafamento, que consiste em aumentar a quantidade de oxigênio acima do limite de 13%.\n(B) Somente por resfriamento podem ser extintos os incêndios de combustíveis que tenham comburente em sua estrutura íntima.\n(C) O isolamento consiste na retirada do combustível, o que geralmente é utilizado quando dispomos de equipamentos adequados para combater o incêndio.\n(D) O abafamento é o processo de extinção de incêndios em que determinadas substâncias são introduzidas na reação química da combustão, com o propósito de inibi-la.\n(E) A diminuição do oxigênio em contato com o combustível vai tornando a combustão mais rápida.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Abafamento: aumentar o oxigênio acima de 13%.",
+        "B": "Somente resfriamento extingue incêndios com comburente na estrutura íntima.",
+        "C": "Isolamento: retirada do combustível, usado quando há equipamentos adequados.",
+        "D": "Abafamento: introdução de substâncias na reação química para inibi-la.",
+        "E": "Diminuição do oxigênio torna a combustão mais rápida."
+      },
+      "disciplina": "Controle de Avarias / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "combate a incêndio",
+        "métodos de extinção",
+        "abafamento",
+        "resfriamento",
+        "isolamento"
+      ],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 38,
+      "enunciado": "Segundo a SGM-105 (Normas sobre Documentação Administrativa e Arquivamento na Marinha), como se denomina o Documento Administrativo Declaratório mediante o qual os Titulares de Organizações Militares declaram a existência de fatos com base em documentos existentes na OM?",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Comunicação Interna.",
+        "B": "Parecer.",
+        "C": "Declaração.",
+        "D": "Comunicação Padronizada.",
+        "E": "Certidão."
+      },
+      "disciplina": "Documentação Administrativa Naval",
+      "nivel": "concurso",
+      "tags": [
+        "SGM-105",
+        "documentação administrativa",
+        "certidão",
+        "DA declaratório"
+      ],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 39,
+      "enunciado": "No Estatuto dos Militares, é uma manifestação essencial do valor militar:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "probidade e lealdade em todas as circunstâncias.",
+        "B": "disciplina e respeito à hierarquia.",
+        "C": "aprimoramento técnico-profissional.",
+        "D": "rigoroso cumprimento das obrigações e das ordens.",
+        "E": "culto aos Símbolos Nacionais."
+      },
+      "disciplina": "Normas Navais / Ética Militar",
+      "nivel": "concurso",
+      "tags": [
+        "Estatuto dos Militares",
+        "valor militar",
+        "manifestações essenciais"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 40,
+      "enunciado": "Um militar foi licenciado às 16h00 do dia 5 de abril de 2021 e deveria regressar às 08h00 do dia 6 de abril de 2021, tendo deixado de fazê-lo, caracterizando o início de uma série de faltas injustificadas. Quando será lavrada a parte de ausência do referido militar?",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "6 de abril de 2021.",
+        "B": "7 de abril de 2021.",
+        "C": "8 de abril de 2021 às 8h00.",
+        "D": "8 de abril de 2021 às 16h00.",
+        "E": "9 de abril de 2021."
+      },
+      "disciplina": "Direito Militar / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "ausência militar",
+        "faltas injustificadas",
+        "prazo",
+        "DGPM-315"
+      ],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 41,
+      "enunciado": "De acordo com o CAAML-1201, o militar responsável pelas ações na área do sinistro, já em Postos de Combate e capacitado pelo C-EXP-CBINC, é chamado de:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "líder da turma do incêndio.",
+        "B": "encarregado do reparo.",
+        "C": "líder do reparo.",
+        "D": "investigador.",
+        "E": "militar de contenção."
+      },
+      "disciplina": "Controle de Avarias / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "CAAML-1201",
+        "controle de avarias",
+        "combate a incêndio",
+        "Postos de Combate",
+        "líder do reparo"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 42,
+      "enunciado": "A periodicidade para que as Subcomissões Permanentes de Avaliação de Documentos (SPAD) selecionem e ordenem a documentação produzida e acumulada no âmbito de atuação da OM é:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "a cada 6 meses.",
+        "B": "anualmente no período compreendido entre maio a junho.",
+        "C": "a cada 3 meses.",
+        "D": "anualmente no período compreendido entre junho a outubro.",
+        "E": "anualmente no período compreendido entre janeiro a abril."
+      },
+      "disciplina": "Documentação Administrativa Naval",
+      "nivel": "concurso",
+      "tags": [
+        "SPAD",
+        "SGM-105",
+        "arquivamento",
+        "documentação",
+        "periodicidade"
+      ],
+      "texto_base": null,
+      "gabarito": "E"
+    },
+    {
+      "id": 43,
+      "enunciado": "Segundo o EMA-137, no eixo 'tipo de incentivo', assinale a opção correta quanto ao estilo de liderança.\n(A) É condicionado pelas características pessoais, pelo conhecimento técnico-profissional e pelo engajamento e motivação dos componentes do grupo como um todo.\n(B) É especialmente indicado para situações de pressão, crise e mudança, que requerem elevados níveis de envolvimento e comprometimento dos subordinados.\n(C) É a manutenção e o fortalecimento das relações pessoais e do próprio grupo.\n(D) É baseada na autoridade formal, aceita como correta e legítima pela estrutura do grupo.\n(E) É indicado para assuntos de natureza técnica, em que o líder atribui a assessores a tomada de decisões especializadas, deixando-os agir por si só.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Condicionado por características pessoais, conhecimento técnico-profissional e motivação do grupo.",
+        "B": "Indicado para situações de pressão, crise e mudança.",
+        "C": "Manutenção e fortalecimento das relações pessoais e do grupo.",
+        "D": "Baseada na autoridade formal, aceita como correta e legítima.",
+        "E": "Para assuntos técnicos, atribuindo decisões especializadas a assessores."
+      },
+      "disciplina": "Liderança / Ética Militar",
+      "nivel": "concurso",
+      "tags": [
+        "EMA-137",
+        "estilos de liderança",
+        "tipo de incentivo",
+        "liderança técnica"
+      ],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 44,
+      "enunciado": "De acordo com a DGPM-315, nas oitivas de sindicância, o ofendido, o sindicado e as testemunhas são ouvidos por termos. A opção que apresenta, respectivamente, os termos de cada um é:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Termo de Declarações, Termo de Inquirição e Termo de Depoimento.",
+        "B": "Termo de Inquirição, Termo de Depoimento e Termo de Declarações.",
+        "C": "Termo de Compromisso, Termo de Declarações e Termo Aditivo.",
+        "D": "Termo de Depoimento, Termo de Declarações e Termo de Compromisso.",
+        "E": "Termo de Declarações, Termo de Inquirição e Termo de Responsabilidade."
+      },
+      "disciplina": "Direito Militar / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "DGPM-315",
+        "sindicância",
+        "oitiva",
+        "termos",
+        "ofendido",
+        "sindicado",
+        "testemunha"
+      ],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 45,
+      "enunciado": "Sabendo que, de acordo com a OGSA, as Organizações Militares de terra são estruturadas com base em três documentos fundamentais (Ato de Criação, Regulamento e Regimento Interno), é correto afirmar que:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Regimento Interno é o documento que especifica o propósito, a subordinação, a sede, o posto do Comandante e a constituição de um núcleo de implantação quando necessário.",
+        "B": "Regimento Interno é o ato administrativo que complementa o Regulamento, ordenando seu detalhamento e permitindo que, em âmbito interno, sejam disciplinadas todas as atividades rotineiras da OM.",
+        "C": "Ato de Criação é o ato administrativo que complementa o Regimento Interno, permitindo que, em âmbito geral, possam ser conhecidas a sua missão, organização, estrutura e outros dados de interesse.",
+        "D": "Regulamento é o ato administrativo que complementa o Ato de Criação, ordenando seu detalhamento e permitindo que, em âmbito interno, sejam disciplinadas todas as atividades rotineiras da OM.",
+        "E": "Regulamento é o documento que especifica o propósito, a subordinação, a sede, o posto do Comandante e a constituição de um núcleo de implantação quando necessário."
+      },
+      "disciplina": "Normas Navais / Serviço a Bordo",
+      "nivel": "concurso",
+      "tags": [
+        "OGSA",
+        "OM de terra",
+        "Ato de Criação",
+        "Regulamento",
+        "Regimento Interno"
+      ],
+      "texto_base": null,
+      "gabarito": "B"
+    },
+    {
+      "id": 46,
+      "enunciado": "A continência individual é a forma de saudação que o militar isolado, quando uniformizado, com ou sem cobertura, deve aos símbolos, à tropa formada e às autoridades. NÃO são dispensados de continência:",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "os militares de sentinela, armados de fuzil.",
+        "B": "os Oficiais praticando esportes.",
+        "C": "os Oficiais, mesmo armados ou em formatura, durante as honras de portaló.",
+        "D": "os militares fazendo parte de tropa armada.",
+        "E": "os militares em postos de continência ou de Parada."
+      },
+      "disciplina": "Cerimonial Naval / Normas Navais",
+      "nivel": "concurso",
+      "tags": [
+        "continência individual",
+        "saudação militar",
+        "honras de portaló",
+        "cerimonial"
+      ],
+      "texto_base": null,
+      "gabarito": "C"
+    },
+    {
+      "id": 47,
+      "enunciado": "Coloque V (verdadeiro) ou F (falso) nas afirmativas abaixo sobre os Documentos Digitais apresentados na SGM-105 e assinale a opção correta.\n( ) Os Documentos Administrativos de âmbito interno poderão ter assinatura digital e não poderão sofrer alterações após terem sido assinados digitalmente.\n( ) A DAdM e a RECIM estabelecem quais são os sistemas de correio eletrônico e quais são os procedimentos em vigor na MB.\n( ) Os Documentos Administrativos expedidos e recebidos entre OM deverão tramitar obrigatoriamente entre os Centros de Informática.\n( ) Após ter sido convertido para o formato PDF, os arquivos deverão ser assinados individualmente, de forma a garantir a sua autenticidade.\n( ) Documento nato digital é o documento obtido a partir da conversão de um documento não digital, gerando uma fiel representação em código digital.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "(F)(F)(V)(F)(V)",
+        "B": "(F)(V)(F)(V)(V)",
+        "C": "(V)(F)(V)(F)(F)",
+        "D": "(V)(F)(F)(V)(F)",
+        "E": "(V)(V)(F)(F)(V)"
+      },
+      "disciplina": "Documentação Administrativa Naval",
+      "nivel": "concurso",
+      "tags": [
+        "SGM-105",
+        "documentos digitais",
+        "assinatura digital",
+        "documento nato digital",
+        "DAdM"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 48,
+      "enunciado": "A faina para arriar uma embarcação é mais rápida, segura e precisa se sua guarnição executar a manobra de forma coordenada e disciplinada. Assinale a opção que apresenta a respectiva correlação da função dos militares às ações a serem tomadas na lista de verificação.\nFUNÇÃO: 1-Contramestre, 2-Patrão, 3-Proeiro/Popeiro, 4-Motorista (MO)\nAÇÃO:\n( ) Verificar se estão a bordo as boças reservas.\n( ) Verificar se o pessoal envolvido está utilizando EPI adequado.\n( ) Verificar os equipamentos de combate a incêndio.\n( ) Verificar a apresentação marinheira da lancha, corrigindo as discrepâncias.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "(4)(1)(3)(2)",
+        "B": "(1)(2)(3)(4)",
+        "C": "(3)(2)(4)(1)",
+        "D": "(3)(1)(4)(2)",
+        "E": "(2)(1)(4)(3)"
+      },
+      "disciplina": "Marinharia / Procedimentos Navais",
+      "nivel": "concurso",
+      "tags": [
+        "arriar embarcação",
+        "lista de verificação",
+        "Contramestre",
+        "Patrão",
+        "Proeiro",
+        "Motorista"
+      ],
+      "texto_base": null,
+      "gabarito": "A"
+    },
+    {
+      "id": 49,
+      "enunciado": "Analise as afirmativas abaixo, em relação às atribuições do Chefe de Departamento, segundo o Art. 6-4-5 da OGSA.\nI - Cumprir e fazer cumprir as instruções técnicas em vigor, baixando, com aprovação do Comandante, instruções complementares.\nII - Acompanhar o Comandante nas mostras e inspeções passadas em sua Divisão.\nIII - Assessorar diretamente o Comandante quando solicitado.\nIV - Supervisionar a elaboração dos pedidos de suprimentos e reparos referentes ao material do seu Departamento.\nV - Estar pronto a informar ao Comandante sobre a situação dos mantimentos, aguada, sobressalentes e combustíveis.\nAssinale a opção correta.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Apenas as afirmativas I, II e IV estão corretas.",
+        "B": "Apenas as afirmativas I e V estão corretas.",
+        "C": "Apenas as afirmativas III, IV e V estão corretas.",
+        "D": "Apenas as afirmativas I, III e IV estão corretas.",
+        "E": "Apenas as afirmativas II, III e IV estão corretas."
+      },
+      "disciplina": "Normas Navais / Serviço a Bordo",
+      "nivel": "concurso",
+      "tags": [
+        "OGSA",
+        "Chefe de Departamento",
+        "atribuições",
+        "organização naval"
+      ],
+      "texto_base": null,
+      "gabarito": "D"
+    },
+    {
+      "id": 50,
+      "enunciado": "Os processos sociais são definidos como a interação repetitiva de padrões de comportamento comumente encontrados na vida social. De acordo com o EMA-137, assinale a opção correta.\n(A) A competição consiste em obter recompensas pela eliminação ou enfraquecimento dos competidores.\n(B) A cooperação tem o mérito inicial de estimular a atividade dos indivíduos e dos grupos, aumentando-lhes a produtividade.\n(C) O conflito é definido como a luta pela posse de recompensas cuja oferta é limitada.\n(D) A competição é a exacerbação do conflito.\n(E) A cooperação implica uma opção pelo coletivo em detrimento do individual.",
+      "tipo": "multipla_escolha",
+      "alternativas": {
+        "A": "Competição: obter recompensas pela eliminação ou enfraquecimento dos competidores.",
+        "B": "Cooperação: estimular atividade dos indivíduos e grupos, aumentando a produtividade.",
+        "C": "Conflito: luta pela posse de recompensas cuja oferta é limitada.",
+        "D": "Competição é a exacerbação do conflito.",
+        "E": "Cooperação implica opção pelo coletivo em detrimento do individual."
+      },
+      "disciplina": "Liderança / Ética Militar",
+      "nivel": "concurso",
+      "tags": [
+        "EMA-137",
+        "processos sociais",
+        "cooperação",
+        "competição",
+        "conflito"
+      ],
+      "texto_base": null,
+      "gabarito": "E"
+    }
+  ]
+}
