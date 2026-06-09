@@ -17,3 +17,11 @@ raw_response_schema.json
 
 # Ignore local secret key files
 CA-AA-AFN/key.txt
+CA-AA-AFN/key_openai.txt
+*key_openai.txt
+*.png
+reextracao_log.json
+banco_questoes_*.json
+*__pycache__*
+*.py
+

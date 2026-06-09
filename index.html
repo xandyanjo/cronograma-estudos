@@ -2014,6 +2014,7 @@ function QuestoesView({S}){
   const [materiaSel, setMateriaSel] = useState('');
   const [anoSel, setAnoSel] = useState('');
   const [assuntoSel, setAssuntoSel] = useState('');
+  const [buscaText, setBuscaText] = useState('');
   const [idx, setIdx] = useState(0);
 
   const materiasDisp = useMemo(() => [...new Set(bancoQuestoes.map(q=>q.materiaNome))].sort(), [bancoQuestoes]);
@@ -2025,17 +2026,49 @@ function QuestoesView({S}){
   }, [bancoQuestoes, materiaSel]);
 
   const filtradas = useMemo(() => {
-    return bancoQuestoes.filter(q => 
-      (!materiaSel || q.materiaNome === materiaSel) &&
-      (!anoSel || String(q.ano) === String(anoSel)) &&
-      (!assuntoSel || q.assunto === assuntoSel)
-    );
-  }, [bancoQuestoes, materiaSel, anoSel, assuntoSel]);
+    return bancoQuestoes.filter(q => {
+      const matchMateria = !materiaSel || q.materiaNome === materiaSel;
+      const matchAno = !anoSel || String(q.ano) === String(anoSel);
+      const matchAssunto = !assuntoSel || q.assunto === assuntoSel;
+
+      const term = buscaText.trim();
+      if (!term) return matchMateria && matchAno && matchAssunto;
+
+      const normalizar = s => {
+        if (!s) return '';
+        return s.normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[-\s]+/g, ' ')
+          .trim()
+          .toLowerCase();
+      };
+
+      const termNorm = normalizar(term);
+      const enunciadoNorm = normalizar(q.enunciado);
+      const assuntoNorm = normalizar(q.assunto || '');
+      const subassuntoNorm = normalizar(q.subassunto || '');
+      const materiaNorm = normalizar(q.materiaNome || '');
+      const textoBaseNorm = normalizar(q.texto_base || '');
+
+      const matchBusca = 
+        enunciadoNorm.includes(termNorm) ||
+        assuntoNorm.includes(termNorm) ||
+        subassuntoNorm.includes(termNorm) ||
+        materiaNorm.includes(termNorm) ||
+        textoBaseNorm.includes(termNorm);
+
+      return matchMateria && matchAno && matchAssunto && matchBusca;
+    });
+  }, [bancoQuestoes, materiaSel, anoSel, assuntoSel, buscaText]);
 
   useEffect(() => { 
     setAssuntoSel('');
     setIdx(0); 
   }, [materiaSel, anoSel]);
+
+  useEffect(() => {
+    setIdx(0);
+  }, [assuntoSel, buscaText]);
 
   useEffect(() => {
     if (window.MathJax && window.MathJax.typesetPromise) {
@@ -2079,6 +2112,27 @@ function QuestoesView({S}){
               </div>
             )}
           </div>
+
+          <div className="relative">
+            <input 
+              type="text" 
+              placeholder="Pesquisar por assunto, enunciado, matéria..." 
+              value={buscaText} 
+              onChange={e=>setBuscaText(e.target.value)} 
+              className="w-full bg-slate-800/80 border border-white/10 rounded-xl pl-10 pr-10 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-outfit"
+            />
+            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 text-sm">🔍</span>
+            {buscaText && (
+              <button 
+                onClick={() => setBuscaText('')} 
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-xs bg-white/5 hover:bg-white/10 rounded-full w-5 h-5 flex items-center justify-center transition-colors"
+                title="Limpar busca"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <select value={materiaSel} onChange={e=>setMateriaSel(e.target.value)} className="bg-slate-800 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-blue-500 w-full">
               <option value="">📚 Todas as Matérias</option>
@@ -2205,6 +2259,11 @@ function QuestoesView({S}){
               <button disabled={idx === 0} onClick={() => setIdx(i => i - 1)} className="flex-1 bg-white/5 hover:bg-white/10 disabled:opacity-30 text-white font-medium py-3 rounded-xl text-sm transition-all">
                 ← Anterior
               </button>
+              {!resp && !q.anulada && idx < filtradas.length - 1 && (
+                <button onClick={() => setIdx(i => i + 1)} className="flex-1 bg-amber-600/25 hover:bg-amber-600/35 border border-amber-500/30 text-amber-300 font-medium py-3 rounded-xl text-sm transition-all">
+                  Pular
+                </button>
+              )}
               <button disabled={idx === filtradas.length - 1} onClick={() => setIdx(i => i + 1)} className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-30 text-white font-medium py-3 rounded-xl text-sm transition-all shadow-lg shadow-blue-500/20">
                 Próxima →
               </button>
