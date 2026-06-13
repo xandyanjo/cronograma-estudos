@@ -3872,7 +3872,27 @@ function GoogleLoginBtn(){
 
   const logout=async()=>{
     if(!window.auth)return;
-    if(!confirm('Sair da conta Google?'))return;
+    const currentKey = window._uid || localStorage.getItem('_uid') || '';
+    
+    try {
+      await navigator.clipboard.writeText(currentKey);
+      alert(
+        "🔑 CONTA CONECTADA\n\n" +
+        "Sua Chave de Sincronização foi copiada automaticamente para a área de transferência:\n\n" +
+        currentKey + "\n\n" +
+        "Você pode colar essa chave no app local (HD externo) para sincronizar o progresso.\n\n" +
+        "Clique em OK para continuar. Se quiser sair da conta Google, a próxima tela perguntará."
+      );
+    } catch(e) {
+      alert(
+        "🔑 CONTA CONECTADA\n\n" +
+        "Sua Chave de Sincronização é:\n\n" + currentKey + "\n\n" +
+        "Copie esta chave para colar no app local (HD externo).\n\n" +
+        "Clique em OK para continuar. Se quiser sair da conta Google, a próxima tela perguntará."
+      );
+    }
+    
+    if(!confirm('Deseja sair da sua conta Google no navegador?')) return;
     await window.auth.signOut();
     let uid=localStorage.getItem('_uid_anon');
     if(!uid){uid='u_'+Date.now().toString(36)+Math.random().toString(36).slice(2);localStorage.setItem('_uid_anon',uid);}
