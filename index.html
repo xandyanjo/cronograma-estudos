@@ -3831,17 +3831,44 @@ function Toast({badge}){if(!badge)return null;return(
 function GoogleLoginBtn(){
   const[user,setUser]=useState(null);
   const[loading,setLoading]=useState(false);
+  const[uidVal,setUidVal]=useState(window._uid || '');
+  const isLocal = window.location.protocol === 'file:';
 
   useEffect(()=>{
     const u=window.auth&&window.auth.currentUser;
     if(u)setUser(u);
-    // só atualiza o ícone visual — a lógica de sync fica no App
-    const handler=e=>setUser(e.detail);
+    const handler=e=>{
+      setUser(e.detail);
+      setUidVal(window._uid);
+    };
     window.addEventListener('authStateChanged',handler);
     return()=>window.removeEventListener('authStateChanged',handler);
   },[]);
 
   const login=()=>{ window.loginGoogle(); };
+
+  const handleLocalSync = () => {
+    const currentKey = window._uid || localStorage.getItem('_uid') || '';
+    const newKey = prompt(
+      "🔑 CHAVE DE SINCRONIZAÇÃO LOCAL\n\n" +
+      "Como você está rodando o app localmente (file://), o login com Google não é permitido pelo navegador por segurança.\n\n" +
+      "Para sincronizar o progresso de outro PC, cole a Chave de Sincronização dele abaixo.\n\n" +
+      "Sua Chave Atual (copie para levar para outro PC):\n" + currentKey + "\n\n" +
+      "Cole a nova chave abaixo para importar o progresso:",
+      ""
+    );
+    if (newKey !== null) {
+      const cleanKey = newKey.trim();
+      if (cleanKey === '') {
+        alert("Chave inválida. Nada alterado.");
+      } else {
+        localStorage.setItem('_uid', cleanKey);
+        window._uid = cleanKey;
+        alert("Chave de sincronização atualizada! A página será recarregada para baixar seu progresso.");
+        window.location.reload();
+      }
+    }
+  };
 
   const logout=async()=>{
     if(!window.auth)return;
@@ -3851,9 +3878,18 @@ function GoogleLoginBtn(){
     if(!uid){uid='u_'+Date.now().toString(36)+Math.random().toString(36).slice(2);localStorage.setItem('_uid_anon',uid);}
     window._uid=uid;
     localStorage.setItem('_uid',uid);
-    // dispara o evento para o React atualizar o estado
     window.dispatchEvent(new CustomEvent('authStateChanged',{detail:null}));
   };
+
+  if (isLocal) {
+    return (
+      <button onClick={handleLocalSync} title={`Sincronizar progresso localmente via chave\nChave Atual: ${uidVal}`}
+        style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:11,color:'#818cf8',border:'none',background:'none',cursor:'pointer',padding:'8px 10px',transition:'color .2s'}}>
+        <span style={{fontSize:18,lineHeight:1}}>🔑</span>
+        <span>Sincronizar</span>
+      </button>
+    );
+  }
 
   if(loading)return(
     <button disabled style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:11,color:'#9ca3af',border:'none',background:'none',padding:'8px 10px'}}>
@@ -3863,7 +3899,7 @@ function GoogleLoginBtn(){
   );
 
   if(user)return(
-    <button onClick={logout} title={`Logado: ${user.displayName||user.email}`}
+    <button onClick={logout} title={`Logado: ${user.displayName||user.email}\nChave de Sync: ${window._uid}`}
       style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:11,color:'#34d399',border:'none',background:'none',cursor:'pointer',padding:'8px 10px',transition:'color .2s',maxWidth:64}}>
       {user.photoURL
         ?<img src={user.photoURL} alt="" style={{width:20,height:20,borderRadius:'50%',border:'2px solid #34d399'}}/>
@@ -5633,13 +5669,36 @@ function initFirebase() {
 
   if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
   window.db   = firebase.database();
-  window.auth = firebase.auth();
-  window.googleProvider = new firebase.auth.GoogleAuthProvider();
-  window.loginGoogle = function() {
-    window.auth.signInWithPopup(window.googleProvider)
-      .then(function(r){ console.log("LOGADO:", r.user.displayName); })
-      .catch(function(e){ console.error("ERRO LOGIN:", e); alert("Erro: " + e.message); });
-  };
+  
+  const isLocalFile = window.location.protocol === 'file:';
+  
+  if (!isLocalFile) {
+    window.auth = firebase.auth();
+    window.googleProvider = new firebase.auth.GoogleAuthProvider();
+    window.loginGoogle = function() {
+      window.auth.signInWithPopup(window.googleProvider)
+        .then(function(r){ console.log("LOGADO:", r.user.displayName); })
+        .catch(function(e){ console.error("ERRO LOGIN:", e); alert("Erro: " + e.message); });
+    };
+  } else {
+    // Mock do Firebase Auth para rodar localmente sem erros
+    window.auth = {
+      currentUser: null,
+      signOut: async function() {
+        console.log("Mock SignOut");
+      },
+      onAuthStateChanged: function(callback) {
+        setTimeout(function() { callback(null); }, 10);
+        return function() {};
+      },
+      getRedirectResult: function() {
+        return Promise.resolve(null);
+      }
+    };
+    window.loginGoogle = function() {
+      // Tratado pela UI local
+    };
+  }
 
   let uid = localStorage.getItem('_uid');
   if (!uid) {
@@ -5650,17 +5709,25 @@ function initFirebase() {
 
   // Renderiza o app imediatamente — não depende de auth
   renderApp();
-  window.auth.getRedirectResult().then(function(r){if(r&&r.user)console.log("Redirect OK:",r.user.displayName);}).catch(function(e){if(e.code!=="auth/no-current-user")console.error("Redirect error:",e);});
+  
+  if (!isLocalFile) {
+    window.auth.getRedirectResult().then(function(r){if(r&&r.user)console.log("Redirect OK:",r.user.displayName);}).catch(function(e){if(e.code!=="auth/no-current-user")console.error("Redirect error:",e);});
 
-  // Auth apenas atualiza o UID e notifica o React
-  window.auth.onAuthStateChanged(function(user) {
-    console.log("USER:", user);
-    if (user) {
-      window._uid = user.uid;
-      localStorage.setItem('_uid', user.uid);
-    }
-    window.dispatchEvent(new CustomEvent('authStateChanged', { detail: user }));
-  });
+    // Auth apenas atualiza o UID e notifica o React
+    window.auth.onAuthStateChanged(function(user) {
+      console.log("USER:", user);
+      if (user) {
+        window._uid = user.uid;
+        localStorage.setItem('_uid', user.uid);
+      }
+      window.dispatchEvent(new CustomEvent('authStateChanged', { detail: user }));
+    });
+  } else {
+    // Modo local emite evento padrão para a UI inicializar
+    setTimeout(function() {
+      window.dispatchEvent(new CustomEvent('authStateChanged', { detail: null }));
+    }, 20);
+  }
 }
 
 initFirebase();
