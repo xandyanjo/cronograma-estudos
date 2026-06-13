@@ -4863,8 +4863,15 @@ function VideoaulasView({ S }) {
   };
 
   const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text);
-    showToast("📋 Caminho copiado!");
+    let cleanText = text;
+    if (cleanText.startsWith('file:///')) {
+      cleanText = cleanText.substring(8);
+      cleanText = decodeURIComponent(cleanText);
+      cleanText = cleanText.replace(/\//g, '\\');
+    }
+    navigator.clipboard.writeText(cleanText)
+      .then(() => showToast("📋 Caminho copiado! Cole no Explorer/VLC."))
+      .catch(() => showToast("❌ Erro ao copiar."));
   };
 
   // Resolvers de visualização atual
