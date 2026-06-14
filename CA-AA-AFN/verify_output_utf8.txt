@@ -1,0 +1,229 @@
+﻿Loading database from C:\Users\alexa\Documents\Estudos\CA-AA-AFN\banco_completo.json...
+Database JSON parsed successfully.
+Metadata: {'concurso': 'CA-AA-AFN', 'versao': '2.0', 'geradoEm': '2026-06-10T10:25:02.737330', 'total': 1619, 'exercicios_adicionados': 1319}
+Total questions found in 'questoes' array: 1619
+
+--- VALIDATION SUMMARY ---
+Found 196 validation errors:
+  - Question index 160 (ID: ex-2022-cav-011, Global ID: CAAAFN_2022_EX_CAV_011, Num: 11): Missing alternative 'E'
+  - Question index 161 (ID: ex-2022-cav-012, Global ID: CAAAFN_2022_EX_CAV_012, Num: 12): Missing alternative 'E'
+  - Question index 170 (ID: ex-2022-cav-021, Global ID: CAAAFN_2022_EX_CAV_021, Num: 21): Alternative 'D' is empty or not a string
+  - Question index 170 (ID: ex-2022-cav-021, Global ID: CAAAFN_2022_EX_CAV_021, Num: 21): Alternative 'E' is empty or not a string
+  - Question index 192 (ID: ex-2022-cav-043, Global ID: CAAAFN_2022_EX_CAV_043, Num: 43): Missing alternative 'B'
+  - Question index 192 (ID: ex-2022-cav-043, Global ID: CAAAFN_2022_EX_CAV_043, Num: 43): Missing alternative 'C'
+  - Question index 192 (ID: ex-2022-cav-043, Global ID: CAAAFN_2022_EX_CAV_043, Num: 43): Missing alternative 'D'
+  - Question index 192 (ID: ex-2022-cav-043, Global ID: CAAAFN_2022_EX_CAV_043, Num: 43): Missing alternative 'E'
+  - Question index 204 (ID: ex-2022-cav-055, Global ID: CAAAFN_2022_EX_CAV_055, Num: 55): Alternative 'A' is empty or not a string
+  - Question index 204 (ID: ex-2022-cav-055, Global ID: CAAAFN_2022_EX_CAV_055, Num: 55): Alternative 'B' is empty or not a string
+  - Question index 204 (ID: ex-2022-cav-055, Global ID: CAAAFN_2022_EX_CAV_055, Num: 55): Alternative 'C' is empty or not a string
+  - Question index 204 (ID: ex-2022-cav-055, Global ID: CAAAFN_2022_EX_CAV_055, Num: 55): Alternative 'D' is empty or not a string
+  - Question index 204 (ID: ex-2022-cav-055, Global ID: CAAAFN_2022_EX_CAV_055, Num: 55): Alternative 'E' is empty or not a string
+  - Question index 229 (ID: ex-2022-cav-080, Global ID: CAAAFN_2022_EX_CAV_080, Num: 80): Missing alternative 'B'
+  - Question index 229 (ID: ex-2022-cav-080, Global ID: CAAAFN_2022_EX_CAV_080, Num: 80): Missing alternative 'C'
+  - Question index 229 (ID: ex-2022-cav-080, Global ID: CAAAFN_2022_EX_CAV_080, Num: 80): Missing alternative 'D'
+  - Question index 229 (ID: ex-2022-cav-080, Global ID: CAAAFN_2022_EX_CAV_080, Num: 80): Missing alternative 'E'
+  - Question index 231 (ID: ex-2022-cav-082, Global ID: CAAAFN_2022_EX_CAV_082, Num: 82): Missing alternative 'B'
+  - Question index 231 (ID: ex-2022-cav-082, Global ID: CAAAFN_2022_EX_CAV_082, Num: 82): Missing alternative 'C'
+  - Question index 231 (ID: ex-2022-cav-082, Global ID: CAAAFN_2022_EX_CAV_082, Num: 82): Missing alternative 'D'
+  - Question index 231 (ID: ex-2022-cav-082, Global ID: CAAAFN_2022_EX_CAV_082, Num: 82): Missing alternative 'E'
+  - Question index 232 (ID: ex-2022-cav-083, Global ID: CAAAFN_2022_EX_CAV_083, Num: 83): Missing alternative 'B'
+  - Question index 232 (ID: ex-2022-cav-083, Global ID: CAAAFN_2022_EX_CAV_083, Num: 83): Missing alternative 'C'
+  - Question index 232 (ID: ex-2022-cav-083, Global ID: CAAAFN_2022_EX_CAV_083, Num: 83): Missing alternative 'D'
+  - Question index 232 (ID: ex-2022-cav-083, Global ID: CAAAFN_2022_EX_CAV_083, Num: 83): Missing alternative 'E'
+  - Question index 236 (ID: ex-2022-cav-087, Global ID: CAAAFN_2022_EX_CAV_087, Num: 87): Missing alternative 'B'
+  - Question index 236 (ID: ex-2022-cav-087, Global ID: CAAAFN_2022_EX_CAV_087, Num: 87): Missing alternative 'C'
+  - Question index 236 (ID: ex-2022-cav-087, Global ID: CAAAFN_2022_EX_CAV_087, Num: 87): Missing alternative 'D'
+  - Question index 236 (ID: ex-2022-cav-087, Global ID: CAAAFN_2022_EX_CAV_087, Num: 87): Missing alternative 'E'
+  - Question index 247 (ID: ex-2022-cav-098, Global ID: CAAAFN_2022_EX_CAV_098, Num: 98): Missing alternative 'C'
+  - Question index 247 (ID: ex-2022-cav-098, Global ID: CAAAFN_2022_EX_CAV_098, Num: 98): Missing alternative 'D'
+  - Question index 247 (ID: ex-2022-cav-098, Global ID: CAAAFN_2022_EX_CAV_098, Num: 98): Missing alternative 'E'
+  - Question index 257 (ID: ex-2022-cav-108, Global ID: CAAAFN_2022_EX_CAV_108, Num: 108): Missing alternative 'E'
+  - Question index 258 (ID: ex-2022-cav-109, Global ID: CAAAFN_2022_EX_CAV_109, Num: 109): Missing alternative 'E'
+  - Question index 259 (ID: ex-2022-cav-110, Global ID: CAAAFN_2022_EX_CAV_110, Num: 110): Missing alternative 'E'
+  - Question index 260 (ID: ex-2022-cav-111, Global ID: CAAAFN_2022_EX_CAV_111, Num: 111): Alternative 'E' is empty or not a string
+  - Question index 261 (ID: ex-2022-cav-112, Global ID: CAAAFN_2022_EX_CAV_112, Num: 112): Alternative 'E' is empty or not a string
+  - Question index 262 (ID: ex-2022-cav-113, Global ID: CAAAFN_2022_EX_CAV_113, Num: 113): Alternative 'E' is empty or not a string
+  - Question index 283 (ID: ex-2022-cav-134, Global ID: CAAAFN_2022_EX_CAV_134, Num: 134): Missing alternative 'C'
+  - Question index 283 (ID: ex-2022-cav-134, Global ID: CAAAFN_2022_EX_CAV_134, Num: 134): Missing alternative 'D'
+  - Question index 283 (ID: ex-2022-cav-134, Global ID: CAAAFN_2022_EX_CAV_134, Num: 134): Missing alternative 'E'
+  - Question index 284 (ID: ex-2022-cav-135, Global ID: CAAAFN_2022_EX_CAV_135, Num: 135): Missing alternative 'B'
+  - Question index 284 (ID: ex-2022-cav-135, Global ID: CAAAFN_2022_EX_CAV_135, Num: 135): Missing alternative 'C'
+  - Question index 284 (ID: ex-2022-cav-135, Global ID: CAAAFN_2022_EX_CAV_135, Num: 135): Missing alternative 'D'
+  - Question index 284 (ID: ex-2022-cav-135, Global ID: CAAAFN_2022_EX_CAV_135, Num: 135): Missing alternative 'E'
+  - Question index 285 (ID: ex-2022-cav-136, Global ID: CAAAFN_2022_EX_CAV_136, Num: 136): Missing alternative 'B'
+  - Question index 285 (ID: ex-2022-cav-136, Global ID: CAAAFN_2022_EX_CAV_136, Num: 136): Missing alternative 'C'
+  - Question index 285 (ID: ex-2022-cav-136, Global ID: CAAAFN_2022_EX_CAV_136, Num: 136): Missing alternative 'D'
+  - Question index 285 (ID: ex-2022-cav-136, Global ID: CAAAFN_2022_EX_CAV_136, Num: 136): Missing alternative 'E'
+  - Question index 286 (ID: ex-2022-cav-137, Global ID: CAAAFN_2022_EX_CAV_137, Num: 137): Missing alternative 'B'
+  - Question index 286 (ID: ex-2022-cav-137, Global ID: CAAAFN_2022_EX_CAV_137, Num: 137): Missing alternative 'C'
+  - Question index 286 (ID: ex-2022-cav-137, Global ID: CAAAFN_2022_EX_CAV_137, Num: 137): Missing alternative 'D'
+  - Question index 286 (ID: ex-2022-cav-137, Global ID: CAAAFN_2022_EX_CAV_137, Num: 137): Missing alternative 'E'
+  - Question index 318 (ID: ex-2022-cbinc-031, Global ID: CAAAFN_2022_EX_CBINC_031, Num: 31): Alternative 'B' is empty or not a string
+  - Question index 318 (ID: ex-2022-cbinc-031, Global ID: CAAAFN_2022_EX_CBINC_031, Num: 31): Alternative 'C' is empty or not a string
+  - Question index 318 (ID: ex-2022-cbinc-031, Global ID: CAAAFN_2022_EX_CBINC_031, Num: 31): Alternative 'D' is empty or not a string
+  - Question index 318 (ID: ex-2022-cbinc-031, Global ID: CAAAFN_2022_EX_CBINC_031, Num: 31): Alternative 'E' is empty or not a string
+  - Question index 321 (ID: ex-2022-cbinc-034, Global ID: CAAAFN_2022_EX_CBINC_034, Num: 34): Alternative 'C' is empty or not a string
+  - Question index 321 (ID: ex-2022-cbinc-034, Global ID: CAAAFN_2022_EX_CBINC_034, Num: 34): Alternative 'D' is empty or not a string
+  - Question index 321 (ID: ex-2022-cbinc-034, Global ID: CAAAFN_2022_EX_CBINC_034, Num: 34): Alternative 'E' is empty or not a string
+  - Question index 342 (ID: ex-2022-cbinc-056, Global ID: CAAAFN_2022_EX_CBINC_056, Num: 56): Missing alternative 'E'
+  - Question index 343 (ID: ex-2022-cbinc-057, Global ID: CAAAFN_2022_EX_CBINC_057, Num: 57): Missing alternative 'E'
+  - Question index 346 (ID: ex-2022-cbinc-060, Global ID: CAAAFN_2022_EX_CBINC_060, Num: 60): Missing alternative 'E'
+  - Question index 347 (ID: ex-2022-cbinc-061, Global ID: CAAAFN_2022_EX_CBINC_061, Num: 61): Missing alternative 'E'
+  - Question index 350 (ID: ex-2022-cbinc-064, Global ID: CAAAFN_2022_EX_CBINC_064, Num: 64): Alternative 'E' is empty or not a string
+  - Question index 351 (ID: ex-2022-cbinc-065, Global ID: CAAAFN_2022_EX_CBINC_065, Num: 65): Alternative 'E' is empty or not a string
+  - Question index 353 (ID: ex-2022-cbinc-067, Global ID: CAAAFN_2022_EX_CBINC_067, Num: 67): Alternative 'E' is empty or not a string
+  - Question index 370 (ID: ex-2022-cbinc-084, Global ID: CAAAFN_2022_EX_CBINC_084, Num: 84): Missing alternative 'E'
+  - Question index 378 (ID: ex-2022-cbinc-092, Global ID: CAAAFN_2022_EX_CBINC_092, Num: 92): Duplicate 'id' (ex-2022-cbinc-092)
+  - Question index 378 (ID: ex-2022-cbinc-092, Global ID: CAAAFN_2022_EX_CBINC_092, Num: 92): Duplicate 'id_global' (CAAAFN_2022_EX_CBINC_092)
+  - Question index 378 (ID: ex-2022-cbinc-092, Global ID: CAAAFN_2022_EX_CBINC_092, Num: 92): Missing alternative 'E'
+  - Question index 380 (ID: ex-2022-cbinc-094, Global ID: CAAAFN_2022_EX_CBINC_094, Num: 94): Alternative 'E' is empty or not a string
+  - Question index 386 (ID: ex-2022-cbinc-101, Global ID: CAAAFN_2022_EX_CBINC_101, Num: 101): Alternative 'E' is empty or not a string
+  - Question index 389 (ID: ex-2022-cbinc-103, Global ID: CAAAFN_2022_EX_CBINC_103, Num: 103): Duplicate 'id' (ex-2022-cbinc-103)
+  - Question index 389 (ID: ex-2022-cbinc-103, Global ID: CAAAFN_2022_EX_CBINC_103, Num: 103): Duplicate 'id_global' (CAAAFN_2022_EX_CBINC_103)
+  - Question index 542 (ID: ex-2022-cbinc-256, Global ID: CAAAFN_2022_EX_CBINC_256, Num: 256): Missing alternative 'E'
+  - Question index 545 (ID: ex-2022-cbinc-259, Global ID: CAAAFN_2022_EX_CBINC_259, Num: 259): Missing alternative 'E'
+  - Question index 548 (ID: ex-2022-cbinc-262, Global ID: CAAAFN_2022_EX_CBINC_262, Num: 262): Missing alternative 'E'
+  - Question index 555 (ID: ex-2022-cbinc-269, Global ID: CAAAFN_2022_EX_CBINC_269, Num: 269): Missing alternative 'E'
+  - Question index 576 (ID: ex-2022-cerimonial-019, Global ID: CAAAFN_2022_EX_CERIMONIAL_019, Num: 19): Missing alternative 'E'
+  - Question index 684 (ID: ex-2022-dgpm_315-082, Global ID: CAAAFN_2022_EX_DGPM_315_082, Num: 82): Alternative 'E' is empty or not a string
+  - Question index 686 (ID: ex-2022-dgpm_315-084, Global ID: CAAAFN_2022_EX_DGPM_315_084, Num: 84): Alternative 'E' is empty or not a string
+  - Question index 687 (ID: ex-2022-dgpm_315-085, Global ID: CAAAFN_2022_EX_DGPM_315_085, Num: 85): Alternative 'E' is empty or not a string
+  - Question index 691 (ID: ex-2022-dgpm_315-089, Global ID: CAAAFN_2022_EX_DGPM_315_089, Num: 89): Alternative 'E' is empty or not a string
+  - Question index 714 (ID: ex-2022-dgpm_315-112, Global ID: CAAAFN_2022_EX_DGPM_315_112, Num: 112): Missing alternative 'B'
+  - Question index 714 (ID: ex-2022-dgpm_315-112, Global ID: CAAAFN_2022_EX_DGPM_315_112, Num: 112): Missing alternative 'C'
+  - Question index 714 (ID: ex-2022-dgpm_315-112, Global ID: CAAAFN_2022_EX_DGPM_315_112, Num: 112): Missing alternative 'D'
+  - Question index 715 (ID: ex-2022-dgpm_315-113, Global ID: CAAAFN_2022_EX_DGPM_315_113, Num: 113): Missing alternative 'B'
+  - Question index 715 (ID: ex-2022-dgpm_315-113, Global ID: CAAAFN_2022_EX_DGPM_315_113, Num: 113): Missing alternative 'C'
+  - Question index 715 (ID: ex-2022-dgpm_315-113, Global ID: CAAAFN_2022_EX_DGPM_315_113, Num: 113): Missing alternative 'D'
+  - Question index 715 (ID: ex-2022-dgpm_315-113, Global ID: CAAAFN_2022_EX_DGPM_315_113, Num: 113): Missing alternative 'E'
+  - Question index 718 (ID: ex-2022-dgpm_315-116, Global ID: CAAAFN_2022_EX_DGPM_315_116, Num: 116): Missing alternative 'B'
+  - Question index 718 (ID: ex-2022-dgpm_315-116, Global ID: CAAAFN_2022_EX_DGPM_315_116, Num: 116): Missing alternative 'C'
+  - Question index 718 (ID: ex-2022-dgpm_315-116, Global ID: CAAAFN_2022_EX_DGPM_315_116, Num: 116): Missing alternative 'D'
+  - Question index 718 (ID: ex-2022-dgpm_315-116, Global ID: CAAAFN_2022_EX_DGPM_315_116, Num: 116): Missing alternative 'E'
+  - Question index 720 (ID: ex-2022-dgpm_315-118, Global ID: CAAAFN_2022_EX_DGPM_315_118, Num: 118): Missing alternative 'B'
+  - Question index 720 (ID: ex-2022-dgpm_315-118, Global ID: CAAAFN_2022_EX_DGPM_315_118, Num: 118): Missing alternative 'C'
+  - Question index 720 (ID: ex-2022-dgpm_315-118, Global ID: CAAAFN_2022_EX_DGPM_315_118, Num: 118): Missing alternative 'D'
+  - Question index 720 (ID: ex-2022-dgpm_315-118, Global ID: CAAAFN_2022_EX_DGPM_315_118, Num: 118): Missing alternative 'E'
+  - Question index 722 (ID: ex-2022-dgpm_315-120, Global ID: CAAAFN_2022_EX_DGPM_315_120, Num: 120): Missing alternative 'B'
+  - Question index 722 (ID: ex-2022-dgpm_315-120, Global ID: CAAAFN_2022_EX_DGPM_315_120, Num: 120): Missing alternative 'C'
+  - Question index 722 (ID: ex-2022-dgpm_315-120, Global ID: CAAAFN_2022_EX_DGPM_315_120, Num: 120): Missing alternative 'D'
+  - Question index 722 (ID: ex-2022-dgpm_315-120, Global ID: CAAAFN_2022_EX_DGPM_315_120, Num: 120): Missing alternative 'E'
+  - Question index 724 (ID: ex-2022-dgpm_315-122, Global ID: CAAAFN_2022_EX_DGPM_315_122, Num: 122): Alternative 'E' is empty or not a string
+  - Question index 732 (ID: ex-2022-dgpm_315-130, Global ID: CAAAFN_2022_EX_DGPM_315_130, Num: 130): Alternative 'E' is empty or not a string
+  - Question index 733 (ID: ex-2022-dgpm_315-131, Global ID: CAAAFN_2022_EX_DGPM_315_131, Num: 131): Missing alternative 'C'
+  - Question index 733 (ID: ex-2022-dgpm_315-131, Global ID: CAAAFN_2022_EX_DGPM_315_131, Num: 131): Missing alternative 'D'
+  - Question index 733 (ID: ex-2022-dgpm_315-131, Global ID: CAAAFN_2022_EX_DGPM_315_131, Num: 131): Missing alternative 'E'
+  - Question index 735 (ID: ex-2022-dgpm_315-133, Global ID: CAAAFN_2022_EX_DGPM_315_133, Num: 133): Missing alternative 'C'
+  - Question index 735 (ID: ex-2022-dgpm_315-133, Global ID: CAAAFN_2022_EX_DGPM_315_133, Num: 133): Missing alternative 'D'
+  - Question index 735 (ID: ex-2022-dgpm_315-133, Global ID: CAAAFN_2022_EX_DGPM_315_133, Num: 133): Missing alternative 'E'
+  - Question index 737 (ID: ex-2022-dgpm_315-135, Global ID: CAAAFN_2022_EX_DGPM_315_135, Num: 135): Missing alternative 'C'
+  - Question index 737 (ID: ex-2022-dgpm_315-135, Global ID: CAAAFN_2022_EX_DGPM_315_135, Num: 135): Missing alternative 'D'
+  - Question index 737 (ID: ex-2022-dgpm_315-135, Global ID: CAAAFN_2022_EX_DGPM_315_135, Num: 135): Missing alternative 'E'
+  - Question index 739 (ID: ex-2022-dgpm_315-137, Global ID: CAAAFN_2022_EX_DGPM_315_137, Num: 137): Missing alternative 'C'
+  - Question index 739 (ID: ex-2022-dgpm_315-137, Global ID: CAAAFN_2022_EX_DGPM_315_137, Num: 137): Missing alternative 'D'
+  - Question index 739 (ID: ex-2022-dgpm_315-137, Global ID: CAAAFN_2022_EX_DGPM_315_137, Num: 137): Missing alternative 'E'
+  - Question index 794 (ID: ex-2022-dgpm_315-192, Global ID: CAAAFN_2022_EX_DGPM_315_192, Num: 192): Missing alternative 'E'
+  - Question index 798 (ID: ex-2022-dgpm_315-196, Global ID: CAAAFN_2022_EX_DGPM_315_196, Num: 196): Missing alternative 'E'
+  - Question index 802 (ID: ex-2022-dgpm_315-200, Global ID: CAAAFN_2022_EX_DGPM_315_200, Num: 200): Missing alternative 'E'
+  - Question index 804 (ID: ex-2022-dgpm_315-202, Global ID: CAAAFN_2022_EX_DGPM_315_202, Num: 202): Missing alternative 'E'
+  - Question index 806 (ID: ex-2022-dgpm_315-204, Global ID: CAAAFN_2022_EX_DGPM_315_204, Num: 204): Missing alternative 'E'
+  - Question index 810 (ID: ex-2022-dgpm_315-208, Global ID: CAAAFN_2022_EX_DGPM_315_208, Num: 208): Missing alternative 'E'
+  - Question index 819 (ID: ex-2022-dgpm_315-217, Global ID: CAAAFN_2022_EX_DGPM_315_217, Num: 217): Missing alternative 'E'
+  - Question index 821 (ID: ex-2022-dgpm_315-219, Global ID: CAAAFN_2022_EX_DGPM_315_219, Num: 219): Missing alternative 'E'
+  - Question index 823 (ID: ex-2022-dgpm_315-221, Global ID: CAAAFN_2022_EX_DGPM_315_221, Num: 221): Alternative 'E' is empty or not a string
+  - Question index 825 (ID: ex-2022-dgpm_315-223, Global ID: CAAAFN_2022_EX_DGPM_315_223, Num: 223): Alternative 'E' is empty or not a string
+  - Question index 827 (ID: ex-2022-dgpm_315-225, Global ID: CAAAFN_2022_EX_DGPM_315_225, Num: 225): Alternative 'E' is empty or not a string
+  - Question index 829 (ID: ex-2022-dgpm_315-227, Global ID: CAAAFN_2022_EX_DGPM_315_227, Num: 227): Alternative 'E' is empty or not a string
+  - Question index 832 (ID: ex-2022-dgpm_315-230, Global ID: CAAAFN_2022_EX_DGPM_315_230, Num: 230): Alternative 'E' is empty or not a string
+  - Question index 833 (ID: ex-2022-dgpm_315-231, Global ID: CAAAFN_2022_EX_DGPM_315_231, Num: 231): Missing alternative 'E'
+  - Question index 836 (ID: ex-2022-dgpm_315-234, Global ID: CAAAFN_2022_EX_DGPM_315_234, Num: 234): Missing alternative 'E'
+  - Question index 843 (ID: ex-2022-dgpm_315-241, Global ID: CAAAFN_2022_EX_DGPM_315_241, Num: 241): Alternative 'E' is empty or not a string
+  - Question index 844 (ID: ex-2022-dgpm_315-242, Global ID: CAAAFN_2022_EX_DGPM_315_242, Num: 242): Alternative 'E' is empty or not a string
+  - Question index 846 (ID: ex-2022-dgpm_315-244, Global ID: CAAAFN_2022_EX_DGPM_315_244, Num: 244): Alternative 'D' is empty or not a string
+  - Question index 846 (ID: ex-2022-dgpm_315-244, Global ID: CAAAFN_2022_EX_DGPM_315_244, Num: 244): Alternative 'E' is empty or not a string
+  - Question index 848 (ID: ex-2022-dgpm_315-246, Global ID: CAAAFN_2022_EX_DGPM_315_246, Num: 246): Alternative 'E' is empty or not a string
+  - Question index 850 (ID: ex-2022-dgpm_315-248, Global ID: CAAAFN_2022_EX_DGPM_315_248, Num: 248): Alternative 'E' is empty or not a string
+  - Question index 852 (ID: ex-2022-dgpm_315-250, Global ID: CAAAFN_2022_EX_DGPM_315_250, Num: 250): Alternative 'E' is empty or not a string
+  - Question index 855 (ID: ex-2022-dgpm_315-253, Global ID: CAAAFN_2022_EX_DGPM_315_253, Num: 253): Alternative 'E' is empty or not a string
+  - Question index 857 (ID: ex-2022-dgpm_315-255, Global ID: CAAAFN_2022_EX_DGPM_315_255, Num: 255): Alternative 'E' is empty or not a string
+  - Question index 860 (ID: ex-2022-dgpm_315-258, Global ID: CAAAFN_2022_EX_DGPM_315_258, Num: 258): Alternative 'E' is empty or not a string
+  - Question index 862 (ID: ex-2022-dgpm_315-260, Global ID: CAAAFN_2022_EX_DGPM_315_260, Num: 260): Alternative 'E' is empty or not a string
+  - Question index 863 (ID: ex-2022-dgpm_315-261, Global ID: CAAAFN_2022_EX_DGPM_315_261, Num: 261): Missing alternative 'E'
+  - Question index 864 (ID: ex-2022-dgpm_315-262, Global ID: CAAAFN_2022_EX_DGPM_315_262, Num: 262): Missing alternative 'E'
+  - Question index 865 (ID: ex-2022-dgpm_315-263, Global ID: CAAAFN_2022_EX_DGPM_315_263, Num: 263): Missing alternative 'E'
+  - Question index 866 (ID: ex-2022-dgpm_315-264, Global ID: CAAAFN_2022_EX_DGPM_315_264, Num: 264): Missing alternative 'E'
+  - Question index 871 (ID: ex-2022-dgpm_315-269, Global ID: CAAAFN_2022_EX_DGPM_315_269, Num: 269): Missing alternative 'E'
+  - Question index 901 (ID: ex-2022-estatuto-028, Global ID: CAAAFN_2022_EX_ESTATUTO_028, Num: 28): Missing alternative 'E'
+  - Question index 924 (ID: ex-2022-estatuto-051, Global ID: CAAAFN_2022_EX_ESTATUTO_051, Num: 51): Alternative 'E' is empty or not a string
+  - Question index 925 (ID: ex-2022-estatuto-052, Global ID: CAAAFN_2022_EX_ESTATUTO_052, Num: 52): Alternative 'E' is empty or not a string
+  - Question index 982 (ID: ex-2022-estatuto-109, Global ID: CAAAFN_2022_EX_ESTATUTO_109, Num: 109): Missing alternative 'C'
+  - Question index 982 (ID: ex-2022-estatuto-109, Global ID: CAAAFN_2022_EX_ESTATUTO_109, Num: 109): Missing alternative 'D'
+  - Question index 982 (ID: ex-2022-estatuto-109, Global ID: CAAAFN_2022_EX_ESTATUTO_109, Num: 109): Missing alternative 'E'
+  - Question index 1009 (ID: ex-2022-lideranca-026, Global ID: CAAAFN_2022_EX_LIDERANCA_026, Num: 26): Missing alternative 'E'
+  - Question index 1095 (ID: ex-2022-ogsa-003, Global ID: CAAAFN_2022_EX_OGSA_003, Num: 3): Alternative 'D' is empty or not a string
+  - Question index 1095 (ID: ex-2022-ogsa-003, Global ID: CAAAFN_2022_EX_OGSA_003, Num: 3): Alternative 'E' is empty or not a string
+  - Question index 1098 (ID: ex-2022-ogsa-006, Global ID: CAAAFN_2022_EX_OGSA_006, Num: 6): Alternative 'D' is empty or not a string
+  - Question index 1098 (ID: ex-2022-ogsa-006, Global ID: CAAAFN_2022_EX_OGSA_006, Num: 6): Alternative 'E' is empty or not a string
+  - Question index 1106 (ID: ex-2022-ogsa-014, Global ID: CAAAFN_2022_EX_OGSA_014, Num: 14): Alternative 'E' is empty or not a string
+  - Question index 1112 (ID: ex-2022-ogsa-020, Global ID: CAAAFN_2022_EX_OGSA_020, Num: 20): Missing alternative 'B'
+  - Question index 1112 (ID: ex-2022-ogsa-020, Global ID: CAAAFN_2022_EX_OGSA_020, Num: 20): Missing alternative 'C'
+  - Question index 1112 (ID: ex-2022-ogsa-020, Global ID: CAAAFN_2022_EX_OGSA_020, Num: 20): Missing alternative 'D'
+  - Question index 1112 (ID: ex-2022-ogsa-020, Global ID: CAAAFN_2022_EX_OGSA_020, Num: 20): Missing alternative 'E'
+  - Question index 1138 (ID: ex-2022-ogsa-046, Global ID: CAAAFN_2022_EX_OGSA_046, Num: 46): Missing alternative 'E'
+  - Question index 1140 (ID: ex-2022-ogsa-048, Global ID: CAAAFN_2022_EX_OGSA_048, Num: 48): Missing alternative 'E'
+  - Question index 1151 (ID: ex-2022-ogsa-059, Global ID: CAAAFN_2022_EX_OGSA_059, Num: 59): Missing alternative 'C'
+  - Question index 1151 (ID: ex-2022-ogsa-059, Global ID: CAAAFN_2022_EX_OGSA_059, Num: 59): Missing alternative 'D'
+  - Question index 1151 (ID: ex-2022-ogsa-059, Global ID: CAAAFN_2022_EX_OGSA_059, Num: 59): Missing alternative 'E'
+  - Question index 1152 (ID: ex-2022-ogsa-060, Global ID: CAAAFN_2022_EX_OGSA_060, Num: 60): Missing alternative 'E'
+  - Question index 1154 (ID: ex-2022-ogsa-062, Global ID: CAAAFN_2022_EX_OGSA_062, Num: 62): Missing alternative 'E'
+  - Question index 1156 (ID: ex-2022-ogsa-064, Global ID: CAAAFN_2022_EX_OGSA_064, Num: 64): Missing alternative 'E'
+  - Question index 1160 (ID: ex-2022-ogsa-068, Global ID: CAAAFN_2022_EX_OGSA_068, Num: 68): Missing alternative 'E'
+  - Question index 1162 (ID: ex-2022-ogsa-070, Global ID: CAAAFN_2022_EX_OGSA_070, Num: 70): Missing alternative 'E'
+  - Question index 1167 (ID: ex-2022-ogsa-075, Global ID: CAAAFN_2022_EX_OGSA_075, Num: 75): Missing alternative 'E'
+  - Question index 1172 (ID: ex-2022-ogsa-080, Global ID: CAAAFN_2022_EX_OGSA_080, Num: 80): Missing alternative 'E'
+  - Question index 1252 (ID: ex-2022-proc_mn-079, Global ID: CAAAFN_2022_EX_PROC_MN_079, Num: 79): Missing alternative 'E'
+  - Question index 1253 (ID: ex-2022-proc_mn-080, Global ID: CAAAFN_2022_EX_PROC_MN_080, Num: 80): Missing alternative 'E'
+  - Question index 1276 (ID: ex-2022-proc_mn-103, Global ID: CAAAFN_2022_EX_PROC_MN_103, Num: 103): Alternative 'E' is empty or not a string
+  - Question index 1277 (ID: ex-2022-proc_mn-104, Global ID: CAAAFN_2022_EX_PROC_MN_104, Num: 104): Alternative 'E' is empty or not a string
+  - Question index 1278 (ID: ex-2022-proc_mn-105, Global ID: CAAAFN_2022_EX_PROC_MN_105, Num: 105): Alternative 'E' is empty or not a string
+  - Question index 1279 (ID: ex-2022-proc_mn-106, Global ID: CAAAFN_2022_EX_PROC_MN_106, Num: 106): Alternative 'E' is empty or not a string
+  - Question index 1280 (ID: ex-2022-proc_mn-107, Global ID: CAAAFN_2022_EX_PROC_MN_107, Num: 107): Alternative 'E' is empty or not a string
+  - Question index 1281 (ID: ex-2022-proc_mn-108, Global ID: CAAAFN_2022_EX_PROC_MN_108, Num: 108): Alternative 'E' is empty or not a string
+  - Question index 1296 (ID: ex-2022-proc_mn-123, Global ID: CAAAFN_2022_EX_PROC_MN_123, Num: 123): Alternative 'E' is empty or not a string
+  - Question index 1298 (ID: ex-2022-proc_mn-125, Global ID: CAAAFN_2022_EX_PROC_MN_125, Num: 125): Alternative 'B' is empty or not a string
+  - Question index 1298 (ID: ex-2022-proc_mn-125, Global ID: CAAAFN_2022_EX_PROC_MN_125, Num: 125): Alternative 'C' is empty or not a string
+  - Question index 1298 (ID: ex-2022-proc_mn-125, Global ID: CAAAFN_2022_EX_PROC_MN_125, Num: 125): Alternative 'D' is empty or not a string
+  - Question index 1298 (ID: ex-2022-proc_mn-125, Global ID: CAAAFN_2022_EX_PROC_MN_125, Num: 125): Alternative 'E' is empty or not a string
+  - Question index 1373 (ID: ex-2022-proc_mn-200, Global ID: CAAAFN_2022_EX_PROC_MN_200, Num: 200): Missing alternative 'E'
+  - Question index 1411 (ID: ex-2022-rdm-020, Global ID: CAAAFN_2022_EX_RDM_020, Num: 20): Missing alternative 'E'
+  - Question index 1412 (ID: ex-2022-rdm-021, Global ID: CAAAFN_2022_EX_RDM_021, Num: 21): Missing alternative 'E'
+  - Question index 1441 (ID: ex-2022-rdm-051, Global ID: CAAAFN_2022_EX_RDM_051, Num: 51): Missing alternative 'E'
+  - Question index 1463 (ID: ex-2022-rdm-073, Global ID: CAAAFN_2022_EX_RDM_073, Num: 73): Missing alternative 'E'
+  - Question index 1468 (ID: ex-2022-rdm-078, Global ID: CAAAFN_2022_EX_RDM_078, Num: 78): Duplicate 'id' (ex-2022-rdm-078)
+  - Question index 1468 (ID: ex-2022-rdm-078, Global ID: CAAAFN_2022_EX_RDM_078, Num: 78): Duplicate 'id_global' (CAAAFN_2022_EX_RDM_078)
+
+--- COUNTS BY YEAR & PROVA ---
+  Year 2019 | Prova: Verde                          -> 50 questions
+  Year 2020 | Prova: Verde                          -> 50 questions
+  Year 2021 | Prova: Verde                          -> 50 questions
+  Year 2022 | Prova: Caderno de Exerc├¡cios          -> 1319 questions
+  Year 2022 | Prova: Verde                          -> 50 questions
+  Year 2023 | Prova: Amarela                        -> 50 questions
+  Year 2024 | Prova: Amarela                        -> 50 questions
+
+--- COUNTS BY SUBJECT (TOP 15) ---
+  Subject: Agentes Extintores                                 -> 108 questions
+  Subject: Geral                                              -> 81 questions
+  Subject: Deveres do Militar                                 -> 70 questions
+  Subject: Deser├º├úo                                           -> 55 questions
+  Subject: Sindic├óncia                                        -> 52 questions
+  Subject: Lideran├ºa                                          -> 40 questions
+  Subject: Cerimonial                                         -> 35 questions
+  Subject: Controle de Avarias                                -> 31 questions
+  Subject: Estilos de Lideran├ºa                               -> 30 questions
+  Subject: SGM-105 (Documenta├º├úo Administrativa / NODAM)      -> 28 questions
+  Subject: Seguran├ºa no Trabalho                              -> 25 questions
+  Subject: Contraven├º├Áes Disciplinares                        -> 25 questions
+  Subject: Justi├ºa, Disciplina e RDM (DGPM-315)               -> 23 questions
+  Subject: Apresenta├º├úo Marinheira                            -> 23 questions
+  Subject: Seguran├ºa a Bordo                                  -> 22 questions

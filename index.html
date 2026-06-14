@@ -4352,7 +4352,7 @@ function App(){
             setCompletedKeys(d.concluidosVideos);
           }
         }
-        if(d.estruturaVideos&&isObj(d.estruturaVideos))setStudyStructure(d.estruturaVideos);
+        if(d.estruturaVideos&&isObj(d.estruturaVideos)&&Array.isArray(d.estruturaVideos.courses)&&Array.isArray(d.estruturaVideos.manual))setStudyStructure(d.estruturaVideos);
         if(d.driveLetter&&typeof d.driveLetter==='string')setDriveLetter(d.driveLetter);
       }
       // Firebase respondeu — libera saves futuros (setState causa re-render que ativa o save)
@@ -4654,12 +4654,17 @@ function VideoaulasView({ S }) {
       subjectStats[subject] = { total: 0, completed: 0 };
     });
 
-    studyStructure.courses.forEach(c => {
+    const safeCourses = Array.isArray(studyStructure?.courses) ? studyStructure.courses : [];
+    const safeManual = Array.isArray(studyStructure?.manual) ? studyStructure.manual : [];
+
+    safeCourses.forEach(c => {
+      if (!c || !Array.isArray(c.periods)) return;
       const subject = c.subject || "Conhecimento Militar Naval";
       if (!subjectStats[subject]) {
         subjectStats[subject] = { total: 0, completed: 0 };
       }
       c.periods.forEach(p => {
+        if (!p || !Array.isArray(p.videos)) return;
         p.videos.forEach(v => {
           const key = `${c.name}/${p.name}/${v}`;
           totalVideos++;
@@ -4672,12 +4677,14 @@ function VideoaulasView({ S }) {
       });
     });
 
-    studyStructure.manual.forEach(m => {
+    safeManual.forEach(m => {
+      if (!m) return;
       const subject = m.subject;
       if (!subjectStats[subject]) {
         subjectStats[subject] = { total: 0, completed: 0 };
       }
-      m.items.forEach(i => {
+      const safeItems = Array.isArray(m.items) ? m.items : [];
+      safeItems.forEach(i => {
         const key = `manual/${m.id}/${i}`;
         totalManual++;
         subjectStats[subject].total++;

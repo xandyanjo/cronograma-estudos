@@ -1,0 +1,2601 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>📚 Cronograma de Estudos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          outfit: ['Outfit', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  *{box-sizing:border-box;}
+  body{background:#0b0f19;margin:0;font-family:'Inter',system-ui,sans-serif;}
+  ::-webkit-scrollbar{width:6px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px;}
+  ::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.2);}
+  input[type=range]{accent-color:#3b82f6;width:100%;}
+  @keyframes slideIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+  .slide-in{animation:slideIn .25s cubic-bezier(0.16, 1, 0.3, 1) forwards;}
+  .pulse{animation:pulse 2s infinite;}
+  .glass-card{background:rgba(30,41,59,0.45);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.06);box-shadow:0 8px 32px 0 rgba(0,0,0,0.37);}
+  .glass-card-hover{transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1);}
+  .glass-card-hover:hover{background:rgba(30,41,59,0.6);border-color:rgba(96,165,250,0.25);transform:translateY(-2px);box-shadow:0 12px 40px 0 rgba(0,0,0,0.5);}
+</style>
+<script>
+  window.MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']]
+    },
+    svg: {
+      fontCache: 'global'
+    }
+  };
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useEffect,useReducer,useMemo,useCallback,useRef}=React;
+
+// ─── AUDIO GENERATOR (WEB AUDIO API) ─────────────────────────
+function createWhiteNoise(ctx) {
+  const bufferSize = 2 * ctx.sampleRate;
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) {
+    data[i] = Math.random() * 2 - 1;
+  }
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+  source.loop = true;
+  return source;
+}
+
+function createPinkNoise(ctx) {
+  const bufferSize = 4 * ctx.sampleRate;
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0;
+  for (let i = 0; i < bufferSize; i++) {
+    const white = Math.random() * 2 - 1;
+    b0 = 0.99886 * b0 + white * 0.0555179;
+    b1 = 0.99332 * b1 + white * 0.0750759;
+    b2 = 0.96900 * b2 + white * 0.1538520;
+    b3 = 0.86650 * b3 + white * 0.3104856;
+    b4 = 0.55000 * b4 + white * 0.5329522;
+    b5 = -0.7616 * b5 - white * 0.0168980;
+    data[i] = b0 + b1 + b2 + b3 + b4 + b5 + b6 + white * 0.5362;
+    data[i] *= 0.11;
+    b6 = white * 0.115926;
+  }
+  const source = ctx.createBufferSource();
+  source.buffer = buffer;
+  source.loop = true;
+  return source;
+}
+
+function createRain(ctx) {
+  const pink = createPinkNoise(ctx);
+  const filter = ctx.createBiquadFilter();
+  filter.type = 'bandpass';
+  filter.frequency.value = 1000;
+  filter.Q.value = 1.0;
+  const hp = ctx.createBiquadFilter();
+  hp.type = 'highpass';
+  hp.frequency.value = 150;
+  
+  pink.connect(filter);
+  filter.connect(hp);
+  
+  return {
+    source: pink,
+    connect: (dest) => hp.connect(dest),
+    disconnect: () => {
+      try {
+        pink.disconnect();
+        filter.disconnect();
+        hp.disconnect();
+      } catch(e){}
+    },
+    start: () => pink.start(0),
+    stop: () => { try { pink.stop(); } catch(e) {} }
+  };
+}
+
+function createBinauralBeats(ctx) {
+  const oscL = ctx.createOscillator();
+  const oscR = ctx.createOscillator();
+  oscL.frequency.value = 100;
+  oscR.frequency.value = 105;
+  oscL.type = 'sine';
+  oscR.type = 'sine';
+  const pannerL = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+  const pannerR = ctx.createStereoPanner ? ctx.createStereoPanner() : null;
+  const gain = ctx.createGain();
+  gain.gain.value = 0.5;
+  if (pannerL && pannerR) {
+    pannerL.pan.value = -1;
+    pannerR.pan.value = 1;
+    oscL.connect(pannerL);
+    pannerL.connect(gain);
+    oscR.connect(pannerR);
+    pannerR.connect(gain);
+  } else {
+    oscL.connect(gain);
+    oscR.connect(gain);
+  }
+  return {
+    connect: (dest) => gain.connect(dest),
+    disconnect: () => {
+      try {
+        oscL.disconnect();
+        oscR.disconnect();
+        if (pannerL) pannerL.disconnect();
+        if (pannerR) pannerR.disconnect();
+        gain.disconnect();
+      } catch(e){}
+    },
+    start: () => { oscL.start(0); oscR.start(0); },
+    stop: () => { try { oscL.stop(); oscR.stop(); } catch(e) {} }
+  };
+}
+
+const FocusSounds = {
+  ctx: null,
+  gain: null,
+  activeNode: null,
+  currentType: null,
+  volume: 0.3,
+  listeners: new Set(),
+
+  subscribe(listener) {
+    this.listeners.add(listener);
+    return () => this.listeners.delete(listener);
+  },
+
+  notify() {
+    this.listeners.forEach(l => l({
+      currentType: this.currentType,
+      volume: this.volume,
+      isPlaying: !!this.currentType
+    }));
+  },
+
+  init() {
+    if (this.ctx) return;
+    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+    this.gain = this.ctx.createGain();
+    this.gain.gain.value = this.volume;
+    this.gain.connect(this.ctx.destination);
+  },
+
+  play(type) {
+    try {
+      this.init();
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume();
+      }
+      this.stop();
+
+      let node;
+      if (type === 'pink') {
+        node = createPinkNoise(this.ctx);
+        node.connect(this.gain);
+        node.start(0);
+        this.activeNode = node;
+      } else if (type === 'white') {
+        node = createWhiteNoise(this.ctx);
+        node.connect(this.gain);
+        node.start(0);
+        this.activeNode = node;
+      } else if (type === 'rain') {
+        node = createRain(this.ctx);
+        node.connect(this.gain);
+        node.start();
+        this.activeNode = node;
+      } else if (type === 'binaural') {
+        node = createBinauralBeats(this.ctx);
+        node.connect(this.gain);
+        node.start();
+        this.activeNode = node;
+      }
+      this.currentType = type;
+      this.notify();
+    } catch (e) {
+      console.error("Erro de áudio:", e);
+    }
+  },
+
+  stop() {
+    if (this.activeNode) {
+      try {
+        this.activeNode.stop();
+        this.activeNode.disconnect();
+      } catch (e) {}
+      this.activeNode = null;
+    }
+    this.currentType = null;
+    this.notify();
+  },
+
+  setVolume(vol) {
+    this.volume = vol;
+    if (this.gain) {
+      this.gain.gain.value = vol;
+    }
+    this.notify();
+  }
+};
+
+function useFocusSounds() {
+  const [state, setState] = useState({
+    currentType: FocusSounds.currentType,
+    volume: FocusSounds.volume,
+    isPlaying: !!FocusSounds.currentType
+  });
+  useEffect(() => {
+    return FocusSounds.subscribe(setState);
+  }, []);
+  return {
+    ...state,
+    play: (type) => FocusSounds.play(type),
+    stop: () => FocusSounds.stop(),
+    setVolume: (v) => FocusSounds.setVolume(v)
+  };
+}
+
+// ─── CONSTANTES ──────────────────────────────────────────────
+const STREAK_MIN=300,HEATMAP_DIAS=84,TOAST_MS=5000,DATA_PROVA_PAD='2025-05-15';
+const LS={T:'tempos_estudo',C:'concluidos_estudo',TC:'topicos_completos',TP:'topicos_personalizados',
+  R:'resumos_topicos',RD:'registros_diarios',D:'diarios_semanais',TR:'topicos_revisar',
+  B:'badges_ganhos',PR:'pomodoro_rodadas',RN:'topicos_renomeados',DP:'data_prova',DI:'data_inicio_plano',F:'estudos_flashcards',H:'habitos_diarios'};
+
+function calcSemAtual(di){
+  if(!di)return 1;
+  const diff=Date.now()-new Date(di+'T12:00:00').getTime();
+  return Math.min(28,Math.max(1,Math.floor(diff/(7*86400000))+1));
+}
+const _diSaved=(()=>{try{return JSON.parse(localStorage.getItem('data_inicio_plano'))||'';}catch{return '';}})();
+
+// ─── DADOS ───────────────────────────────────────────────────
+const CONTEUDOS={
+  historia:{nome:'História Militar Naval',categorias:[
+    {titulo:'1. Antiguidade e Idade Média',topicos:['Egito Antigo e Fenícia','Grécia Antiga','Batalha Naval de Salamina','Guerra do Peloponeso','Alexandre, o Grande','Roma x Cartago','Batalha de Mylae','Guerras Civis Romanas','Mare Nostrum','Civilização x Barbárie','Expansão Islâmica (Sombra do Crescente)','Vikings','Repúblicas Marítimas Italianas','Navio de Guerra Medieval','Guerra e Comércio na Idade Média','Batalha de Lepanto']},
+    {titulo:'2. Idade Moderna — Expansão Marítima Europeia',topicos:['Formação do Estado Português','Pioneirismo Português nas Grandes Navegações','Navegações Espanholas','Expansão do Comércio Marítimo','Chegada dos Portugueses ao Brasil','Expedições Guarda-Costas','Martim Afonso de Souza','Invasões Francesas (RJ e MA)','Invasores na Foz do Amazonas','Papel das Marinhas na colonização da América','Espanha e o Mar','Invencível Armada','Holanda e o Mar','Guerras Anglo-Holandesas','Inglaterra e França no cenário naval','Conflitos navais do século XVIII','Trafalgar']},
+    {titulo:'3. Guerras Napoleônicas e Formação da Marinha Imperial',topicos:['Guerras Napoleônicas e o Poder Naval','Vinda da Família Real','Conquista de Caiena','Ocupação da Banda Oriental','Independência do Brasil','Guerra da Independência','Marinha no Reinado de D. Pedro I','Guerra da Cisplatina','Revoltas Regenciais','Ação da Marinha Imperial na consolidação do Império']},
+    {titulo:'4. Segundo Reinado e Revolução Industrial Naval',topicos:['Guerra contra Oribe e Rosas','Guerra da Tríplice Aliança','Batalha Naval do Riachuelo','Marinha Imperial na Guerra do Paraguai','Revolução Industrial e novas tecnologias navais','Evolução tecnológica naval (vela → vapor / madeira → aço)','Couraça x Canhão','Dreadnought']},
+    {titulo:'5. República Velha e Era Vargas',topicos:['Marinha nas primeiras décadas da República','Reorganização da Marinha','Política de reaparelhamento (Era Vargas)','Contexto estratégico do período','Guerra da Crimeia','Guerra da Secessão','Guerras Imperialistas (Lissa, Franco-Prussiana)','Guerra Russo-Japonesa (Tsushima)']},
+    {titulo:'6. Primeira e Segunda Guerra Mundial',topicos:['Primeira Guerra Mundial (1914-1918) e o papel das Marinhas','A Marinha do Brasil na 1ª Guerra — a DNOG','Batalha da Jutlândia','O Brasil e o mundo entre as Guerras','Marinha do Brasil no entre Guerras','Segunda Guerra Mundial (1939-1945)','Batalha do Atlântico','Midway','Golfo de Leyte','Submarinos','Aviação Naval','A Marinha do Brasil na 2ª Guerra Mundial']},
+    {titulo:'7. Mundo Pós-1945 e Marinha Contemporânea',topicos:['Marinhas na manutenção da paz (pós-guerra)','Política Marítima Brasileira no Pós-Guerra','Marinha do Brasil após a 2ª Guerra','Programa de Reaparelhamento','Programa Antártico Brasileiro (PROANTAR)','Projeto Paralelo — Programa Nuclear','PND e MD','Pensamento Estratégico Naval Brasileiro (1970-atualidade)','Emprego Permanente do Poder Naval','Energia nuclear','Evolução do pensamento estratégico naval']},
+  ]},
+  geografia:{nome:'Geografia Econômica',categorias:[
+    {titulo:'🌍 ESPAÇO GEOGRÁFICO E SISTEMA MUNDO',topicos:['Processos de regionalização','Desenvolvimento × Subdesenvolvimento','Primeiro Mundo, Segundo Mundo e Terceiro Mundo','Centro-Periferia e Norte-Sul','Sistema Mundo e nova (des)ordem mundial','Capitalismo','Globalização']},
+    {titulo:'🌐 GLOBALIZAÇÃO E MUNDO CONTEMPORÂNEO',topicos:['Processos de desenvolvimento do capitalismo','Globalização e Blocos Econômicos Supranacionais','Papel do Estado e do Mercado','Redes e fluxos — impactos no mercado de trabalho','Expansão da desigualdade social','Poder da Comunicação e grande Mídia','Pandemias e impactos na economia mundial']},
+    {titulo:'👥 POPULAÇÃO',topicos:['Características e crescimento da população mundial','Fluxos migratórios e estrutura da população','Migrações: diversidade e desigualdade','Desenvolvimento Humano (IDH)']},
+    {titulo:'🏭 INDUSTRIALIZAÇÃO E MEIO TÉCNICO-CIENTÍFICO',topicos:['Países Pioneiros no Processo de Industrialização','Industrialização Planificada na Rússia','Industrialização Planificada na China','Países de Industrialização Tardia','Países Recentemente Industrializados','Tigres Asiáticos','Taylorismo, Fordismo e Toyotismo','Grandes Corporações Transnacionais','Distribuição territorial da produção agropecuária mundial']},
+    {titulo:'⚡ ENERGIA E MEIO AMBIENTE',topicos:['Geopolítica da Energia','Geografia da Energia e Transporte no Brasil','Meio Ambiente e ONGs','Mudanças climáticas e aquecimento global','Biodiversidade e protagonistas do debate ambiental','Questão Ambiental']},
+    {titulo:'🏛️ POLÍTICA, CULTURA E GEOPOLÍTICA',topicos:['Estado e Território','Nações e Nacionalismos','Civilizações e Identidades Culturais','Choque de culturas ou integração?','Pós-Guerra e Guerra Fria','Geografia das guerras e violência','Fim da Guerra Fria: contradições e conflitos','Organizações Intergovernamentais (OIG)']},
+    {titulo:'🌎 ESPAÇOS REGIONAIS — MUNDO HEGEMÔNICO',topicos:['Consolidação do Capitalismo nas Grandes Potências','Estados Unidos: formação, expansão e limites','Política estadunidense no espaço mundial','União Europeia: trajetórias e contradições','Integração Europeia: um bloco em crise?','Da União Soviética à Rússia: difícil transição','A Rússia e seu entorno estratégico','Ascensão do Leste Asiático','Japão: emergência toyotista e crise','China: potência regional rumo ao poder global','Tigres Asiáticos: dinâmica do capital na Ásia']},
+    {titulo:'🌏 ESPAÇOS REGIONAIS — MUNDO CONTRA-HEGEMÔNICO',topicos:['América Latina: formação, integração e crises','Geopolítica do Oriente Médio','Contradições do subcontinente Indiano','Diversidade do Sudeste Asiático','Inserção da África na economia mundial','Comércio Mundial e Blocos Econômicos Regionais']},
+    {titulo:'🧊 ANTÁRTICA',topicos:['O Continente Antártico e gestões multilaterais','Sistema do Tratado da Antártica (STA)','Programa Antártico Brasileiro (PROANTAR)','Estrutura do Programa Antártico Brasileiro','Regiões Polares']},
+    {titulo:'🇧🇷 PRODUÇÃO DO TERRITÓRIO BRASILEIRO',topicos:['Formação do território nacional','Apropriação e valorização do território nacional','Dinâmica das fronteiras e políticas nacionais','Modelo econômico e dinâmicas territoriais','Espaço industrial brasileiro','Energia e Meio Ambiente no Brasil','Agropecuária no Brasil e complexos agroindustriais','Industrialização Brasileira']},
+    {titulo:'🏙️ SOCIEDADE E ESPAÇO GEOGRÁFICO BRASILEIRO',topicos:['População brasileira e nova dinâmica demográfica','Trabalhadores e mercado de trabalho','Questão agrária e distribuição de renda','Espaço das cidades e segregação socioespacial','Geografia Urbana']},
+    {titulo:'🌿 POLÍTICAS TERRITORIAIS E COOPERAÇÃO',topicos:['Conferências de defesa do meio ambiente','Política Ambiental Brasileira (SNUC)','Políticas Territoriais: Amazônia, Nordeste e Centro-Sul','Brasil nos processos de integração sul-americana','Brasil e seu entorno estratégico','Inserção do Brasil nas Relações Internacionais','Austrália e Nova Zelândia']},
+  ]},
+  portugues:{nome:'Português',categorias:[
+    {titulo:'🔹 1️⃣ Base da palavra (estrutura e ortografia)',topicos:['Processo de formação das palavras','Plural dos substantivos','Graus dos adjetivos','Acentuação gráfica','Ortografia','Hífen','Homônimos e parônimos','Sinonímia e Antonímia','Polissemia','Estudo do porquê']},
+    {titulo:'🔹 2️⃣ Classes de palavras (morfologia)',topicos:['Verbos 1 — conjugação e modos','Verbos 2 — irregulares e defectivos','Verbos 3 — auxiliares e locuções','Estudo dos pronomes oblíquos e retos','Pronomes relativos (que, quem, cujo, onde...)','Estudo do SE','Vozes verbais','Flexão nominal e verbal']},
+    {titulo:'🔹 3️⃣ Sintaxe (estrutura da oração)',topicos:['Análise sintática 1 — termos essenciais','Análise sintática 2 — termos acessórios','Período composto — coordenação','Período composto — subordinação','Orações subordinadas substantivas','Orações subordinadas adjetivas','Orações subordinadas adverbiais','Regência verbal e nominal','Crase','Concordância verbal','Concordância nominal','Colocação pronominal']},
+    {titulo:'🔹 4️⃣ Semântica e construção do texto',topicos:['Denotação e Conotação','Figuras de linguagem','Figuras de sintaxe (elipse, zeugma, anacoluto, pleonasmo)','Pontuação','Coesão e coerência','Intertextualidade']},
+    {titulo:'🔹 5️⃣ Interpretação e gêneros textuais',topicos:['Interpretação, compreensão e reescritura de textos','Noções de textualidade','Tipologia textual (narração, descrição, dissertação)','Gêneros textuais (conto, crônica, artigo, carta...)','Tipos de discurso (direto, indireto, indireto livre)','Funções da linguagem']},
+  ]},
+  matematica:{nome:'Matemática',categorias:[
+    {titulo:'📐 Conjuntos e Funções',topicos:['Conjuntos — noções, pertinência e operações','Conjuntos numéricos (N, Z, Q, I, R, C)','Módulo de número real e propriedades','Plano cartesiano','Funções — domínio, contradomínio e imagem','Funções — classificação (injetiva, sobrejetiva, bijetiva)','Função polinomial (1º e 2º grau)','Função exponencial','Função logarítmica','Logaritmos e suas propriedades','Funções inversas','Composição de funções','Gráficos de funções reais','Equações e Inequações algébricas de grau n']},
+    {titulo:'📊 Sequências e Análise Combinatória',topicos:['Sequências aritméticas (PA)','Sequências geométricas (PG)','Combinatória — princípio fundamental','Arranjos, permutações e combinações','Probabilidade']},
+    {titulo:'📏 Geometria Plana',topicos:['Semelhança de triângulos e polígonos','Relações métricas nos triângulos','Relações métricas nos polígonos e círculos','Posições relativas de retas e planos','Áreas de figuras planas']},
+    {titulo:'📐 Trigonometria',topicos:['Medidas de arcos e ângulos (graus e radianos)','Arcos congruos','Funções trigonométricas (seno, cosseno, tangente)','Funções trigonométricas inversas','Identidades trigonométricas','Fórmulas de adição de arcos','Arco duplo e arco metade','Transformação de soma em produto','Equações trigonométricas','Inequações trigonométricas','Lei dos Senos e Cossenos (resolução de triângulos)']},
+    {titulo:'🔢 Álgebra Avançada',topicos:['Números Complexos','Polinômios','Equações algébricas e relações de Girard','Matrizes','Determinantes','Sistemas Lineares']},
+    {titulo:'📦 Geometria Espacial',topicos:['Posição relativa de retas e planos no espaço','Prismas — áreas e volumes','Pirâmides — áreas e volumes','Cilindros — áreas e volumes','Cones — áreas e volumes','Troncos de pirâmide e cone','Esferas — área e volume']},
+    {titulo:'📈 Geometria Analítica e Vetorial',topicos:['Vetores no R² — adição e multiplicação por escalar','Vetores no R³','Produto escalar de vetores','Produto vetorial de vetores','Produto misto','Módulo, direção e sentido de vetores','Geometria analítica — sistema de coordenadas','Equação da reta no plano','Equação do plano no espaço','Interseção de reta e plano','Perpendicularidade e ortogonalidade','Medida angular e distâncias']},
+    {titulo:'📊 Estatística',topicos:['População e Amostra','Representação de dados em tabelas','Gráficos de setores, barras e histogramas','Gráficos de linhas e polígonos de frequência','Medidas de centralidade — Média','Medidas de centralidade — Mediana','Medidas de centralidade — Moda','Medidas de dispersão — Desvio médio','Medidas de dispersão — Variância','Medidas de dispersão — Desvio padrão']},
+  ]},
+  militar:{nome:'Conhecimento Militar Naval',categorias:[
+    {titulo:'⚓ OGSA — Ordenança Geral para o Serviço da Armada',topicos:['Organização da Armada','Deveres do Pessoal','Deveres dos Oficiais em cargos colaterais','Serviço de Oficiais','Atributos dos Oficiais e Praças','Tradições Navais','Tratamento verbal e escrito']},
+    {titulo:'🎖️ Liderança',topicos:['Elementos conceituais de liderança','Exercício da liderança pelo pessoal da MB','Principais atributos de um líder','Juramento à Bandeira e Rosa das Virtudes','Orientação sobre expedição de ordens']},
+    {titulo:'🚢 Procedimentos Marinheiros',topicos:['Embarcações miúdas','Segurança da Tripulação a bordo','Incêndio — agentes extintores','Extintores portáteis','Organização de Combate do CAv','Organização Administrativa do CAv','Grupo de Socorro Externo']},
+    {titulo:'⚖️ Justiça e Disciplina na MB',topicos:['Disposições gerais','Sindicância','Inquérito Policial Militar (IPM)','Deserção','Prisão em flagrante','Execução Penal']},
+    {titulo:'🗺️ PEM-2040 — Plano Estratégico da Marinha',topicos:['Ambiente Operacional','Ameaças estratégicas','Conceito Estratégico Marítimo-Naval','Mapa Estratégico da Marinha','Ações Estratégicas Navais']},
+    {titulo:'📄 Documentação Administrativa (NODAM)',topicos:['Tipos de documentos administrativos','Classificação dos documentos','Gestão de documentos','Documentos digitais na MB']},
+    {titulo:'🎌 Cerimonial da Marinha do Brasil',topicos:['Considerações gerais','Bandeiras — características e disposição','Salvas e visitas','Honras aos Oficiais de Marinha','Honras às Autoridades Civis e Militares','Datas Festivas','Honras às Nações e Autoridades Estrangeiras','Honras Fúnebres']},
+    {titulo:'📜 Legislação Militar-Naval',topicos:['Estatuto dos Militares — obrigações e deveres','Estatuto dos Militares — direitos e prerrogativas','RDM — Regulamento Disciplinar da Marinha','Contravenções disciplinares','Penas disciplinares','Da parte, prisão imediata e recursos']},
+  ]},
+  revisao:{nome:'Revisão Geral',categorias:[{titulo:'📚 Ciclos de Revisão',topicos:['Revisão Português','Revisão Geografia','Revisão História','Revisão Matemática','Revisão Militar-Naval']}]},
+  exercicios:{nome:'Exercícios',categorias:[{titulo:'✍️ Resolução de Questões',topicos:['Questões de Português','Questões de Geografia','Questões de História','Questões de Matemática','Questões de Militar-Naval']}]},
+  simulados:{nome:'Simulados',categorias:[{titulo:'🎯 Provas Completas',topicos:['Simulado 1','Simulado 2','Simulado 3','Simulado 4','Simulado 5','Simulado 6']}]},
+};
+
+// ─── PESOS POR MATÉRIA (baseado no padrão CA-AA-AFN) ─────────
+// Dados reais baseados em análise de 4 provas: 2021, 2022, 2023 e 2024 (NotebookLM)
+// Total da prova: 50 questões objetivas com distribuição FIXA
+const MATERIAS_PESO={
+  militar:    {questoes:20,pct:40,nivel:'critico',cor:'#a855f7',label:'🟣 40% da prova',range:'Q31–Q50',
+               dica:'O maior bloco da prova (40%). Estudo rigoroso diário é a estratégia mais rentável.',
+               quentes:['OGSA — Ordenança Geral','Estatuto dos Militares','RDM — Regulamento Disciplinar','Liderança (EMA-137)','Procedimentos Marinheiros','Justiça e Disciplina (DGPM-315)','PEM-2040','Cerimonial','NODAM','CAv e CBINC']},
+  portugues:  {questoes:8, pct:16,nivel:'alto',   cor:'#ef4444',label:'🔴 16% da prova',range:'Q01–Q08',
+               dica:'8 questões — cada ponto vale muito. Interpretação é a maior fatia.',
+               quentes:['Interpretação de texto','Mecanismos de coesão','Sinonímia e Antonímia','Colocação pronominal','Crase','Concordância verbal','Regência verbal','Pronomes relativos']},
+  geografia:  {questoes:8, pct:16,nivel:'alto',   cor:'#f97316',label:'🔴 16% da prova',range:'Q16–Q23',
+               dica:'Empatada com Português em questões. Foco em geopolítica e Brasil.',
+               quentes:['Geopolítica mundial (Guerra Fria, conflitos atuais)','Brasil — produção do território','PROANTAR e Antártica','Globalização e blocos econômicos','Industrialização (Toyotismo, Fordismo)','América Latina','China e EUA','Questão ambiental']},
+  matematica: {questoes:7, pct:14,nivel:'medio',  cor:'#f59e0b',label:'🟡 14% da prova',range:'Q09–Q15',
+               dica:'7 questões — mas são as mais difíceis. Priorize os temas mais recorrentes.',
+               quentes:['Funções (domínio, gráficos)','Trigonometria — identidades e resolução','Geometria Plana — relações métricas','PA e PG','Probabilidade','Geometria Espacial — volumes','Análise Combinatória']},
+  historia:   {questoes:7, pct:14,nivel:'medio',  cor:'#3b82f6',label:'🟡 14% da prova',range:'Q24–Q30',
+               dica:'7 questões — foco total na Marinha do Brasil e guerras navais.',
+               quentes:['Marinha Imperial — Independência e consolidação','Guerra da Tríplice Aliança e Riachuelo','1ª Guerra Mundial — DNOG','2ª Guerra Mundial — MB no Atlântico','Guerras Napoleônicas e Poder Naval','República Velha — Marinha','Expansão Marítima Europeia']},
+  revisao:    {questoes:0,pct:0,nivel:'apoio',cor:'#22c55e',label:'🟢 APOIO',range:'—',dica:'Ciclos de revisão para consolidar o conteúdo.',quentes:[]},
+  exercicios: {questoes:0,pct:0,nivel:'apoio',cor:'#22c55e',label:'🟢 APOIO',range:'—',dica:'Resolução de questões para fixar o aprendizado.',quentes:[]},
+  simulados:  {questoes:0,pct:0,nivel:'apoio',cor:'#22c55e',label:'🟢 APOIO',range:'—',dica:'Treino de prova completa e gestão de tempo.',quentes:[]},
+};
+
+const FASES=[
+  {nome:'FASE 1: Base Sólida',periodo:'Novembro - Dezembro',semanas:'Semanas 1-8',cor:'from-blue-800 to-blue-900',tag:'bg-blue-500',
+   objetivo:'Construir fundamentos em Português e começar Matemática básica',
+   materias:[
+    {id:'portugues',nome:'Português',horas:1.5,foco:'Gramática essencial, classes de palavras, concordância',cor:'bg-blue-400'},
+    {id:'matematica',nome:'Matemática',horas:1.0,foco:'Revisão de álgebra básica (você já tem base!)',cor:'bg-purple-400'},
+    {id:'militar',nome:'Militar-Naval',horas:0.5,foco:'OGSA e Estatuto dos Militares - leitura inicial',cor:'bg-red-400'},
+  ]},
+  {nome:'FASE 2: Imersão',periodo:'Janeiro - Fevereiro',semanas:'Semanas 9-16',cor:'from-green-800 to-green-900',tag:'bg-green-500',
+   objetivo:'História, Geografia e Matemática intermediária',
+   materias:[
+    {id:'geografia',nome:'Geografia Econômica',horas:1.0,foco:'Geopolítica mundial, globalização, espaços regionais',cor:'bg-green-400'},
+    {id:'historia',nome:'História Militar-Naval',horas:1.0,foco:'Marinha Imperial, Guerras Mundiais',cor:'bg-orange-400'},
+    {id:'matematica',nome:'Matemática',horas:0.5,foco:'Trigonometria, Combinatória (reforço)',cor:'bg-purple-400'},
+    {id:'militar',nome:'Militar-Naval CPA/CAP',horas:0.5,foco:'Procedimentos Marinheiros, PEM-2040',cor:'bg-red-400'},
+  ]},
+  {nome:'FASE 3: Aprofundamento',periodo:'Março',semanas:'Semanas 17-20',cor:'from-yellow-800 to-orange-900',tag:'bg-orange-500',
+   objetivo:'Tópicos complexos e finalização do conteúdo',
+   materias:[
+    {id:'matematica',nome:'Matemática Avançada',horas:1.5,foco:'Números Complexos, Matrizes, Geometria Analítica',cor:'bg-purple-400'},
+    {id:'geografia',nome:'Geografia',horas:1.0,foco:'Brasil, Antártica (PROANTAR), América Latina',cor:'bg-green-400'},
+    {id:'militar',nome:'Militar-Naval CPA/CAP',horas:0.5,foco:'Justiça/Disciplina MB, Cerimonial, Legislação',cor:'bg-red-400'},
+  ]},
+  {nome:'FASE 4: Revisão Final',periodo:'Abril - Maio',semanas:'Semanas 21-28',cor:'from-red-800 to-rose-900',tag:'bg-red-500',
+   objetivo:'Simulados, exercícios e revisão intensiva',
+   materias:[
+    {id:'revisao',nome:'Revisão Geral',horas:1.0,foco:'Ciclos de todas as matérias com mapas mentais',cor:'bg-yellow-400'},
+    {id:'exercicios',nome:'Exercícios',horas:1.5,foco:'Resolução massiva de questões anteriores',cor:'bg-teal-400'},
+    {id:'simulados',nome:'Simulados',horas:0.5,foco:'1-2 simulados completos por semana (5h cada)',cor:'bg-pink-400'},
+  ]},
+];
+
+const CRONOGRAMA={
+   1:{f:0,foco:'Português: Classes de palavras | Mat: Conjuntos'},
+   2:{f:0,foco:'Português: Concordância nominal | Mat: Conjuntos numéricos'},
+   3:{f:0,foco:'Português: Concordância verbal | Mat: Funções (domínio)'},
+   4:{f:0,foco:'Português: Regência | Mat: Funções (tipos)'},
+   5:{f:0,foco:'Português: Colocação pronominal | Mat: PA e PG'},
+   6:{f:0,foco:'Português: Revisão | Mat: Geometria Plana (triângulos)'},
+   7:{f:0,foco:'Português: Interpretação | Mat: Geometria (polígonos)'},
+   8:{f:0,foco:'Revisão FASE 1 + Leitura OGSA/Estatuto'},
+   9:{f:1,foco:'Geografia: Globalização | História: Independência'},
+  10:{f:1,foco:'Geografia: População | História: Marinha Imperial'},
+  11:{f:1,foco:'Geografia: Guerra Fria | História: Rev. Industrial'},
+  12:{f:1,foco:'Geografia: EUA e UE | História: Guerra Tríplice Aliança'},
+  13:{f:1,foco:'Geografia: Ásia | História: 1ª Guerra Mundial'},
+  14:{f:1,foco:'Trigonometria: arcos/ângulos | História: 2ª Guerra'},
+  15:{f:1,foco:'Combinatória | Militar: Procedimentos Marinheiros'},
+  16:{f:1,foco:'Probabilidade | Militar: PEM-2040, Doc. Administrativa'},
+  17:{f:2,foco:'Mat: Números Complexos | Geo: América Latina'},
+  18:{f:2,foco:'Mat: Polinômios | Geo: Oriente Médio, África'},
+  19:{f:2,foco:'Mat: Matrizes e Determinantes | Geo: Antártica'},
+  20:{f:2,foco:'Mat: Geometria Espacial | Militar: Justiça/Cerimonial'},
+  21:{f:3,foco:'Revisão Português + Exercícios'},
+  22:{f:3,foco:'Revisão Geografia + Exercícios'},
+  23:{f:3,foco:'Revisão História + Exercícios'},
+  24:{f:3,foco:'Revisão Matemática + Exercícios'},
+  25:{f:3,foco:'Simulado 1 + Análise de erros'},
+  26:{f:3,foco:'Simulado 2 + Foco nos pontos fracos'},
+  27:{f:3,foco:'Simulado 3 + Revisão final'},
+  28:{f:3,foco:'Simulado 4 + Descanso pré-prova'},
+};
+
+const FRASES=['A disciplina é a ponte entre objetivos e realizações.','Cada hora de estudo é um passo mais perto do sonho.','O sucesso é a soma de pequenos esforços repetidos.','Foco, disciplina e determinação — sua trilogia do sucesso.','Você está mais perto do que imagina. Continue!','Grandes conquistas exigem grandes sacrifícios.','O momento de plantar era ontem. O segundo melhor é agora.','A persistência é o caminho do êxito.'];
+
+const BADGES=[
+  {id:'h1', nome:'Primeira Hora',     ic:'⏰',desc:'Acumule 1h de estudo',     chk:m=>m.tt>=3600},
+  {id:'h5', nome:'Dedicação',         ic:'📚',desc:'Acumule 5h de estudo',     chk:m=>m.tt>=18000},
+  {id:'h20',nome:'Maratonista',       ic:'🏃',desc:'Acumule 20h de estudo',    chk:m=>m.tt>=72000},
+  {id:'h50',nome:'50 Horas',          ic:'🌟',desc:'Acumule 50h de estudo',    chk:m=>m.tt>=180000},
+  {id:'s3', nome:'3 Dias Seguidos',   ic:'🔥',desc:'3 dias consecutivos',      chk:m=>m.sk>=3},
+  {id:'s7', nome:'Semana Perfeita',   ic:'⚡',desc:'7 dias consecutivos',      chk:m=>m.sk>=7},
+  {id:'s30',nome:'Mês Invicto',       ic:'🏆',desc:'30 dias consecutivos',     chk:m=>m.sk>=30},
+  {id:'p10',nome:'10 Pomodoros',      ic:'🍅',desc:'10 ciclos Pomodoro',       chk:m=>m.pr>=10},
+  {id:'p50',nome:'Mestre Pomodoro',   ic:'🏅',desc:'50 ciclos Pomodoro',       chk:m=>m.pr>=50},
+  {id:'t1', nome:'Primeiro Tópico',   ic:'✅',desc:'Conclua 1 tópico',         chk:m=>m.tc>=1},
+  {id:'t10',nome:'Explorador',        ic:'💎',desc:'Conclua 10 tópicos',       chk:m=>m.tc>=10},
+  {id:'t50',nome:'Mestre',            ic:'👑',desc:'Conclua 50 tópicos',       chk:m=>m.tc>=50},
+];
+
+// ─── UTILITÁRIOS ─────────────────────────────────────────────
+const fmt=s=>{const h=Math.floor(s/3600),m=Math.floor((s%3600)/60),sc=s%60;return[h,m,sc].map(n=>String(n).padStart(2,'0')).join(':');};
+const fmtMM=s=>fmt(s).slice(3);
+const isObj=v=>typeof v==='object'&&v!==null&&!Array.isArray(v);
+const hoje=()=>new Date().toISOString().split('T')[0];
+
+// ─── useLS HOOK ───────────────────────────────────────────────
+function useLS(key,init,v=null){
+  const[val,setVal]=useState(()=>{
+    try{const r=localStorage.getItem(key);if(r===null)return init;const p=JSON.parse(r);if(v&&!v(p))return init;return p;}catch{return init;}
+  });
+  useEffect(()=>{try{localStorage.setItem(key,JSON.stringify(val));}catch{}},[key,val]);
+  return[val,setVal];
+}
+
+// ─── useCRON HOOK ─────────────────────────────────────────────
+function useCron(saved,onSave,onReg){
+  const[tempos,setTempos]=useState(saved);
+  const[ativo,setAtivo]=useState(null);
+  const[segs,setSegs]=useState(0);
+  const[dIni,setDIni]=useState(null);
+  // Sincroniza tempos internos quando o Firebase atualizar tSaved externamente (deep compare)
+  const prevSaved=useRef(saved);
+  const fromFirebaseRef=useRef(false); // flag: mudança veio do Firebase (não dispara onSave)
+  const mountedRef=useRef(false);      // flag: evita onSave no mount inicial
+  useEffect(()=>{
+    if(JSON.stringify(saved)!==JSON.stringify(prevSaved.current)){
+      prevSaved.current=saved;
+      fromFirebaseRef.current=true; // marca que a mudança veio do Firebase
+      setTempos(prev=>{
+        const merged={...saved};
+        return merged;
+      });
+    }
+  },[saved]);
+  useEffect(()=>{
+    if(!mountedRef.current){mountedRef.current=true;return;} // pula mount inicial
+    if(fromFirebaseRef.current){fromFirebaseRef.current=false;return;} // pula se veio do Firebase
+    onSave(tempos); // só salva quando o usuário realmente alterou (parou/resetou timer)
+  },[tempos]);
+  useEffect(()=>{if(!ativo)return;const t=setInterval(()=>setSegs(p=>p+1),1000);return()=>clearInterval(t);},[ativo]);
+  const iniciar=useCallback((sem,mid)=>{
+    const k=`${sem}-${mid}`;
+    if(ativo===k){
+      const add=Math.max(0,segs-(tempos[k]||0));
+      setTempos(p=>({...p,[k]:segs}));onReg(add,dIni||hoje());
+      setAtivo(null);setSegs(0);setDIni(null);
+    }else{
+      if(ativo){const add=Math.max(0,segs-(tempos[ativo]||0));setTempos(p=>({...p,[ativo]:segs}));onReg(add,dIni||hoje());}
+      setSegs(tempos[k]||0);setAtivo(k);setDIni(hoje());
+    }
+  },[ativo,segs,tempos,dIni,onReg]);
+  const resetar=useCallback((sem,mid,e)=>{
+    e?.stopPropagation();const k=`${sem}-${mid}`;
+    setTempos(p=>{const n={...p};delete n[k];return n;}); // remove tempo salvo
+    if(ativo===k){setAtivo(null);setSegs(0);setDIni(null);}
+  },[ativo]);
+  const getTempo=useCallback((sem,mid)=>{const k=`${sem}-${mid}`;return ativo===k?segs:(tempos[k]||0);},[ativo,segs,tempos]);
+  const getTotal=useCallback((mid)=>{
+    let t=0;Object.entries(tempos).forEach(([k,v])=>{if(k.split('-').slice(1).join('-')===mid)t+=v;});
+    if(ativo&&ativo.split('-').slice(1).join('-')===mid)t+=segs-(tempos[ativo]||0);
+    return t;
+  },[tempos,ativo,segs]);
+  return{tempos,ativo,segs,iniciar,resetar,getTempo,getTotal};
+}
+
+// ─── usePOMO HOOK ─────────────────────────────────────────────
+function usePomo(rodIni,onSave){
+  const[at,setAt]=useState(false);const[seg,setSeg]=useState(25*60);
+  const[tipo,setTipo]=useState('estudo');const[rod,setRod]=useState(rodIni);
+  const tRef=useRef(tipo);useEffect(()=>{tRef.current=tipo;},[tipo]);
+  useEffect(()=>{onSave(rod);},[rod]);
+  useEffect(()=>{
+    if(!at)return;
+    const som=()=>{try{const c=new(window.AudioContext||window.webkitAudioContext)();[[880,0],[1100,.15],[880,.3]].forEach(([f,d])=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;g.gain.value=.3;o.start(c.currentTime+d);o.stop(c.currentTime+d+.15);});}catch{}};
+    const t=setInterval(()=>setSeg(p=>{if(p<=1){som();if(tRef.current==='estudo'){setRod(r=>r+1);setTipo('pausa');setAt(false);return 5*60;}else{setTipo('estudo');setAt(false);return 25*60;}}return p-1;}),1000);
+    return()=>clearInterval(t);
+  },[at]);
+  return{at,seg,tipo,rod,iniciar:()=>setAt(true),pausar:()=>setAt(false),resetar:()=>{setAt(false);setTipo('estudo');setSeg(25*60);}};
+}
+
+// ─── REDUCERS ─────────────────────────────────────────────────
+const UI0={view:'cronograma',sem:calcSemAtual(_diSaved),exp:{},showS:false,termoS:'',resS:[],showP:false};
+function uiR(s,a){switch(a.t){
+  case'V':return{...s,view:a.p};case'SEM':return{...s,sem:a.p};
+  case'EXP':return{...s,exp:{...s.exp,[a.p]:!s.exp[a.p]}};
+  case'SEARCH':return{...s,showS:true,termoS:a.p.t,resS:a.p.r};
+  case'CSEARCH':return{...s,showS:false,termoS:'',resS:[]};
+  case'POMO':return{...s,showP:!s.showP};default:return s;
+}}
+const ED0={eN:null,nT:'',eR:null,rT:'',eD:false,dT:'',nT2:{}};
+function edR(s,a){switch(a.t){
+  case'IN':return{...s,eN:a.k,nT:a.v};case'UN':return{...s,nT:a.p};case'FN':return{...s,eN:null,nT:''};
+  case'IR':return{...s,eR:a.k,rT:a.v};case'UR':return{...s,rT:a.p};case'FR':return{...s,eR:null,rT:''};
+  case'OD':return{...s,eD:true,dT:a.p};case'UD':return{...s,dT:a.p};case'CD':return{...s,eD:false,dT:''};
+  case'SNT':return{...s,nT2:{...s.nT2,[a.k]:a.v}};
+  case'CNT':{const{[a.k]:_,...r}=s.nT2;return{...s,nT2:r};}
+  default:return s;
+}}
+
+// ─── HEATMAP ──────────────────────────────────────────────────
+function Heatmap({reg}){
+  const base=useMemo(()=>{const d=new Date();d.setHours(12,0,0,0);return d;},[]);
+  const dias=useMemo(()=>{const r=[];for(let i=HEATMAP_DIAS-1;i>=0;i--){const d=new Date(base);d.setDate(d.getDate()-i);const ch=d.toISOString().split('T')[0];const s=reg[ch]||0;const eh=i===0;let cor='bg-gray-700';let op='opacity-30';if(s>=7200){cor='bg-green-500';op='opacity-100';}else if(s>=3600){cor='bg-green-500';op='opacity-70';}else if(s>=1800){cor='bg-green-500';op='opacity-50';}else if(s>0){cor='bg-green-500';op='opacity-30';}let df=ch;try{df=d.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit'});}catch{}r.push({ch,s,eh,df,cor,op});}return r;},[reg,base]);
+  const off=useMemo(()=>{if(!dias.length)return 0;return new Date(dias[0].ch+'T12:00:00').getDay();},[dias]);
+  const cols=Math.ceil((dias.length+off)/7);
+  return(
+    <div className="bg-gray-800 rounded-2xl p-4 border border-gray-700">
+      <div className="flex justify-between items-center mb-3">
+        <span className="text-white font-semibold text-sm">🔥 Atividade — 12 semanas</span>
+        <div className="flex items-center gap-1 text-xs text-gray-500">
+          <span>menos</span>
+          {['bg-gray-700 opacity-30','bg-green-500 opacity-30','bg-green-500 opacity-50','bg-green-500 opacity-70','bg-green-500 opacity-100'].map((c,i)=><div key={i} className={`w-3 h-3 rounded-sm ${c}`}/>)}
+          <span>mais</span>
+        </div>
+      </div>
+      <div className="flex gap-1 overflow-x-auto pb-1">
+        {Array.from({length:cols},(_,ci)=>(
+          <div key={ci} className="flex flex-col gap-1">
+            {Array.from({length:7},(_,di)=>{const pos=ci*7+di-off;const d=dias[pos];if(!d)return<div key={di} className="w-3 h-3 opacity-0"/>;return<div key={di} className={`w-3 h-3 rounded-sm cursor-default transition-transform hover:scale-125 ${d.cor} ${d.op} ${d.eh?'ring-2 ring-white ring-offset-1 ring-offset-gray-800':''}`} title={d.s>0?`${d.df}: ${fmt(d.s)}`:`${d.df}: sem estudo`}/>;})}</div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─── CHARTS ───────────────────────────────────────────────────
+function BarChart({ reg }) {
+  const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+  const dados = useMemo(() => {
+    const res = [];
+    const hojeDate = new Date();
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(hojeDate.getDate() - i);
+      const ch = d.toISOString().split('T')[0];
+      const s = reg[ch] || 0;
+      const h = s / 3600;
+      const diaLabel = diasSemana[d.getDay()];
+      res.push({ label: diaLabel, horas: h });
+    }
+    return res;
+  }, [reg]);
+
+  const maxHoras = Math.max(2, ...dados.map(d => d.horas));
+  const height = 130;
+  const width = 320;
+  const padding = { top: 15, right: 10, bottom: 20, left: 30 };
+  const graphHeight = height - padding.top - padding.bottom;
+  const graphWidth = width - padding.left - padding.right;
+  const barWidth = 22;
+  const barGap = (graphWidth - barWidth * dados.length) / (dados.length - 1);
+
+  return (
+    <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto">
+      <defs>
+        <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor="#60a5fa" />
+          <stop offset="100%" stopColor="#2563eb" />
+        </linearGradient>
+      </defs>
+      {[0, 0.5, 1].map((p, i) => {
+        const y = padding.top + graphHeight * (1 - p);
+        const val = (maxHoras * p).toFixed(1) + 'h';
+        return (
+          <g key={i}>
+            <line x1={padding.left} y1={y} x2={width - padding.right} y2={y} stroke="rgba(255,255,255,0.08)" strokeDasharray="2 2" />
+            <text x={padding.left - 5} y={y + 3} fill="rgba(255,255,255,0.4)" fontSize="8" textAnchor="end">{val}</text>
+          </g>
+        );
+      })}
+      {dados.map((d, i) => {
+        const barHeight = (d.horas / maxHoras) * graphHeight;
+        const x = padding.left + i * (barWidth + barGap);
+        const y = padding.top + graphHeight - barHeight;
+        return (
+          <g key={i}>
+            <rect x={x} y={y} width={barWidth} height={Math.max(2, barHeight)} rx="3" fill="url(#barGrad)" />
+            {d.horas > 0 && (
+              <text x={x + barWidth / 2} y={y - 3} fill="#93c5fd" fontSize="8" fontWeight="bold" textAnchor="middle">
+                {d.horas.toFixed(1)}
+              </text>
+            )}
+            <text x={x + barWidth / 2} y={height - 5} fill="rgba(255,255,255,0.5)" fontSize="8" textAnchor="middle">
+              {d.label}
+            </text>
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+function DonutChart({ dados }) {
+  const total = useMemo(() => dados.reduce((a, d) => a + d.val, 0), [dados]);
+  const processados = useMemo(() => {
+    let acc = 0;
+    return dados.map(d => {
+      const pct = total > 0 ? (d.val / total) : 0;
+      const angle = pct * 360;
+      const startAngle = acc;
+      acc += angle;
+      return { ...d, pct, startAngle };
+    });
+  }, [dados, total]);
+
+  const cores = ['#60a5fa', '#34d399', '#a78bfa', '#fbbf24', '#f87171', '#2dd4bf', '#f472b6'];
+
+  if (total === 0) return <div className="text-center py-4 text-xs text-white/40 font-medium">Sem dados de tempo.</div>;
+
+  let cumPercent = 0;
+  return (
+    <div className="flex items-center gap-6 py-2">
+      <svg viewBox="0 0 120 120" className="w-24 h-24 shrink-0">
+        <circle cx="60" cy="60" r="45" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="12" />
+        {processados.map((d, i) => {
+          if (d.pct === 0) return null;
+          const r = 45;
+          const circ = 2 * Math.PI * r;
+          const strokeLength = d.pct * circ;
+          const strokeOffset = circ - (cumPercent * circ);
+          cumPercent += d.pct;
+          const cor = cores[i % cores.length];
+          return (
+            <circle
+              key={i}
+              cx="60"
+              cy="60"
+              r={r}
+              fill="none"
+              stroke={cor}
+              strokeWidth="12"
+              strokeDasharray={`${strokeLength} ${circ}`}
+              strokeDashoffset={strokeOffset}
+              transform="rotate(-90 60 60)"
+            />
+          );
+        })}
+        <circle cx="60" cy="60" r="38" fill="#1e293b" />
+      </svg>
+      <div className="flex-1 space-y-1.5">
+        {processados.map((d, i) => {
+          if (d.pct === 0) return null;
+          const cor = cores[i % cores.length];
+          return (
+            <div key={i} className="flex items-center justify-between text-[10px]">
+              <div className="flex items-center gap-1.5 text-white/80 truncate">
+                <span className="w-2 h-2 rounded-full shrink-0" style={{ backgroundColor: cor }} />
+                <span className="truncate">{d.label}</span>
+              </div>
+              <span className="font-semibold text-white/50 text-[9px]">{(d.pct * 100).toFixed(0)}%</span>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+// ─── META DIÁRIA ──────────────────────────────────────────────
+function MetaDiaria({S}){
+  const{reg,semanaAtual,cron}=S;
+  const hj=hoje();
+  const tempoHoje=reg[hj]||0;
+  const cfg=CRONOGRAMA[semanaAtual]||{f:0};
+  const fase=FASES[cfg.f]||FASES[0];
+  const metaSemana=fase.materias.reduce((a,m)=>a+m.horas*3600,0);
+  const metaDia=metaSemana/5;
+  const pct=metaDia>0?Math.min(100,Math.round(tempoHoje/metaDia*100)):0;
+  const faltam=Math.max(0,metaDia-tempoHoje);
+  const atingiu=tempoHoje>=metaDia&&metaDia>0;
+  const cor=atingiu?'#4ade80':pct>=60?'#fbbf24':'#60a5fa';
+  return(
+    <div className="glass-card rounded-2xl p-4">
+      <div className="flex justify-between items-start mb-3">
+        <div>
+          <h3 className="text-white font-semibold font-outfit text-sm">🎯 Meta de Hoje</h3>
+          <p className="text-white/40 text-[10px] mt-0.5">{fmt(tempoHoje)} estudados</p>
+        </div>
+        <div className="text-right">
+          <span className="font-bold text-sm" style={{color:cor}}>{pct}%</span>
+          <div className="text-white/30 text-[10px]">meta: {(metaDia/3600).toFixed(1)}h</div>
+        </div>
+      </div>
+      <div className="w-full bg-white/10 rounded-full h-3 mb-2 overflow-hidden">
+        <div className="h-full rounded-full transition-all duration-700 relative" style={{width:`${pct}%`,background:`linear-gradient(90deg,${cor}88,${cor})`}}>
+          {pct>15&&<div className="absolute inset-0 flex items-center justify-end pr-2"><span className="text-[8px] font-bold text-white/80">{fmt(tempoHoje)}</span></div>}
+        </div>
+      </div>
+      {atingiu
+        ?<p className="text-[11px] text-green-400 font-semibold text-center">🎉 Meta do dia atingida! Excelente!</p>
+        :<p className="text-[11px] text-white/40">Faltam <span className="text-white/70 font-semibold">{(faltam/3600).toFixed(1)}h</span> para atingir a meta diária</p>
+      }
+    </div>
+  );
+}
+
+// ─── HÁBITOS DIÁRIOS ──────────────────────────────────────────
+function HabitosDiarios({S}){
+  const{habitos,setHabitos}=S;
+  const hj=hoje();
+  const hjH=habitos[hj]||{};
+  const items=[
+    {id:'sono',ic:'😴',label:'Dormi bem',sub:'7h+'},
+    {id:'exercicio',ic:'🏃',label:'Exercitei',sub:'ativo'},
+    {id:'agua',ic:'💧',label:'Hidratado',sub:'2L+'},
+    {id:'foco',ic:'📵',label:'Sem celular',sub:'no estudo'},
+  ];
+  const toggle=id=>setHabitos(p=>({...p,[hj]:{...(p[hj]||{}),[id]:!(p[hj]||{})[id]}}));
+  const total=items.filter(i=>hjH[i.id]).length;
+  const ultimos7=Array.from({length:7},(_,i)=>{
+    const d=new Date();d.setDate(d.getDate()-(6-i));
+    const ch=d.toISOString().split('T')[0];
+    const hab=habitos[ch]||{};
+    const count=items.filter(it=>hab[it.id]).length;
+    return{ch,count,isToday:ch===hj};
+  });
+  const diasSem=['D','S','T','Q','Q','S','S'];
+  return(
+    <div className="glass-card rounded-2xl p-4">
+      <div className="flex justify-between items-center mb-3">
+        <h3 className="text-white font-semibold font-outfit text-sm">🗓️ Hábitos de Hoje</h3>
+        <span className="text-xs font-bold" style={{color:total===4?'#4ade80':total>=2?'#fbbf24':'#94a3b8'}}>{total}/4</span>
+      </div>
+      <div className="grid grid-cols-4 gap-2 mb-3">
+        {items.map(item=>{
+          const on=!!hjH[item.id];
+          return(
+            <button key={item.id} onClick={()=>toggle(item.id)}
+              className="rounded-xl p-2 flex flex-col items-center gap-1 transition-all duration-200 text-center"
+              style={{background:on?'rgba(96,165,250,0.15)':'rgba(255,255,255,0.04)',border:`1px solid ${on?'rgba(96,165,250,0.4)':'rgba(255,255,255,0.08)'}`,transform:on?'scale(1.05)':'scale(1)'}}>
+              <span style={{fontSize:20,filter:on?'none':'grayscale(1)',opacity:on?1:0.4}}>{item.ic}</span>
+              <span className="text-[9px] font-medium" style={{color:on?'#93c5fd':'rgba(255,255,255,0.3)'}}>{item.label}</span>
+              <span className="text-[8px]" style={{color:on?'rgba(147,197,253,0.6)':'rgba(255,255,255,0.15)'}}>{item.sub}</span>
+            </button>
+          );
+        })}
+      </div>
+      <div className="flex items-center justify-between">
+        <span className="text-[10px] text-white/30">Últimos 7 dias</span>
+        <div className="flex gap-1.5 items-center">
+          {ultimos7.map((d,i)=>{
+            const cor=d.count===4?'#4ade80':d.count>=2?'#fbbf24':d.count>0?'#60a5fa':'rgba(255,255,255,0.08)';
+            return(
+              <div key={i} className="flex flex-col items-center gap-0.5">
+                <div style={{width:14,height:14,borderRadius:4,background:cor,border:d.isToday?'1px solid rgba(255,255,255,0.4)':'none'}} title={`${d.ch}: ${d.count}/4`}/>
+                <span style={{fontSize:7,color:'rgba(255,255,255,0.2)'}}>{diasSem[new Date(d.ch+'T12:00:00').getDay()]}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── INTERLEAVING SUGESTÃO ────────────────────────────────────
+function InterleavingSugestao({S}){
+  const{cron,semanaAtual}=S;
+  const cfg=CRONOGRAMA[semanaAtual]||{f:0};
+  const fase=FASES[cfg.f]||FASES[0];
+  const temposHoje=useMemo(()=>{
+    const t={};
+    fase.materias.forEach(mat=>{t[mat.id]=cron.tempos[`${semanaAtual}-${mat.id}`]||0;});
+    return t;
+  },[cron.tempos,semanaAtual,fase]);
+  const analise=useMemo(()=>{
+    const dados=fase.materias.map(mat=>({...mat,tempo:temposHoje[mat.id]||0,meta:mat.horas*3600,pct:mat.horas>0?(temposHoje[mat.id]||0)/(mat.horas*3600):0}));
+    if(dados.length<2)return null;
+    const maisEstudada=[...dados].sort((a,b)=>b.tempo-a.tempo)[0];
+    const menosEstudada=[...dados].sort((a,b)=>a.pct-b.pct)[0];
+    if(maisEstudada.id===menosEstudada.id||maisEstudada.tempo<1800)return null;
+    return{maisEstudada,menosEstudada};
+  },[temposHoje,fase]);
+  const[dispensado,setDispensado]=useState(false);
+  if(!analise||dispensado)return null;
+  return(
+    <div className="rounded-2xl p-3 border slide-in" style={{background:'rgba(139,92,246,0.08)',borderColor:'rgba(139,92,246,0.3)'}}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start gap-2 flex-1 min-w-0">
+          <span style={{fontSize:18}}>🔀</span>
+          <div className="min-w-0">
+            <p className="text-xs font-semibold text-purple-300">Dica de Interleaving</p>
+            <p className="text-[11px] text-white/60 mt-0.5 leading-snug">
+              Você focou em <span className="text-white font-medium">{analise.maisEstudada.nome}</span> ({(analise.maisEstudada.tempo/3600).toFixed(1)}h).
+              Alterne para <span className="text-purple-300 font-semibold">{analise.menosEstudada.nome}</span>!
+            </p>
+          </div>
+        </div>
+        <button onClick={()=>setDispensado(true)} style={{color:'rgba(255,255,255,0.2)',fontSize:14,flexShrink:0}}>✕</button>
+      </div>
+    </div>
+  );
+}
+
+// ─── QUIZ ACTIVE RECALL ───────────────────────────────────────
+function QuizView({S}){
+  const{flashcards,setFlashcards}=S;
+  const[fase,setFase]=useState('selecao');
+  const[deckSel,setDeckSel]=useState('');
+  const[qtde,setQtde]=useState(5);
+  const[questoes,setQuestoes]=useState([]);
+  const[idx,setIdx]=useState(0);
+  const[mostrarVerso,setMostrarVerso]=useState(false);
+  const[respostas,setRespostas]=useState([]);
+  const[tempoInicio,setTempoInicio]=useState(null);
+  const[tempoFim,setTempoFim]=useState(null);
+  const decksDisp=useMemo(()=>{
+    const d={};
+    flashcards.forEach(c=>{if(!d[c.materia])d[c.materia]={id:c.materia,nome:CONTEUDOS[c.materia]?.nome||c.materia,total:0};d[c.materia].total++;});
+    return Object.values(d);
+  },[flashcards]);
+  const iniciarQuiz=()=>{
+    const pool=deckSel?flashcards.filter(c=>c.materia===deckSel):flashcards;
+    if(!pool.length){alert('Nenhum flashcard disponível!');return;}
+    const embaralhado=[...pool].sort(()=>Math.random()-0.5).slice(0,Math.min(qtde,pool.length));
+    setQuestoes(embaralhado);setIdx(0);setMostrarVerso(false);setRespostas([]);setTempoInicio(Date.now());setTempoFim(null);setFase('quiz');
+  };
+  const responder=acertou=>{
+    const card=questoes[idx];
+    const r=calcularSRS(acertou?'good':'again',card.intervalo);
+    setFlashcards(p=>p.map(c=>c.id===card.id?{...c,intervalo:r.interval,revisarEm:r.nextReview}:c));
+    const novas=[...respostas,acertou];
+    setRespostas(novas);
+    if(idx+1<questoes.length){setIdx(p=>p+1);setMostrarVerso(false);}
+    else{setTempoFim(Date.now());setFase('resultado');}
+  };
+  const reiniciar=()=>{setFase('selecao');setQuestoes([]);setRespostas([]);};
+  const acertos=respostas.filter(Boolean).length;
+  const tempoTotal=tempoFim&&tempoInicio?Math.round((tempoFim-tempoInicio)/1000):0;
+  return(
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 p-4 pb-24">
+      <div className="max-w-xl mx-auto space-y-4">
+        <div className="bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+          <h2 className="text-xl font-bold text-purple-400 font-outfit">🧠 Quiz Rápido</h2>
+          <p className="text-xs text-white/50 mt-0.5">Active Recall — teste sua memória</p>
+        </div>
+        {fase==='selecao'&&(
+          <div className="space-y-4">
+            {flashcards.length===0?(
+              <div className="text-center py-12 bg-white/5 border border-white/5 rounded-2xl p-6">
+                <div className="text-4xl mb-3">📇</div>
+                <h3 className="font-medium text-white/70">Nenhum flashcard ainda</h3>
+                <p className="text-xs text-white/40 mt-1">Crie flashcards na aba 📇 para começar.</p>
+              </div>
+            ):(
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
+                <h3 className="font-semibold text-white text-sm">Configurar Sessão</h3>
+                <div className="space-y-1">
+                  <label className="text-xs text-white/50">Deck (matéria)</label>
+                  <select value={deckSel} onChange={e=>setDeckSel(e.target.value)}
+                    className="w-full bg-slate-800 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-purple-500">
+                    <option value="">🎲 Todos os decks (misto)</option>
+                    {decksDisp.map(d=><option key={d.id} value={d.id}>{d.nome} ({d.total})</option>)}
+                  </select>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs text-white/50">Questões: <span className="text-white font-bold">{qtde}</span></label>
+                  <input type="range" min={3} max={Math.min(20,flashcards.length)} value={qtde} onChange={e=>setQtde(Number(e.target.value))}/>
+                </div>
+                <button onClick={iniciarQuiz} className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-2xl text-sm transition-all shadow-lg shadow-purple-500/20">
+                  🚀 Iniciar Quiz
+                </button>
+              </div>
+            )}
+            <div className="bg-white/5 border border-white/5 rounded-2xl p-4">
+              <h3 className="text-xs font-semibold text-white/50 uppercase tracking-wider mb-2">Como funciona</h3>
+              <div className="space-y-2">
+                {[['🃏','Veja a frente do flashcard'],['🧠','Tente lembrar a resposta'],['✅','Avalie: acertou ou errou'],['📊','SRS atualiza automaticamente']].map(([ic,txt])=>(
+                  <div key={txt} className="flex items-center gap-2 text-xs text-white/50"><span>{ic}</span><span>{txt}</span></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+        {fase==='quiz'&&questoes.length>0&&(
+          <div className="space-y-4">
+            <div className="flex justify-between items-center text-xs text-white/40">
+              <span>Questão {idx+1}/{questoes.length}</span>
+              <div className="flex gap-1">
+                {questoes.map((_,i)=><div key={i} style={{width:8,height:8,borderRadius:'50%',background:i<respostas.length?(respostas[i]?'#4ade80':'#f87171'):i===idx?'#a78bfa':'rgba(255,255,255,0.15)'}}/>)}
+              </div>
+            </div>
+            <div className="min-h-[220px] bg-slate-800/80 border border-white/10 rounded-3xl p-6 flex flex-col justify-between shadow-2xl relative overflow-hidden select-none"
+              onClick={()=>!mostrarVerso&&setMostrarVerso(true)} style={{cursor:mostrarVerso?'default':'pointer'}}>
+              <div className="absolute top-3 right-3 text-xs bg-white/5 text-white/30 px-2 py-0.5 rounded-full">
+                {mostrarVerso?'Resposta':'Pergunta — toque para revelar'}
+              </div>
+              <div className="flex-1 flex flex-col items-center justify-center text-center px-2 py-6 gap-3">
+                {!mostrarVerso
+                  ?<p className="text-base text-white font-medium whitespace-pre-wrap">{questoes[idx].frente}</p>
+                  :<><p className="text-xs text-white/40 mb-1">{questoes[idx].frente}</p><div className="w-full h-px bg-white/10"/><p className="text-base text-green-300 font-semibold whitespace-pre-wrap">{questoes[idx].verso}</p></>
+                }
+              </div>
+            </div>
+            {!mostrarVerso
+              ?<button onClick={()=>setMostrarVerso(true)} className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-2xl font-bold transition-all">Revelar Resposta</button>
+              :<div className="grid grid-cols-2 gap-3">
+                <button onClick={()=>responder(false)} className="bg-red-500/20 hover:bg-red-500/40 border border-red-500/40 text-red-400 hover:text-white py-4 rounded-2xl font-bold text-sm transition-all flex flex-col items-center">
+                  <span>❌ Errei</span><span className="text-[10px] opacity-60 font-normal mt-0.5">revisar em breve</span>
+                </button>
+                <button onClick={()=>responder(true)} className="bg-green-500/20 hover:bg-green-500/40 border border-green-500/40 text-green-400 hover:text-white py-4 rounded-2xl font-bold text-sm transition-all flex flex-col items-center">
+                  <span>✅ Acertei</span><span className="text-[10px] opacity-60 font-normal mt-0.5">revisão adiada</span>
+                </button>
+              </div>
+            }
+          </div>
+        )}
+        {fase==='resultado'&&(
+          <div className="space-y-4">
+            <div className="bg-white/5 border border-white/10 rounded-3xl p-6 text-center space-y-3">
+              <div style={{fontSize:56}}>{acertos===questoes.length?'🏆':acertos>=questoes.length*0.7?'🌟':'💪'}</div>
+              <h2 className="text-2xl font-bold text-white font-outfit">{acertos}/{questoes.length}</h2>
+              <p className="text-white/50 text-sm">acertos em {fmtMM(tempoTotal)}</p>
+              <div className="w-full bg-white/10 rounded-full h-3">
+                <div className="h-full rounded-full transition-all" style={{width:`${Math.round(acertos/questoes.length*100)}%`,background:acertos===questoes.length?'linear-gradient(90deg,#4ade80,#22c55e)':'linear-gradient(90deg,#a78bfa,#7c3aed)'}}/>
+              </div>
+              <p className="text-xs text-white/40">{Math.round(acertos/questoes.length*100)}% de aproveitamento</p>
+            </div>
+            <div className="space-y-2">
+              {questoes.map((q,i)=>(
+                <div key={q.id} className="rounded-xl px-4 py-3 flex items-start gap-3 text-xs"
+                  style={{background:respostas[i]?'rgba(34,197,94,0.08)':'rgba(239,68,68,0.08)',border:`1px solid ${respostas[i]?'rgba(74,222,128,0.2)':'rgba(248,113,113,0.2)'}`}}>
+                  <span>{respostas[i]?'✅':'❌'}</span>
+                  <div><p className="text-white/70">{q.frente}</p><p className="text-white/40 mt-0.5">{q.verso}</p></div>
+                </div>
+              ))}
+            </div>
+            <button onClick={reiniciar} className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 rounded-2xl text-sm transition-all">
+              🔄 Novo Quiz
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── DASHBOARD ────────────────────────────────────────────────
+function Dashboard({S}){
+  const{streak,diasR,tempoTot,totTop,totSem,frase,reg,badges,pomo,cron,proGeral,dispatchUI,dataInicioPlano,setDataInicioPlano,semanaAtual,deficitTotal,deficitPorMateria}=S;
+  const h=(tempoTot/3600).toFixed(1);
+  const dias=Object.values(reg).filter(v=>v>0).length;
+  const med=dias>0?(tempoTot/3600/dias).toFixed(1):'0.0';
+  const totB=Object.keys(badges).length;
+  const progMat=useMemo(()=>Object.keys(CONTEUDOS).map(id=>{const mat=CONTEUDOS[id];let t=0,c=0;mat.categorias.forEach((cat,ci)=>{cat.topicos.forEach((_,ti)=>{t++;if(S.topC[`${id}-${ci}-${ti}`])c++;});(S.topP[`${id}-${ci}`]||[]).forEach((_,ti)=>{t++;if(S.topC[`${id}-${ci}-custom-${ti}`])c++;});});return{id,nome:mat.nome,pct:t?Math.round(c/t*100):0};}),[S.topC,S.topP]);
+  const matT=useMemo(()=>Object.keys(CONTEUDOS).map(id=>({id,nome:CONTEUDOS[id].nome.split(' ')[0],t:cron.getTotal(id)})).filter(m=>m.t>0).sort((a,b)=>b.t-a.t),[cron]);
+  const defMats=Object.entries(deficitPorMateria).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  const donutDados=useMemo(()=>matT.map(m=>({label:m.nome,val:m.t})),[matT]);
+
+  return(
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4 pb-24">
+      <div className="max-w-4xl mx-auto space-y-4">
+        <div className="bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10 text-center">
+          <p className="text-white/80 italic text-sm">"{frase}"</p>
+        </div>
+        {/* Plano de estudos config */}
+        <div className="glass-card rounded-2xl p-4">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <div className="text-white font-semibold text-sm font-outfit">📅 Plano de Estudos</div>
+              {dataInicioPlano
+                ?<div className="text-xs mt-1 text-white/50">Início: {new Date(dataInicioPlano+'T12:00:00').toLocaleDateString('pt-BR')} · <span className="text-blue-300 font-semibold">Semana {semanaAtual}/28</span></div>
+                :<div className="text-xs mt-1 text-amber-400/80">⚠ Defina a data de início para detectar semana automaticamente</div>
+              }
+            </div>
+            <div className="flex items-center gap-2">
+              <input type="date" value={dataInicioPlano||''} onChange={e=>setDataInicioPlano(e.target.value)}
+                className="text-xs rounded-xl px-3 py-1.5 outline-none bg-white/10 border border-white/20 text-white" />
+              {dataInicioPlano&&<button onClick={()=>dispatchUI({t:'V',p:'cronograma'})}
+                className="text-xs px-3 py-1.5 rounded-xl transition-colors bg-blue-500/20 text-blue-300 border border-blue-500/30 hover:bg-blue-500/30">Ir para semana atual →</button>}
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-4 gap-3">
+          {[
+            {v:streak,l:'Streak',sub:'dias seguidos',c:'text-orange-400',ic:'🔥'},
+            {v:h+'h',l:'Total',sub:`~${med}h/dia`,c:'text-blue-400',ic:'⏱'},
+            {v:totTop,l:'Tópicos ✓',sub:`${totSem} semanas`,c:'text-green-400',ic:'✅'},
+            {v:diasR,l:'Dias p/prova',sub:'foco total',c:diasR<=30?'text-red-400':'text-yellow-400',ic:'🚩'},
+          ].map((c,i)=>(
+            <div key={i} className="glass-card rounded-2xl p-3">
+              <div className="text-xl mb-1">{c.ic}</div>
+              <div className={`text-xl font-bold font-outfit ${c.c}`}>{c.v}</div>
+              <div className="text-white/50 text-xs font-medium">{c.l}</div>
+              <div className="text-white/30 text-[10px]">{c.sub}</div>
+            </div>
+          ))}
+        </div>
+        <div className="glass-card rounded-2xl p-4">
+          <div className="flex justify-between mb-2"><span className="text-white font-semibold font-outfit text-sm">📈 Progresso Geral</span><span className="text-white font-bold text-sm">{proGeral}%</span></div>
+          <div className="w-full bg-white/10 rounded-full h-2.5">
+            <div className="h-full rounded-full bg-gradient-to-r from-blue-500 to-emerald-500 transition-all duration-700" style={{width:`${proGeral}%`}}/>
+          </div>
+          <div className="text-white/40 text-[10px] mt-1.5 text-right">{totSem}/28 semanas concluídas</div>
+        </div>
+        {/* Déficit acumulado */}
+        {dataInicioPlano&&semanaAtual>1&&(
+          <div className="rounded-2xl p-4 border" style={{background:deficitTotal>0?'rgba(239,68,68,0.08)':'rgba(16,185,129,0.08)',borderColor:deficitTotal>0?'rgba(239,68,68,0.2)':'rgba(16,185,129,0.2)'}}>
+            <div className="flex justify-between items-center mb-2">
+              <span className="font-semibold text-sm" style={{color:deficitTotal>0?'#fca5a5':'#6ee7b7'}}>
+                {deficitTotal>0?'⚠️ Déficit Acumulado':'✅ Em dia com o plano'}
+              </span>
+              {deficitTotal>0&&<span className="font-bold text-sm" style={{color:'#fca5a5'}}>{(deficitTotal/3600).toFixed(1)}h em atraso</span>}
+            </div>
+            {deficitTotal>0&&defMats.length>0&&(
+              <div className="space-y-1.5 mt-2">
+                {defMats.map(([mid,def])=>{
+                  const nome=CONTEUDOS[mid]?.nome||mid;
+                  const w=Math.min(100,(def/3600/5)*100);
+                  return(
+                    <div key={mid} className="flex items-center gap-2">
+                      <span className="text-[10px] text-white/50 shrink-0 w-24 truncate">{nome}</span>
+                      <div className="flex-1 rounded-full h-1.5 bg-white/10">
+                        <div className="h-full rounded-full bg-red-400 transition-all" style={{width:`${w}%`}}/>
+                      </div>
+                      <span className="text-[10px] shrink-0 text-red-300 w-10 text-right">{(def/3600).toFixed(1)}h</span>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            {deficitTotal===0&&<p className="text-xs text-white/40">Todas as semanas anteriores com meta atingida 🎉</p>}
+          </div>
+        )}
+        
+        {/* Histórico Semanal (SVG Chart) */}
+        <div className="glass-card rounded-2xl p-4">
+          <h3 className="text-white font-semibold font-outfit text-sm mb-3">📈 Histórico de Estudos (Últimos 7 Dias)</h3>
+          <div className="bg-slate-900/50 rounded-xl p-2">
+            <BarChart reg={reg} />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4">
+          <div className="glass-card rounded-2xl p-4 flex flex-col justify-between">
+            <h3 className="text-white font-semibold font-outfit text-sm mb-3">📚 Progresso por Matéria</h3>
+            <div className="space-y-2.5">
+              {progMat.map(m=>(
+                <div key={m.id}>
+                  <div className="flex justify-between text-[10px] mb-1"><span className="text-white/70 truncate mr-2">{m.nome}</span><span className="text-white/50">{m.pct}%</span></div>
+                  <div className="w-full bg-white/5 rounded-full h-1.5">
+                    <div className="h-full rounded-full bg-blue-500 transition-all" style={{width:`${m.pct}%`}}/>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="glass-card rounded-2xl p-4 flex flex-col justify-between">
+            <h3 className="text-white font-semibold font-outfit text-sm mb-3">📊 Tempo por Matéria</h3>
+            <DonutChart dados={donutDados} />
+          </div>
+        </div>
+        <MetaDiaria S={S}/>
+        <div className="glass-card rounded-2xl p-4">
+          <div className="flex items-center justify-between mb-1">
+            <h3 className="text-white font-semibold font-outfit text-sm">🎯 Distribuição Real da Prova</h3>
+            <span className="text-white/30 text-[10px]">50 questões · dados 2021–2024</span>
+          </div>
+          <p className="text-white/40 text-[10px] mb-3">Análise de 4 provas reais (NotebookLM). Padrão fixo de distribuição.</p>
+          {/* Barra visual da prova toda */}
+          <div className="flex rounded-full overflow-hidden mb-3" style={{height:10}}>
+            {[
+              {id:'militar',  w:40,cor:'#a855f7'},
+              {id:'portugues',w:16,cor:'#ef4444'},
+              {id:'geografia',w:16,cor:'#f97316'},
+              {id:'matematica',w:14,cor:'#f59e0b'},
+              {id:'historia', w:14,cor:'#3b82f6'},
+            ].map(x=><div key={x.id} style={{width:`${x.w}%`,background:x.cor,transition:'width .5s'}} title={`${MATERIAS_PESO[x.id]?.questoes}q`}/>)}
+          </div>
+          <div className="flex flex-wrap gap-x-3 gap-y-0.5 mb-3 text-[9px]">
+            {[{id:'militar',nome:'Mil-Naval'},{id:'portugues',nome:'Português'},{id:'geografia',nome:'Geografia'},{id:'matematica',nome:'Matemática'},{id:'historia',nome:'História'}].map(x=>{
+              const p=MATERIAS_PESO[x.id];
+              return <span key={x.id} style={{color:p?.cor}}>■ {x.nome} {p?.pct}%</span>;
+            })}
+          </div>
+          {/* Listagem por matéria */}
+          <div className="space-y-2">
+            {[
+              {id:'militar',   nome:'Mil-Naval'},
+              {id:'portugues', nome:'Português'},
+              {id:'geografia', nome:'Geografia'},
+              {id:'matematica',nome:'Matemática'},
+              {id:'historia',  nome:'História'},
+            ].map(({id,nome})=>{
+              const p=MATERIAS_PESO[id];if(!p||!p.questoes)return null;
+              const prog=progMat.find(m=>m.id===id);
+              const progPct=prog?prog.pct:0;
+              const [open,setOpen]=React.useState(false);
+              return(
+                <div key={id} className="rounded-xl p-2.5" style={{background:`${p.cor}11`,border:`1px solid ${p.cor}33`}}>
+                  <div className="flex items-center gap-2 mb-1.5">
+                    <div className="flex-1">
+                      <div className="flex justify-between items-baseline">
+                        <span className="text-xs font-semibold" style={{color:p.cor}}>{nome}</span>
+                        <span className="text-[10px] text-white/40">{p.range} · {p.questoes}q ({p.pct}%)</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 mt-1">
+                        {/* barra de peso da prova */}
+                        <div className="rounded-full" style={{height:4,width:`${p.pct*1.8}px`,maxWidth:'60%',background:p.cor,opacity:0.6}}/>
+                        {/* barra de progresso do aluno */}
+                        <div className="flex-1 rounded-full" style={{height:4,background:'rgba(255,255,255,0.08)'}}>
+                          <div className="h-full rounded-full transition-all" style={{width:`${progPct}%`,background:'rgba(255,255,255,0.35)'}}/>
+                        </div>
+                        <span className="text-[10px] shrink-0" style={{color:p.cor}}>{progPct}%✓</span>
+                      </div>
+                    </div>
+                  </div>
+                  {/* tópicos quentes */}
+                  {p.quentes?.length>0&&(
+                    <div>
+                      <button onClick={()=>setOpen(o=>!o)} className="text-[9px] flex items-center gap-1" style={{color:p.cor,opacity:0.7}}>
+                        {open?'▾':'▸'} Tópicos mais cobrados
+                      </button>
+                      {open&&(
+                        <div className="mt-1.5 flex flex-wrap gap-1">
+                          {p.quentes.map((t,i)=>(
+                            <span key={i} className="text-[9px] px-1.5 py-0.5 rounded-full" style={{background:`${p.cor}22`,color:p.cor}}>
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <p className="text-white/20 text-[9px] mt-2">✦ Fonte: análise NotebookLM de 4 provas reais (2021–2024). Confirme no edital vigente.</p>
+        </div>
+        <HabitosDiarios S={S}/>
+        <Heatmap reg={reg}/>
+        <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
+          <div className="glass-card rounded-2xl p-4">
+            <h3 className="text-white font-semibold font-outfit text-sm mb-2">🍅 Pomodoro</h3>
+            <div className="text-3xl font-bold text-white font-outfit">{pomo.rod}</div>
+            <div className="text-white/50 text-xs">ciclos · {(pomo.rod*25/60).toFixed(1)}h focadas</div>
+          </div>
+          <div className="glass-card rounded-2xl p-4">
+            <div className="flex justify-between items-start mb-2">
+              <h3 className="text-white font-semibold font-outfit text-sm">🏆 Conquistas</h3>
+              <button onClick={()=>dispatchUI({t:'V',p:'conquistas'})} className="text-xs text-blue-400 hover:text-blue-300 font-medium">Ver todas →</button>
+            </div>
+            <div className="text-3xl font-bold text-yellow-400 font-outfit">{totB}/{BADGES.length}</div>
+            <div className="flex flex-wrap gap-1 mt-2">
+              {BADGES.map(b=><span key={b.id} title={b.nome} className={b.id in badges?'text-xl':'text-xl opacity-20 grayscale'}>{b.ic}</span>)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+// ─── CONQUISTAS ───────────────────────────────────────────────
+function Conquistas({S}){
+  const{badges,setBadges}=S;
+  const tot=Object.keys(badges).length;
+  const pct=Math.round(tot/BADGES.length*100);
+  const resetOne=id=>{const b=BADGES.find(x=>x.id===id);if(!b||!badges[id])return;let df='';try{df=` (${new Date(badges[id]).toLocaleDateString('pt-BR')})`;}catch{}if(!confirm(`Resetar "${b.nome}"${df}?`))return;setBadges(p=>{const n={...p};delete n[id];return n;});};
+  const resetAll=()=>{if(!tot){alert('Nenhuma conquista para resetar.');return;}if(!confirm(`Resetar todas as ${tot} conquistas?`))return;setBadges({});};
+  return(
+    <div className="min-h-screen bg-gradient-to-br from-yellow-900 to-slate-900 p-4">
+      <div className="max-w-4xl mx-auto space-y-4">
+        <div className="bg-white bg-opacity-10 rounded-2xl p-5 border border-white border-opacity-20">
+          <div className="flex justify-between items-start flex-wrap gap-3">
+            <div><h2 className="text-2xl font-bold text-yellow-300">🏆 Conquistas</h2><p className="text-white text-opacity-50 text-sm mt-1">{tot}/{BADGES.length} badges desbloqueados</p></div>
+            <button onClick={resetAll} className="text-sm px-3 py-1.5 rounded-xl text-red-300 transition-colors" style={{backgroundColor:'rgba(239,68,68,0.2)'}}>🗑 Resetar Todas</button>
+          </div>
+          <div className="mt-3">
+            <div className="flex justify-between text-xs mb-1" style={{color:'rgba(255,255,255,0.4)'}}><span>Progresso</span><span>{pct}%</span></div>
+            <div className="w-full rounded-full" style={{height:8,backgroundColor:'rgba(255,255,255,0.1)'}}>
+              <div className="h-full rounded-full transition-all duration-700 bg-gradient-to-r from-yellow-400 to-amber-400" style={{width:`${pct}%`}}/>
+            </div>
+          </div>
+        </div>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(200px,1fr))',gap:16}}>
+          {BADGES.map(b=>{
+            const g=!!badges[b.id];let df='';if(g){try{df=new Date(badges[b.id]).toLocaleDateString('pt-BR');}catch{}}
+            return(
+              <div key={b.id} className="rounded-2xl p-4 border transition-all" style={{
+                background:g?'linear-gradient(135deg,rgba(234,179,8,0.3),rgba(245,158,11,0.2))':'rgba(255,255,255,0.05)',
+                borderColor:g?'rgba(234,179,8,0.5)':'rgba(255,255,255,0.1)',opacity:g?1:0.5}}>
+                <div className="flex justify-between mb-2">
+                  <span style={{fontSize:36,filter:g?'none':'grayscale(1)',opacity:g?1:0.4}}>{b.ic}</span>
+                  {g&&<button onClick={()=>resetOne(b.id)} style={{color:'rgba(255,255,255,0.2)',fontSize:14}} className="hover:text-red-400 transition-colors">↺</button>}
+                </div>
+                <div className="font-semibold text-white text-sm">{b.nome}</div>
+                <div className="text-xs mt-1 mb-2" style={{color:'rgba(255,255,255,0.4)'}}>{b.desc}</div>
+                {g?<div className="text-xs text-yellow-300">✅ {df?`em ${df}`:'Conquistado!'}</div>:<div className="text-xs" style={{color:'rgba(255,255,255,0.25)'}}>🔒 Não desbloqueado</div>}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── POMODORO MODAL ───────────────────────────────────────────
+function SoundControls() {
+  const { currentType, volume, isPlaying, play, stop, setVolume } = useFocusSounds();
+  const sounds = [
+    { id: 'white', label: '🤍 Branco', desc: 'Ruído foco' },
+    { id: 'pink', label: '💖 Rosa', desc: 'Ruído suave' },
+    { id: 'rain', label: '🌧️ Chuva', desc: 'Ambiental' },
+    { id: 'binaural', label: '🎧 Binaural', desc: '5Hz Theta' }
+  ];
+  return (
+    <div className="mt-4 pt-3 border-t border-gray-700">
+      <div className="text-xs text-gray-400 font-semibold mb-2 flex items-center justify-between">
+        <span>🔊 Sons de Foco</span>
+        {isPlaying && (
+          <button type="button" onClick={stop} className="text-red-400 font-medium hover:underline text-[10px]">
+            Parar
+          </button>
+        )}
+      </div>
+      <div className="grid grid-cols-2 gap-1.5 mb-2">
+        {sounds.map(s => (
+          <button
+            key={s.id}
+            type="button"
+            onClick={() => currentType === s.id ? stop() : play(s.id)}
+            className={`text-[9px] p-1.5 rounded-lg text-left transition-all ${
+              currentType === s.id
+                ? 'bg-blue-500/20 text-blue-300 border border-blue-500/40 font-semibold'
+                : 'bg-gray-800 text-gray-400 border border-gray-700/50 hover:bg-gray-700/30'
+            }`}
+          >
+            <div className="font-semibold">{s.label}</div>
+            <div className="text-[7px] opacity-60 font-normal">{s.desc}</div>
+          </button>
+        ))}
+      </div>
+      <div className="flex items-center gap-1.5">
+        <span className="text-[8px] text-gray-500">Vol</span>
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.05"
+          value={volume}
+          onChange={e => setVolume(parseFloat(e.target.value))}
+          className="h-1 flex-1 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+        />
+        <span className="text-[8px] font-mono text-gray-400 w-5 text-right">
+          {Math.round(volume * 100)}%
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function PomoModal({pomo,onClose}){
+  const total=pomo.tipo==='estudo'?25*60:5*60;
+  const pct=(total-pomo.seg)/total*100;
+  const r=54,circ=2*Math.PI*r,off=circ*(1-pct/100);
+  const cor=pomo.tipo==='estudo'?'#34d399':'#60a5fa';
+  return(
+    <div className="fixed z-50 rounded-2xl p-4 shadow-2xl" style={{bottom:100,right:16,width:240,background:'#111827',border:'1px solid #374151'}}>
+      <div className="flex justify-between items-center mb-3">
+        <span className="text-white font-semibold text-sm">🍅 Pomodoro</span>
+        <button onClick={onClose} style={{color:'#6b7280'}} className="hover:text-white text-lg leading-none">✕</button>
+      </div>
+      <div className="flex justify-between items-center mb-3">
+        <span className="text-xs px-2 py-1 rounded-full font-medium" style={{background:cor+'33',color:cor}}>{pomo.tipo==='estudo'?'🎯 Estudo':'☕ Pausa'}</span>
+        <span className="text-xs" style={{color:'#9ca3af'}}>{pomo.rod} rodada{pomo.rod!==1?'s':''}</span>
+      </div>
+      <div className="flex justify-center mb-4">
+        <div style={{position:'relative',width:112,height:112}}>
+          <svg style={{width:'100%',height:'100%',transform:'rotate(-90deg)'}} viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r={r} fill="none" stroke="#374151" strokeWidth="8"/>
+            <circle cx="60" cy="60" r={r} fill="none" stroke={cor} strokeWidth="8" strokeLinecap="round"
+              strokeDasharray={circ} strokeDashoffset={off} style={{transition:'stroke-dashoffset .5s ease'}}/>
+          </svg>
+          <div style={{position:'absolute',inset:0,display:'flex',alignItems:'center',justifyContent:'center'}}>
+            <span className="text-white font-mono font-bold text-xl">{fmtMM(pomo.seg)}</span>
+          </div>
+        </div>
+      </div>
+      <div className="flex justify-center gap-3">
+        <button onClick={pomo.resetar} className="rounded-xl text-white transition-colors" style={{padding:'8px 12px',background:'#374151'}}>↺</button>
+        <button onClick={pomo.at?pomo.pausar:pomo.iniciar} className="rounded-xl font-medium text-sm transition-colors flex items-center gap-1"
+          style={{padding:'8px 20px',background:cor+'33',color:cor}}>
+          {pomo.at?'⏸ Pausar':'▶ Iniciar'}
+        </button>
+      </div>
+      <SoundControls />
+    </div>
+  );
+}
+
+// ─── CRONOGRAMA VIEW ──────────────────────────────────────────
+function CronogramaView({S}){
+  const{ui,dispatchUI,ed,dispatchED,concl,setConcl,diarios,cron,salvarDiario,semanaAtual,dataInicioPlano}=S;
+  const sem=ui.sem;const setSem=n=>dispatchUI({t:'SEM',p:n});
+  const cfg=CRONOGRAMA[sem]||{f:0};
+  const fase=FASES[cfg.f]||FASES[0];
+  const tempoSem=useMemo(()=>{let t=0;Object.entries(cron.tempos).forEach(([k,v])=>{if(k.startsWith(`${sem}-`))t+=v;});if(cron.ativo?.startsWith(`${sem}-`))t+=cron.segs-(cron.tempos[cron.ativo]||0);return t;},[sem,cron]);
+  const metaSem=useMemo(()=>fase.materias.reduce((a,m)=>a+m.horas*3600,0),[fase]);
+  const pct=metaSem>0?Math.min(100,Math.round(tempoSem/metaSem*100)):0;
+  const eAtual=dataInicioPlano&&sem===semanaAtual;
+  const atrasado=dataInicioPlano&&sem<semanaAtual&&pct<100;
+  return(
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900">
+      <div style={{position:'sticky',top:0,zIndex:30,padding:'12px 16px',background:'rgba(30,58,138,0.9)',backdropFilter:'blur(8px)',borderBottom:'1px solid rgba(255,255,255,0.1)'}}>
+        <div className="max-w-3xl mx-auto">
+          <div className="flex justify-between items-center mb-2">
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-white font-bold">📚 Semana {sem}/28</h1>
+                {eAtual&&<span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{background:'rgba(96,165,250,0.2)',color:'#93c5fd'}}>📍 atual</span>}
+                {atrasado&&<span className="text-xs px-2 py-0.5 rounded-full font-medium" style={{background:'rgba(239,68,68,0.2)',color:'#fca5a5'}}>⚠ atraso</span>}
+              </div>
+              <p style={{color:'rgba(255,255,255,0.5)',fontSize:12}}>{fase.nome} · {cfg.foco||''}</p>
+            </div>
+            <div className="text-right"><span className="text-white font-bold">{pct}%</span><div style={{color:'rgba(255,255,255,0.3)',fontSize:11}}>{fmt(tempoSem)} / {fmt(metaSem)}</div></div>
+          </div>
+          <div className="w-full rounded-full" style={{height:6,background:'rgba(255,255,255,0.1)'}}>
+            <div className="rounded-full transition-all h-full bg-gradient-to-r from-blue-400 to-green-400" style={{width:`${pct}%`}}/>
+          </div>
+        </div>
+      </div>
+      <div className="max-w-3xl mx-auto p-4 space-y-4 pb-36">
+        <div className="rounded-2xl p-4 border" style={{background:'rgba(255,255,255,0.07)',borderColor:'rgba(255,255,255,0.1)'}}>
+          <div className="flex justify-between text-sm mb-2">
+            <span style={{color:'rgba(255,255,255,0.6)'}}>Navegar semana</span>
+            <span className="text-white font-bold">{sem} / 28</span>
+          </div>
+          <input type="range" min={1} max={28} value={sem} onChange={e=>setSem(Number(e.target.value))}/>
+          <div className="flex justify-between text-xs mt-1" style={{color:'rgba(255,255,255,0.3)'}}>
+            {[1,7,14,21,28].map(n=><button key={n} onClick={()=>setSem(n)} className={`hover:text-white transition-colors ${sem===n?'text-blue-400':''}`}>{n}</button>)}
+          </div>
+        </div>
+        <InterleavingSugestao S={S}/>
+        {fase.materias.map(mat=><MateriaCard key={mat.id} mat={mat} sem={sem} S={S}/>)}
+        <button onClick={()=>setConcl(p=>({...p,[sem]:!p[sem]}))}
+          className="w-full rounded-2xl p-4 border flex items-center gap-3 transition-all"
+          style={{background:concl[sem]?'rgba(34,197,94,0.2)':'rgba(255,255,255,0.05)',borderColor:concl[sem]?'rgba(74,222,128,0.5)':'rgba(255,255,255,0.1)',color:concl[sem]?'#86efac':'rgba(255,255,255,0.4)'}}>
+          <span>{concl[sem]?'✅':'○'}</span>
+          <span className="font-medium">{concl[sem]?'Semana concluída!':'Marcar como concluída'}</span>
+        </button>
+        <div className="rounded-2xl p-4 border" style={{background:'rgba(255,255,255,0.07)',borderColor:'rgba(255,255,255,0.1)'}}>
+          <div className="flex justify-between items-center mb-3">
+            <span style={{color:'rgba(255,255,255,0.7)',fontWeight:500,fontSize:14}}>📓 Diário da semana</span>
+            {!ed.eD&&<button onClick={()=>dispatchED({t:'OD',p:diarios[sem]||''})} style={{fontSize:12,color:'#93c5fd'}} className="hover:text-blue-200">{diarios[sem]?'Editar':'+ Escrever'}</button>}
+          </div>
+          {ed.eD?(
+            <>
+              <textarea autoFocus value={ed.dT} onChange={e=>dispatchED({t:'UD',p:e.target.value})}
+                placeholder="Como foi o estudo desta semana?" rows={4}
+                className="w-full rounded-xl text-white text-sm p-3 outline-none resize-none"
+                style={{background:'#1f2937',border:'1px solid rgba(96,165,250,0.3)'}}/>
+              <div className="flex gap-2 mt-2">
+                <button onClick={()=>salvarDiario(sem,ed.dT)} className="text-sm px-4 py-1.5 rounded-xl transition-colors" style={{background:'rgba(59,130,246,0.3)',color:'#93c5fd'}}>Salvar</button>
+                <button onClick={()=>dispatchED({t:'CD'})} className="text-sm px-4 py-1.5 transition-colors" style={{color:'rgba(255,255,255,0.3)'}}>Cancelar</button>
+              </div>
+            </>
+          ):diarios[sem]?<p className="text-sm whitespace-pre-wrap" style={{color:'rgba(255,255,255,0.6)'}}>{diarios[sem]}</p>
+          :<p className="text-sm italic" style={{color:'rgba(255,255,255,0.2)'}}>Nenhuma anotação para esta semana.</p>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MateriaCard({mat,sem,S}){
+  const{ui,dispatchUI,ed,dispatchED,topC,setTopC,topP,setTopP,topR,setTopR,resumos,setResumos,topRen,setTopRen,cron,salvarResumo}=S;
+  const k=`${mat.id}-${sem}`;const exp=ui.exp[k];const toggle=()=>dispatchUI({t:'EXP',p:k});
+  const md=CONTEUDOS[mat.id];const tempo=cron.getTempo(sem,mat.id);const at=cron.ativo===`${sem}-${mat.id}`;
+  const meta=mat.horas*3600;const pct=meta>0?Math.min(100,Math.round(tempo/meta*100)):0;
+  const progT=useMemo(()=>{if(!md)return 0;let t=0,c=0;md.categorias.forEach((cat,ci)=>{cat.topicos.forEach((_,ti)=>{t++;if(topC[`${mat.id}-${ci}-${ti}`])c++;});(topP[`${mat.id}-${ci}`]||[]).forEach((_,ti)=>{t++;if(topC[`${mat.id}-${ci}-custom-${ti}`])c++;});});return t?Math.round(c/t*100):0;},[topC,topP,mat.id]);
+  return(
+    <div className="rounded-2xl border transition-all duration-300" style={{background:'rgba(255,255,255,0.07)',borderColor:at?'rgba(96,165,250,0.7)':'rgba(255,255,255,0.1)',boxShadow:at?'0 0 20px rgba(96,165,250,0.2)':'none'}}>
+      <div className="p-4">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-3 flex-1 min-w-0">
+            <div className={`w-3 h-3 rounded-full shrink-0 ${mat.cor}`}/>
+            <div className="min-w-0"><div className="text-white font-semibold text-sm truncate">{mat.nome}</div><div className="text-xs truncate" style={{color:'rgba(255,255,255,0.4)'}}>{mat.foco}</div></div>
+          </div>
+          <div className="flex items-center gap-2 ml-2 shrink-0">
+            <span className={`font-mono text-sm ${at?'text-blue-300 pulse':'text-white text-opacity-60'}`}>{fmt(tempo)}</span>
+            <button onClick={()=>cron.iniciar(sem,mat.id)} className="p-2 rounded-xl transition-all" style={{background:at?'rgba(59,130,246,0.3)':'rgba(255,255,255,0.1)',color:at?'#93c5fd':'rgba(255,255,255,0.6)'}}>{at?'⏸':'▶'}</button>
+            <button onClick={e=>cron.resetar(sem,mat.id,e)} className="p-2 rounded-xl transition-all text-xs" style={{background:'rgba(255,255,255,0.05)',color:'rgba(255,255,255,0.2)'}}>↺</button>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 mb-1">
+          <div className="flex-1 rounded-full" style={{height:6,background:'rgba(255,255,255,0.1)'}}>
+            <div className="h-full rounded-full transition-all" style={{width:`${pct}%`,background:pct>=100?'#4ade80':at?'#60a5fa':'rgba(255,255,255,0.3)'}}/>
+          </div>
+          <span className="text-xs shrink-0" style={{color:'rgba(255,255,255,0.3)'}}>{pct}% · {mat.horas}h</span>
+        </div>
+        <div className="flex justify-between items-center">
+          <span className="text-xs" style={{color:'rgba(255,255,255,0.3)'}}>{progT}% tópicos ✓</span>
+          {(()=>{const p=MATERIAS_PESO[mat.id];return p&&p.questoes>0?(<span className="text-xs font-semibold px-2 py-0.5 rounded-full" style={{background:`${p.cor}22`,color:p.cor,border:`1px solid ${p.cor}44`}} title={p.dica}>{p.label} · {p.questoes}q ({p.range})</span>):null;})()}
+          {md&&<button onClick={toggle} className="text-xs flex items-center gap-1 transition-colors" style={{color:'#93c5fd'}}>{exp?'▾ Ocultar':'▸ Tópicos'}</button>}
+        </div>
+      </div>
+      {exp&&md&&(
+        <div className="p-4 space-y-4" style={{borderTop:'1px solid rgba(255,255,255,0.1)'}}>
+          {md.categorias.map((cat,ci)=>(
+            <div key={ci}>
+              <div className="uppercase tracking-wider font-medium mb-2 text-xs" style={{color:'rgba(255,255,255,0.3)'}}>{cat.titulo}</div>
+              <div className="space-y-1">
+                {cat.topicos.map((orig,ti)=><TopicoItem key={ti} mid={mat.id} ci={ci} ti={ti} orig={orig} custom={false} S={S}/>)}
+                {(topP[`${mat.id}-${ci}`]||[]).map((orig,ti)=><TopicoItem key={`c${ti}`} mid={mat.id} ci={ci} ti={ti} orig={orig} custom={true} S={S}/>)}
+                <AddT mid={mat.id} ci={ci} S={S}/>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function TopicoItem({mid,ci,ti,orig,custom,S}){
+  const{topC,setTopC,topR,setTopR,topP,setTopP,resumos,setResumos,topRen,setTopRen,ed,dispatchED,salvarResumo}=S;
+  const k=custom?`${mid}-${ci}-custom-${ti}`:`${mid}-${ci}-${ti}`;
+  const nome=topRen[k]||orig;const ok=!!topC[k],rev=!!topR[k],hr=!!resumos[k];
+  const eN=ed.eN===k,eR=ed.eR===k;
+  const togOk=()=>{const n=!ok;setTopC(p=>({...p,[k]:n}));if(n)setTopR(p=>{const x={...p};delete x[k];return x;});};
+  const togRev=()=>{if(ok)return;setTopR(p=>({...p,[k]:!p[k]}));};
+  const rem=()=>{const ch=`${mid}-${ci}`;setTopP(p=>{const l=[...(p[ch]||[])];l.splice(ti,1);return{...p,[ch]:l};});setTopC(p=>{const n={...p};delete n[k];return n;});setTopR(p=>{const n={...p};delete n[k];return n;});};
+  return(
+    <div id={`t-${k}`} className="rounded-xl p-2 transition-all" style={{background:ok?'rgba(34,197,94,0.1)':rev?'rgba(234,179,8,0.1)':'rgba(255,255,255,0.05)'}}>
+      <div className="flex items-center gap-2">
+        <button onClick={togOk} className="shrink-0 text-base">{ok?'✅':'⬜'}</button>
+        {eN?(
+          <input autoFocus value={ed.nT} onChange={e=>dispatchED({t:'UN',p:e.target.value})}
+            onKeyDown={e=>{if(e.key==='Enter'){setTopRen(p=>({...p,[k]:ed.nT}));dispatchED({t:'FN'});}if(e.key==='Escape')dispatchED({t:'FN'});}}
+            className="flex-1 text-white text-xs rounded px-2 py-0.5 outline-none"
+            style={{background:'rgba(255,255,255,0.1)',border:'1px solid rgba(96,165,250,0.5)'}}/>
+        ):(
+          <span className="flex-1 text-xs" style={{color:ok?'rgba(255,255,255,0.3)':'rgba(255,255,255,0.8)',textDecoration:ok?'line-through':'none'}}>
+            {nome}{custom&&<span style={{color:'#a78bfa',marginLeft:4}}>*</span>}
+            {hr&&<span title="Tem nota" style={{marginLeft:4}}>📝</span>}
+          </span>
+        )}
+        <div className="flex items-center gap-1 shrink-0">
+          {eN?(
+            <>
+              <button onClick={()=>{setTopRen(p=>({...p,[k]:ed.nT}));dispatchED({t:'FN'});}} style={{color:'#4ade80',fontSize:12}}>✓</button>
+              <button onClick={()=>dispatchED({t:'FN'})} style={{color:'#f87171',fontSize:12}}>✕</button>
+            </>
+          ):(
+            <>
+              {!ok&&<button onClick={togRev} title="Marcar p/revisar" style={{fontSize:11,color:rev?'#fbbf24':'rgba(255,255,255,0.2)',cursor:'pointer'}}>⚠</button>}
+              <button onClick={()=>dispatchED({t:'IN',k,v:nome})} title="Renomear" style={{fontSize:11,color:'rgba(255,255,255,0.2)',cursor:'pointer'}} className="hover:text-blue-300">✏</button>
+              <button onClick={()=>dispatchED({t:'IR',k,v:resumos[k]||''})} title="Nota" style={{fontSize:11,color:hr?'#60a5fa':'rgba(255,255,255,0.2)',cursor:'pointer'}}>📝</button>
+              {custom&&<button onClick={rem} title="Remover" style={{fontSize:11,color:'rgba(255,255,255,0.2)',cursor:'pointer'}} className="hover:text-red-400">🗑</button>}
+            </>
+          )}
+        </div>
+      </div>
+      {eR&&(
+        <div style={{marginTop:8}}>
+          <textarea autoFocus value={ed.rT} onChange={e=>dispatchED({t:'UR',p:e.target.value})}
+            placeholder="Anotações, palavras-chave…" rows={3}
+            className="w-full text-white text-xs rounded-lg p-2 outline-none resize-none"
+            style={{background:'#1f2937',border:'1px solid rgba(96,165,250,0.4)'}}/>
+          <div className="flex gap-2 mt-1">
+            <button onClick={()=>salvarResumo(k,ed.rT)} className="text-xs px-3 py-1 rounded-lg transition-colors" style={{background:'rgba(59,130,246,0.3)',color:'#93c5fd'}}>Salvar</button>
+            <button onClick={()=>dispatchED({t:'FR'})} className="text-xs px-3 py-1 transition-colors" style={{color:'rgba(255,255,255,0.3)'}}>Cancelar</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AddT({mid,ci,S}){
+  const{ed,dispatchED,topP,setTopP}=S;const ch=`${mid}-${ci}`;const txt=ed.nT2[ch]||'';
+  const add=()=>{if(!txt.trim())return;setTopP(p=>({...p,[ch]:[...(p[ch]||[]),txt.trim()]}));dispatchED({t:'CNT',k:ch});};
+  return(
+    <div className="flex items-center gap-2 mt-1">
+      <input value={txt} onChange={e=>dispatchED({t:'SNT',k:ch,v:e.target.value})} onKeyDown={e=>{if(e.key==='Enter')add();}}
+        placeholder="+ Adicionar tópico…" className="flex-1 text-xs rounded-lg px-2 py-1 outline-none"
+        style={{background:'rgba(255,255,255,0.05)',color:'rgba(255,255,255,0.5)',border:'1px solid rgba(255,255,255,0.1)'}}/>
+      {txt.trim()&&<button onClick={add} style={{color:'#60a5fa',fontSize:14}}>✓</button>}
+    </div>
+  );
+}
+
+// ─── REVISÃO VIEW ─────────────────────────────────────────────
+function RevisaoView({S}){
+  const{topR,setTopR,topC,setTopC,topP,topRen}=S;
+  const lista=useMemo(()=>{const r=[];Object.entries(topR).forEach(([k,at])=>{if(!at)return;const pts=k.split('-');const cu=pts.includes('custom');let mid,ci,ti;if(cu){const ix=pts.indexOf('custom');ti=parseInt(pts[ix+1]);ci=parseInt(pts[ix-1]);mid=pts.slice(0,ix-1).join('-');}else{ti=parseInt(pts[pts.length-1]);ci=parseInt(pts[pts.length-2]);mid=pts.slice(0,-2).join('-');}const mat=CONTEUDOS[mid];if(!mat)return;let nm=cu?(S.topP[`${mid}-${ci}`]||[])[ti]:mat.categorias[ci]?.topicos[ti];if(!nm)return;r.push({k,mid,mn:mat.nome,nome:topRen[k]||nm,cu});});return r;},[topR,topP,topRen]);
+  const ok=item=>{setTopC(p=>({...p,[item.k]:true}));setTopR(p=>{const n={...p};delete n[item.k];return n;});};
+  const rm=k=>setTopR(p=>{const n={...p};delete n[k];return n;});
+  return(
+    <div className="min-h-screen p-4 bg-gradient-to-br from-yellow-900 to-slate-900">
+      <div className="max-w-3xl mx-auto space-y-4">
+        <div className="rounded-2xl p-5 border" style={{background:'rgba(255,255,255,0.07)',borderColor:'rgba(255,255,255,0.1)'}}>
+          <h2 className="text-xl font-bold text-yellow-300">⚠ Para Revisar</h2>
+          <p className="text-sm mt-1" style={{color:'rgba(255,255,255,0.5)'}}>{lista.length} tópico{lista.length!==1?'s':''} marcado{lista.length!==1?'s':''}</p>
+        </div>
+        {lista.length===0?(
+          <div className="rounded-2xl p-8 text-center" style={{background:'rgba(255,255,255,0.05)',color:'rgba(255,255,255,0.3)'}}>
+            <div className="text-4xl mb-2">✅</div><div>Nenhum tópico marcado para revisão.</div>
+            <div className="text-sm mt-1">Use o ⚠ no cronograma para marcar tópicos.</div>
+          </div>
+        ):(
+          <div className="space-y-2">
+            {lista.map(item=>(
+              <div key={item.k} className="rounded-xl p-4 flex items-center justify-between gap-3" style={{background:'rgba(255,255,255,0.07)',border:'1px solid rgba(234,179,8,0.2)'}}>
+                <div className="min-w-0">
+                  <div className="text-xs mb-0.5" style={{color:'rgba(234,179,8,0.7)'}}>{item.mn}</div>
+                  <div className="text-white text-sm truncate">{item.nome}</div>
+                  {item.cu&&<div className="text-xs" style={{color:'#a78bfa'}}>• personalizado</div>}
+                </div>
+                <div className="flex gap-2 shrink-0">
+                  <button onClick={()=>ok(item)} className="text-xs px-3 py-1.5 rounded-lg transition-colors" style={{background:'rgba(34,197,94,0.2)',color:'#86efac'}}>✓ Conclui</button>
+                  <button onClick={()=>rm(item.k)} className="text-xs px-2 py-1.5 rounded-lg transition-colors" style={{background:'rgba(255,255,255,0.1)',color:'rgba(255,255,255,0.5)'}}>✕</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── MODAL PESQUISA ───────────────────────────────────────────
+function SearchModal({S}){
+  const{ui,dispatchUI,topP,resumos}=S;
+  const[termo,setTermo]=useState('');
+  const inputRef=useRef(null);
+
+  // Foca o input sempre que o modal abrir
+  useEffect(()=>{
+    setTimeout(()=>{if(inputRef.current)inputRef.current.focus();},50);
+  },[]);
+
+  const buscar=t=>{
+    setTermo(t);
+    // CORREÇÃO: não fecha o modal ao digitar — apenas limpa resultados se < 2 chars
+    if(t.length<2){
+      dispatchUI({t:'SEARCH',p:{t:'',r:[]}});
+      return;
+    }
+    const tl=t.toLowerCase(),res=[];
+    Object.entries(CONTEUDOS).forEach(([mid,mat])=>{
+      mat.categorias.forEach((cat,ci)=>{
+        cat.topicos.forEach((top,ti)=>{const k=`${mid}-${ci}-${ti}`;if(top.toLowerCase().includes(tl)||resumos[k]?.toLowerCase().includes(tl))res.push({mid,mn:mat.nome,top,k,custom:false});});
+        (topP[`${mid}-${ci}`]||[]).forEach((top,ti)=>{const k=`${mid}-${ci}-custom-${ti}`;if(top.toLowerCase().includes(tl))res.push({mid,mn:mat.nome,top,k,custom:true});});
+      });
+    });
+    dispatchUI({t:'SEARCH',p:{t,r:res}});
+  };
+  const ir=res=>{
+    dispatchUI({t:'CSEARCH'});dispatchUI({t:'V',p:'cronograma'});
+    setTimeout(()=>{const el=document.getElementById(`t-${res.k}`);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.style.outline='2px solid #fbbf24';setTimeout(()=>el.style.outline='',2000);}else setTimeout(()=>{const el2=document.getElementById(`t-${res.k}`);if(el2){el2.scrollIntoView({behavior:'smooth',block:'center'});}},300);},100);
+  };
+  const hl=(txt,t)=>{if(!t)return txt;const pts=[];let r=txt;let i=0;while(r.length>0&&i<100){const idx=r.toLowerCase().indexOf(t.toLowerCase());if(idx===-1){pts.push(<span key={i}>{r}</span>);break;}if(idx>0)pts.push(<span key={i+'a'}>{r.slice(0,idx)}</span>);pts.push(<mark key={i+'b'} style={{background:'rgba(251,191,36,0.4)',color:'#fde68a',borderRadius:3,padding:'0 2px'}}>{r.slice(idx,idx+t.length)}</mark>);r=r.slice(idx+t.length);i++;}return pts;};
+  return(
+    <div style={{position:'fixed',inset:0,zIndex:50,background:'rgba(0,0,0,0.7)',display:'flex',alignItems:'flex-start',justifyContent:'center',paddingTop:64,paddingLeft:16,paddingRight:16}}
+      onClick={e=>{if(e.target===e.currentTarget)dispatchUI({t:'CSEARCH'});}}>
+      <div className="w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden slide-in" style={{background:'#1f2937'}}
+        onClick={e=>e.stopPropagation()}>
+        <div className="flex items-center gap-3 p-4" style={{borderBottom:'1px solid #374151'}}>
+          <span style={{color:'#9ca3af'}}>🔍</span>
+          <input
+            ref={inputRef}
+            value={termo}
+            onChange={e=>buscar(e.target.value)}
+            onKeyDown={e=>{if(e.key==='Escape')dispatchUI({t:'CSEARCH'});}}
+            placeholder="Buscar tópico… (mín. 2 caracteres)"
+            className="flex-1 text-white outline-none"
+            style={{background:'transparent'}}
+          />
+          <button onClick={()=>dispatchUI({t:'CSEARCH'})} style={{color:'#9ca3af'}} className="hover:text-white">✕</button>
+        </div>
+        <div style={{maxHeight:384,overflowY:'auto'}}>
+          {termo.length>0&&termo.length<2&&<div className="p-4 text-sm text-center" style={{color:'#9ca3af'}}>Continue digitando…</div>}
+          {termo.length>=2&&ui.resS.length===0&&<div className="p-4 text-sm text-center" style={{color:'#9ca3af'}}>Nenhum resultado para "{termo}"</div>}
+          {ui.resS.map(r=>(
+            <button key={r.k} onClick={()=>ir(r)} className="w-full text-left px-4 py-3 hover:bg-gray-700 transition-colors">
+              <div className="text-xs mb-0.5" style={{color:'#60a5fa'}}>{r.mn}</div>
+              <div className="text-sm text-white">{hl(r.top,termo)}</div>
+              {r.custom&&<div className="text-xs" style={{color:'#a78bfa'}}>• personalizado</div>}
+            </button>
+          ))}
+        </div>
+        {ui.resS.length>0&&<div className="px-4 py-2 text-xs" style={{borderTop:'1px solid #374151',color:'#6b7280'}}>{ui.resS.length} resultado(s) · ESC para fechar</div>}
+      </div>
+    </div>
+  );
+}
+
+function calcularSRS(rating, interval) {
+  let nextInterval = 1;
+  let nextTime = 0;
+  if (rating === 'again') {
+    nextInterval = 0;
+    nextTime = Date.now() + 60000;
+  } else if (rating === 'hard') {
+    nextInterval = 1;
+    nextTime = Date.now() + 86400000;
+  } else if (rating === 'good') {
+    nextInterval = interval === 0 ? 3 : Math.max(3, Math.round(interval * 2.0));
+    nextTime = Date.now() + nextInterval * 86400000;
+  } else if (rating === 'easy') {
+    nextInterval = interval === 0 ? 6 : Math.max(6, Math.round(interval * 3.5));
+    nextTime = Date.now() + nextInterval * 86400000;
+  }
+  return {
+    interval: nextInterval,
+    nextReview: new Date(nextTime).toISOString()
+  };
+}
+
+function FlashcardsView({ S }) {
+  const { flashcards, setFlashcards } = S;
+  const [materiaSel, setMateriaSel] = useState('');
+  const [abaInterna, setAbaInterna] = useState('decks');
+  const [deckAtual, setDeckAtual] = useState(null);
+  const [frente, setFrente] = useState('');
+  const [verso, setVerso] = useState('');
+  const [cardIndex, setCardIndex] = useState(0);
+  const [mostrarVerso, setMostrarVerso] = useState(false);
+
+  const Decks = useMemo(() => {
+    const d = {};
+    Object.keys(CONTEUDOS).forEach(mid => {
+      d[mid] = { id: mid, nome: CONTEUDOS[mid].nome, total: 0, due: 0, cards: [] };
+    });
+    const now = Date.now();
+    flashcards.forEach(c => {
+      if (d[c.materia]) {
+        d[c.materia].total++;
+        d[c.materia].cards.push(c);
+        const revisarData = new Date(c.revisarEm).getTime();
+        if (revisarData <= now) d[c.materia].due++;
+      }
+    });
+    return Object.values(d).filter(x => x.total > 0 || x.id !== 'revisao');
+  }, [flashcards]);
+
+  const cardsParaRevisar = useMemo(() => {
+    if (!deckAtual) return [];
+    const now = Date.now();
+    return flashcards.filter(c => c.materia === deckAtual && new Date(c.revisarEm).getTime() <= now);
+  }, [flashcards, deckAtual]);
+
+  const iniciarRevisao = (mid) => {
+    setDeckAtual(mid);
+    setCardIndex(0);
+    setMostrarVerso(false);
+    setAbaInterna('revisar');
+  };
+
+  const criarCard = (e) => {
+    e.preventDefault();
+    if (!materiaSel || !frente.trim() || !verso.trim()) return;
+    const novo = {
+      id: `fc_${Date.now()}_${Math.random().toString(36).slice(2, 7)}`,
+      materia: materiaSel,
+      frente: frente.trim(),
+      verso: verso.trim(),
+      criadoEm: new Date().toISOString(),
+      intervalo: 0,
+      revisarEm: new Date().toISOString(),
+    };
+    setFlashcards(p => [...p, novo]);
+    setFrente('');
+    setVerso('');
+    alert('Flashcard criado com sucesso!');
+  };
+
+  const responderSRS = (rating) => {
+    const card = cardsParaRevisar[cardIndex];
+    if (!card) return;
+    const r = calcularSRS(rating, card.intervalo);
+    setFlashcards(p => p.map(c => {
+      if (c.id === card.id) {
+        return {
+          ...c,
+          intervalo: r.interval,
+          revisarEm: r.nextReview
+        };
+      }
+      return c;
+    }));
+    if (cardIndex + 1 < cardsParaRevisar.length) {
+      setCardIndex(p => p + 1);
+      setMostrarVerso(false);
+    } else {
+      alert('Parabéns! Você concluiu a revisão deste deck.');
+      setAbaInterna('decks');
+      setDeckAtual(null);
+    }
+  };
+
+  const deletarCard = (id) => {
+    if (!confirm('Deseja realmente excluir este flashcard?')) return;
+    setFlashcards(p => p.filter(c => c.id !== id));
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4 pb-24">
+      <div className="max-w-xl mx-auto space-y-4">
+        <div className="flex justify-between items-center bg-white/5 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+          <div>
+            <h2 className="text-xl font-bold text-blue-400 font-outfit">📇 Flashcards</h2>
+            <p className="text-xs text-white/50">Estudo ativo e repetição espaçada</p>
+          </div>
+          <div className="flex gap-2">
+            {abaInterna !== 'decks' && (
+              <button onClick={() => { setAbaInterna('decks'); setDeckAtual(null); }} className="text-xs bg-white/10 px-3 py-1.5 rounded-xl text-white hover:bg-white/20 transition-all">
+                ← Voltar
+              </button>
+            )}
+            {abaInterna === 'decks' && (
+              <button onClick={() => setAbaInterna('novo')} className="text-xs bg-blue-500 hover:bg-blue-600 px-3 py-1.5 rounded-xl text-white font-semibold transition-all">
+                + Novo Card
+              </button>
+            )}
+          </div>
+        </div>
+
+        {abaInterna === 'decks' && (
+          <div className="space-y-3">
+            {Decks.map(d => (
+              <div key={d.id} className="bg-white/5 border border-white/10 rounded-2xl p-4 flex flex-col justify-between gap-3 hover:border-blue-500/40 transition-all duration-300">
+                <div className="flex justify-between items-start">
+                  <div>
+                    <h3 className="font-semibold text-white text-base">{d.nome}</h3>
+                    <div className="flex gap-3 text-xs text-white/40 mt-1">
+                      <span>Total: <strong className="text-white">{d.total}</strong></span>
+                      <span>A revisar: <strong className={d.due > 0 ? "text-amber-400 font-bold" : "text-white/40"}>{d.due}</strong></span>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex gap-2 justify-end">
+                  {d.due > 0 ? (
+                    <button onClick={() => iniciarRevisao(d.id)} className="text-xs bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-4 py-2 rounded-xl transition-all shadow-lg shadow-amber-500/20">
+                      Revisar ({d.due})
+                    </button>
+                  ) : (
+                    <button disabled className="text-xs bg-white/5 text-white/20 px-4 py-2 rounded-xl">
+                      Em dia!
+                    </button>
+                  )}
+                  <button onClick={() => { setMateriaSel(d.id); setAbaInterna('novo'); }} className="text-xs bg-white/10 hover:bg-white/20 text-white px-3 py-2 rounded-xl transition-all">
+                    + Adicionar
+                  </button>
+                </div>
+              </div>
+            ))}
+            {flashcards.length === 0 && (
+              <div className="text-center py-12 bg-white/5 border border-white/5 rounded-2xl p-6">
+                <div className="text-4xl mb-3">📇</div>
+                <h3 className="font-medium text-white/70">Nenhum flashcard criado ainda</h3>
+                <p className="text-xs text-white/40 mt-1 max-w-xs mx-auto">Adicione cartões para começar a treinar sua memória com repetição espaçada.</p>
+                <button onClick={() => setAbaInterna('novo')} className="mt-4 text-xs bg-blue-500 text-white px-4 py-2 rounded-xl font-semibold">
+                  Criar primeiro flashcard
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {abaInterna === 'revisar' && deckAtual && (
+          <div className="space-y-4">
+            {cardsParaRevisar.length > 0 ? (
+              <div className="space-y-4">
+                <div className="flex justify-between items-center text-xs text-white/40">
+                  <span>Revisando {CONTEUDOS[deckAtual]?.nome}</span>
+                  <span>{cardIndex + 1} de {cardsParaRevisar.length}</span>
+                </div>
+                
+                <div 
+                  onClick={() => !mostrarVerso && setMostrarVerso(true)}
+                  className="min-h-[220px] bg-slate-800/80 border border-white/10 rounded-3xl p-6 flex flex-col justify-between shadow-2xl cursor-pointer transition-all duration-300 relative overflow-hidden select-none hover:border-blue-400/40"
+                >
+                  <div className="absolute top-3 right-3 text-xs bg-white/5 text-white/30 px-2 py-0.5 rounded-full">
+                    {mostrarVerso ? 'Verso' : 'Frente - Clique para revelar'}
+                  </div>
+                  <div className="flex-1 flex items-center justify-center text-center px-4 py-6">
+                    <p className="text-base text-white font-medium whitespace-pre-wrap">
+                      {mostrarVerso ? cardsParaRevisar[cardIndex].verso : cardsParaRevisar[cardIndex].frente}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  {!mostrarVerso ? (
+                    <button 
+                      onClick={() => setMostrarVerso(true)} 
+                      className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-2xl font-bold transition-all shadow-lg shadow-blue-500/20"
+                    >
+                      Mostrar Resposta
+                    </button>
+                  ) : (
+                    <div className="grid grid-cols-4 gap-2">
+                      <button 
+                        onClick={() => responderSRS('again')} 
+                        className="bg-red-500/25 hover:bg-red-600 text-red-400 hover:text-white border border-red-500/30 py-3 rounded-xl text-xs font-semibold flex flex-col items-center justify-center transition-all"
+                      >
+                        <span>Errei</span>
+                        <span className="text-[10px] opacity-60">1 min</span>
+                      </button>
+                      <button 
+                        onClick={() => responderSRS('hard')} 
+                        className="bg-amber-500/25 hover:bg-amber-600 text-amber-400 hover:text-white border border-amber-500/30 py-3 rounded-xl text-xs font-semibold flex flex-col items-center justify-center transition-all"
+                      >
+                        <span>Difícil</span>
+                        <span className="text-[10px] opacity-60">1 dia</span>
+                      </button>
+                      <button 
+                        onClick={() => responderSRS('good')} 
+                        className="bg-blue-500/25 hover:bg-blue-600 text-blue-400 hover:text-white border border-blue-500/30 py-3 rounded-xl text-xs font-semibold flex flex-col items-center justify-center transition-all"
+                      >
+                        <span>Bom</span>
+                        <span className="text-[10px] opacity-60">3d+</span>
+                      </button>
+                      <button 
+                        onClick={() => responderSRS('easy')} 
+                        className="bg-green-500/25 hover:bg-green-600 text-green-400 hover:text-white border border-green-500/30 py-3 rounded-xl text-xs font-semibold flex flex-col items-center justify-center transition-all"
+                      >
+                        <span>Fácil</span>
+                        <span className="text-[10px] opacity-60">6d+</span>
+                      </button>
+                    </div>
+                  )}
+                  <button 
+                    onClick={() => deletarCard(cardsParaRevisar[cardIndex].id)} 
+                    className="mt-4 text-center text-xs text-red-400 hover:text-red-300 font-medium py-1.5 transition-all"
+                  >
+                    Excluir este card
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="text-center py-12 bg-white/5 border border-white/5 rounded-2xl p-6">
+                <div className="text-4xl mb-3">🎉</div>
+                <h3 className="font-semibold text-white">Nenhum cartão para revisar</h3>
+                <p className="text-xs text-white/40 mt-1">Você concluiu todos os cartões deste deck por hoje!</p>
+                <button onClick={() => setAbaInterna('decks')} className="mt-4 text-xs bg-white/10 text-white px-4 py-2 rounded-xl">
+                  Voltar para os decks
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {abaInterna === 'novo' && (
+          <form onSubmit={criarCard} className="bg-white/5 border border-white/10 rounded-2xl p-5 space-y-4">
+            <h3 className="font-semibold text-white text-base">Adicionar Flashcard</h3>
+            
+            <div className="space-y-1">
+              <label className="text-xs text-white/50 font-medium">Selecione a Matéria</label>
+              <select 
+                value={materiaSel} 
+                onChange={e => setMateriaSel(e.target.value)}
+                required
+                className="w-full bg-slate-800 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-blue-500"
+              >
+                <option value="">-- Escolha uma matéria --</option>
+                {Object.entries(CONTEUDOS).map(([id, mat]) => (
+                  <option key={id} value={id}>{mat.nome}</option>
+                ))}
+              </select>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-white/50 font-medium">Pergunta (Frente)</label>
+              <textarea 
+                value={frente} 
+                onChange={e => setFrente(e.target.value)}
+                required 
+                placeholder="Ex: Qual foi a maior batalha naval da Primeira Guerra Mundial?"
+                rows={3}
+                className="w-full bg-slate-800 border border-white/10 rounded-xl p-3 text-sm text-white outline-none resize-none focus:border-blue-500"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-white/50 font-medium">Resposta (Verso)</label>
+              <textarea 
+                value={verso} 
+                onChange={e => setVerso(e.target.value)}
+                required 
+                placeholder="Ex: Batalha da Jutlândia (1916)..."
+                rows={3}
+                className="w-full bg-slate-800 border border-white/10 rounded-xl p-3 text-sm text-white outline-none resize-none focus:border-blue-500"
+              />
+            </div>
+
+            <button type="submit" className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2.5 rounded-xl text-sm transition-all">
+              Criar Flashcard
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── TOAST BADGE ──────────────────────────────────────────────
+function Toast({badge}){if(!badge)return null;return(
+  <div style={{position:'fixed',top:16,right:16,zIndex:60,background:'linear-gradient(135deg,#f59e0b,#d97706)',color:'#000',padding:16,borderRadius:16,boxShadow:'0 20px 40px rgba(0,0,0,0.5)',display:'flex',alignItems:'center',gap:12,maxWidth:280}} className="slide-in">
+    <span style={{fontSize:32}}>{badge.ic}</span>
+    <div><div style={{fontWeight:'bold',fontSize:14}}>🎉 Conquista Desbloqueada!</div><div style={{fontWeight:500,fontSize:13}}>{badge.nome}</div><div style={{fontSize:11,opacity:.7}}>{badge.desc}</div></div>
+  </div>
+);}
+
+// ─── GOOGLE LOGIN BTN ─────────────────────────────────────────
+function GoogleLoginBtn(){
+  const[user,setUser]=useState(null);
+  const[loading,setLoading]=useState(false);
+
+  useEffect(()=>{
+    const u=window.auth&&window.auth.currentUser;
+    if(u)setUser(u);
+    // só atualiza o ícone visual — a lógica de sync fica no App
+    const handler=e=>setUser(e.detail);
+    window.addEventListener('authStateChanged',handler);
+    return()=>window.removeEventListener('authStateChanged',handler);
+  },[]);
+
+  const login=()=>{ window.loginGoogle(); };
+
+  const logout=async()=>{
+    if(!window.auth)return;
+    if(!confirm('Sair da conta Google?'))return;
+    await window.auth.signOut();
+    let uid=localStorage.getItem('_uid_anon');
+    if(!uid){uid='u_'+Date.now().toString(36)+Math.random().toString(36).slice(2);localStorage.setItem('_uid_anon',uid);}
+    window._uid=uid;
+    localStorage.setItem('_uid',uid);
+    // dispara o evento para o React atualizar o estado
+    window.dispatchEvent(new CustomEvent('authStateChanged',{detail:null}));
+  };
+
+  if(loading)return(
+    <button disabled style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:11,color:'#9ca3af',border:'none',background:'none',padding:'8px 10px'}}>
+      <span style={{fontSize:18,lineHeight:1}}>⏳</span>
+      <span>...</span>
+    </button>
+  );
+
+  if(user)return(
+    <button onClick={logout} title={`Logado: ${user.displayName||user.email}`}
+      style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:11,color:'#34d399',border:'none',background:'none',cursor:'pointer',padding:'8px 10px',transition:'color .2s',maxWidth:64}}>
+      {user.photoURL
+        ?<img src={user.photoURL} alt="" style={{width:20,height:20,borderRadius:'50%',border:'2px solid #34d399'}}/>
+        :<span style={{fontSize:18,lineHeight:1}}>👤</span>}
+      <span style={{overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap',maxWidth:56}}>
+        {(user.displayName||user.email||'').split(' ')[0]}
+      </span>
+    </button>
+  );
+
+  return(
+    <button onClick={login} title="Entrar com Google para sincronizar entre dispositivos"
+      style={{display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:11,color:'#f59e0b',border:'1px solid rgba(245,158,11,0.4)',background:'rgba(245,158,11,0.1)',cursor:'pointer',padding:'6px 10px',transition:'all .2s',borderRadius:8}}
+      className="hover:text-white">
+      <span style={{fontSize:18,lineHeight:1}}>🔐</span>
+      <span>Sincronizar</span>
+    </button>
+  );
+}
+
+// ─── QUESTOES VIEW ────────────────────────────────────────────
+function QuestoesView({S}){
+  const {bancoQuestoes, progressoQuestoes, setProgressoQuestoes} = S;
+  const [materiaSel, setMateriaSel] = useState('');
+  const [anoSel, setAnoSel] = useState('');
+  const [assuntoSel, setAssuntoSel] = useState('');
+  const [buscaText, setBuscaText] = useState('');
+  const [idx, setIdx] = useState(0);
+
+  const materiasDisp = useMemo(() => [...new Set(bancoQuestoes.map(q=>q.materiaNome))].sort(), [bancoQuestoes]);
+  const anosDisp = useMemo(() => [...new Set(bancoQuestoes.map(q=>q.ano))].sort((a,b)=>b-a), [bancoQuestoes]);
+
+  const assuntosDisp = useMemo(() => {
+    const qs = bancoQuestoes.filter(q => !materiaSel || q.materiaNome === materiaSel);
+    return [...new Set(qs.map(q => q.assunto).filter(Boolean))].sort();
+  }, [bancoQuestoes, materiaSel]);
+
+  const filtradas = useMemo(() => {
+    return bancoQuestoes.filter(q => {
+      const matchMateria = !materiaSel || q.materiaNome === materiaSel;
+      const matchAno = !anoSel || String(q.ano) === String(anoSel);
+      const matchAssunto = !assuntoSel || q.assunto === assuntoSel;
+
+      const term = buscaText.trim();
+      if (!term) return matchMateria && matchAno && matchAssunto;
+
+      const normalizar = s => {
+        if (!s) return '';
+        return s.normalize('NFD')
+          .replace(/[\u0300-\u036f]/g, '')
+          .replace(/[-\s]+/g, ' ')
+          .trim()
+          .toLowerCase();
+      };
+
+      const termNorm = normalizar(term);
+      const enunciadoNorm = normalizar(q.enunciado);
+      const assuntoNorm = normalizar(q.assunto || '');
+      const subassuntoNorm = normalizar(q.subassunto || '');
+      const materiaNorm = normalizar(q.materiaNome || '');
+      const textoBaseNorm = normalizar(q.texto_base || '');
+
+      const matchBusca = 
+        enunciadoNorm.includes(termNorm) ||
+        assuntoNorm.includes(termNorm) ||
+        subassuntoNorm.includes(termNorm) ||
+        materiaNorm.includes(termNorm) ||
+        textoBaseNorm.includes(termNorm);
+
+      return matchMateria && matchAno && matchAssunto && matchBusca;
+    });
+  }, [bancoQuestoes, materiaSel, anoSel, assuntoSel, buscaText]);
+
+  useEffect(() => { 
+    setAssuntoSel('');
+    setIdx(0); 
+  }, [materiaSel, anoSel]);
+
+  useEffect(() => {
+    setIdx(0);
+  }, [assuntoSel, buscaText]);
+
+  useEffect(() => {
+    if (window.MathJax && window.MathJax.typesetPromise) {
+      setTimeout(() => {
+        window.MathJax.typesetPromise().catch(err => console.log('MathJax error:', err));
+      }, 50);
+    }
+  }, [q, idx, filtradas]);
+
+  const responder = (id, altMarcada, correta) => {
+    setProgressoQuestoes(p => ({
+      ...p,
+      [id]: { acertou: altMarcada === correta, alternativa: altMarcada, data: new Date().toISOString() }
+    }));
+  };
+
+  if(!bancoQuestoes.length) {
+    return <div className="p-8 text-center text-white/50">Carregando Banco de Questões...</div>;
+  }
+
+  const q = filtradas[idx];
+  const resp = q ? progressoQuestoes[q.id] : null;
+
+  const totFeitas = filtradas.filter(fq => progressoQuestoes[fq.id]).length;
+  const totAcertos = filtradas.filter(fq => progressoQuestoes[fq.id]?.acertou).length;
+  const pctAcerto = totFeitas > 0 ? Math.round((totAcertos / totFeitas) * 100) : 0;
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-4 pb-24">
+      <div className="max-w-2xl mx-auto space-y-4">
+        <div className="bg-white/5 backdrop-blur-md rounded-3xl p-5 border border-white/10 space-y-4 shadow-xl">
+          <div className="flex justify-between items-start">
+            <div>
+              <h2 className="text-xl font-bold text-blue-400 font-outfit">📝 Banco de Questões</h2>
+              <p className="text-xs text-white/50">Resolva provas anteriores para fixar o conteúdo</p>
+            </div>
+            {totFeitas > 0 && (
+              <div className="text-right">
+                <div className="text-2xl font-bold text-white">{pctAcerto}%</div>
+                <div className="text-[10px] text-white/40 uppercase">Aproveitamento</div>
+              </div>
+            )}
+          </div>
+
+          <div className="relative">
+            <input 
+              type="text" 
+              placeholder="Pesquisar por assunto, enunciado, matéria..." 
+              value={buscaText} 
+              onChange={e=>setBuscaText(e.target.value)} 
+              className="w-full bg-slate-800/80 border border-white/10 rounded-xl pl-10 pr-10 py-2.5 text-sm text-white placeholder-white/30 outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition-all font-outfit"
+            />
+            <span className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/30 text-sm">🔍</span>
+            {buscaText && (
+              <button 
+                onClick={() => setBuscaText('')} 
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/40 hover:text-white text-xs bg-white/5 hover:bg-white/10 rounded-full w-5 h-5 flex items-center justify-center transition-colors"
+                title="Limpar busca"
+              >
+                ✕
+              </button>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <select value={materiaSel} onChange={e=>setMateriaSel(e.target.value)} className="bg-slate-800 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-blue-500 w-full">
+              <option value="">📚 Todas as Matérias</option>
+              {materiasDisp.map(m=><option key={m} value={m}>{m}</option>)}
+            </select>
+            <select value={anoSel} onChange={e=>setAnoSel(e.target.value)} className="bg-slate-800 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-blue-500 w-full">
+              <option value="">📅 Todos os Anos</option>
+              {anosDisp.map(a=><option key={a} value={a}>{a}</option>)}
+            </select>
+            <select value={assuntoSel} onChange={e=>setAssuntoSel(e.target.value)} className="bg-slate-800 border border-white/10 rounded-xl px-3 py-2 text-sm text-white outline-none focus:border-blue-500 w-full">
+              <option value="">🔍 Todos os Assuntos</option>
+              {assuntosDisp.map(a=><option key={a} value={a}>{a}</option>)}
+            </select>
+          </div>
+        </div>
+        <div className="flex justify-between items-center px-2 text-xs font-medium text-white/40">
+          <span>{filtradas.length} questões encontradas</span>
+          <span>{totFeitas} resolvidas ({totAcertos} acertos)</span>
+        </div>
+        {filtradas.length === 0 ? (
+          <div className="text-center py-12 bg-white/5 border border-white/5 rounded-3xl">
+            <div className="text-4xl mb-3 opacity-50">🔍</div>
+            <h3 className="font-medium text-white/70">Nenhuma questão encontrada</h3>
+            <p className="text-xs text-white/40 mt-1">Tente mudar os filtros acima.</p>
+          </div>
+        ) : (
+          <div className="bg-slate-800/80 border border-white/10 rounded-3xl p-5 md:p-6 space-y-5 shadow-2xl relative">
+            <div className="flex justify-between items-center flex-wrap gap-2">
+              <div className="flex flex-wrap gap-2 items-center">
+                <span className="bg-blue-500/20 text-blue-300 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                  {q.materiaNome} • {q.ano} • Q{q.num}
+                </span>
+                {q.dificuldade && (
+                  <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider ${
+                    q.dificuldade === 'facil' ? 'bg-green-500/20 text-green-300' :
+                    q.dificuldade === 'media' ? 'bg-yellow-500/20 text-yellow-300' :
+                    'bg-red-500/20 text-red-300'
+                  }`}>
+                    {q.dificuldade === 'facil' ? 'Fácil' : q.dificuldade === 'media' ? 'Média' : 'Difícil'}
+                  </span>
+                )}
+                {q.anulada && (
+                  <span className="bg-red-600/30 text-red-400 text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider border border-red-500/20">
+                    ANULADA
+                  </span>
+                )}
+              </div>
+              <span className="text-xs text-white/40 font-medium">
+                Questão {idx + 1} de {filtradas.length}
+              </span>
+            </div>
+
+            {q.assunto && (
+              <div className="text-xs text-white/50 font-medium -mt-2">
+                Assunto: <span className="text-white/80">{q.assunto}</span>
+                {q.subassunto && (
+                  <> • Subassunto: <span className="text-white/80">{q.subassunto}</span></>
+                )}
+              </div>
+            )}
+
+            {q.texto_base && (
+              <div className="bg-slate-950/60 border border-white/5 rounded-2xl p-4 text-sm text-white/70 leading-relaxed max-h-60 overflow-y-auto mb-4 whitespace-pre-wrap font-serif italic shadow-inner">
+                <div className="text-xs font-bold text-blue-400 not-italic uppercase mb-2">Texto de Apoio:</div>
+                {q.texto_base}
+              </div>
+            )}
+
+            <div className="text-[15px] md:text-base text-white/90 leading-relaxed whitespace-pre-wrap font-medium">
+              {q.enunciado}
+            </div>
+
+            {q.anulada && (
+              <div className="bg-red-500/10 border border-red-500/20 rounded-2xl p-4 text-center">
+                <div className="text-sm font-bold text-red-400">Esta questão foi anulada pela banca examinadora.</div>
+              </div>
+            )}
+
+            <div className="space-y-2 mt-6">
+              {Object.entries(q.alternativas).map(([letra, texto]) => {
+                const foiRespondida = !!resp || q.anulada;
+                const isCorreta = letra === q.gabarito;
+                const foiMarcada = resp?.alternativa === letra;
+                let btnStyle = "bg-white/5 hover:bg-white/10 border-white/10 text-white/80";
+                if (q.anulada) {
+                  btnStyle = "bg-white/5 border-white/5 text-white/30 opacity-50";
+                } else if (foiRespondida) {
+                  if (isCorreta) btnStyle = "bg-green-500/20 border-green-500/50 text-green-300";
+                  else if (foiMarcada) btnStyle = "bg-red-500/20 border-red-500/50 text-red-300";
+                  else btnStyle = "bg-white/5 border-white/5 text-white/30 opacity-50";
+                }
+                return (
+                  <button key={letra} disabled={foiRespondida} onClick={() => responder(q.id, letra, q.gabarito)}
+                    className={`w-full text-left p-4 rounded-2xl border transition-all flex gap-3 items-start ${btnStyle} ${foiRespondida?'cursor-default':''}`}>
+                    <span className="font-bold mt-0.5 shrink-0">{letra})</span>
+                    <span className="text-sm leading-snug">{texto}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {resp && q.comentario_gabarito && (
+              <div className="bg-blue-500/10 border border-blue-500/20 rounded-2xl p-4 mt-6 space-y-2">
+                <div className="text-xs font-bold text-blue-400 uppercase tracking-wider flex items-center gap-1.5">
+                  <span>💡 Explicação do Gabarito:</span>
+                </div>
+                <p className="text-sm text-white/80 leading-relaxed whitespace-pre-wrap font-medium">
+                  {q.comentario_gabarito}
+                </p>
+              </div>
+            )}
+
+            {q.tags && q.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1.5 pt-4 border-t border-white/5 mt-6">
+                {q.tags.map(tag => (
+                  <span key={tag} className="text-[10px] bg-slate-900 text-white/40 px-2 py-0.5 rounded-md hover:text-white/60 transition-colors">
+                    #{tag}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            <div className="pt-4 border-t border-white/10 flex justify-between gap-3 mt-6">
+              <button disabled={idx === 0} onClick={() => setIdx(i => i - 1)} className="flex-1 bg-white/5 hover:bg-white/10 disabled:opacity-30 text-white font-medium py-3 rounded-xl text-sm transition-all">
+                ← Anterior
+              </button>
+              {!resp && !q.anulada && idx < filtradas.length - 1 && (
+                <button onClick={() => setIdx(i => i + 1)} className="flex-1 bg-amber-600/25 hover:bg-amber-600/35 border border-amber-500/30 text-amber-300 font-medium py-3 rounded-xl text-sm transition-all">
+                  Pular
+                </button>
+              )}
+              <button disabled={idx === filtradas.length - 1} onClick={() => setIdx(i => i + 1)} className="flex-1 bg-blue-600 hover:bg-blue-700 disabled:opacity-30 text-white font-medium py-3 rounded-xl text-sm transition-all shadow-lg shadow-blue-500/20">
+                Próxima →
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+// ─── NAVBAR ───────────────────────────────────────────────────
+function NavBar({view,dispatchUI}){
+  const abas=[
+    {id:'dashboard',l:'Dashboard',ic:'📊'},
+    {id:'cronograma',l:'Cronograma',ic:'📅'},
+    {id:'flashcards',l:'Flashcards',ic:'📇'},
+    {id:'quiz',l:'Quiz',ic:'🧠'},
+    {id:'questoes',l:'Questões',ic:'📝'},
+    {id:'revisao',l:'Revisão',ic:'⚠'},
+  ];
+  return(
+    <nav style={{position:'fixed',bottom:0,left:0,right:0,zIndex:40,background:'rgba(17,24,39,0.95)',backdropFilter:'blur(8px)',borderTop:'1px solid #1f2937',display:'flex'}}>
+      {abas.map(a=>(
+        <button key={a.id} onClick={()=>dispatchUI({t:'V',p:a.id})}
+          style={{flex:1,padding:'8px 0',display:'flex',flexDirection:'column',alignItems:'center',gap:2,fontSize:10,color:view===a.id?'#60a5fa':'#6b7280',border:'none',background:'none',cursor:'pointer',transition:'color .2s'}}>
+          <span style={{fontSize:16,lineHeight:1}}>{a.ic}</span>
+          <span>{a.l}</span>
+        </button>
+      ))}
+      <div style={{width:1,alignSelf:'stretch',margin:'8px 0',background:'#1f2937'}}/>
+      <GoogleLoginBtn/>
+    </nav>
+  );
+}
+
+// ─── APP ──────────────────────────────────────────────────────
+function App(){
+  // ── estados persistidos no localStorage ──
+  const[concl,setConcl]        =useLS(LS.C,{},isObj);
+  const[topC,setTopC]          =useLS(LS.TC,{},isObj);
+  const[topP,setTopP]          =useLS(LS.TP,{},isObj);
+  const[resumos,setResumos]    =useLS(LS.R,{},isObj);
+  const[reg,setReg]            =useLS(LS.RD,{},isObj);
+  const[diarios,setDiarios]    =useLS(LS.D,{},isObj);
+  const[topR,setTopR]          =useLS(LS.TR,{},isObj);
+  const[badges,setBadges]      =useLS(LS.B,{},isObj);
+  const[topRen,setTopRen]      =useLS(LS.RN,{},isObj);
+  const[dataProva,setDataProva]=useLS(LS.DP,DATA_PROVA_PAD,v=>typeof v==='string');
+  const[tSaved,setTSaved]      =useLS(LS.T,{},isObj);
+  const[pRodSaved,setPRodSaved]=useLS(LS.PR,0,v=>typeof v==='number');
+  const[dataInicioPlano,setDataInicioPlano]=useLS(LS.DI,'',v=>typeof v==='string');
+  const[flashcards,setFlashcards]=useLS(LS.F,[],Array.isArray);
+  const[habitos,setHabitos]      =useLS(LS.H,{},isObj);
+  const[progressoQuestoes,setProgressoQuestoes] = useLS('progresso_questoes',{},isObj);
+  const[bancoQuestoes,setBancoQuestoes] = useState([]);
+
+  useEffect(()=>{
+    fetch('CA-AA-AFN/banco_completo.json')
+      .then(r => r.ok ? r : fetch('banco_questoes.json'))
+      .then(r=>r.json())
+      .then(d=>setBancoQuestoes(d.questoes||[]))
+      .catch(e=>console.error('Erro ao carregar banco de questões', e));
+  },[]);
+  // ── estados de UI ──
+  const[ui,dispatchUI]=useReducer(uiR,UI0);
+  const[ed,dispatchED]=useReducer(edR,ED0);
+  const[toast,setToast]=useState(null);
+  const[frase]=useState(()=>FRASES[Math.floor(Math.random()*FRASES.length)]);
+  // ── controle de sync ──
+  const[currentUid,setCurrentUid]=useState(()=>window._uid);
+  const[fbLoaded,setFbLoaded]=useState(false); // true após Firebase carregar — causa re-render para ativar save
+  const saveRef=useRef(null);
+  const skipSaveRef=useRef(false); // true enquanto dados remotos estão sendo aplicados
+
+  // ── auth: login/logout subsequentes ──
+  useEffect(()=>{
+    const handler=e=>{
+      const user=e.detail;
+      if(user){
+        const prevUid=window._uid; // UID anterior (pode ser anônimo u_xxx)
+        window._uid=user.uid;
+        localStorage.setItem('_uid',user.uid);
+
+        // ── MIGRAÇÃO: se vinha de UID anônimo, tenta copiar dados para o Google UID ──
+        if(prevUid&&prevUid.startsWith('u_')&&prevUid!==user.uid&&window.db){
+          const anonRef=window.db.ref(`/usuarios/${prevUid}`);
+          const googleRef=window.db.ref(`/usuarios/${user.uid}`);
+          // Só migra se o Google UID ainda não tem dados próprios
+          googleRef.once('value').then(snap=>{
+            if(!snap.val()){
+              // Google UID vazio → copia dados anônimos para ele
+              anonRef.once('value').then(anonSnap=>{
+                const d=anonSnap.val();
+                if(d){
+                  googleRef.set(d)
+                    .then(()=>{console.log('[Firebase] Dados migrados do UID anônimo para Google UID.');anonRef.remove();})
+                    .catch(err=>console.error('[Firebase] Erro na migração:',err));
+                }
+              });
+            }
+          });
+        }
+
+        setCurrentUid(user.uid);
+      }
+      else{setCurrentUid(window._uid);}
+      clearTimeout(saveRef.current);
+      setFbLoaded(false);
+      skipSaveRef.current=false;
+    };
+    window.addEventListener('authStateChanged',handler);
+    return()=>window.removeEventListener('authStateChanged',handler);
+  },[]);
+
+  // ── listener Firebase em tempo real ──
+  // Quando currentUid muda: cancela timer de save, aguarda Firebase, aplica dados
+  useEffect(()=>{
+    if(!window.db)return;
+    // ao trocar de usuário, cancela qualquer save pendente imediatamente
+    clearTimeout(saveRef.current);
+    setFbLoaded(false);
+    const ref=window.db.ref(`/usuarios/${currentUid}`);
+    const aplicarDados=snap=>{
+      const d=snap.val();
+      if(d){
+        // bloqueia save enquanto aplica dados remotos
+        skipSaveRef.current=true;
+        if(d.concluidos&&isObj(d.concluidos))setConcl(d.concluidos);
+        if(d.topicosCompletos&&isObj(d.topicosCompletos))setTopC(d.topicosCompletos);
+        if(d.topicosPersonalizados&&isObj(d.topicosPersonalizados))setTopP(d.topicosPersonalizados);
+        if(d.resumos&&isObj(d.resumos))setResumos(d.resumos);
+        if(d.registrosDiarios&&isObj(d.registrosDiarios))setReg(d.registrosDiarios);
+        if(d.diarios&&isObj(d.diarios))setDiarios(d.diarios);
+        if(d.topicosRevisar&&isObj(d.topicosRevisar))setTopR(d.topicosRevisar);
+        if(d.badges&&isObj(d.badges))setBadges(d.badges);
+        if(d.topicosRenomeados&&isObj(d.topicosRenomeados))setTopRen(d.topicosRenomeados);
+        if(d.dataProva&&typeof d.dataProva==='string')setDataProva(d.dataProva);
+        if(d.tempos&&isObj(d.tempos))setTSaved(d.tempos);
+        if(typeof d.pomodoroRodadas==='number')setPRodSaved(d.pomodoroRodadas);
+        if(d.dataInicioPlano&&typeof d.dataInicioPlano==='string')setDataInicioPlano(d.dataInicioPlano);
+        if(d.flashcards&&Array.isArray(d.flashcards))setFlashcards(d.flashcards);
+        if(d.habitos&&isObj(d.habitos))setHabitos(d.habitos);
+      }
+      // Firebase respondeu — libera saves futuros (setState causa re-render que ativa o save)
+      setFbLoaded(true);
+    };
+    ref.on('value',aplicarDados,()=>{setFbLoaded(true);});
+    return()=>{ref.off('value',aplicarDados);clearTimeout(saveRef.current);};
+  },[currentUid]);
+
+  // ── save com debounce ──
+  // Regras: 1) só salva após Firebase ter carregado  2) ignora ciclo causado por update remoto
+  useEffect(()=>{
+    if(!window.db)return;
+    // se Firebase ainda não carregou para este uid, não agenda nada
+    if(!fbLoaded)return;
+    clearTimeout(saveRef.current);
+    saveRef.current=setTimeout(()=>{
+      if(skipSaveRef.current){skipSaveRef.current=false;return;}
+      window.db.ref(`/usuarios/${currentUid}`).set({
+        concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,
+        resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,
+        badges,topicosRenomeados:topRen,dataProva,tempos:tSaved,
+        pomodoroRodadas:pRodSaved,dataInicioPlano,flashcards,habitos
+      }).then(()=>{
+        // save ok — silencioso
+      }).catch(err=>{
+        console.error('[Firebase] Erro ao salvar dados:', err.code, err.message);
+        if(err.code==='PERMISSION_DENIED'){
+          console.warn('[Firebase] Permissão negada — verifique as regras do Realtime Database e se está logado.');
+        }
+      });
+    },2000);
+  },[concl,topC,topP,resumos,reg,diarios,topR,badges,topRen,dataProva,tSaved,pRodSaved,dataInicioPlano,flashcards,habitos,currentUid,fbLoaded]);
+
+  const regHoje=useCallback((seg,data)=>{if(seg<=0)return;const d=data||hoje();setReg(p=>({...p,[d]:(p[d]||0)+seg}));},[]);
+  const cron=useCron(tSaved,setTSaved,regHoje);
+  const pomo=usePomo(pRodSaved,setPRodSaved);
+  const semanaAtual=useMemo(()=>calcSemAtual(dataInicioPlano),[dataInicioPlano]);
+
+  // Auto-navega para semana atual quando dataInicioPlano é definido
+  useEffect(()=>{if(dataInicioPlano)dispatchUI({t:'SEM',p:calcSemAtual(dataInicioPlano)});},[dataInicioPlano]);
+
+  // Déficit acumulado total (semanas passadas)
+  const deficitTotal=useMemo(()=>{
+    if(!dataInicioPlano)return 0;
+    let def=0;
+    for(let s=1;s<semanaAtual;s++){
+      const cfg=CRONOGRAMA[s]||{f:0};const fase=FASES[cfg.f]||FASES[0];
+      const meta=fase.materias.reduce((a,m)=>a+m.horas*3600,0);
+      const tempo=Object.entries(tSaved).filter(([k])=>k.startsWith(`${s}-`)).reduce((a,[,v])=>a+v,0);
+      def+=Math.max(0,meta-tempo);
+    }
+    return def;
+  },[dataInicioPlano,semanaAtual,tSaved]);
+
+  // Déficit acumulado por matéria
+  const deficitPorMateria=useMemo(()=>{
+    if(!dataInicioPlano)return {};
+    const d={};
+    for(let s=1;s<semanaAtual;s++){
+      const cfg=CRONOGRAMA[s]||{f:0};const fase=FASES[cfg.f]||FASES[0];
+      fase.materias.forEach(mat=>{
+        const meta=mat.horas*3600;const tempo=tSaved[`${s}-${mat.id}`]||0;
+        const def=Math.max(0,meta-tempo);
+        if(def>0)d[mat.id]=(d[mat.id]||0)+def;
+      });
+    }
+    return d;
+  },[dataInicioPlano,semanaAtual,tSaved]);
+
+  const streak=useMemo(()=>{let c=0;const d=new Date();const hj=d.toISOString().split('T')[0];if(!reg[hj]||reg[hj]<STREAK_MIN)d.setDate(d.getDate()-1);for(let i=0;i<365;i++){const s=d.toISOString().split('T')[0];if(reg[s]&&reg[s]>=STREAK_MIN){c++;d.setDate(d.getDate()-1);}else break;}return c;},[reg]);
+  const diasR=useMemo(()=>{const p=new Date(`${dataProva}T12:00:00`);return Math.max(0,Math.ceil((p-new Date())/86400000));},[dataProva]);
+  const tempoTot=useMemo(()=>Object.values(reg).reduce((a,v)=>a+v,0),[reg]);
+  const totTop=useMemo(()=>Object.values(topC).filter(Boolean).length,[topC]);
+  const totSem=useMemo(()=>Object.values(concl).filter(Boolean).length,[concl]);
+  const proGeral=useMemo(()=>Math.round(totSem/28*100),[totSem]);
+
+  useEffect(()=>{
+    const m={tt:tempoTot,sk:streak,pr:pomo.rod,tc:totTop};
+    BADGES.forEach(b=>{if(!badges[b.id]&&b.chk(m)){setBadges(p=>({...p,[b.id]:new Date().toISOString()}));setToast(b);setTimeout(()=>setToast(null),TOAST_MS);}});
+  },[tempoTot,streak,pomo.rod,totTop,badges]);
+
+  const salvarResumo=useCallback((k,txt)=>{setResumos(p=>{if(!txt?.trim()){const n={...p};delete n[k];return n;}return{...p,[k]:txt.trim()};});dispatchED({t:'FR'});},[]);
+  const salvarDiario=useCallback((sem,txt)=>{setDiarios(p=>({...p,[String(sem)]:txt}));dispatchED({t:'CD'});},[]);
+
+  const exportar=()=>{const d={versao:'2.0',exportadoEm:new Date().toISOString(),tempos:cron.tempos,concluidos:concl,topicosCompletos:topC,topicosPersonalizados:topP,resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,badgesGanhos:badges,pomodoroRodadas:pomo.rod,topicosRenomeados:topRen,dataProva,flashcards,progressoQuestoes};const b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=`estudo-backup-${hoje()}.json`;a.click();URL.revokeObjectURL(u);};
+  const importar=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d||typeof d!=='object'){alert('❌ Arquivo inválido.');return;}if(d.concluidos)setConcl(d.concluidos);if(d.topicosCompletos)setTopC(d.topicosCompletos);if(d.topicosPersonalizados)setTopP(d.topicosPersonalizados);if(d.resumos)setResumos(d.resumos);if(d.registrosDiarios)setReg(d.registrosDiarios);if(d.diarios)setDiarios(d.diarios);if(d.topicosRevisar)setTopR(d.topicosRevisar);if(d.badgesGanhos)setBadges(d.badgesGanhos);if(d.topicosRenomeados)setTopRen(d.topicosRenomeados);if(d.dataProva)setDataProva(d.dataProva);if(d.tempos)setTSaved(d.tempos);if(d.flashcards&&Array.isArray(d.flashcards))setFlashcards(d.flashcards);if(d.progressoQuestoes)setProgressoQuestoes(d.progressoQuestoes);alert(`✅ Dados importados! (v${d.versao||'?'})`);}catch(err){alert('❌ Erro: '+err.message);}};r.readAsText(f);e.target.value='';};
+  const resetar=()=>{if(!confirm('⚠️ Apagar TODOS os dados? Esta ação é irreversível.\n\nExporte um backup antes!'))return;try{Object.values(LS).forEach(k=>localStorage.removeItem(k));setTimeout(()=>window.location.reload(),100);}catch(err){alert('Erro: '+err.message);}};
+
+  const S={ui,dispatchUI,ed,dispatchED,concl,setConcl,topC,setTopC,topP,setTopP,resumos,setResumos,reg,setReg,diarios,topR,setTopR,badges,setBadges,topRen,setTopRen,dataProva,setDataProva,dataInicioPlano,setDataInicioPlano,semanaAtual,deficitTotal,deficitPorMateria,streak,diasR,tempoTot,totTop,totSem,proGeral,frase,cron,pomo,salvarResumo,salvarDiario,flashcards,setFlashcards,habitos,setHabitos,FASES,CRONOGRAMA,progressoQuestoes,setProgressoQuestoes,bancoQuestoes};
+  const{view}=ui;
+
+  return(
+    <div style={{minHeight:'100vh',background:'#0f172a',color:'white'}}>
+      <Toast badge={toast}/>
+      {ui.showS&&<SearchModal S={S}/>}
+      {ui.showP&&<PomoModal pomo={pomo} onClose={()=>dispatchUI({t:'POMO'})}/>}
+      <div style={{paddingBottom:80}}>
+        {view==='dashboard'  &&<Dashboard S={S}/>}
+        {view==='cronograma' &&<CronogramaView S={S}/>}
+        {view==='flashcards' &&<FlashcardsView S={S}/>}
+        {view==='quiz'       &&<QuizView S={S}/>}
+        {view==='questoes'   &&<QuestoesView S={S}/>}
+        {view==='revisao'    &&<RevisaoView S={S}/>}
+        {view==='conquistas' &&<Conquistas S={S}/>}
+      </div>
+      {/* Toolbar flutuante */}
+      <div style={{position:'fixed',bottom:68,left:0,right:0,zIndex:30,display:'flex',justifyContent:'center',pointerEvents:'none'}}>
+        <div style={{display:'flex',alignItems:'center',gap:8,background:'rgba(17,24,39,0.95)',backdropFilter:'blur(8px)',border:'1px solid #374151',borderRadius:24,padding:'6px 16px',pointerEvents:'auto'}}>
+          <button onClick={()=>dispatchUI({t:'SEARCH',p:{t:'',r:[]}})} title="Pesquisar" style={{color:'#9ca3af',background:'none',border:'none',cursor:'pointer',fontSize:16,padding:'4px 8px'}} className="hover:text-white transition-colors">🔍</button>
+          <div style={{width:1,height:16,background:'#374151'}}/>
+          <button onClick={()=>dispatchUI({t:'POMO'})} title="Pomodoro" style={{color:pomo.at?'#4ade80':'#9ca3af',background:'none',border:'none',cursor:'pointer',fontSize:14,padding:'4px 8px'}} className="transition-colors">
+            🍅{pomo.rod>0?` ${pomo.rod}`:''}
+          </button>
+          <div style={{width:1,height:16,background:'#374151'}}/>
+          <button onClick={exportar} title="Exportar" style={{color:'#9ca3af',background:'none',border:'none',cursor:'pointer',fontSize:16,padding:'4px 8px'}} className="hover:text-white transition-colors">⬇</button>
+          <label title="Importar" style={{color:'#9ca3af',cursor:'pointer',fontSize:16,padding:'4px 8px'}} className="hover:text-white transition-colors">
+            ⬆<input type="file" accept=".json" onChange={importar} style={{display:'none'}}/>
+          </label>
+          <div style={{width:1,height:16,background:'#374151'}}/>
+          <button onClick={resetar} title="Limpar todos os dados" style={{color:'#6b7280',background:'none',border:'none',cursor:'pointer',fontSize:14,padding:'4px 8px'}} className="hover:text-red-400 transition-colors">🗑</button>
+        </div>
+      </div>
+      <NavBar view={view} dispatchUI={dispatchUI}/>
+    </div>
+  );
+}
+
+// Root criado uma única vez
+let __appRoot = null;
+function renderApp() {
+  if (!__appRoot) {
+    __appRoot = ReactDOM.createRoot(document.getElementById('root'));
+  }
+  __appRoot.render(<App />);
+}
+
+// Aguarda Firebase carregar, depois inicializa (guard contra dupla execução)
+let __firebaseInited = false;
+function initFirebase() {
+  if (typeof firebase === 'undefined') {
+    setTimeout(initFirebase, 50);
+    return;
+  }
+  if (__firebaseInited) return;
+  __firebaseInited = true;
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBR3MoezjKyBdnasY9asVqdxD3nMtoS44Q",
+    authDomain: "cronogram-de-estudos.firebaseapp.com",
+    databaseURL: "https://cronogram-de-estudos-default-rtdb.firebaseio.com",
+    projectId: "cronogram-de-estudos",
+    storageBucket: "cronogram-de-estudos.firebasestorage.app",
+    messagingSenderId: "742013544348",
+    appId: "1:742013544348:web:e27311a9b16a18a9ca4a59"
+  };
+
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  window.db   = firebase.database();
+  window.auth = firebase.auth();
+  window.googleProvider = new firebase.auth.GoogleAuthProvider();
+  window.loginGoogle = function() {
+    window.auth.signInWithPopup(window.googleProvider)
+      .then(function(r){ console.log("LOGADO:", r.user.displayName); })
+      .catch(function(e){ console.error("ERRO LOGIN:", e); alert("Erro: " + e.message); });
+  };
+
+  let uid = localStorage.getItem('_uid');
+  if (!uid) {
+    uid = 'u_' + Date.now().toString(36) + Math.random().toString(36).slice(2);
+    localStorage.setItem('_uid', uid);
+  }
+  window._uid = uid;
+
+  // Renderiza o app imediatamente — não depende de auth
+  renderApp();
+  window.auth.getRedirectResult().then(function(r){if(r&&r.user)console.log("Redirect OK:",r.user.displayName);}).catch(function(e){if(e.code!=="auth/no-current-user")console.error("Redirect error:",e);});
+
+  // Auth apenas atualiza o UID e notifica o React
+  window.auth.onAuthStateChanged(function(user) {
+    console.log("USER:", user);
+    if (user) {
+      window._uid = user.uid;
+      localStorage.setItem('_uid', user.uid);
+    }
+    window.dispatchEvent(new CustomEvent('authStateChanged', { detail: user }));
+  });
+}
+
+initFirebase();
+</script>
+</body>
+</html>

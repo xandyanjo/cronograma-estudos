@@ -1,0 +1,3330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>⚓ Dashboard de Progresso - Concurso Militar Naval</title>
+  
+  <!-- Fontes Premium -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- CDNs React e Babel -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js" crossorigin></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js" crossorigin></script>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            outfit: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Estilos Customizados & Efeitos Glow -->
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      background: #070a13;
+      color: #e2e8f0;
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+    /* Scrollbar minimalista e estilosa */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: rgba(15, 23, 42, 0.5);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(99, 102, 241, 0.2);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(99, 102, 241, 0.4);
+    }
+    .neon-border-blue:hover {
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+      border-color: rgba(59, 130, 246, 0.4);
+    }
+    .neon-border-purple:hover {
+      box-shadow: 0 0 15px rgba(139, 92, 246, 0.15);
+      border-color: rgba(139, 92, 246, 0.4);
+    }
+    .glass-panel {
+      background: rgba(17, 24, 39, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="p-4 md:p-8">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect, useMemo } = React;
+
+    // --- Ícones Customizados em SVG para independência de bibliotecas externas ---
+    const Icons = {
+      Anchor: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/><circle cx="12" cy="12" r="1"/></svg>
+      ),
+      Globe: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      ),
+      RotateCw: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+      ),
+      History: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><polyline points="3 3 3 8 8 8"/><line x1="12" y1="7" x2="12" y2="12"/><line x1="12" y1="12" x2="16" y2="14"/></svg>
+      ),
+      BookOpen: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      ),
+      Compass: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+      ),
+      FileText: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+      ),
+      Award: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+      ),
+      ChevronRight: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      ),
+      ChevronLeft: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      ),
+      Folder: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      ),
+      Video: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M23 7a2 2 0 0 0-2.45-1.45L16 7.5V6a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1.5l4.55 2.95A2 2 0 0 0 23 17V7z"/></svg>
+      ),
+      Plus: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      ),
+      Trash: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+      ),
+      Clipboard: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>
+      ),
+      ExternalLink: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+      ),
+      Info: () => (
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      )
+    };
+
+    // --- Mapeamento de Cores e Ícones de Matérias ---
+    const SUBJECT_METADATA = {
+      "Conhecimento Militar Naval": {
+        color: "from-blue-500 to-indigo-600",
+        border: "border-blue-500/20",
+        bg: "bg-blue-500/10",
+        text: "text-blue-400",
+        icon: Icons.Anchor
+      },
+      "Geografia Econômica": {
+        color: "from-emerald-500 to-teal-600",
+        border: "border-emerald-500/20",
+        bg: "bg-emerald-500/10",
+        text: "text-emerald-400",
+        icon: Icons.Globe
+      },
+      "Revisão Geral": {
+        color: "from-amber-500 to-orange-600",
+        border: "border-amber-500/20",
+        bg: "bg-amber-500/10",
+        text: "text-amber-400",
+        icon: Icons.RotateCw
+      },
+      "História Militar Naval": {
+        color: "from-red-500 to-rose-600",
+        border: "border-red-500/20",
+        bg: "bg-red-500/10",
+        text: "text-red-400",
+        icon: Icons.History
+      },
+      "Matemática": {
+        color: "from-purple-500 to-fuchsia-600",
+        border: "border-purple-500/20",
+        bg: "bg-purple-500/10",
+        text: "text-purple-400",
+        icon: Icons.Compass
+      },
+      "Português": {
+        color: "from-indigo-500 to-violet-600",
+        border: "border-indigo-500/20",
+        bg: "bg-indigo-500/10",
+        text: "text-indigo-400",
+        icon: Icons.BookOpen
+      },
+      "Exercícios": {
+        color: "from-cyan-500 to-blue-600",
+        border: "border-cyan-500/20",
+        bg: "bg-cyan-500/10",
+        text: "text-cyan-400",
+        icon: Icons.FileText
+      },
+      "Simulados": {
+        color: "from-rose-500 to-pink-600",
+        border: "border-rose-500/20",
+        bg: "bg-rose-500/10",
+        text: "text-rose-400",
+        icon: Icons.Award
+      }
+    };
+
+    // START_DATA_STRUCTURE
+    const DEFAULT_STUDY_STRUCTURE = {
+  "courses": [
+    {
+      "id": "course-cmn-ailson",
+      "name": "CMN - Ailson",
+      "subject": "Conhecimento Militar Naval",
+      "periods": [
+        {
+          "name": "01 - FEV25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ FEVEREIRO -- 2025 Aula 01 - RDM - Dia 08 - Curso Adsumus LTDA - 854x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ FEVEREIRO -- 2025 Aula 02 - CONTINUAÇÃO - RDM - Dia 15 - Curso Adsumus LTDA - 854x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "02 - ABR25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ ABRIL -- 2025 Aula 03 - Legislação - Cerimonial + exercícios - Dia 05 - Curso Adsumus LTDA - 854x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ ABRIL -- 2025 Aula 04 - CONTINUAÇÃO - Legislação - Cerimonial - Dia 12 - Curso Adsumus LTDA - 854x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ ABRIL -- 2025 Aula 05 - CONTINUAÇÃO - Legislação - Cerimonial - Dia 18 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ ABRIL -- 2025 Aula 06 - CONTINUAÇÃO - Legislação - Cerimonial - Dia 26 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "03 - MAI25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ MAIO -- 2025 Aula 07 - CONTINUAÇÃO - Legislação - Cerimonial - Dia 17 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "04 - JUN25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ JUNHO -- 2025 Aula 08 - Legislação - Estatuto dos militares - PART 01 - Dia 19 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JUNHO -- 2025 Aula 08 - Legislação - Estatuto dos militares - PART 02 - Dia 19 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JUNHO -- 2025 Aula 09 - OGSA - PART 01 - Dia 28 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "05 - JUL25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ JULHO -- 2025 Aula 10 - OGSA - PART 02 - Dia 04 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "06 - AGO25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 11 - PART 01 - Liderança EMA-137 - Dia 30 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 11 - PART 02 - Liderança EMA-137 - Dia 30 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "07 - SET25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 12 - Revisão - RDM - Dia 06 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Correção do 1° Simuladão de legislação CMN - Dia 06 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-cmn-gaudencio",
+      "name": "CMN - Gaudencio",
+      "subject": "Conhecimento Militar Naval",
+      "periods": [
+        {
+          "name": "01 - JUL25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ JULHO -- 2025 Aula 03 - PARTE 2 - CAAML - 703 - Dia 26 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JULHO -- 2025 Aula 03 - PARTE 3 - CAAML - 703 - Dia 26 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JULHO -- 2025 Aula 03 - PARTE 4 - CAAML - 703 - Dia 26 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JULHO -- 2025 Aula 1 - PART 01 - CAP 2 - Incêndio - Dia 12 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JULHO -- 2025 Aula 1 - PART 02 - CAP 3 - Agentes Extintores + CAP 4 - Extintores Portáteis - Dia 12.ts",
+            "QOAA-AFN _ MASTER _ JULHO -- 2025 Aula 2 - PARTE 01 - CONTINUAÇÃO - CBINC - CAP 4 - Extintores Portáteis - Dia 19.ts",
+            "QOAA-AFN _ MASTER _ JULHO -- 2025 Aula 2 - PARTE 02 - CAP 2, 3 e 4 - Exercícios - CBINC - Dia 19 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JULHO -- 2025 Aula 2 - PARTE 03 - Organização de Combate do CAV - Dia 19 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JULHO -- 2025 Aula 2 - PARTE 04 - CONTINUAÇÃO - Org de Combate do CAV - Org do CAV - GSE - Dia 19.ts",
+            "QOAA-AFN _ MASTER _ JULHO -- 2025 QOAA - VIDEO 01 - AULA DO DIA 19JUL- GAUDENCIO - Curso Adsumus LTDA~.mp4",
+            "QOAA-AFN _ MASTER _ JULHO -- 2025 QOAA - VIDEO 02 - AULA DO DIA 19JUL- GAUDENCIO - Curso Adsumus LTDA~.mp4"
+          ]
+        },
+        {
+          "name": "02 - SET25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 4 - PART 01 - Revisão 1201 - Dia 27 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 4 - PART 02 - Revisão 1201 - Dia 27 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 4 - PART 03 - Revisão 1201 - Dia 27 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 4 - PART 04 - Revisão 1201 - Dia 27 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 4 - PART 05 - Revisão 1201 - Dia 27 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 4 - PART 06 - Revisão 1201 - Dia 27 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "03 - OUT25",
+          "videos": [
+            "QOAA-AFN _ REVISÃO _ OUTUBRO - 2025 Aula - PART 01 - Revisão - CAAML 703 - Dia 18 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ REVISÃO _ OUTUBRO - 2025 Aula - PART 02 - Revisão - CAAML 703 - Dia 18 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ REVISÃO _ OUTUBRO - 2025 Aula - PART 03 - Revisão - CAAML 703 (EXERCÍCIOS) - Dia 18 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-cmn-marlon",
+      "name": "CMN - Marlon",
+      "subject": "Conhecimento Militar Naval",
+      "periods": [
+        {
+          "name": "01 - JAN25",
+          "videos": []
+        },
+        {
+          "name": "02 - FEV25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ FEVEREIRO -- 2025 Aula 03 - CONTINUAÇÃO - Justiça de Disciplina - CAP. 3 Sindicância - Dia 01 - Curso Adsumus LTDA - 854x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ FEVEREIRO -- 2025 Aula 04 - CONTINUAÇÃO - Justiça de Disciplina - CAP. 8 IPM - Dia 22 - Curso Adsumus LTDA - 854x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "03 - MAR25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ MARCO -- 2025 Aula 05 - CONTINUAÇÃO - Justiça de Disciplina - CAP. 8 IPM - Dia 08 - Curso Adsumus LTDA - 854x480 1680K_2.ts",
+            "QOAA-AFN _ MASTER _ MARCO -- 2025 Aula 06 - CAP. 9 - Deserção - Dia 15 - Curso Adsumus LTDA - 854x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ MARCO -- 2025 Aula 07 - Prisão em flagrante - Dia 22 - Curso Adsumus LTDA - 854x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ MARCO -- 2025 Aula 08 - Execução Penal - Dia 29 - Curso Adsumus LTDA - 854x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "04 - MAI25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ MAIO -- 2025 Aula 07 - PEM 2040 - Dia 03 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ MAIO -- 2025 Aula 08 - PEM 2040 - Dia 10 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ MAIO -- 2025 Aula 09 - CONTINUAÇÃO - PEM 2040 - Dia 24 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "05 - JUN25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ JUNHO -- 2025 Aula 10 - CONTINUAÇÃO - PEM 2040 - Dia 07 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JUNHO -- 2025 Aula 11 - Noções estratégicas navais - Dia 14 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "06 - AGO25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 14 - NODAM - PART 01 - Dia 02 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 14 - NODAM - PART 02 - Dia 02 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 15 - PART 01 - Manual Técnico - Cabeçalho - Dia 09 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 15 - PART 02 - Manual Técnico - Cabeçalho - Dia 09 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 16 - PART 01 - NODAM - Manual Técnico - Dia 16 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 16 - PART 02 - NODAM - Manual Técnico - Dia 16 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 17 - PART 01 - Revisão - PEM2040 - Dia 23 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 17 - PART 02 - Revisão - PEM2040 - Dia 23 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 17 - PART 03 - Revisão - PEM2040 - Dia 23 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "07 - SET25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 18 - PART 01 - Revisão - NODAM - Dia 13 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 18 - PART 02 - Revisão - NODAM - Dia 13 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 19 - PART 01 - DGPM 315 - Dia 20 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 19 - PART 02 - DGPM 315 - Dia 20 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-grasiela-cabral-revisão",
+      "name": "GRASIELA CABRAL Revisão",
+      "subject": "Revisão Geral",
+      "periods": [
+        {
+          "name": "AULA DE REVISÃO MARINHA - 29082021",
+          "videos": [
+            "MARINHA 2021-2022. Teoria questões.mp4",
+            "VARIAÇÃO LINGUÍSTICA E AULA DE REVISÃO MARINHA/MARINHA 2021-2022. Teoria questões.mp4",
+            "VARIAÇÃO LINGUÍSTICA E AULA DE REVISÃO MARINHA/aula-bonus-variacao-linguistica-e-norma-culta-14012022-aluno.pdf",
+            "marinha-aula-de-revisao-29082021.pdf"
+          ]
+        },
+        {
+          "name": "MINISSIMULADOS",
+          "videos": [
+            "1/MARINHA 2021-2022. Teoria questões.mp4",
+            "1/marinha-minissimulado-2706201-aluno-completo.pdf",
+            "2/MARINHA 2021-2022. Teoria questões.mp4",
+            "2/marinha-minissimulado-2507201-aluno-completo-1.pdf",
+            "3/MARINHA 2021-2022. Teoria questões.mp4",
+            "3/marinha-minissimulado-10102021-aluno-completo.pdf",
+            "4/MARINHA 2021-2022. Teoria questões.mp4",
+            "4/marinha-minissimulado-2611201-aluno-completo.pdf"
+          ]
+        },
+        {
+          "name": "RESUMOS",
+          "videos": [
+            "SUJEITO.odt"
+          ]
+        },
+        {
+          "name": "TEORIA E EXERCÍCIOS",
+          "videos": [
+            "AULA 1 OK FRASE, ORAÇÃO, PERÍODO/AULA 1 - FRASE, ORACAO, PERIODO - MAPA MENTAL.pdf",
+            "AULA 1 OK FRASE, ORAÇÃO, PERÍODO/AULA 1 - FRASE, ORACAO, PERIODO - TABELA-RESUMO - OK.pdf",
+            "AULA 1 OK FRASE, ORAÇÃO, PERÍODO/PT - 2021 - AULA 1 - FRASE, ORAÇÃO, PERÍODO - PARTE 1 - TEORIA.mp4",
+            "AULA 1 OK FRASE, ORAÇÃO, PERÍODO/PT - 2021 - AULA 1 - FRASE, ORAÇÃO, PERÍODO - PARTE 2 - EXERCÍCIOS DE FIXAÇÃO E .mp4",
+            "AULA 1 OK FRASE, ORAÇÃO, PERÍODO/PT - 2021 - AULA 1 - FRASE, ORAÇÃO, PERÍODO - PARTE 3 - QUESTÕES DE PROVAS MILIT.mp4",
+            "AULA 1 OK FRASE, ORAÇÃO, PERÍODO/PT - Aula 1 - Frase, oração e período - ALUNO MIL - OK.pdf",
+            "AULA 10  - VOZES VERBAIS E AGENTE DA PASSIVA/MARINHA 2021-2022 Teoria questões.mp4",
+            "AULA 10  - VOZES VERBAIS E AGENTE DA PASSIVA/MARINHA 2021-2022 Teoria questões_1.mp4",
+            "AULA 10  - VOZES VERBAIS E AGENTE DA PASSIVA/MARINHA 2021-2022 Teoria questões_2.mp4",
+            "AULA 10  - VOZES VERBAIS E AGENTE DA PASSIVA/MARINHA 2021-2022 Teoria questões_3.mp4",
+            "AULA 10  - VOZES VERBAIS E AGENTE DA PASSIVA/pt-aula-10-vozes-verbais-e-agente-da-passiva-aluno-mil-ok.pdf",
+            "AULA 11 - APOSTO, VOCATIVO E PREDICADO/MARINHA 2021-2022 Teoria questões.mp4",
+            "AULA 11 - APOSTO, VOCATIVO E PREDICADO/MARINHA 2021-2022 Teoria questões_1.mp4",
+            "AULA 11 - APOSTO, VOCATIVO E PREDICADO/MARINHA 2021-2022 Teoria questões_1_1.mp4",
+            "AULA 11 - APOSTO, VOCATIVO E PREDICADO/MARINHA 2021-2022 Teoria questões_2.mp4",
+            "AULA 11 - APOSTO, VOCATIVO E PREDICADO/pt-aula-11-aposto-vocativo-e-predicado-aluno-mil-ok.pdf",
+            "AULA 12 - ORAÇÕES SUBORDINADAS SUBSTANTIVAS/MARINHA 2021-2022 Teoria questões.mp4",
+            "AULA 12 - ORAÇÕES SUBORDINADAS SUBSTANTIVAS/MARINHA 2021-2022 Teoria questões_1.mp4",
+            "AULA 12 - ORAÇÕES SUBORDINADAS SUBSTANTIVAS/MARINHA 2021-2022 Teoria questões_1_1.mp4",
+            "AULA 12 - ORAÇÕES SUBORDINADAS SUBSTANTIVAS/MARINHA 2021-2022 Teoria questões_2.mp4",
+            "AULA 12 - ORAÇÕES SUBORDINADAS SUBSTANTIVAS/MARINHA 2021-2022 Teoria questões_3.mp4",
+            "AULA 12 - ORAÇÕES SUBORDINADAS SUBSTANTIVAS/pt-aula-12-oracoes-subordinadas-substantivas-aluno-mil-ok.pdf",
+            "AULA 15 - ORAÇÕES COORDENADAS/MARINHA 2021-2022 Teoria questões.mp4",
+            "AULA 15 - ORAÇÕES COORDENADAS/MARINHA 2021-2022 Teoria questões_1.mp4",
+            "AULA 15 - ORAÇÕES COORDENADAS/MARINHA 2021-2022 Teoria questões_2.mp4",
+            "AULA 15 - ORAÇÕES COORDENADAS/MARINHA 2021-2022 Teoria questões_3.mp4",
+            "AULA 15 - ORAÇÕES COORDENADAS/pt-aula-15-oracoes-coordenadas-aluno-mil-ok.pdf",
+            "AULA 16 - REGÊNCIA VERBAL E REGÊNCIA NOMINAL/1 MARINHA 2021-2022 Teoria questões.mp4",
+            "AULA 16 - REGÊNCIA VERBAL E REGÊNCIA NOMINAL/2 MARINHA 2021-2022 Teoria questões_1.mp4",
+            "AULA 16 - REGÊNCIA VERBAL E REGÊNCIA NOMINAL/3 MARINHA 2021-2022 Teoria questões_2.mp4",
+            "AULA 16 - REGÊNCIA VERBAL E REGÊNCIA NOMINAL/4 MARINHA 2021-2022 Teoria questões_3.mp4",
+            "AULA 16 - REGÊNCIA VERBAL E REGÊNCIA NOMINAL/pt-aula-16-regencia-verbal-e-regencia-nominal-aluno-mil-ok.pdf",
+            "AULA 17 - REGÊNCIA COM PRONOME RELATIVO/MARINHA 2021-2022 Teoria questões.mp4",
+            "AULA 17 - REGÊNCIA COM PRONOME RELATIVO/MARINHA 2021-2022 Teoria questões_1.mp4",
+            "AULA 17 - REGÊNCIA COM PRONOME RELATIVO/pt-aula-17-regencia-com-pronome-relativo-aluno-mil-ok.pdf",
+            "AULA 18 - CRASE/MARINHA 2021-2022 Teoria questões.mp4",
+            "AULA 18 - CRASE/MARINHA 2021-2022 Teoria questões_1.mp4",
+            "AULA 18 - CRASE/MARINHA 2021-2022 Teoria questões_1_1.mp4",
+            "AULA 18 - CRASE/MARINHA 2021-2022 Teoria questões_1_2.mp4",
+            "AULA 18 - CRASE/MARINHA 2021-2022 Teoria questões_1_3.mp4",
+            "AULA 18 - CRASE/MARINHA 2021-2022 Teoria questões_2.mp4",
+            "AULA 18 - CRASE/pt-aula-18-crase-aluno-mil-ok.pdf",
+            "AULA 19 - CONCORDÂNCIA VERBAL/MARINHA 2021-2022 Teoria questões.mp4",
+            "AULA 19 - CONCORDÂNCIA VERBAL/MARINHA 2021-2022 Teoria questões_1.mp4",
+            "AULA 19 - CONCORDÂNCIA VERBAL/MARINHA 2021-2022 Teoria questões_2.mp4",
+            "AULA 19 - CONCORDÂNCIA VERBAL/MARINHA 2021-2022 Teoria questões_3.mp4",
+            "AULA 19 - CONCORDÂNCIA VERBAL/MARINHA 2021-2022 Teoria questões_4.mp4",
+            "AULA 19 - CONCORDÂNCIA VERBAL/MARINHA 2021-2022 Teoria questões_5.mp4",
+            "AULA 19 - CONCORDÂNCIA VERBAL/pt-aula-19-concordancia-verbal-aluno-mil-ok.pdf",
+            "AULA 2  SUJEITO/PT - 2021 - AULA 2 - SUJEITO - PARTE 1 - TEORIA.mp4",
+            "AULA 2  SUJEITO/PT - 2021 - AULA 2 - SUJEITO - PARTE 2 - EXERCÍCIOS DE FIXAÇÃO E TEORIA.mp4",
+            "AULA 2  SUJEITO/PT - 2021 - AULA 2 - SUJEITO - PARTE 5 - QUESTÕES DE PROVAS MILITARES.mp4",
+            "AULA 2  SUJEITO/PT - 2021 - AULA 2 - SUJEITO - PARTE 6 - QUESTÕES DE PROVAS MILITARES.mp4",
+            "AULA 2  SUJEITO/PT - Aula 2 - Sujeito - ALUNO MIL - OK.pdf",
+            "AULA 20 - COLOCAÇÃO PRONOMINAL/MARINHA 2021-2022 Teoria questões.mp4",
+            "AULA 20 - COLOCAÇÃO PRONOMINAL/MARINHA 2021-2022 Teoria questões_1.mp4",
+            "AULA 20 - COLOCAÇÃO PRONOMINAL/MARINHA 2021-2022 Teoria questões_2.mp4",
+            "AULA 20 - COLOCAÇÃO PRONOMINAL/pt-aula-20-colocacao-pronominal-aluno-mil-ok.pdf",
+            "AULA 21 - VALORES DO SE/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 21 - VALORES DO SE/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 21 - VALORES DO SE/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 21 - VALORES DO SE/pt-aula-21-valores-do-se-aluno-mil-ok.pdf",
+            "AULA 22 - PONTUAÇÃO/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 22 - PONTUAÇÃO/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 22 - PONTUAÇÃO/MARINHA 2021-2022. Teoria questões_1_1.mp4",
+            "AULA 22 - PONTUAÇÃO/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 22 - PONTUAÇÃO/MARINHA 2021-2022. Teoria questões_3.mp4",
+            "AULA 22 - PONTUAÇÃO/MARINHA 2021-2022. Teoria questões_3_1.mp4",
+            "AULA 22 - PONTUAÇÃO/MARINHA 2021-2022. Teoria questões_3_2.mp4",
+            "AULA 22 - PONTUAÇÃO/pt-aula-22-pontuacao-aluno-mil-ok.pdf",
+            "AULA 23 - FONÉTICA - PRESSUPOSTOS PARA ACENTUAÇÃO/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 23 - FONÉTICA - PRESSUPOSTOS PARA ACENTUAÇÃO/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 23 - FONÉTICA - PRESSUPOSTOS PARA ACENTUAÇÃO/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 23 - FONÉTICA - PRESSUPOSTOS PARA ACENTUAÇÃO/MARINHA 2021-2022. Teoria questões_3.mp4",
+            "AULA 23 - FONÉTICA - PRESSUPOSTOS PARA ACENTUAÇÃO/MARINHA 2021-2022. Teoria questões_4.mp4",
+            "AULA 23 - FONÉTICA - PRESSUPOSTOS PARA ACENTUAÇÃO/MARINHA 2021-2022. Teoria questões_5.mp4",
+            "AULA 23 - FONÉTICA - PRESSUPOSTOS PARA ACENTUAÇÃO/MARINHA 2021-2022. Teoria questões_6.mp4",
+            "AULA 23 - FONÉTICA - PRESSUPOSTOS PARA ACENTUAÇÃO/MARINHA 2021-2022. Teoria questões_6_1.mp4",
+            "AULA 23 - FONÉTICA - PRESSUPOSTOS PARA ACENTUAÇÃO/MARINHA 2021-2022. Teoria questões_7.mp4",
+            "AULA 23 - FONÉTICA - PRESSUPOSTOS PARA ACENTUAÇÃO/MARINHA 2021-2022. Teoria questões_7_1.mp4",
+            "AULA 23 - FONÉTICA - PRESSUPOSTOS PARA ACENTUAÇÃO/PT - Aula 23 - Pressupostos para acentuação - ALUNO MIL - OK.pdf",
+            "AULA 24  ACENTUAÇÃO GRÁFICA/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 24  ACENTUAÇÃO GRÁFICA/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 24  ACENTUAÇÃO GRÁFICA/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 24  ACENTUAÇÃO GRÁFICA/pt-aula-24-acentuacao-grafica-aluno-mil-ok.pdf",
+            "AULA 25 - PALAVRAS E EXPRESSÕES/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 25 - PALAVRAS E EXPRESSÕES/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 25 - PALAVRAS E EXPRESSÕES/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 25 - PALAVRAS E EXPRESSÕES/pt-aula-25-palavras-e-expressoes-aluno-mil-ok.pdf",
+            "AULA 26 - ORTOGRAFIA/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 26 - ORTOGRAFIA/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 26 - ORTOGRAFIA/pt-aula-26-ortografia-aluno-mil-ok.pdf",
+            "AULA 27 - HÍFEN/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 27 - HÍFEN/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 27 - HÍFEN/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 27 - HÍFEN/MARINHA 2021-2022. Teoria questões_3.mp4",
+            "AULA 27 - HÍFEN/pt-aula-27-hifen-aluno-mil-ok.pdf",
+            "AULA 28 - SEMÂNTICA/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 28 - SEMÂNTICA/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 28 - SEMÂNTICA/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 28 - SEMÂNTICA/pt-aula-28-semantica-aluno-mil-ok.pdf",
+            "AULA 29 - ESTRUTURA E FORMAÇÃO DE PALAVRAS/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 29 - ESTRUTURA E FORMAÇÃO DE PALAVRAS/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 29 - ESTRUTURA E FORMAÇÃO DE PALAVRAS/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 29 - ESTRUTURA E FORMAÇÃO DE PALAVRAS/MARINHA 2021-2022. Teoria questões_3.mp4",
+            "AULA 29 - ESTRUTURA E FORMAÇÃO DE PALAVRAS/MARINHA 2021-2022. Teoria questões_4.mp4",
+            "AULA 29 - ESTRUTURA E FORMAÇÃO DE PALAVRAS/MARINHA 2021-2022. Teoria questões_5.mp4",
+            "AULA 29 - ESTRUTURA E FORMAÇÃO DE PALAVRAS/pt-aula-29-estrutura-e-formacao-de-palavras-aluno-mil-ok.pdf",
+            "AULA 3  TRANSITIVIDADE VERBAL/PT - 2021 - AULA 3 - TRANSITIVIDADE VERBAL - PARTE 1 - TEORIA.mp4",
+            "AULA 3  TRANSITIVIDADE VERBAL/PT - 2021 - AULA 3 - TRANSITIVIDADE VERBAL - PARTE 2 - EXERCÍCIOS DE FIXAÇÃO.mp4",
+            "AULA 3  TRANSITIVIDADE VERBAL/PT - 2021 - AULA 3 - TRANSITIVIDADE VERBAL - PARTE 4 - QUESTÕES DE PROVAS MILITA.mp4",
+            "AULA 3  TRANSITIVIDADE VERBAL/PT - Aula 3 - Transitividade verbal - ALUNO MIL - OK.pdf",
+            "AULA 30 - SUBSTANTIVO/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 30 - SUBSTANTIVO/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 30 - SUBSTANTIVO/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 30 - SUBSTANTIVO/MARINHA 2021-2022. Teoria questões_3.mp4",
+            "AULA 30 - SUBSTANTIVO/MARINHA 2021-2022. Teoria questões_4.mp4",
+            "AULA 30 - SUBSTANTIVO/MARINHA 2021-2022. Teoria questões_5.mp4",
+            "AULA 30 - SUBSTANTIVO/MARINHA 2021-2022. Teoria questões_6.mp4",
+            "AULA 30 - SUBSTANTIVO/MARINHA 2021-2022. Teoria questões_7.mp4",
+            "AULA 30 - SUBSTANTIVO/pt-aula-30-substantivo-aluno-mil-ok.pdf",
+            "AULA 31 - ADJETIVO/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 31 - ADJETIVO/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 31 - ADJETIVO/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 31 - ADJETIVO/MARINHA 2021-2022. Teoria questões_3.mp4",
+            "AULA 31 - ADJETIVO/pt-aula-31-adjetivo-aluno-mil-ok.pdf",
+            "AULA 32 - ARTIGO/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 32 - ARTIGO/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 32 - ARTIGO/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 32 - ARTIGO/pt-aula-32-artigo-aluno-mil-ok1.pdf",
+            "AULA 33 - PRONOME/1.mp4",
+            "AULA 33 - PRONOME/2.mp4",
+            "AULA 33 - PRONOME/3.mp4",
+            "AULA 33 - PRONOME/4.mp4",
+            "AULA 33 - PRONOME/5.mp4",
+            "AULA 33 - PRONOME/6.mp4",
+            "AULA 33 - PRONOME/7.mp4",
+            "AULA 33 - PRONOME/8.mp4",
+            "AULA 33 - PRONOME/pt-aula-33-pronome-aluno-mil-ok.pdf",
+            "AULA 34 - NUMERAL/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 34 - NUMERAL/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 34 - NUMERAL/pt-aula-34-numeral-aluno-mil-ok.pdf",
+            "AULA 35 - VERBO/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 35 - VERBO/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 35 - VERBO/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 35 - VERBO/MARINHA 2021-2022. Teoria questões_2_1.mp4",
+            "AULA 35 - VERBO/MARINHA 2021-2022. Teoria questões_2_2.mp4",
+            "AULA 35 - VERBO/MARINHA 2021-2022. Teoria questões_2_3.mp4",
+            "AULA 35 - VERBO/MARINHA 2021-2022. Teoria questões_2_4.mp4",
+            "AULA 35 - VERBO/MARINHA 2021-2022. Teoria questões_3.mp4",
+            "AULA 35 - VERBO/MARINHA 2021-2022. Teoria questões_3_1.mp4",
+            "AULA 35 - VERBO/MARINHA 2021-2022. Teoria questões_3_2.mp4",
+            "AULA 35 - VERBO/MARINHA 2021-2022. Teoria questões_4.mp4",
+            "AULA 35 - VERBO/MARINHA 2021-2022. Teoria questões_4_1.mp4",
+            "AULA 35 - VERBO/MARINHA 2021-2022. Teoria questões_4_2.mp4",
+            "AULA 35 - VERBO/MARINHA 2021-2022. Teoria questões_5.mp4",
+            "AULA 35 - VERBO/pt-aula-35-verbo-aluno-mil-ok.pdf",
+            "AULA 36 - ADVÉRBIO/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 36 - ADVÉRBIO/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 36 - ADVÉRBIO/pt-aula-36-adverbio-aluno-mil-ok.pdf",
+            "AULA 37 - PREPOSIÇÃO/MARINHA 2021-2022. Teoria questões_3.mp4",
+            "AULA 37 - PREPOSIÇÃO/MARINHA 2021-2022. Teoria questões_3_1.mp4",
+            "AULA 37 - PREPOSIÇÃO/pt-aula-37-preposicao-aluno-mil-ok.pdf",
+            "AULA 38 - INTERJEIÇÃO E PALAVRAS DENOTATIVAS/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 38 - INTERJEIÇÃO E PALAVRAS DENOTATIVAS/pt-aula-38-interjeicao-e-palavras-denotativas-aluno-mil-ok.pdf",
+            "AULA 39 - CONCORDÂNCIA NOMINAL/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 39 - CONCORDÂNCIA NOMINAL/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 39 - CONCORDÂNCIA NOMINAL/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 39 - CONCORDÂNCIA NOMINAL/pt-aula-39-concordancia-nominal-aluno-mil-ok.pdf",
+            "AULA 4  COMPLEMENTOS VERBAIS/PT - 2021 - AULA 4 - COMP VERBAIS - PARTE 6 - SE E CAUSATIVOS E SENSITIVOS - TEO.mp4",
+            "AULA 4  COMPLEMENTOS VERBAIS/PT - 2021 - AULA 4 - COMPLEMENTOS VERBAIS - PARTE 1 - TEORIA.mp4",
+            "AULA 4  COMPLEMENTOS VERBAIS/PT - 2021 - AULA 4 - COMPLEMENTOS VERBAIS - PARTE 2 - EXERCÍCIOS DE FIXAÇÃO.mp4",
+            "AULA 4  COMPLEMENTOS VERBAIS/PT - 2021 - AULA 4 - COMPLEMENTOS VERBAIS - PARTE 3 - EXERCÍCIOS DE FIXAÇÃO.mp4",
+            "AULA 4  COMPLEMENTOS VERBAIS/PT - 2021 - AULA 4 - COMPLEMENTOS VERBAIS - PARTE 5 - QUESTÕES DE PROVAS MILITAR.mp4",
+            "AULA 4  COMPLEMENTOS VERBAIS/PT - Aula 4 - Complementos verbais - ALUNO MIL - OK1.pdf",
+            "AULA 40 - VALORES DO QUE/1.mp4",
+            "AULA 40 - VALORES DO QUE/2.mp4",
+            "AULA 40 - VALORES DO QUE/3.mp4",
+            "AULA 40 - VALORES DO QUE/pt-aula-40-valores-do-que-aluno-mil-ok1.pdf",
+            "AULA 41 - FUNÇÕES DA LINGUAGEM/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 41 - FUNÇÕES DA LINGUAGEM/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 41 - FUNÇÕES DA LINGUAGEM/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 41 - FUNÇÕES DA LINGUAGEM/pt-aula-41-funcoes-da-linguagem-aluno-mil-ok1.pdf",
+            "AULA 42 - FIGURAS DE LINGUAGEM/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 42 - FIGURAS DE LINGUAGEM/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 42 - FIGURAS DE LINGUAGEM/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 42 - FIGURAS DE LINGUAGEM/pt-aula-42-figuras-de-linguagem-aluno-mil-ok.pdf",
+            "AULA 43 - TIPOS DE DISCURSO/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 43 - TIPOS DE DISCURSO/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 43 - TIPOS DE DISCURSO/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 43 - TIPOS DE DISCURSO/pt-aula-43-tipos-de-discurso-aluno-mil-ok.pdf",
+            "AULA 44 - COESÃO, COERÊNCIA, INTERTEXTUALIDADE E PARALELISMO/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 44 - COESÃO, COERÊNCIA, INTERTEXTUALIDADE E PARALELISMO/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 44 - COESÃO, COERÊNCIA, INTERTEXTUALIDADE E PARALELISMO/MARINHA 2021-2022. Teoria questões_3.mp4",
+            "AULA 44 - COESÃO, COERÊNCIA, INTERTEXTUALIDADE E PARALELISMO/pt-aula-44-coesao-coerencia-intertextualidade-e-paralelismo-aluno-mil-ok.pdf",
+            "AULA 45 - TIPOLOGIA TEXTUAL/MARINHA 2021-2022. Teoria questões.mp4",
+            "AULA 45 - TIPOLOGIA TEXTUAL/MARINHA 2021-2022. Teoria questões_1.mp4",
+            "AULA 45 - TIPOLOGIA TEXTUAL/MARINHA 2021-2022. Teoria questões_2.mp4",
+            "AULA 45 - TIPOLOGIA TEXTUAL/pt-aula-45-tipologia-textual-aluno-mil-ok.pdf",
+            "AULA 5 PA X PIS/PIS PA.odt",
+            "AULA 5 PA X PIS/PT - 2021 - AULA 5 - PIS E PA - PARTE 1 - TEORIA E EXERCÍCIOS DE FIXAÇÃO.mp4",
+            "AULA 5 PA X PIS/PT - 2021 - AULA 5 - PIS E PA - PARTE 4 - QUESTÕES DE PROVAS MILITARES.mp4",
+            "AULA 5 PA X PIS/PT - 2021 - AULA 5 - PIS E PA - PARTE 5 - QUESTÕES DE PROVAS MILITARES.mp4",
+            "AULA 5 PA X PIS/PT - 2021 - AULA 5 - PIS E PA - PARTE 6 - TEORIA E QUESTÕES DE PROVAS GERAIS.mp4",
+            "AULA 5 PA X PIS/PT - Aula 5 - PIS x PA - ALUNO MIL - OK.pdf",
+            "AULA 6  PREDICATIVO/PT - 2021 - AULA 6 - PREDICATIVO DO SUJEITO E PREDICATIVO DO OBJETO - PARTE 1 - .mp4",
+            "AULA 6  PREDICATIVO/PT - 2021 - AULA 6 - PREDICATIVO DO SUJEITO E PREDICATIVO DO OBJETO - PARTE 3 - .mp4",
+            "AULA 6  PREDICATIVO/PT - 2021 - AULA 6 - PREDICATIVO DO SUJEITO E PREDICATIVO DO OBJETO - PARTE 4 - .mp4",
+            "AULA 6  PREDICATIVO/PT - Aula 6 - Predicativo do sujeito e predicativo do objeto - ALUNO MIL - OK.pdf",
+            "AULA 7  - ADJUNTO ADVERBIAL/1MARINHA 2021-2022.mp4",
+            "AULA 7  - ADJUNTO ADVERBIAL/2MARINHA 2021-2022 Teoria questões.mp4",
+            "AULA 7  - ADJUNTO ADVERBIAL/3MARINHA 2021-2022 Teoria questões_3.mp4",
+            "AULA 7  - ADJUNTO ADVERBIAL/4MARINHA 2021-2022 Teoria questões_2.mp4",
+            "AULA 7  - ADJUNTO ADVERBIAL/pt-aula-7-adjunto-adverbial-aluno-mil-ok.pdf",
+            "AULA 8  - COMPLEMENTO NOMINAL/MARINHA 2021-2022 Teoria questões.mp4",
+            "AULA 8  - COMPLEMENTO NOMINAL/MARINHA 2021-2022 Teoria questões_1.mp4",
+            "AULA 8  - COMPLEMENTO NOMINAL/pt-aula-8-complemento-nominal-aluno-mil-ok.pdf",
+            "AULA 9 - ADJUNTO ADNOMINAL/1.mp4",
+            "AULA 9 - ADJUNTO ADNOMINAL/2.mp4",
+            "AULA 9 - ADJUNTO ADNOMINAL/3.mp4",
+            "AULA 9 - ADJUNTO ADNOMINAL/4.mp4",
+            "AULA 9 - ADJUNTO ADNOMINAL/5.mp4",
+            "AULA 9 - ADJUNTO ADNOMINAL/pt-aula-9-adjunto-adnominal-aluno-mil-ok.pdf"
+          ]
+        },
+        {
+          "name": "TREINAMENTO REVISÃO ANÁLISE SINTÁTICA",
+          "videos": [
+            "TREINAMENTO 1 - FRASE, ORAÇÃO, PERÍODO, SUJEITO (PARTE1)/1-frase-oracao-periodo-e-sujeito-parte-1-treinamento-aluno-ok2.pdf",
+            "TREINAMENTO 1 - FRASE, ORAÇÃO, PERÍODO, SUJEITO (PARTE1)/MARINHA 2021-2022. Teoria questões.mp4",
+            "TREINAMENTO 10 - ADJUNTO ADVERBIAL/10-adjunto-adverbial-treinamento-nivel-1-aluno.pdf",
+            "TREINAMENTO 10 - ADJUNTO ADVERBIAL/MARINHA 2021-2022. Teoria questões.mp4",
+            "TREINAMENTO 11 - VOZES VERBAIS/11-vozes-verbais-treinamento-nivel-1-parte-1-aluno.pdf",
+            "TREINAMENTO 11 - VOZES VERBAIS/MARINHA 2021-2022. Teoria questões.mp4",
+            "TREINAMENTO 12 - VOZES VERBAIS - TRANSPOSIÇÃO/12-vozes-verbais-treinamento-nivel-1-parte-2-aluno.pdf",
+            "TREINAMENTO 12 - VOZES VERBAIS - TRANSPOSIÇÃO/MARINHA 2021-2022. Teoria questões.mp4",
+            "TREINAMENTO 2 - SUJEITO PARTE 2 E TRANSITIVIDADE VERBAL PARTE 1/2-sujeito-parte-2-e-transitividade-verbal-parte-1-treinamento-aluno.pdf",
+            "TREINAMENTO 2 - SUJEITO PARTE 2 E TRANSITIVIDADE VERBAL PARTE 1/MARINHA 2021-2022. Teoria questões.mp4",
+            "TREINAMENTO 3 - TRANSITIVIDADE VERBAL PARTE 2 E COMPLEMENTOS VERBAIS/3-transitividade-verbal-parte-2-e-complementos-verbais-parte-1-treinamento-aluno.pdf",
+            "TREINAMENTO 3 - TRANSITIVIDADE VERBAL PARTE 2 E COMPLEMENTOS VERBAIS/MARINHA 2021-2022. Teoria questões.mp4",
+            "TREINAMENTO 4 - COMPLEMENTOS VERBAIS PARTE 2 E VERBOS CAUSATIVOS E SENSITIVOS/4-complementos-verbais-parte-2-e-verbos-causativos-e-sensitivos-treinamento-aluno_1_1.pdf",
+            "TREINAMENTO 4 - COMPLEMENTOS VERBAIS PARTE 2 E VERBOS CAUSATIVOS E SENSITIVOS/MARINHA 2021-2022. Teoria questões_1_1.mp4",
+            "TREINAMENTO 5 - PIS E PA/5-pis-e-pa-treinamento-nivel-aluno.pdf",
+            "TREINAMENTO 5 - PIS E PA/MARINHA 2021-2022. Teoria questões.mp4",
+            "TREINAMENTO 6 - PREDICATIVO DO SUJEITO E DO OBJETO/6-predicativo-treinamento-nivel-1.pdf",
+            "TREINAMENTO 6 - PREDICATIVO DO SUJEITO E DO OBJETO/MARINHA 2021-2022. Teoria questões.mp4",
+            "TREINAMENTO 7 – COMPLEMENTO NOMINAL/7-complemento-nominal-treinamento-nivel-1-aluno.pdf",
+            "TREINAMENTO 7 – COMPLEMENTO NOMINAL/MARINHA 2021-2022. Teoria questões.mp4",
+            "TREINAMENTO 8 - ADJUNTO ADNOMINAL/8-adjunto-adnominal-treinamento-nivel-1-aluno.pdf",
+            "TREINAMENTO 8 - ADJUNTO ADNOMINAL/MARINHA 2021-2022. Teoria questões.mp4",
+            "TREINAMENTO 9 – COMPLEMENTO NOMINAL X ADJUNTO ADNOMINAL/9-cn-x-adn-treinamento-nivel-1-aluno.pdf",
+            "TREINAMENTO 9 – COMPLEMENTO NOMINAL X ADJUNTO ADNOMINAL/MARINHA 2021-2022. Teoria questões.mp4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-gecon-lugão",
+      "name": "Gecon - Lugão",
+      "subject": "Geografia Econômica",
+      "periods": [
+        {
+          "name": "01 - JAN25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ JANEIRO -- 2025 Aula 01 - Bateria de Questões 1 - 01 a 20 - Dia 04 - Curso Adsumus LTDA - 854x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JANEIRO -- 2025 Aula 02 - CONTINUAÇÃO - Bateria de Questões 1 - 21 a 35 - Dia 11 - Curso Adsumus LTDA - 854x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JANEIRO -- 2025 Aula 03 - CONTINUAÇÃO - Bateria de Questões 1 - 36 a 48 - Dia 18 - Curso Adsumus LTDA - 854x480 1521K.ts",
+            "QOAA-AFN _ MASTER _ JANEIRO -- 2025 Aula 04 - CONTINUAÇÃO - Bateria de Questões 1 - 49 a 63 - Dia 25 - Curso Adsumus LTDA - 854x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "02 - FEV25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ FEVEREIRO -- 2025 Aula 06 - CONTINUAÇÃO - Bateria de Questões 1 - 65 a 70 - Dia 01 - Curso Adsumus LTDA - 854x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ FEVEREIRO -- 2025 Aula 07 - Módulo 1 - 71 a 88 - Dia 08 - Curso Adsumus LTDA - 854x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ FEVEREIRO -- 2025 Aula 08 - Módulo 1 - 89 a 100 - Dia 15 - Curso Adsumus LTDA - 854x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ FEVEREIRO -- 2025 Aula 09 - Módulo 2 - 1 a 13 - Dia 22 - Curso Adsumus LTDA - 854x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "03 - MAR25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ MARCO -- 2025 Aula 10 - Módulo 2 - 1 ao 3 - Dia 08 - Curso Adsumus LTDA - 854x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ MARCO -- 2025 Aula 11 - Módulo 2 - 4 ao 17 - Dia 15 - Curso Adsumus LTDA~ - 854x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ MARCO -- 2025 Aula 12 - Módulo 2 - 18 ao 35 - Dia 22 - Curso Adsumus LTDA - 854x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "04 - ABR25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ ABRIL -- 2025 Aula 13 - Módulo 2 - 36 a 53 - PART 01 - Dia 05 - Curso Adsumus LTDA - 854x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ ABRIL -- 2025 Aula 13 - Módulo 2 - 54 a 65 - PART 02 - Dia 05 - Curso Adsumus LTDA - 854x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "05 - MAI25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ MAIO -- 2025 Aula 17 - Módulo 2 - 98 a 107 - Dia 03 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ MAIO -- 2025 Aula 18 - Módulo 2 - 108 A 120 - Dia 10 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ MAIO -- 2025 Aula 19 - Módulo 3 - 1 a 8 - Dia 17 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ MAIO -- 2025 Aula 20 - Módulo 3 - 9 a 16 - Dia 24 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ MAIO -- 2025 Aula 21 - Módulo 3 - 17 a 29 - Dia 31 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "06 - JUN25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ JUNHO -- 2025 Aula 21 - Módulo 3 - 30 a 38 - Dia 07 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JUNHO -- 2025 Aula 22 - Módulo 3 - 39 a 46 - Dia 14 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JUNHO -- 2025 Aula 23 - Módulo 3 - 47 a 51- Dia 19 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JUNHO -- 2025 Aula 24 - Módulo 3 - 52 a 67 - PART 01 - Dia 28 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JUNHO -- 2025 Aula 25 - Módulo 3 - 68 a 82 - PART 02 - Dia 28 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "07 - JUL25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ JULHO -- 2025 Aula 26 - Módulo 3 - 83 a 96 - Dia 12 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ JULHO -- 2025 Aula 27 - Módulo 3 - 97 a 103 - Dia 19 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "08 - AGO25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 28 - PART 01 - Módulo 3 - 103 a 114 - Dia 09 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 28 - PART 02 - Módulo 4 - 1 a 12 - Dia 09 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 29 - Módulo 4 - 13 a 21 - Dia 16 - Curso Adsumus LTDA - 856x480 1680K(1).ts",
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 29 - Módulo 4 - 13 a 21 - Dia 16 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 30 - Módulo 4 - 22 a 25 - Dia 23 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ AGOSTO -- 2025 Aula 30 - Módulo 4 - 26 a 39 - Dia 30 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        },
+        {
+          "name": "09 - SET25",
+          "videos": [
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 31 - Mod. 4 - 49 a 66 - Dia 06 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 32 - Mod. 4 - 67 a 82 - Dia 13 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 33 - PART 01 - Correção Mod. 4 - Dia 20 - Curso Adsumus LTDA - 856x480 1680K.ts",
+            "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 33 - PART 02 - Mod. 4 - 87 a 101 - Dia 20 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-história-prof-jéssica",
+      "name": "História - Prof. Jéssica",
+      "subject": "História Militar Naval",
+      "periods": [
+        {
+          "name": "2025",
+          "videos": [
+            "Aula 28 - História Marítima da Rússia e a Guerra da Crimeia/Aula 28 - História Marítima da Rússia_anotações.pdf"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-história-naval-jéssica",
+      "name": "História Naval Jéssica",
+      "subject": "História Militar Naval",
+      "periods": [
+        {
+          "name": "00 - Cronograma de Aulas-Roteiro de Estudos",
+          "videos": [
+            "QOAM_Cronograma 2025.pdf"
+          ]
+        },
+        {
+          "name": "01 - Bibliografia de história do concurso",
+          "videos": [
+            "Armando Vidigal - A Evolução do Pensamento Estratégico Naval Brasileiro (até os dias atuais).pdf",
+            "As Grandes Guerras -selecionavel.pdf",
+            "Evolução tecnológica.pdf",
+            "Fatos da História Naval (1).pdf",
+            "HISTÓRIA MARITIMA.pdf",
+            "Introdução a história marítima.pdf",
+            "LIVRO GUERRA NO MAR.pdf",
+            "UMA SÍNTESE HISTÓRICA- Ilques.pdf"
+          ]
+        },
+        {
+          "name": "02 - Ficha para Resumo",
+          "videos": [
+            "Ficha para resumo.pdf",
+            "Resumo de História Naval_editável.docx"
+          ]
+        },
+        {
+          "name": "Aula 01 - Introdução à história do mar",
+          "videos": [
+            "Aula 01 - Introdução à história do mar_gabarito.pdf",
+            "Aula 01 – Introdução à história do mar_Anotações .pdf",
+            "CA-AA-AFN - AULA 01 INTRODUÇÃO À HISTÓRIA DO MAR~ - 1280x720 1666K.mp4"
+          ]
+        },
+        {
+          "name": "Aula 02 - Egito e Fenícia",
+          "videos": [
+            "Aula 02 - Egito e Fenícia.pdf",
+            "Aula 02 - Egito e Fenícia_aluno.pdf",
+            "Aula 02 - Egito e Fenícia_anotações.pdf",
+            "Aula 02 - Egito e Fenícia_anotações .pdf",
+            "CA-AA-AFN - AULA 02 EGITO E FENÍCIA - 1280x720 2005.mp4"
+          ]
+        },
+        {
+          "name": "Aula 03 - Batalha de Salamina",
+          "videos": [
+            "Aula 03 - Batalha de Salamina.pdf",
+            "Aula 03 - Batalha de Salamina_anotações.pdf",
+            "Aula 03 - Batalha de Salamina_texto.pdf",
+            "Bateria 03 - batalha de Salamina.pdf",
+            "CA-AA-AFN - AULA 03 BATALHA DE SALAMINA - 1280x720 1578K.mp4"
+          ]
+        },
+        {
+          "name": "Aula 04 - Grécia Clássica",
+          "videos": [
+            "Aula 04 - Grécia.pdf",
+            "Aula 04 - Grécia_anotações.pdf",
+            "Aula 04.1 - Grécia Antiga .mp4",
+            "Aula 04.2 - Grécia Antiga .mp4",
+            "Aula 4 - Grécia Clássica.pdf",
+            "Bateria - GRÉCIA_Gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 05 - Cartago e Roma",
+          "videos": [
+            "Aula 05 - Cartago e Roma.pdf",
+            "Aula 05 - Cartago e Roma_anotações.pdf",
+            "Bateria 05 - Cartago e Roma.pdf",
+            "Bateria 05 - Cartago e Roma_Anotações.pdf",
+            "CA-AA-AFN - AULA 05 ROMA E CARTAGO_Continuação - 1280x720 1170K.mp4",
+            "CA-AA-AFN - AULA 05 ROMA E CARTAGO_Exercício - 1280x720 1300K.mp4",
+            "CA-AA-AFN - AULA 05 ROMA E CARTAGO~ - 1280x720 1644K.mp4"
+          ]
+        },
+        {
+          "name": "Aula 06 - Batalha de Mylae",
+          "videos": [
+            "Aula 06 - Batalha de Mylae.pdf",
+            "Aula 06 - Batalha de Mylae_Anotações.pdf",
+            "Bateria 06 - Batalha de Mylae e Guerra Civil Romana.pdf",
+            "Bateria 06 - Batalha de Mylae e Guerra Civil Romana_Anotações .pdf",
+            "CA-AA-AFN - 2025 - AULA 6 - Batalha de Mylae ~ - 1280x720 1597K.mp4"
+          ]
+        },
+        {
+          "name": "Aula 07 - Idade Média - Parte 01  Civilização contra Barbárie, A sombra do crescente, o navio de guerra medieval, a arma do Diabo e Vikings",
+          "videos": [
+            "Aula 07 - Idade Média_01.pdf",
+            "Aula 07 - Idade Média_01_Anotações .pdf",
+            "Aula 07.1 - Idade Média - (anotações).mp4",
+            "Aula 07.1 - Idade Média - Civilização contra Barbárie.mp4",
+            "Bateria 07 - IDADE MÉDIA_PARTE 01.pdf",
+            "Bateria 07 - IDADE MÉDIA_PARTE 01_Anotações.pdf"
+          ]
+        },
+        {
+          "name": "Aula 08 - Guerra e Comércio na Idade Média e Repúblicas Italianas (Idade Média_Parte 02)",
+          "videos": [
+            "Aula 08 - Guerra e Comércio na Idade Média e Repúblicas Italianas (Idade Média_Parte 02).mp4",
+            "Aula 08 - Guerra e Comércio na Idade Média e Repúblicas Italianas - Correção de Exercícios.mp4",
+            "Aula 08 - Idade Média_Repúblicas Italianas.pdf",
+            "Aula 08 - Idade Média_Repúblicas Italianas_anotações.pdf",
+            "Bateria 08 - Idade Média 02_Repúblicas Italianas.pdf",
+            "Bateria 08 - Idade Média 02_Repúblicas Italianas_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 09 - Formação de Portugal",
+          "videos": [
+            "Aula 09 - Formação de Portugal.mp4",
+            "Aula 09 - Formação de Portugal.pdf",
+            "Aula 09 - Formação de Portugal_ANOTAÇÕES.pdf",
+            "Bateria 09 - Formação de Portugal.pdf",
+            "Bateria 09 - Formação de Portugal_Gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 10.1 - Expansão Marítima_aspectos tecnológicos",
+          "videos": [
+            "Aula 10 - Expansão marítima.pdf",
+            "Aula 10 - Expansão marítima_Anotações .pdf",
+            "Aula 10.01 - Expansão Marítima_aspectos tecnológicos.mp4",
+            "Bateria 10 - Grandes Navegações.pdf",
+            "Bateria 10 - Grandes Navegações_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 10.2 - Grandes Navegações",
+          "videos": [
+            "Aula 10 - Expansão marítima_parte dois.pdf",
+            "Aula 10.2 - Grandes Navegações.mp4",
+            "Aula 10.2 - Grandes Navegações.pdf",
+            "Aula 10.2 - Grandes Navegações_anotações .pdf",
+            "Bateria 10 - Grandes Navegações_Parte 02.pdf",
+            "Bateria 10 - Grandes Navegações_Parte 02_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 11 - Poder Naval Português na Defesa do seu Império Marítimo -",
+          "videos": [
+            "Aula 11 - O poder naval na defesa do Império Português_Parte 01.pdf",
+            "Aula 11 - O poder naval na defesa do Império Português_Parte 01_anotações .pdf",
+            "Aula 11 - Poder Naval Português na Defesa do seu Império Marítimo - .mp4",
+            "Bateria 11 - Poder Naval para a defesa da colônia portuguesa.pdf",
+            "Bateria 11 - Poder Naval para a defesa da colônia portuguesa_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 12 - Batalha Naval de Lepanto",
+          "videos": [
+            "Aula 12 - Batalha Naval de Lepanto.mp4",
+            "Aula 12 - Batalha Naval de Lepanto.pdf",
+            "Aula 12 - Batalha Naval de Lepanto_anotações.pdf",
+            "Bateria 12 - Batalha Naval de Lepanto.pdf",
+            "Bateria 12 - Batalha Naval de Lepanto_Gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 13 - Espanha",
+          "videos": [
+            "Aula 13 - Espanha.mp4",
+            "Aula 13 - Espanha.pdf",
+            "Aula 13 - Espanha_Anotações.pdf",
+            "Documento sem título (1).pdf",
+            "Espanha_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 14 - Invencível Armada",
+          "videos": [
+            "Aula 14 - Invencível Armada.pdf",
+            "Aula 14 - Invencível Armada_anotações_parte 01.pdf",
+            "Aula 14.1 - Invencível Armada .mp4",
+            "Aula 14.2 - Invencível Armada .mp4",
+            "Bateria 13 - Invencível Armada.pdf",
+            "Bateria 13 - Invencível Armada_Anotações.pdf"
+          ]
+        },
+        {
+          "name": "Aula 15 - Holanda",
+          "videos": [
+            "Aula 15 - Holanda.mp4",
+            "Aula 15 - Holanda.pdf",
+            "Aula 16 - Holanda_Anotações .pdf",
+            "Bateria 15 - Holanda .pdf"
+          ]
+        },
+        {
+          "name": "Aula 16 - Invasões Holandesas ao Brasil",
+          "videos": [
+            "Aula 16 - Invasões Holandesas ao Brasil .mp4",
+            "Aula 16 - Invasões Holandesas.pdf",
+            "Aula 17 - Invasões Holandesas_Anotações .pdf",
+            "Bateria 16 - Invasões Holandesas.pdf",
+            "Bateria 16 - Invasões Holandesas_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 17 - Meios navais do século XVI ao século XVIII",
+          "videos": [
+            "Aula 17 - Meios Navais do século XVI ao século XVIII.pdf",
+            "Aula 17 - Meios Navais do século XVI ao século XVIII_anotações .pdf",
+            "Bateria 17 - Meios Navais.pdf",
+            "Bateria 17 - Meios Navais_gabarito.pdf",
+            "CA-AA_-AFN - 2025 - MEIOS NAVAIS DO SÉCULO XVI AO SÉCULO XVIII - 1280x720 2074K_2.mp4"
+          ]
+        },
+        {
+          "name": "Aula 18 - Guerra Anglo-Holandesa",
+          "videos": [
+            "Aula 18 - Guerras Anglo-Holandesas.pdf",
+            "Aula 18 - Guerras Anglo-Holandesas_Anotações .pdf",
+            "Aula 18.1 - Guerra Anglo-Holandesa .mp4",
+            "Aula 18.2 - Guerra Anglo-Holandesa .mp4",
+            "Bateria 18 - Guerra Anglo-Holandesa.pdf",
+            "Bateria 18 - Guerra Anglo-Holandesa_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 19 - Disputas marítimas na Idade Média",
+          "videos": [
+            "Aula 19 - Disputas Marítimas na Idade Média - Fatos Navais.pdf",
+            "Aula 19 - Disputas Marítimas na Idade Média - Fatos Navais_Anotações .pdf",
+            "Bateria 19 - Disputas Navais na Idade Moderna.pdf",
+            "Bateria 19 - Disputas Navais na Idade Moderna_gabarito.pdf",
+            "QOAM - AULA 19 - DISPUTAS MARÍTIMAS NA IDADE MODERNA~ - 1280x720 1488K.mp4"
+          ]
+        },
+        {
+          "name": "Aula 20 - Guerras, Tratados e Limites",
+          "videos": [
+            "AULA 19 - GUERRAS, TRATADOS E LIMITES.pdf",
+            "Aula 20 - Guerra, Tratados e Limites_anotações.pdf",
+            "Aula 20 - Guerras, Tratados e Limites .mp4",
+            "BATERIA 19 - Guerras, Tratados e Limites.pdf"
+          ]
+        },
+        {
+          "name": "Aula 21 - Inglaterra (e os conflitos com a França)",
+          "videos": [
+            "AULA 21.02 - Inglaterra_ Parte 02_anotações.pdf",
+            "Aula 21 - Inglaterra.pdf",
+            "Aula 21.01 - Inglaterra_anotações.pdf",
+            "Bateria 21 - Inglaterra.pdf",
+            "Bateria 21 - Inglaterra_Gabarito.pdf",
+            "QOAM - AULA  21 - INGLATERRA.mp4"
+          ]
+        },
+        {
+          "name": "Aula 22 - França",
+          "videos": [
+            "Aula 22 - França.pdf",
+            "Aula 22 - França_gabarito.pdf",
+            "Bateria 22 - França.pdf",
+            "QOAM - AULA  22 - FRANÇA.mp4"
+          ]
+        },
+        {
+          "name": "Aula 23 - Revolução Francesa e Guerras Napoleônicas",
+          "videos": [
+            "AULA 23 - REVOLUÇÃO FRANCESA E BATALHA DE TRAFALGAR.pdf",
+            "AULA 23 - REVOLUÇÃO FRANCESA E BATALHA DE TRAFALGAR_anotações.pdf",
+            "Aula 23 - Revolução Francesa e Guerras Napoleônicas.mp4",
+            "BATERIA 23 - REVOLUÇÃO FRANCESA E GUERRAS NAPOLEÔNICAS.pdf",
+            "BATERIA 23 - REVOLUÇÃO FRANCESA E GUERRAS NAPOLEÔNICAS_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 24 - Período Joanino",
+          "videos": [
+            "AULA 24 - PERÍODO JOANINO.pdf",
+            "AULA 24 - PERÍODO JOANINO_Anotações .pdf",
+            "Aula 24 - Período Joanino.mp4",
+            "BATERIA 24 - Período Joanino.pdf",
+            "BATERIA 24 - Período Joanino_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 25 - Guerra de Independência do Império do Brasil",
+          "videos": [
+            "Aula 25 - Guerra de Independência do Império do Brasil.mp4",
+            "Aula 25 - Guerra de Independência.pdf",
+            "Aula 25 - Guerra de Independência_Anotações .pdf",
+            "BATERIA 25 - GUERRA DE INDEPENDÊNCIA.pdf",
+            "BATERIA 25 - Guerra de Independência .pdf"
+          ]
+        },
+        {
+          "name": "Aula 26 - Guerra da Cisplatina",
+          "videos": [
+            "AULA 26 - GUERRA DA CISPLATINA.pptx",
+            "AULA 26 - GUERRA DA CISPLATINA_Anotações.pdf",
+            "Aula 26 - Guerra da Cisplatina.mp4",
+            "Aula 26 - Guerra da Cisplatina.pdf",
+            "BATERIA 26 - Guerras de Cisplatina-1.pdf",
+            "BATERIA 26 - Guerras de Cisplatina.pdf"
+          ]
+        },
+        {
+          "name": "Aula 27 - Evolução Tecnológica - Parte 01",
+          "videos": [
+            "Aula 27 - Evolução Tecnológica - Parte 01.mp4",
+            "Aula 27 - Evolução Tecnológica_Parte 01.pdf",
+            "Aula 27 - Evolução Tecnológica_Parte 01_Gabarito.pdf",
+            "Bateria 27 - Evolução Tecnológica.pdf",
+            "Bateria 27 - Evolução Tecnológica_Gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 28 - História Marítima da Rússia e a Guerra da Crimeia",
+          "videos": [
+            "Aula 28 - História Marítima da Rússia e a Guerra da Crimeia.pdf",
+            "Aula 28 - História Marítima da Rússia_anotações.pdf",
+            "Bateria 28 - História Marítima da Rússia e Guerra da Crimeia.pdf",
+            "Bateria 28 - História Marítima da Rússia e Guerra da Crimeia_gabarito.pdf",
+            "QOAM - HISTÓRIA MARÍTIMA DA RÚSSIA E GUERRA DA CRIMEIA_High(1).mp4",
+            "QOAM - HISTÓRIA MARÍTIMA DA RÚSSIA E GUERRA DA CRIMEIA_High.mp4"
+          ]
+        },
+        {
+          "name": "Aula 29 - Guerra Civil Americana",
+          "videos": [
+            "Aula 29 - Guerra Civil Americana.pdf",
+            "Aula 29 - Guerra Civil Americana_anotações.pdf",
+            "BATERIA 29 - GUERRA CIVIL AMERICANA.pdf",
+            "BATERIA 29 - GUERRA CIVIL AMERICANA_Gabarito.pdf",
+            "CA-AA-AFN - GUERRA CIVIL AMERICANA - 1280x720 1619K_2.mp4"
+          ]
+        },
+        {
+          "name": "Aula 30 e 31 - Revoltas Regenciais e a Atuação da Marinha na Consolidação do Estado Imperial",
+          "videos": [
+            "AULA 30 E 31 - CONSOLIDAÇÃO DO ESTADO IMPERIAL.pdf",
+            "AULA 30 E 31 - CONSOLIDAÇÃO DO ESTADO IMPERIAL_anotações.pdf",
+            "AULA 30 E 31 - CONSOLIDAÇÃO DO ESTADO IMPERIAL_parte 01_anotações.pdf",
+            "Aula 30 e 31 - Revoltas Regenciais e a Atuação da Marinha na Consolidação do Estado Imperial - Parte 1.mp4",
+            "Aula 30 e 31 - Revoltas Regenciais e a Atuação da Marinha na Consolidação do Estado Imperial - Parte 2.mp4",
+            "Bateria 30 - Revoltas Regenciais.pdf",
+            "Bateria 30 - Revoltas Regenciais_gabaritos.pdf",
+            "Bateria 31 - Atuação da MB na Consolidação do Estado Nacional.pdf",
+            "Bateria 31 - Atuação da MB na Consolidação do Estado Nacional_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 32 - Guerra do Paraguai e a Batalha do Riachuelo",
+          "videos": [
+            "AULA 32 - GUERRA DO PARAGUAI_BATALHA DO RIACHUELO.pdf",
+            "AULA 32 - GUERRA DO PARAGUAI_BATALHA DO RIACHUELO_anotações.pdf",
+            "BATERIA 32 - GUERRA DO PARAGUAI_BATALHA DO RIACHUELO.pdf",
+            "QOAM - Guerra do Paraguai e a Batalha do Riachuelo - 1920x1080 2919K_2.mp4"
+          ]
+        },
+        {
+          "name": "Aula 33 - Guerra do Paraguai - Invasão ao Território Paraguaio",
+          "videos": [
+            "AULA 33 - GUERRA DO PARAGUAI.pdf",
+            "AULA 33 - GUERRA DO PARAGUAI_ANOTAÇÕES.pdf",
+            "Aula 33 - Guerra do Paraguai - Invasão ao Território Paraguaio.mp4",
+            "BATERIA 32 - GUERRA DO PARAGUAI_BATALHA DO RIACHUELO_GABARITO.pdf",
+            "Bateria 33 - Guerra do Paraguai.pdf",
+            "Bateria 33 - Guerra do Paraguai_GABARITO.pdf"
+          ]
+        },
+        {
+          "name": "Aula 34 - 2ª Revolução Industrial e a Guerra Naval",
+          "videos": [
+            "AULA 34 - EVOLUÇÃO TECNOLÓGICA_parte 1.pdf",
+            "AULA 34 - EVOLUÇÃO TECNOLÓGICA_parte 1_ANOTAÇÕES.pdf",
+            "AULA 34- EVOLUÇÃO TECNOLÓGICA_parte 2.pdf",
+            "AULA 34- EVOLUÇÃO TECNOLÓGICA_parte 2_GABARITO.pdf",
+            "Aula 34 - 2ª Revolução Industrial e a Guerra Naval.mp4"
+          ]
+        },
+        {
+          "name": "Aula 35 - Guerra Naval e Imperialismo (parte final)",
+          "videos": [
+            "AULA 35 - GUERRA NAVAL E IMPERIALISMO_ANOTAÇÕES.pdf",
+            "AULA 36 - GUERRA NAVAL E IMPERIALISMO.pdf",
+            "Aula 35 - Guerra Naval e Imperialismo (parte final).mp4",
+            "BATERIA 35 - Poder Naval e Imperialismo.pdf",
+            "BATERIA 36 - Poder Naval e Imperialismo.docx"
+          ]
+        },
+        {
+          "name": "Aula 36 - Guerra Sino-Japonesa",
+          "videos": [
+            "AULA 36 - GUERRA SINO-JAPONESA_anotações.pdf",
+            "AULA 37 - GUERRA SINO-JAPONESA.pdf",
+            "BATERIA 36 - GUERRA SINO-JAPONESA_gabarito.pdf",
+            "BATERIA 37 - GUERRA SINO-JAPONESA.pdf",
+            "QOAM - GUERRA SINO JAPONESA - 1280x720 1911K.mp4"
+          ]
+        },
+        {
+          "name": "Aula 37 - Guerra Russo-Japonesa",
+          "videos": [
+            "AULA 37 - GUERRA RUSSO-JAPONESA_anotações.pdf",
+            "AULA 38 - GUERRA RUSSO-JAPONESA.pdf",
+            "BATERIA 37 - GUERRA RUSSO-JAPONESA_gabarito.pdf",
+            "BATERIA 38 - GUERRA RUSSO-JAPONESA.docx",
+            "QOAM - Guerra Russo-Japonesa~ - 1280x720 2133K.mp4"
+          ]
+        },
+        {
+          "name": "Aula 38 - Marinha de Guerra após a Guerra do Paraguai",
+          "videos": [
+            "Aula 38 - A MB na República.pdf",
+            "Aula 38 - A MB na República_anotações .pdf",
+            "Aula 38.1 - Marinha de Guerra após a Guerra do Paraguai.mp4",
+            "Aula 38.2 - Marinha de Guerra após a Guerra do Paraguai.mp4.mp4",
+            "BATERIA 38 - MARINHA APÓS A GUERRA DO PARAGUAI E REPÚBLICA.pdf",
+            "BATERIA 38 - MARINHA APÓS A GUERRA DO PARAGUAI E REPÚBLICA_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 39 - Reaparelhamento Naval Brasileiro",
+          "videos": [
+            "AULA 39 - REAPARELHAMENTO NAVAL BRASILEIRO.pdf",
+            "AULA 39 - REAPARELHAMENTO NAVAL BRASILEIRO_anotações .pdf",
+            "Aula 39 - Reaparelhamento Naval Brasileiro.mp4",
+            "BATERIA 39 - REAPARELHAMENTO NAVAL BRASILEIRO.pdf"
+          ]
+        },
+        {
+          "name": "Aula 40 - Primeira Guerra Mundial e a Batalha de Jutlândia",
+          "videos": [
+            "Aula 40 - Primeira Guerra Mundial e Batalha de Jutlândia.pdf",
+            "Aula 40 - Primeira Guerra Mundial e Batalha de Jutlândia_anotações.pdf",
+            "Aula 40 - Primeira Guerra Mundial e a Batalha de Jutlândia .mp4",
+            "Bateria 40 - Primeira Guerra Mundial e a Batalha Jutlândia.pdf",
+            "Bateria 40 - Primeira Guerra Mundial e a Batalha Jutlândia_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 41 - Atuação da MB na Primeira Guerra Mundial",
+          "videos": [
+            "Aula 41 - A Marinha na Primeira Guerra Mundial.pdf",
+            "Aula 41 - A Marinha na Primeira Guerra Mundial_anotações (1).pdf",
+            "Aula 41 - A Marinha na Primeira Guerra Mundial_anotações .pdf",
+            "Aula 41.1 - Atuação da MB na Primeira Guerra Mundial .mp4",
+            "Aula 41.2 - Atuação da MB na Primeira Guerra Mundial .mp4",
+            "Bateria 41 - Atuação da MB na Primeira Guerra Mundial.pdf",
+            "Bateria 41 - Atuação da MB na Primeira Guerra Mundial_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 42 - Segunda Guerra Mundial e a Batalha do Atlântico",
+          "videos": [
+            "Aula 42 - A Batalha do Atlântico_anotações.pdf",
+            "Aula 42 - Batalha do Atlântico.pdf",
+            "Aula 42 - Segunda Guerra Mundial e a Batalha do Atlântico.mp4",
+            "Bateria 42 - Segunda Guerra Mundial.pdf",
+            "Bateria 42 - Segunda Guerra Mundial_anotações.pdf"
+          ]
+        },
+        {
+          "name": "Aula 43 - Atuação da MB na Segunda Guerra Mundial",
+          "videos": [
+            "AULA 43 - HISTÓRIA - A MB NA SEGUNDA GUERRA MUNDIAL_ANOTAÇÕES.pdf",
+            "Aula 42 - A MB NA SEGUNDA GUERRA MUNDIAL - TEORIA 1.pdf",
+            "Aula 43 - Atuação da MB na Segunda Guerra Mundial(1).mp4",
+            "Aula 43 - Atuação da MB na Segunda Guerra Mundial.mp4",
+            "Bateria 43 - Segunda Guerra Mundial e a ação da Marinha do Brasil.pdf",
+            "Bateria 43 - Segunda Guerra Mundial e a ação da Marinha do Brasil_ANOTAÇÕES.pdf"
+          ]
+        },
+        {
+          "name": "Aula 44 - Batalha de Midway",
+          "videos": [
+            "Aula 44 - Batalha de Midway.pdf",
+            "Aula 44 - Batalha de Midway_anotações.pdf",
+            "Aula 44.1 - Batalha de Midway .mp4",
+            "Aula 44.1 - Batalha de Midway.mp4",
+            "Aula 44.2 - Batalha de Midway .mp4",
+            "Bateria 44 - Batalha de Midway.pdf",
+            "Bateria 44 - Batalha de Midway_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 45 - Campanha do Pacífico e Batalha de Golfo de Leyte",
+          "videos": [
+            "Aula 44 - Campanha do Pacífico e a Batalha de Golfo de Leyte_anotações.pdf",
+            "Aula 45 - Campanha do Pacífico e Batalha de Golfo de Leyte(1).mp4",
+            "Aula 45 - Campanha do Pacífico e Batalha de Golfo de Leyte.mp4",
+            "Aula 45 - Campanha do Pacífico e a Batalha de Golfo de Leyte.pdf",
+            "Bateria 45 - Campanha do Pacífico e a Batalha de Golfo de Leyte .pdf",
+            "Bateria 45 - Campanha do Pacífico e a Batalha de Golfo de Leyte _gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 46 - Emprego Permanente do Poder Naval e a Política",
+          "videos": [
+            "AULA 46.1 - EMPREGO PERMANENTE DO PODER NAVAL_anotações(1).pdf",
+            "AULA 46.1 - EMPREGO PERMANENTE DO PODER NAVAL_anotações.pdf",
+            "AULA 46.2 - EMPREGO PERMANENTE DO PODER NAVAL(1).pdf",
+            "AULA 46.2 - EMPREGO PERMANENTE DO PODER NAVAL.pdf",
+            "Aula 45.1 - A Política Marítima Brasileira no Pós-Guerra_ANOTAÇÕES(1).pdf",
+            "Aula 45.1 - A Política Marítima Brasileira no Pós-Guerra_ANOTAÇÕES.pdf",
+            "Aula 46 - Emprego Permanente do Poder Naval e a Política(1).mp4",
+            "Aula 46 - Emprego Permanente do Poder Naval e a Política.mp4",
+            "Aula 46.1 - A Política Marítima Brasileira no Pós-Guerra(1).pdf",
+            "Aula 46.1 - A Política Marítima Brasileira no Pós-Guerra.pdf",
+            "Bateria 46- Emprego Permanente do Poder Naval e a Política Marítima da Marinha do Brasil após a Segunda Guerra Mundial.pdf",
+            "Bateria 46- Emprego Permanente do Poder Naval e a Política Marítima da Marinha do Brasil após a Segunda Guerra Mundial_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 47 - Do Carvão à Era Nuclear - A Marinha se transforma",
+          "videos": [
+            "Aula 47 - Do Carvão à Era Nuclear - A Marinha se transforma.mp4",
+            "Aula 47 - Do Carvão à era nuclear.pdf",
+            "Aula 47 - Do Carvão à era nuclear_anotações.pdf",
+            "Bateria 47- Do Carvão à era nuclear_alunos.pdf",
+            "Bateria 47- Do Carvão à era nuclear_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "Aula 48 - MB no Século XXI",
+          "videos": [
+            "Aula 48 - A Marinha do Brasil no século XXI.pdf",
+            "Aula 48 - A Marinha do Brasil no século XXI_anotações.pdf",
+            "Aula 48 - MB no século XXI.mp4",
+            "BATERIA 48 - MARINHA NO SÉCULO XXI.pdf"
+          ]
+        },
+        {
+          "name": "Aula 49 - Marinha do Brasil em Apoio à Política Externa",
+          "videos": [
+            "Aula 49 - Marinha do Brasil em Apoio à Política Externa.mp4",
+            "Aula 49 - Marinha em Apoio à Política Externa.pdf",
+            "Aula 49 - Marinha em Apoio à Política Externa_anotações.pdf",
+            "BATERIA 49 - A MARINHA DO BRASIL EM APOIO À POLÍTICA EXTERNA_gabarito.pdf",
+            "BATERIA 49 - A MARINHA DO BRASIL EM APOIO À POLÍTICA EXTERNA_questões.pdf"
+          ]
+        },
+        {
+          "name": "Aula 50 - Guerra das Malvinas",
+          "videos": [
+            "Aula 50 - Guerra das Malvinas.mp4",
+            "Aula 50 - Guerra das Malvinas.pdf",
+            "Aula 50 - Guerra das Malvinas_anotações.pdf",
+            "BATERIA 50 - Guerra das Malvinas_material do aluno.pdf",
+            "BATERIA 50 - Guerra das Malvinas_material do aluno_anotações.pdf"
+          ]
+        },
+        {
+          "name": "Aula 51 - Pensamento Estratégico Naval Brasileiro 1970-1980",
+          "videos": [
+            "AULA 51.1 - MB DÉCADA DE 1970.pdf",
+            "AULA 51.1 - MB DÉCADA DE 1970_anotações.pdf",
+            "AULA 51.1 - MB NA DÉCADA DE 1980.pdf",
+            "AULA 51.2 - MB NA DÉCADA DE 1980_anotações.pdf",
+            "Aula 51 - Pensamento Estratégico Naval Brasileiro 1970-1980.mp4",
+            "BATERIA 51 - Evolução do Pensamento Naval Estratégico - década de 1980.pdf",
+            "BATERIA 51.1 - Evolução do Pensamento Naval Estratégico - década de 1970.pdf",
+            "BATERIA 51.1 - Evolução do Pensamento Naval Estratégico - década de 1970_anotações.pdf",
+            "BATERIA 51.2 - Evolução do Pensamento Naval Estratégico - década de 1980_anotações.pdf"
+          ]
+        },
+        {
+          "name": "Aula 52 - Pensamento Naval Estratégico Brasileiro - Anos 90_2000",
+          "videos": [
+            "AULA 52 - MB DÉCADA DE 90 E 00.pdf",
+            "AULA 52 - MB DÉCADA DE 90 E 00_anotações.pdf",
+            "Aula 52 - Pensamento Naval Estratégico Brasileiro - Anos 90_2000.mp4",
+            "BATERIA 52 - Evolução do Pensamento Naval Estratégico - década de 1990 e 2000.pdf",
+            "BATERIA 52 - Evolução do Pensamento Naval Estratégico - década de 1990 e 2000_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "SIMULADO 01",
+          "videos": [
+            "SIMULADO 01 .pdf",
+            "SIMULADO 01_PPT.pdf",
+            "SIMULADO 01_PPT_anotações.pdf",
+            "SIMULADO 1.mp4"
+          ]
+        },
+        {
+          "name": "SIMULADO 02 - Módulo de Janeiro",
+          "videos": [
+            "QOAM 2025 - SIMULADO 02.pdf",
+            "SIMULADO 02 - Módulo de Janeiro.mp4",
+            "simulado 02_anotações.pdf"
+          ]
+        },
+        {
+          "name": "SIMULADO 03",
+          "videos": [
+            "SIMULADO 03_Alunos.pdf",
+            "SIMULADO 03_gabarito.pdf"
+          ]
+        },
+        {
+          "name": "SIMULADO 04 - CARNAVAL",
+          "videos": [
+            "SIMULADO_CARNAVAL .pdf",
+            "Simulado QOAM_Carnaval_gabarito.pdf"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-matemática-nautilus",
+      "name": "MATEMÁTICA-NAUTILUS",
+      "subject": "Matemática",
+      "periods": [
+        {
+          "name": "Geral",
+          "videos": [
+            "01 - função.mp4",
+            "AULA 15- MATRü0ê1ZES PARTE 1   APRENDEND.mp4",
+            "AULA 16 - DETERMINANTES PARTE 1   APRENDEND.mp4",
+            "Aula - 17- MATEMü0å9TICA QOAM 2023.mp4",
+            "Aula 07- FUNü0ç5ü0ê9ES QOAM.mp4",
+            "Aula 18 Nü0ë3MEROS COMPLEXOS   PARTE 1   APRENDEND.mp4",
+            "Aula 19 - Nü0ë3MEROS COMPLEXOS   PARTE 2   APRENDEND.mp4",
+            "Aula 20 - MATEMü0å9TICA QOAM 2023.mp4",
+            "Aula 21.mp4",
+            "Aula 22.mp4",
+            "Aula 23.mp4",
+            "Aula- 04- FUNü0ç5ü0ç1O 01.mp4",
+            "Aula- 04-1 FUNü0ç5ü0ê9ES PARTE 1   APRENDEND(1).mp4",
+            "Aula- 04-1 FUNü0ç5ü0ê9ES PARTE 1   APRENDEND.mp4",
+            "Aula- 05- FUNü0ç5ü0ç1O 02.mp4",
+            "Aula- 06- EQUAü0ç5ü0ê9ES EXPONENCIAIS.mp4",
+            "Aula- 08 EQUAü0ç5ü0ê9ES EXPONENCIAIS.mp4",
+            "Aula- 09-  FUNDAMENTOS POTENCIAü0ç5ü0ç1O(1).mp4",
+            "Aula- 09-  FUNDAMENTOS POTENCIAü0ç5ü0ç1O.mp4",
+            "Aula- 10- EQUAü0ç5ü0ê9ES EXPONENCIAIS 01.mp4",
+            "Aula- 11- EQUAü0ç5ü0ê9ES EXPONENCIAIS 02.mp4",
+            "Aula- 12- LOGARITMOS PARTE A V.mp4",
+            "Aula- 13- LOGARITMOS PARTE B V.mp4",
+            "Aula- 14-  LOGARITMOS   CORREü0ç5ü0ç1O LISTA DE EXERCü0ê1CIOS.mp4",
+            "MATEMÁTICA QOAM 2023   06JAN2023.mp4",
+            "MATEMÁTICA QOAM 2023   13JAN2023.mp4",
+            "MATEMÁTICA QOAM 2023   20JAN2023.mp4",
+            "MCMV EQUAÇÕES EXPONENCIAIS   APRENDENDO V.mp4",
+            "MCMV FUNÇÕES PARTE 1   APRENDEND.mp4",
+            "MCMV FUNÇÕES PARTE 2   APRENDEND.mp4",
+            "aula 24.mp4",
+            "aula 25.mp4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-pem-jéssica",
+      "name": "PEM - Jéssica",
+      "subject": "Conhecimento Militar Naval",
+      "periods": [
+        {
+          "name": "Aula 01",
+          "videos": [
+            "AULA 1 - MISSÃO FINAL QOAM - PEM 2040 - ALUNO.pdf",
+            "AULA 1 - MISSÃO FINAL QOAM - PEM 2040 - ANOTAÇÕES DA PROFESSORA.pdf",
+            "AULA 1 - MISSÃO FINAL QOAM - PEM 2040.ts"
+          ]
+        },
+        {
+          "name": "Aula 02",
+          "videos": [
+            "AULA 2 - MISSÃO FINAL QOAM - PEM 2040 - ALUNO.pdf",
+            "AULA 2 - MISSÃO FINAL QOAM - PEM-2040 - 19.07.2025.ts",
+            "AULA 2 - MISSÃO FINAL QOAM - PEM-2040 - 27.07.2025 - PARTE 2.ts"
+          ]
+        },
+        {
+          "name": "Aula 03",
+          "videos": [
+            "AULA 3 - MISSÃO FINAL QOAM - PEM 2040 - ALUNO.pdf",
+            "AULA 3 - MISSÃO FINAL QOAM - PEM-2040 - 27.07.2024.ts",
+            "AULA 3 -MISSÃO FINAL QOAM - PEM-2040 - MAPA ESTRATÉGICO DA MARINHA.pdf"
+          ]
+        },
+        {
+          "name": "Aula 04",
+          "videos": [
+            "AULA 4 - MISSÃO FINAL QOAM - PEM 2040 - ALUNO.pdf",
+            "AULA 4 - MISSÃO FINAL QOAM - PEM-2040 - 28.07.2025.ts",
+            "AULA 4 - MISSÃO FINAL QOAM - PEM-2040 - ANOTAÇÕES DA PROFESSORA.pdf"
+          ]
+        },
+        {
+          "name": "Geral",
+          "videos": [
+            "PEM 2040 - PLANO ESTRATÉGICO DA MARINHA - DOCUMENTO OFICIAL(1).pdf",
+            "PEM 2040 - PLANO ESTRATÉGICO DA MARINHA - DOCUMENTO OFICIAL.pdf"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-português",
+      "name": "Português",
+      "subject": "Português",
+      "periods": [
+        {
+          "name": "B1 - FONETICA E ORTOGRAFIA",
+          "videos": [
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_PROVAS_MILITARES_-_P2.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_PROVAS_MILITARES_-_P3.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_PROVAS_MILITARES_-_P4.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_TEORIA_-_P1.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_TEORIA_-_P2.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_TEORIA_-_P3.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_TEORIA_-_P4.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_TEORIA_-_P5.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_TEORIA_-_P6.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P___ACENTUAÇÃO_-_PROVAS_MILITARES_-_P1.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/pt-aula-23-pressupostos-para-acentuacao-aluno-mil-ok.pdf",
+            "24 - ACENTUAÇÃO/AULA_24_-_ACENTUAÇÃO_-_PROVAS_MILITARES.mp4",
+            "24 - ACENTUAÇÃO/AULA_24_-_ACENTUAÇÃO_-_TEORIA_-_P1.mp4",
+            "24 - ACENTUAÇÃO/AULA_24_-_ACENTUAÇÃO_-_TEORIA_-_P2.mp4",
+            "24 - ACENTUAÇÃO/pt-aula-24-acentuacao-grafica-aluno-mil-ok.pdf",
+            "26 - ORTOGRAFIA/AULA_26_-_ORTOGRAFIA_-_PROVAS_MILITARES.mp4",
+            "26 - ORTOGRAFIA/AULA_26_-_ORTOGRAFIA_-_TEORIA_E_EXERCÍCIO.mp4",
+            "26 - ORTOGRAFIA/pt-aula-26-ortografia-aluno-mil-ok.pdf",
+            "27 - HÍFEN/AULA_27_-_HÍFEN_-_EXERCÍCIOS.mp4",
+            "27 - HÍFEN/AULA_27_-_HÍFEN_-_PROVAS_MILITARES.mp4",
+            "27 - HÍFEN/AULA_27_-_HÍFEN_-_TEORIA_-_PARTE_1.mp4",
+            "27 - HÍFEN/AULA_27_-_HÍFEN_-_TEORIA_-_PARTE_2.mp4",
+            "27 - HÍFEN/pt-aula-27-hifen-aluno-mil-ok.pdf"
+          ]
+        },
+        {
+          "name": "B2 - MORFOLOGIA",
+          "videos": [
+            "29 - ESTRUTURA E FORMA O DAS PALAVRAS/AULA_29_-_ESTRUTURA_E_FORMAÇÃO_DAS_PALAVRAS_-_P1.mp4",
+            "29 - ESTRUTURA E FORMA O DAS PALAVRAS/AULA_29_-_ESTRUTURA_E_FORMAÇÃO_DAS_PALAVRAS_-_PROVAS_MILITARES_-_P2.mp4",
+            "29 - ESTRUTURA E FORMA O DAS PALAVRAS/AULA_29_-_ESTRUTURA_E_FORMAÇÃO_DAS_PALAVRAS_-__EXERCÍCIOS.mp4",
+            "29 - ESTRUTURA E FORMA O DAS PALAVRAS/AULA_29_-_ESTRUTURA_E_FORMAÇÃO_DAS_PALAVRAS_-__P3.mp4",
+            "29 - ESTRUTURA E FORMA O DAS PALAVRAS/AULA_29_-_ESTRUTURA_E_FORMAÇÃO_DAS_PALAVRAS_-__P5.mp4",
+            "29 - ESTRUTURA E FORMA O DAS PALAVRAS/AULA_29_-_ESTRUTURA_E_FORMAÇÃO_DAS_PALAVRAS_-__PROVAS_MILITARES.mp4",
+            "29 - ESTRUTURA E FORMA O DAS PALAVRAS/pt-aula-29-estrutura-e-formacao-de-palavras-aluno-mil-ok.pdf",
+            "30 - SUBSTANTIVO/AULA_30_-_SUBSTANTIVO_-_PROVAS_MILITARES_-_P1.mp4",
+            "30 - SUBSTANTIVO/AULA_30_-_SUBSTANTIVO_-_PROVAS_MILITARES_-_P2.mp4",
+            "30 - SUBSTANTIVO/AULA_30_-_SUBSTANTIVO_-_PROVAS_MILITARES_-_P3.mp4",
+            "30 - SUBSTANTIVO/AULA_30_-_SUBSTANTIVO_-_PROVAS_MILITARES_-_P4.mp4",
+            "30 - SUBSTANTIVO/AULA_30_-_SUBSTANTIVO_-_TEORIA_-_PARTE_1.mp4",
+            "30 - SUBSTANTIVO/AULA_30_-_SUBSTANTIVO_-_TEORIA_-_PARTE_2.mp4",
+            "30 - SUBSTANTIVO/AULA_30_-_SUBSTANTIVO_-_TEORIA_-_PARTE_3.mp4",
+            "30 - SUBSTANTIVO/AULA_30_-_SUBSTANTIVO_-_TEORIA_-_PARTE_4.mp4",
+            "30 - SUBSTANTIVO/pt-aula-30-substantivo-aluno-mil-ok.pdf",
+            "31 - ADJETIVO/AULA_31_-_ADJETIVO_-_PROVAS_MILITARES.mp4",
+            "31 - ADJETIVO/AULA_31_-_ADJETIVO_-_TEORIA_-_PARTE_1.mp4",
+            "31 - ADJETIVO/AULA_31_-_ADJETIVO_-_TEORIA_-_PARTE_2.mp4",
+            "31 - ADJETIVO/AULA_31_-_ADJETIVO_-_TEORIA_-_PARTE_3.mp4",
+            "31 - ADJETIVO/pt-aula-31-adjetivo-aluno-mil-ok.pdf",
+            "32 - ARTIGO/AULA_32_-_ARTIGO_-_PROVAS_MILITARES.mp4",
+            "32 - ARTIGO/AULA_32_-_ARTIGO_-_TEORIA_-_PARTE_1.mp4",
+            "32 - ARTIGO/AULA_32_-_ARTIGO_-_TEORIA_-_PARTE_2.mp4",
+            "32 - ARTIGO/pt-aula-32-artigo-aluno-mil-ok1.pdf",
+            "33 - PRONOME/AULA_33_-_PRONOME_-_EXERCÍCIOS_-_PARTE_2.mp4",
+            "33 - PRONOME/AULA_33_-_PRONOME_-_PROVAS_MILITARES_-_PARTE_1.mp4",
+            "33 - PRONOME/AULA_33_-_PRONOME_-_PROVAS_MILITARES_-_PARTE_2.mp4",
+            "33 - PRONOME/AULA_33_-_PRONOME_-_PROVAS_MILITARES_-_PARTE_3.mp4",
+            "33 - PRONOME/AULA_33_-_PRONOME_-_TEORIA_-_PARTE_2.mp4",
+            "33 - PRONOME/AULA_33_-_PRONOME_-_TEORIA_-_PARTE_3_E_PARTE_4.mp4",
+            "33 - PRONOME/AULA_33_-_PRONOME_-_TEORIA_-_PARTE_5.mp4",
+            "33 - PRONOME/AULA_33_-_PRONOME_-_TEORIA_E_EXERCÍCIOS-_PARTE_1.mp4",
+            "33 - PRONOME/pt-aula-33-pronome-aluno-mil-ok.pdf",
+            "34 - NUMERAL/AULA_34_-_NUMERAL_-_PROVAS_MILITARES.mp4",
+            "34 - NUMERAL/AULA_34_-_NUMERAL_-_TEORIA_E_EXERCÍCIOS.mp4",
+            "34 - NUMERAL/pt-aula-34-numeral-aluno-mil-ok.pdf",
+            "35 - VERBO/AULA_35_-_VERBO_-_PROVAS_MILITARES_-_PARTE_1.mp4",
+            "35 - VERBO/AULA_35_-_VERBO_-_PROVAS_MILITARES_-_PARTE_2.mp4",
+            "35 - VERBO/AULA_35_-_VERBO_-_PROVAS_MILITARES_-_PARTE_3.mp4",
+            "35 - VERBO/AULA_35_-_VERBO_-_PROVAS_MILITARES_-_PARTE_4.mp4",
+            "35 - VERBO/AULA_35_-_VERBO_-_PROVAS_MILITARES_-_PARTE_5.mp4",
+            "35 - VERBO/AULA_35_-_VERBO_-_PROVAS_MILITARES_-_PARTE_6.mp4",
+            "35 - VERBO/AULA_35_-_VERBO_-_TEORIA_-_PARTE_1.mp4",
+            "35 - VERBO/AULA_35_-_VERBO_-_TEORIA_-_PARTE_3.mp4",
+            "35 - VERBO/AULA_35_-_VERBO_-_TEORIA_-_PARTE_4.mp4",
+            "35 - VERBO/AULA_35_-_VERBO_-_TEORIA_-_PARTE_6.mp4",
+            "35 - VERBO/AULA_35_-_VERBO_-_TEORIA_-_PARTE_7.mp4",
+            "35 - VERBO/AULA_35_-_VERBO_-_TEORIA_-_PARTE_8.mp4",
+            "35 - VERBO/AULA_35_-_VERBO_-_TEORIA_E_EXERCÍCIOS_-_PARTE_2.mp4",
+            "35 - VERBO/AULA_35_-_VERBO_-_TEORIA_E_EXERCÍCIOS_-_PARTE_5.mp4",
+            "35 - VERBO/pt-aula-35-verbo-aluno-mil-ok.pdf",
+            "36 - ADVERBIO/AULA_36_-_ADVÉRBIO_-_PROVAS_MILITARES.mp4",
+            "36 - ADVERBIO/AULA_36_-_ADVÉRBIO_-_TEORIA_E_EXERCÍCIOS.mp4",
+            "36 - ADVERBIO/pt-aula-36-adverbio-aluno-mil-ok.pdf",
+            "37 - PREPOSIÇAO/AULA_37_-_PREPOSIÇÃO_-_PROVAS_MILITARES.mp4",
+            "37 - PREPOSIÇAO/AULA_37_-_PREPOSIÇÃO_-_TEORIA_E_EXERCÍCIOS.mp4",
+            "37 - PREPOSIÇAO/pt-aula-37-preposicao-aluno-mil-ok.pdf",
+            "38 - INTERJEICAO E PALAVRAS DENOTATIVAS/AULA_38_-_INTERJEIÇÃO_-_TEORIA_E_EXERCÍCIOS.mp4",
+            "38 - INTERJEICAO E PALAVRAS DENOTATIVAS/pt-aula-38-interjeicao-e-palavras-denotativas-aluno-mil-ok.pdf",
+            "38 - INTERJEIÇÃO QUESTÕES PROVAS GERAIS/AULA_38_-_INTERJEIÇÃO_-_QUESTÕES_PROVAS_GERAIS.mp4"
+          ]
+        },
+        {
+          "name": "B3 - SINTAXE ANALISE",
+          "videos": [
+            "01 - FRASE ORAÇÃO E PERÍODO/AULA_1_-_FRASE,_ORAÇÃO_E_PERÍODO_-_EXERCÍCIOS_DE_FIXAÇÃO_E_QUESTÕES_DE_PROVAS_GERAIS.mp4",
+            "01 - FRASE ORAÇÃO E PERÍODO/AULA_1_-_FRASE,_ORAÇÃO_E_PERÍODO_-_QUESTÕES_DE_PROVAS_MILITARES.mp4",
+            "01 - FRASE ORAÇÃO E PERÍODO/AULA_1_-_FRASE,_ORAÇÃO_E_PERÍODO_-_TEORIA.mp4",
+            "01 - FRASE ORAÇÃO E PERÍODO/pt-aula-1-frase-oracao-e-periodo-aluno-mil-ok.pdf",
+            "02 - SUJEITO/AULA_2_-_SUJEITO_-_PROVAS_MILITARES_-_PARTE_1.mp4",
+            "02 - SUJEITO/AULA_2_-_SUJEITO_-_PROVAS_MILITARES_-_PARTE_2.mp4",
+            "02 - SUJEITO/AULA_2_-_SUJEITO_-_TEORIA_-_PARTE_1.mp4",
+            "02 - SUJEITO/AULA_2_-_SUJEITO_-_TEORIA_-_PARTE_2.mp4",
+            "02 - SUJEITO/pt-aula-2-sujeito-aluno-mil-ok.pdf",
+            "03 - TRANSITIVIDADE VERBAL/AULA_3_-_TRANSITIVIDADE_VERBAL_-_EXERCÍCIOS.mp4",
+            "03 - TRANSITIVIDADE VERBAL/AULA_3_-_TRANSITIVIDADE_VERBAL_-_PROVAS_MILITARES.mp4",
+            "03 - TRANSITIVIDADE VERBAL/AULA_3_-_TRANSITIVIDADE_VERBAL_-_TEORIA.mp4",
+            "03 - TRANSITIVIDADE VERBAL/pt-aula-3-transitividade-verbal-aluno-mil-ok.pdf",
+            "04 - COMPLEMENTOS VERBAIS/AULA_4_-_COMPLEMENTOS_VERBAIS_-_TEORIA.mp4",
+            "04 - COMPLEMENTOS VERBAIS/AULA__4_-_COMPLEMENTOS_VERBAIS_-_EXERCÍCIOS_-_P1.mp4",
+            "04 - COMPLEMENTOS VERBAIS/AULA__4_-_COMPLEMENTOS_VERBAIS_-_EXERCÍCIOS_-_P2.mp4",
+            "04 - COMPLEMENTOS VERBAIS/AULA__4_-_COMPLEMENTOS_VERBAIS_-_PROVAS_MILITARES.mp4",
+            "04 - COMPLEMENTOS VERBAIS/AULA__4_-_COMPLEMENTOS_VERBAIS_-_SE.mp4",
+            "04 - COMPLEMENTOS VERBAIS/pt-aula-4-complementos-verbais-aluno-mil-ok1.pdf",
+            "05 - PIS E PA/AULA_5_-_PIS_E_PA_-_PROVAS_MILITARES_-_PARTE_1.mp4",
+            "05 - PIS E PA/AULA_5_-_PIS_E_PA_-_PROVAS_MILITARES_-_PARTE_2.mp4",
+            "05 - PIS E PA/AULA_5_-_PIS_E_PA_-_TEORIA_-_PARTE_1.mp4",
+            "05 - PIS E PA/AULA_5_-_PIS_E_PA_-_TEORIA_-_PARTE_2.mp4",
+            "05 - PIS E PA/pt-aula-5-pis-x-pa-aluno-mil-ok.pdf",
+            "06 - PREDICATIVO DO SUJEITO E PREDICATIVO DO OBJETO/AULA_6_-_PREDICATIVO_-_PROVAS_MILITARES.mp4",
+            "06 - PREDICATIVO DO SUJEITO E PREDICATIVO DO OBJETO/AULA_6_-_PREDICATIVO_-_PROVAS_MILITARES_-_PARTE_2.mp4",
+            "06 - PREDICATIVO DO SUJEITO E PREDICATIVO DO OBJETO/AULA_6_-_PREDICATIVO_-_TEORIA.mp4",
+            "06 - PREDICATIVO DO SUJEITO E PREDICATIVO DO OBJETO/pt-aula-6-predicativo-do-sujeito-e-predicativo-do-objeto-aluno-mil-ok.pdf",
+            "07 - ADJUNTO ADVERBIAL/AULA_7_-_ADJUNTO_ADVERBIAL_-_EXERCÍCIOS.mp4",
+            "07 - ADJUNTO ADVERBIAL/AULA_7_-_ADJUNTO_ADVERBIAL_-_PROVAS_MILITARES_-_P1.mp4",
+            "07 - ADJUNTO ADVERBIAL/AULA_7_-_ADJUNTO_ADVERBIAL_-_PROVAS_MILITARES_-_P2.mp4",
+            "07 - ADJUNTO ADVERBIAL/AULA_7_-_ADJUNTO_ADVERBIAL_-_TEORIA.mp4",
+            "07 - ADJUNTO ADVERBIAL/pt-aula-7-adjunto-adverbial-aluno-mil-ok.pdf",
+            "08 - COMPLEMENTO NOMINAL/AULA_8_-_COMPLEMENTO_NOMINAL_-_PROVAS_MILITARES.mp4",
+            "08 - COMPLEMENTO NOMINAL/AULA_8_-_COMPLEMENTO_NOMINAL_-_TEORIA.mp4",
+            "08 - COMPLEMENTO NOMINAL/pt-aula-8-complemento-nominal-aluno-mil-ok.pdf",
+            "09 - ADJUNTO ADNOMINAL/AULA_9_-_ADJUNTO_ADNOMINAL_-_EXERCÍCIOS.mp4",
+            "09 - ADJUNTO ADNOMINAL/AULA_9_-_ADJUNTO_ADNOMINAL_-_TEORIA P1.mp4",
+            "09 - ADJUNTO ADNOMINAL/AULA_9_-_CN_X_ADJ._ADNOMINAL_-_P._MILITARES_-_P1.mp4",
+            "09 - ADJUNTO ADNOMINAL/AULA_9_-_CN_X_ADJ._ADNOMINAL_-_P._MILITARES_-_P2.mp4",
+            "09 - ADJUNTO ADNOMINAL/AULA_9_-_CN_X_ADJ._ADNOMINAL_-_TEORIA_E_EXERC.mp4",
+            "09 - ADJUNTO ADNOMINAL/pt-aula-9-adjunto-adnominal-aluno-mil-ok.pdf",
+            "10 - VOZES VERBAIS E AGENTE DA PASSIVA/AULA_10_-_VOZES_VERBAIS_E_AGT_DA_PASSIVA_-_EXERC.mp4",
+            "10 - VOZES VERBAIS E AGENTE DA PASSIVA/AULA_10_-_VOZES_VERBAIS_E_AGT_DA_PASSIVA_-_EXERC2.mp4",
+            "10 - VOZES VERBAIS E AGENTE DA PASSIVA/AULA_10_-_VOZES_VERBAIS_E_AGT_DA_PASSIVA_-_P1.mp4",
+            "10 - VOZES VERBAIS E AGENTE DA PASSIVA/AULA_10_-_VOZES_VERBAIS_E_AGT_DA_PASSIVA_-__P2.mp4",
+            "10 - VOZES VERBAIS E AGENTE DA PASSIVA/pt-aula-10-vozes-verbais-e-agente-da-passiva-aluno-mil-ok.pdf",
+            "11 - APOSTO VOCATIVO E PREDICADO/AULA_11_-_APOSTO_E_VOCATIVO_-_PROVAS_MILITARES.mp4",
+            "11 - APOSTO VOCATIVO E PREDICADO/AULA_11_-_APOSTO_E_VOCATIVO_-_TEORIA_E_EXERC.mp4",
+            "11 - APOSTO VOCATIVO E PREDICADO/AULA_11_-_PREDICADO_-_PROVAS_MILITARES.mp4",
+            "11 - APOSTO VOCATIVO E PREDICADO/AULA_11_-_PREDICADO_-_TEORIA_E_EXERC.mp4",
+            "11 - APOSTO VOCATIVO E PREDICADO/pt-aula-11-aposto-vocativo-e-predicado-aluno-mil-ok.pdf",
+            "12 - O SUB. SUBSTANTIVAS REDUZIDAS/AULA_12_-_O.S._SUBSTANTIVAS_-_PROVAS_MILITARES.mp4",
+            "12 - O SUB. SUBSTANTIVAS REDUZIDAS/AULA_12_-_O.S._SUBSTANTIVAS_-_PROVAS_MILITARES_P2.mp4",
+            "12 - O SUB. SUBSTANTIVAS REDUZIDAS/AULA_12_-_O.S._SUBSTANTIVAS_-_TEORIA_-_P1.mp4",
+            "12 - O SUB. SUBSTANTIVAS REDUZIDAS/AULA_12_-_O.S._SUBSTANTIVAS_-_TEORIA_-_P2.mp4",
+            "12 - O SUB. SUBSTANTIVAS REDUZIDAS/AULA_12_-_O.S._SUBSTANTIVAS_REDUZIDAS.mp4",
+            "12 - O SUB. SUBSTANTIVAS REDUZIDAS/pt-aula-12-oracoes-subordinadas-substantivas-aluno-mil-ok.pdf",
+            "13 - O SUB ADJETIVAS/AULA_13_-_O.S._ADJETIVAS_-_EXERCÍCIOS.mp4",
+            "13 - O SUB ADJETIVAS/AULA_13_-_O.S._ADJETIVAS_-_PROVAS_MILITARES.mp4",
+            "13 - O SUB ADJETIVAS/AULA_13_-_O.S._ADJETIVAS_-_PROVAS_MILITARES_-_P2.mp4",
+            "13 - O SUB ADJETIVAS/AULA_13_-_O.S._ADJETIVAS_-_TEORIA(1).mp4",
+            "13 - O SUB ADJETIVAS/AULA_13_-_O.S._ADJETIVAS_-_TEORIA.mp4",
+            "13 - O SUB ADJETIVAS/AULA_13_-_O.S._ADJETIVAS_E_FUNCAO_PRONOME_RELATIVO.mp4",
+            "13 - O SUB ADJETIVAS/AULA_13_-_O.S._ADJETIVAS_E__PRONOME_RELATIVO_-_P2.mp4",
+            "13 - O SUB ADJETIVAS/pt-aula-13-oracoes-subordinadas-adjetivas-aluno-mil-ok.pdf",
+            "14 - ORACOES SUBORDINADAS ADVERBIAIS/AULA_14_-_O.S._ADVERBIAIS_-_EXERCÍCIOS_-_PARTE_1.mp4",
+            "14 - ORACOES SUBORDINADAS ADVERBIAIS/AULA_14_-_O.S._ADVERBIAIS_-_PROVAS_MILITARES_-_P1.mp4",
+            "14 - ORACOES SUBORDINADAS ADVERBIAIS/AULA_14_-_O.S._ADVERBIAIS_-_PROVAS_MILITARES_-_P2.mp4",
+            "14 - ORACOES SUBORDINADAS ADVERBIAIS/AULA_14_-_O.S._ADVERBIAIS_-_TEORIA_-_PARTE_1.mp4",
+            "14 - ORACOES SUBORDINADAS ADVERBIAIS/AULA_14_-_O.S._ADVERBIAIS_-_TEORIA_-_PARTE_2.mp4",
+            "14 - ORACOES SUBORDINADAS ADVERBIAIS/pt-aula-14-oracoes-subordinadas-adverbiais-aluno-mil-ok1.pdf",
+            "15 - ORACOES COORDENADAS/AULA_15_-_O._COORDENADAS_-_PROVAS_MILITARES.mp4",
+            "15 - ORACOES COORDENADAS/AULA_15_-_O._COORDENADAS_-_QUESTÕES_PROVAS.mp4",
+            "15 - ORACOES COORDENADAS/AULA_15_-_O._COORDENADAS_-_TEORIA_-_PARTE_1.mp4",
+            "15 - ORACOES COORDENADAS/AULA_15_-_O._COORDENADAS_-_TEORIA_-_PARTE_2.mp4",
+            "15 - ORACOES COORDENADAS/pt-aula-15-oracoes-coordenadas-aluno-mil-ok.pdf",
+            "21 - VALORES DO SE/AULA_21_-_VALORES_DO__SE__-_PROVAS_MILITARES.mp4",
+            "21 - VALORES DO SE/AULA_21_-_VALORES_DO__SE__-_TEORIA_-_P1.mp4",
+            "21 - VALORES DO SE/AULA_21_-_VALORES_DO__SE__-_TEORIA_-_P2.mp4",
+            "21 - VALORES DO SE/pt-aula-21-valores-do-se-aluno-mil-ok.pdf",
+            "40 - VALORES DO QUE/AULA_40_-_VALORES_DO__QUE__-_PROVAS_MILITARES.mp4",
+            "40 - VALORES DO QUE/AULA_40_-_VALORES_DO__QUE__-_TEORIA_-_PARTE_1_E_2.mp4",
+            "40 - VALORES DO QUE/AULA_40_-_VALORES_DO__QUE__-_TEORIA_-_PARTE_3.mp4",
+            "40 - VALORES DO QUE/pt-aula-40-valores-do-que-aluno-mil-ok1.pdf"
+          ]
+        },
+        {
+          "name": "B4 - SINTAXE RELACOES",
+          "videos": [
+            "16 - REGÊNCIA VERBAL E NOMINAL/AULA_16_-_REGÊNCIA_VERBAL_E_NOMINAL_-_P._MILITARES.mp4",
+            "16 - REGÊNCIA VERBAL E NOMINAL/AULA_16_-_REGÊNCIA_VERBAL_E_NOMINAL_-_TEORIA_-_P1.mp4",
+            "16 - REGÊNCIA VERBAL E NOMINAL/AULA_16_-_REGÊNCIA_VERBAL_E_NOMINAL_-__TEORIA_-_P2.mp4",
+            "16 - REGÊNCIA VERBAL E NOMINAL/AULA_16_-_REGÊNCIA_VERBAL_E_NOMINAL_-__TEORIA_-_P3.mp4",
+            "16 - REGÊNCIA VERBAL E NOMINAL/pt-aula-16-regencia-verbal-e-regencia-nominal-aluno-mil-ok.pdf",
+            "17 - REGÊNCIA COM PRONOME RELATIVO/AULA_17_-_REGÊNCIA_COM_PRONOME_RELATIVO_-_P._MIL.mp4",
+            "17 - REGÊNCIA COM PRONOME RELATIVO/AULA_17_-_REGÊNCIA_COM_PRONOME_RELATIVO_-_TEORIA.mp4",
+            "17 - REGÊNCIA COM PRONOME RELATIVO/pt-aula-17-regencia-com-pronome-relativo-aluno-mil-ok.pdf",
+            "18 - CRASE/AULA_18_-_CRASE_-_EXERCÍCIOS_-_PARTE_1.mp4",
+            "18 - CRASE/AULA_18_-_CRASE_-_PROVAS_MILITARES_-_PARTE_1.mp4",
+            "18 - CRASE/AULA_18_-_CRASE_-_PROVAS_MILITARES_-_PARTE_2.mp4",
+            "18 - CRASE/AULA_18_-_CRASE_-_TEORIA_-_PARTE_1.mp4",
+            "18 - CRASE/AULA_18_-_CRASE_-_TEORIA_-_PARTE_2.mp4",
+            "18 - CRASE/AULA_18_-_CRASE_-_TEORIA_-_PARTE_3.mp4",
+            "18 - CRASE/pt-aula-18-crase-aluno-mil-ok.pdf",
+            "19 - CONCORDÂNCIA VERBAL/AULA_19_-_CONCORDÂNCIA_VERBAL_-_EXERC_MILITARES_-_P1.mp4",
+            "19 - CONCORDÂNCIA VERBAL/AULA_19_-_CONCORDÂNCIA_VERBAL_-_EXERC_MILITARES_-_P2.mp4",
+            "19 - CONCORDÂNCIA VERBAL/AULA_19_-_CONCORDÂNCIA_VERBAL_-_TEORIA_-_P1.mp4",
+            "19 - CONCORDÂNCIA VERBAL/AULA_19_-_CONCORDÂNCIA_VERBAL_-_TEORIA_-_P2.mp4",
+            "19 - CONCORDÂNCIA VERBAL/AULA_19_-_CONCORDÂNCIA_VERBAL_-_TEORIA_-_P3.mp4",
+            "19 - CONCORDÂNCIA VERBAL/AULA_19_-_CONCORDÂNCIA_VERBAL_-_TEORIA_-_P4.mp4",
+            "19 - CONCORDÂNCIA VERBAL/pt-aula-19-concordancia-verbal-aluno-mil-ok.pdf",
+            "20 - COLOCAÇÃO PRONOMINAL/AULA_20_-_COLOCAÇÃO_PRONOMINAL_-_PROVAS_MILITARES.mp4",
+            "20 - COLOCAÇÃO PRONOMINAL/AULA_20_-_COLOCAÇÃO_PRONOMINAL_-_TEORIA_-_P1.mp4",
+            "20 - COLOCAÇÃO PRONOMINAL/AULA_20_-_COLOCAÇÃO_PRONOMINAL_-_TEORIA_-_P2.mp4",
+            "20 - COLOCAÇÃO PRONOMINAL/pt-aula-20-colocacao-pronominal-aluno-mil-ok.pdf",
+            "22 - PONTUAÇÃO/AULA_22_-_PONTUAÇÃO_-_EXERCÍCIOS.mp4",
+            "22 - PONTUAÇÃO/AULA_22_-_PONTUAÇÃO_-_PROVAS_MILITARES.mp4",
+            "22 - PONTUAÇÃO/AULA_22_-_PONTUAÇÃO_-_PROVAS_MILITARES_-_P2.mp4",
+            "22 - PONTUAÇÃO/AULA_22_-_PONTUAÇÃO_-_TEORIA_-_P1.mp4",
+            "22 - PONTUAÇÃO/AULA_22_-_PONTUAÇÃO_-_TEORIA_-_P2.mp4",
+            "22 - PONTUAÇÃO/AULA_22_-_PONTUAÇÃO_-_TEORIA_-_P3.mp4",
+            "22 - PONTUAÇÃO/AULA_22_-_PONTUAÇÃO_-_TEORIA_-_P4.mp4",
+            "22 - PONTUAÇÃO/pt-aula-22-pontuacao-aluno-mil-ok.pdf",
+            "39 - CONCORDANCIA NOMINAL/AULA_39_-_CONCORDÂNCIA_NOMINAL_-_PROVAS_MILITARES.mp4",
+            "39 - CONCORDANCIA NOMINAL/AULA_39_-_CONCORDÂNCIA_NOMINAL_-_TEORIA_-_PARTE_1.mp4",
+            "39 - CONCORDANCIA NOMINAL/AULA_39_-_CONCORDÂNCIA_NOMINAL_-_TEORIA_-_PARTE_2.mp4",
+            "39 - CONCORDANCIA NOMINAL/pt-aula-39-concordancia-nominal-aluno-mil-ok.pdf",
+            "46 - BÔNUS PARALELISMO/AULA_46_-_BÔNUS_-__PARALELISMO.mp4"
+          ]
+        },
+        {
+          "name": "B5 - SEMANTICA",
+          "videos": [
+            "25 - PALAVRAS E EXPRESSÕES/AULA_25_-_PALAVRAS_E_EXPRESSÕES_-_PROVAS_MILITARES.mp4",
+            "25 - PALAVRAS E EXPRESSÕES/AULA_25_-_PALAVRAS_E_EXPRESSÕES_-_TEORIA_-_P1.mp4",
+            "25 - PALAVRAS E EXPRESSÕES/AULA_25_-_PALAVRAS_E_EXPRESSÕES_-_TEORIA_-_P2.mp4",
+            "25 - PALAVRAS E EXPRESSÕES/pt-aula-25-palavras-e-expressoes-aluno-mil-ok.pdf",
+            "28 - SEMÂNTICA/AULA_28_-_SEMÂNTICA_-_EXERCÍCIOS_-_P2.mp4",
+            "28 - SEMÂNTICA/AULA_28_-_SEMÂNTICA_-_PROVAS_MILITARES.mp4",
+            "28 - SEMÂNTICA/AULA_28_-_SEMÂNTICA_-_TEORIA_E_EXERC_-_P1.mp4",
+            "28 - SEMÂNTICA/pt-aula-28-semantica-aluno-mil-ok.pdf",
+            "42 - FIGURAS DE LINGUAGEM/AULA_42_-_FIGURAS_DE_LINGUAGEM_-_PROVAS_MILITARES.mp4",
+            "42 - FIGURAS DE LINGUAGEM/AULA_42_-_FIGURAS_DE_LINGUAGEM_-_TEORIA_-_PARTE_1.mp4",
+            "42 - FIGURAS DE LINGUAGEM/AULA_42_-_FIGURAS_DE_LINGUAGEM_-_TEORIA_-_PARTE_2.mp4",
+            "42 - FIGURAS DE LINGUAGEM/pt-aula-42-figuras-de-linguagem-aluno-mil-ok.pdf"
+          ]
+        },
+        {
+          "name": "B6 - TEXTO E DISCURSO",
+          "videos": [
+            "41 - FUNCOES DA LINGUAGEM/pt-aula-41-funcoes-da-linguagem-aluno-mil-ok1.pdf",
+            "41 - FUNÇÕES DA LINGUAGEM/AULA_41_-_FUNÇÕES_DA_LINGUAGEM_-_EXERCÍCIOS.mp4",
+            "41 - FUNÇÕES DA LINGUAGEM/AULA_41_-_FUNÇÕES_DA_LINGUAGEM_-_PROVAS_MILITARES.mp4",
+            "41 - FUNÇÕES DA LINGUAGEM/AULA_41_-_FUNÇÕES_DA_LINGUAGEM_-_TEORIA.mp4",
+            "43 - TIPOS DE DISCURSO/AULA_43_-_TIPOS_DE_DISCURSO_-_PROVAS_MILITARES.mp4",
+            "43 - TIPOS DE DISCURSO/AULA_43_-_TIPOS_DE_DISCURSO_-_TEORIA_-_PARTE_1.mp4",
+            "43 - TIPOS DE DISCURSO/AULA_43_-_TIPOS_DE_DISCURSO_-_TEORIA_-_PARTE_2.mp4",
+            "43 - TIPOS DE DISCURSO/pt-aula-43-tipos-de-discurso-aluno-mil-ok.pdf",
+            "44 - COESAO COERENCIA INTERTEXTUALIDADE E PARALELISMO/pt-aula-44-coesao-coerencia-intertextualidade-e-paralelismo-aluno-mil-ok.pdf",
+            "44 - COESÃO E COERÊNCIA/AULA_44_-_COESÃO_E_COERÊNCIA_-_PROVAS_MILITARES.mp4",
+            "44 - COESÃO E COERÊNCIA/AULA_44_-_COESÃO_E_COERÊNCIA_-_TEORIA_-_PARTE_1.mp4",
+            "44 - COESÃO E COERÊNCIA/AULA_44_-_COESÃO_E_COERÊNCIA_-_TEORIA_-_PARTE_2.mp4",
+            "45 - TIPOLOGIA TEXTUAL/AULA_45_-_TIPOLOGIA_TEXTUAL_-_PROVAS_MILITARES.mp4",
+            "45 - TIPOLOGIA TEXTUAL/AULA_45_-_TIPOLOGIA_TEXTUAL_-_TEORIA_-_PARTE_1.mp4",
+            "45 - TIPOLOGIA TEXTUAL/AULA_45_-_TIPOLOGIA_TEXTUAL_-_TEORIA_-_PARTE_2.mp4",
+            "45 - TIPOLOGIA TEXTUAL/pt-aula-45-tipologia-textual-aluno-mil-ok.pdf",
+            "46 - BÔNUS TEXTUALIDADE VARIAÇÃO LINGUISTICA E PARALELISMO/pt - AULA 46 - BÔNUS - TEXTUALIDADE, VARIAÇÃO LINGUÍSTICA E PARALELISMO - ALUNO - OK.pdf"
+          ]
+        },
+        {
+          "name": "Portugues",
+          "videos": [
+            "Acentuação/ACENTUAÇÃO GRÁFICA - APOSTILA + EXERCÍCIO + GABARITO.pdf",
+            "Acentuação/Acentuação-Aula 1.mp4",
+            "Acentuação/Acentuação-Aula 2.mp4",
+            "Acentuação/Acentuação-Aula 3.mp4",
+            "Acentuação/Acentuação-Aula 4.mp4",
+            "Análise Sintática II/ANÁLISE SINTÁTICA II - PERÍODO SIMPLES _MORFOSSINTAXE.pdf",
+            "Análise Sintática II/Análise Sintática 2 Período Simples (Morfossintaxe) - Aula 1.mp4",
+            "Análise Sintática II/Análise Sintática 2 Período Simples (Morfossintaxe) - Aula 10.mp4",
+            "Análise Sintática II/Análise Sintática 2 Período Simples (Morfossintaxe) - Aula 11.mp4",
+            "Análise Sintática II/Análise Sintática 2 Período Simples (Morfossintaxe) - Aula 2.mp4",
+            "Análise Sintática II/Análise Sintática 2 Período Simples (Morfossintaxe) - Aula 3.mp4",
+            "Análise Sintática II/Análise Sintática 2 Período Simples (Morfossintaxe) - Aula 4.mp4",
+            "Análise Sintática II/Análise Sintática 2 Período Simples (Morfossintaxe) - Aula 5.mp4",
+            "Análise Sintática II/Análise Sintática 2 Período Simples (Morfossintaxe) - Aula 6.mp4",
+            "Análise Sintática II/Análise Sintática 2 Período Simples (Morfossintaxe) - Aula 7.mp4",
+            "Análise Sintática II/Análise Sintática 2 Período Simples (Morfossintaxe) - Aula 8.mp4",
+            "Análise Sintática II/Análise Sintática 2 Período Simples (Morfossintaxe) - Aula 9.mp4",
+            "Análise sintática I/Análise sintatica 1 Período Simples - Aula 1.mp4",
+            "Análise sintática I/Análise sintática 1 Período Simples - Aula 2.mp4",
+            "Análise sintática I/Análise sintática 1 Período Simples - Aula 3.mp4",
+            "Análise sintática I/Análise sintática 1 Período Simples - Aula 4.mp4",
+            "Análise sintática I/Análise sintática 1 Período Simples - Exercícios.mp4",
+            "Análise sintática I/PERÍODO SIMPLES.pdf",
+            "Coesão e Coerência/COESÃO e COERÊNCIA.pdf",
+            "Coesão e Coerência/Coesão e Coerência - Aula 1.mp4",
+            "Coesão e Coerência/Coesão e Coerência - Aula 2.mp4",
+            "Coesão e Coerência/Coesão e Coerência - Aula 3.mp4",
+            "Coesão e Coerência/Coesão e Coerência - Aula 4.mp4",
+            "Coesão e Coerência/Coesão e Coerência - Aula 5.mp4",
+            "Colocação Pronominal/COLOCAÇÃO PRONOMINAL.pdf",
+            "Colocação Pronominal/Colocação Pronominal - Aula.mp4",
+            "Colocação Pronominal/Colocação Pronominal - Exercicios 2.mp4",
+            "Colocação Pronominal/Colocação Pronominal - Exercícios 1.mp4",
+            "Concordância Nominal/CONCORDÂNCIA NOMINAL.pdf",
+            "Concordância Nominal/Concordância Nominal - Aula 1.mp4",
+            "Concordância Nominal/Concordância Nominal - Aula 2.mp4",
+            "Concordância Verbal/CONCORDÂNCIA VERBAL.pdf",
+            "Concordância Verbal/Concordância Verbal - Aula 1.mp4",
+            "Concordância Verbal/Concordância Verbal - Aula 2.mp4",
+            "Concordância Verbal/Concordância Verbal - Aula 3.mp4",
+            "Concordância Verbal/Concordância Verbal - Aula 4.mp4",
+            "Concordância Verbal/Concordância Verbal - Aula 5.mp4",
+            "Estudo da Crase/ESTUDO DA CRASE.pdf",
+            "Estudo da Crase/Estudo da Crase - Aula 1.mp4",
+            "Estudo da Crase/Estudo da Crase - Aula 2.mp4",
+            "Estudo da Crase/Estudo da Crase - Aula 3.mp4",
+            "Estudo da Crase/Estudo da Crase - Exercícios.mp4",
+            "Estudo do Porquê/ESTUDO DO PORQUÊS.pdf",
+            "Estudo do Porquê/Estudo do Porquê - Aula 1.mp4",
+            "Estudo do Porquê/Estudo do Porquê - Aula 2.mp4",
+            "Estudo do SE/ESTUDO DO SE - APOSTILA + EXERCÍCIO + GABARITO .pdf",
+            "Estudo do SE/Estudo do SE - Aula 1.mp4",
+            "Estudo do SE/Estudo do SE - Aula 2.mp4",
+            "Estudos dos Pronomes Oblíquos e Retos/ESTUDO DOS PRONOMES OBLÍQUOS E RETOS.pdf",
+            "Estudos dos Pronomes Oblíquos e Retos/Estudos dos Pronomes Oblíquos e Retos - Aula 1.mp4",
+            "Estudos dos Pronomes Oblíquos e Retos/Estudos dos Pronomes Oblíquos e Retos - Aula 2.mp4",
+            "Figuras de Linguagem/FIGURAS DE LINGUGEM.pdf",
+            "Figuras de Linguagem/Figuras de Linguagem - Aula 1.mp4",
+            "Figuras de Linguagem/Figuras de Linguagem - Aula 2.mp4",
+            "Figuras de Linguagem/Figuras de Linguagem - Aula 3.mp4",
+            "Figuras de Linguagem/Figuras de Linguagem - Aula 4.mp4",
+            "Funções da Linguagem/FUNÇÕES DA LIGUAGEM - APOSTILA + EXERCÍCIO + GABARITO .pdf",
+            "Funções da Linguagem/Funções da Linguagem - Aula.mp4",
+            "Graus dos Adjetivos/GRAU DOS ADJETIVOS.pdf",
+            "Graus dos Adjetivos/Graus dos Adjetivos - Aula.mp4",
+            "Homônimos e Parônimos/HOMÔNIMOS E PARÔNIMOS - APOSTILA + EXERCÍCIO + GABARITO.pdf",
+            "Homônimos e Parônimos/Homônimos e Parônimos - Aula.mp4",
+            "Hífen/Hífen - Aula 1.mp4",
+            "Hífen/Hífen - Aula 2.mp4",
+            "Hífen/USO DO HÍFEN - APOSTILA + EXERCÍCIO + GABARITO.pdf",
+            "Orações Subordinadas Substantivas e Adjetivas/ORAÇÕES SUBORDINADAS SUBSTANTIVAS E ADJETIVAS _ESTUDO DO QUÊ.pdf",
+            "Orações Subordinadas Substantivas e Adjetivas/Orações Subordinadas Substantivas e Adjetivas (Estudo do Quê) - Aula 01.mp4",
+            "Orações Subordinadas Substantivas e Adjetivas/Orações Subordinadas Substantivas e Adjetivas (Estudo do Quê) - Aula 02.mp4",
+            "Orações Subordinadas Substantivas e Adjetivas/Orações Subordinadas Substantivas e Adjetivas (Estudo do Quê) - Aula 03.mp4",
+            "Orações Subordinadas Substantivas e Adjetivas/Orações Subordinadas Substantivas e Adjetivas (Estudo do Quê) - Aula 04.mp4",
+            "Orações Subordinadas Substantivas e Adjetivas/Orações Subordinadas Substantivas e Adjetivas (Estudo do Quê) - Aula 05.mp4",
+            "Período Composto/PERÍODO COMPOSTO - ORAÇÕES COORDENADAS E ADVERBIAIS.pdf",
+            "Período Composto/Período Composto Orações Coordenadas e Adverbiais - Aula 1.mp4",
+            "Período Composto/Período Composto Orações Coordenadas e Adverbiais - Aula 2.mp4",
+            "Período Composto/Período Composto Orações Coordenadas e Adverbiais - Aula 3.mp4",
+            "Período Composto/Período Composto Orações Coordenadas e Adverbiais - Aula 4.mp4",
+            "Período Composto/Período Composto Orações Coordenadas e Adverbiais - Aula 5.mp4",
+            "Período Composto/Período Composto Orações Coordenadas e Adverbiais - Aula 6.mp4",
+            "Período Composto/Período Composto Orações Coordenadas e Adverbiais - Aula 7.mp4",
+            "Período Composto/Período Composto Orações Coordenadas e Adverbiais - Aula 8.mp4",
+            "Plural dos Substantivos e Adjetivos Compostos/PLURAL DOS SUBSTANTIVOS E ADJETIVOS COMPOSTOS.pdf",
+            "Plural dos Substantivos e Adjetivos Compostos/Plural dos Substantivos e Adjetivos Compostos - Aula.mp4",
+            "Plural dos Substantivos e Adjetivos Compostos/Plural dos Substantivos e Adjetivos Compostos - Exercícios.mp4",
+            "Pontuação/PONTUAÇÃO.pdf",
+            "Pontuação/Pontuação - Aula 1.mp4",
+            "Pontuação/Pontuação - Aula 2.mp4",
+            "Pontuação/Pontuação - Aula 3.mp4",
+            "Pontuação/Pontuação - Aula 4.mp4",
+            "Pontuação/Pontuação - Aula 5.mp4",
+            "Pontuação/Pontuação - Aula 6.mp4",
+            "Pontuação/Pontuação - Aula 7.mp4",
+            "Processo de Formação das Palavras/PROCESSO DE FORMAÇÃO DAS PALAVRAS.pdf",
+            "Processo de Formação das Palavras/Processo de Formação das Palavras - Aula 1.mp4",
+            "Processo de Formação das Palavras/Processo de Formação das Palavras - Aula 2.mp4",
+            "Regência Verbal e Nominal/REGÊNCIA VERBAL E NOMINAL.pdf",
+            "Regência Verbal e Nominal/Regência Verbal e Nominal - Aula 1.mp4",
+            "Regência Verbal e Nominal/Regência Verbal e Nominal - Aula 2.mp4",
+            "Regência Verbal e Nominal/Regência Verbal e Nominal - Aula 3.mp4",
+            "Regência Verbal e Nominal/Regência Verbal e Nominal - Aula 4.mp4",
+            "Regência Verbal e Nominal/Regência Verbal e Nominal - Aula 5.mp4",
+            "Regência Verbal e Nominal/Regência Verbal e Nominal - Aula 6.mp4",
+            "Tipologia Textual/TIPOLOGIA TEXTUAL.pdf",
+            "Tipologia Textual/Tipologia Textual - Aula 1.mp4",
+            "Tipologia Textual/Tipologia Textual - Aula 2.mp4",
+            "Tipos de Discurso/TIPOS DE DISCURSOS.pdf",
+            "Tipos de Discurso/Tipos de Discurso - Aula.mp4",
+            "Tópicos Especiais sobre Substantivos Simples/TÓPICOS ESPECIAIS SOBRE SUBSTANTIVOS SIMPLES.pdf",
+            "Tópicos Especiais sobre Substantivos Simples/Tópicos Especiais sobre Substantivos Simples - Aula 1 (Retificação).mp4",
+            "Tópicos Especiais sobre Substantivos Simples/Tópicos Especiais sobre Substantivos Simples - Aula 1.mp4",
+            "Tópicos Especiais sobre Substantivos Simples/Tópicos Especiais sobre Substantivos Simples - Aula 2.mp4",
+            "Verbos 1/ESTUDO DOS VERBOS - APOSTILA (PARTE 1 e 2) + EXERCÍCIO + GABARITO.pdf",
+            "Verbos 1/Verbos - Formação do Imperativo - Aula 1 (parte 1).mp4",
+            "Verbos 1/Verbos - Formação do Imperativo - Aula 1 (parte 2).mp4",
+            "Verbos 1/Verbos - Formação do Imperativo - Aula 2.mp4",
+            "Verbos 1/Verbos - Infinitivo Pessoal x Futuro do Subjuntivo - Aula 1.mp4",
+            "Verbos 1/Verbos - Infinitivo Pessoal x Futuro do Subjuntivo - Aula 2.mp4",
+            "Verbos 1/Verbos - Infinitivo Pessoal x Futuro do Subjuntivo - Aula 3.mp4",
+            "Verbos 1/Verbos - Infinitivo Pessoal x Futuro do Subjuntivo - Exercícios.mp4",
+            "Verbos 2/VERBOS - IDENTIFICAÇÃO DE TEMPO VERBAL_ SEMÂNTICA_CORRELAÇÃO VERBAL_ORAÇÕES REDUZIDAS E DESENVOLVIDAS.pdf",
+            "Verbos 2/Verbos - Correlação Verbal - Aula 1.mp4",
+            "Verbos 2/Verbos - Correlação Verbal - Aula 2.mp4",
+            "Verbos 2/Verbos - Identificação do Tempo Verbal - Aula 1.mp4",
+            "Verbos 2/Verbos - Identificação do Tempo Verbal - Aula 2.mp4",
+            "Verbos 2/Verbos - Orações Reduzidas e Desenvolvidas - Aula 1.mp4",
+            "Verbos 2/Verbos - Orações Reduzidas e Desenvolvidas - Aula 2.mp4",
+            "Verbos 2/Verbos - Semântica Verbal - Aula 1.mp4",
+            "Verbos 2/Verbos - Semântica Verbal - Aula 2.mp4",
+            "Verbos 2/Verbos - Semântica Verbal - Aula 3.mp4",
+            "Verbos 3/MÓDULO 3 - PORTUGUÊS - VERBOS - TEMPOS SIMPLES E COMPOSTOS_FALSOS DERIVADOS E VERBOS DEFECTIVOS_FORMAS RIZOTÔNICAS E ARRIZOTÔNICAS.pdf",
+            "Verbos 3/Verbos - Falsos Derivados e Verbos Defectivos - Aula.mp4",
+            "Verbos 3/Verbos - Falsos Derivados e Verbos Defectivos - Exercícios.mp4",
+            "Verbos 3/Verbos - Formas Rizotônicas e Arrizotônicas - Aula.mp4",
+            "Verbos 3/Verbos - Formas Rizotônicas e Arrizotônicas - Exercícios.mp4",
+            "Verbos 3/Verbos - Tempos Simples e Compostos - Aula.mp4",
+            "Verbos 3/Verbos - Tempos Simples e Compostos - Exercícios.mp4",
+            "Vozes Verbais/VOZES VERBAIS.pdf",
+            "Vozes Verbais/Vozes Verbais - Aula 1.mp4",
+            "Vozes Verbais/Vozes Verbais - Aula 2.mp4",
+            "Vozes Verbais/Vozes Verbais - Aula 3.mp4",
+            "Vozes Verbais/Vozes Verbais - Aula 4.mp4",
+            "Vozes Verbais/Vozes Verbais - Aula 5.mp4"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "course-redação-rafael",
+      "name": "Redação - Rafael",
+      "subject": "Português",
+      "periods": [
+        {
+          "name": "01 - JAN24",
+          "videos": [
+            "Aula 1 - O Texto Dissertativo.pdf",
+            "Aula 1 - O Texto Dissertativo.ts",
+            "Aula 2 - Dicas de estudo de redação.ts",
+            "Aula 3 - Planejamento aula.pdf",
+            "Aula 3 - Planejamento aula.ts",
+            "Aula 4 - Redação Exemplar (modelo antigo) - Luciana.pdf",
+            "Aula 4 - Redação Exemplar (modelo antigo) - Luciana.ts",
+            "Aula 5 - Introdução - Tese.pdf",
+            "Aula 5 - Introdução - Tese.ts",
+            "Aula 6 - Introdução - Contextualização.ts",
+            "Temas 01/Monografia_Um desafio ao Poder Naval brasileiro no alvorecer do Século XXI - Amazônia Azul.pdf",
+            "Temas 01/Temas de janeiro.pdf"
+          ]
+        },
+        {
+          "name": "02 - FEV24",
+          "videos": [
+            "AULA_10_REDACAO_EXEMPLAR_OS_PROJETOS_ESTRATEGICOS_DA_MB.pdf",
+            "AULA_11_DESENVOLVIMENTO_4.pdf",
+            "AULA_7_DESENVOLVIMENTO_1.pdf",
+            "AULA_8_DESENVOLVIMENTO_2.pdf",
+            "AULA_9_DESENVOLVIMENTO_3.pdf",
+            "Aula 10 - Redação Exemplar (modelo antigo) - Os Projetos Estratégicos da MB.ts",
+            "Aula 11 - Desenvolvimento (parte 4).ts",
+            "Aula 7 - Desenvolvimento (parte 1).ts",
+            "Aula 8 - Desenvolvimento (parte 2).ts",
+            "Aula 9 - Desenvolvimento (parte 3).ts",
+            "Temas 02/Tema 5 - Caracteristicas_do_processo_decisorio_sobre_o_ingresso_da_mulher_militar.pdf",
+            "Temas 02/Tema 5 - a_importancia_das_mulheres_nas_forcas_armadas.pdf",
+            "Temas 02/Tema 6 - A PARTICIPACAO DO BRASIL NAS OPERACOES DE PAZ DAS NACOES UNIDAS EVOLUCAO, DESAFIOS E OPORTUNIDADES.pdf",
+            "Temas 02/Tema 7 - O LEGADO OLÍMPICO DA MARINHA DO BRASIL.pdf",
+            "Temas 02/Tema 8 - EMA_137_ROSA_DAS_VIRTUDES.pdf",
+            "Temas 02/Temas de fevereiro.pdf"
+          ]
+        },
+        {
+          "name": "03 - MAR24",
+          "videos": [
+            "AULA_12_CONCLUSÃO.pdf",
+            "AULA_14_COERÊNCIA.pdf",
+            "AULA_16_COESÃO_REFERENCIAL.pdf",
+            "AULA_17_EXERCÍCIOS_COESÃO_REFERENCIAL.pdf",
+            "Aula 12 - Conclusão (parte 1).ts",
+            "Aula 13 - Conclusão (parte 2).pdf",
+            "Aula 13 - Conclusão (parte 2).ts",
+            "Aula 14 - Coerência.ts",
+            "Aula 15 - Redação Exemplar (modelo antigo) - William.pdf",
+            "Aula 15 - Redação Exemplar (modelo antigo) - William.ts",
+            "Aula 16 - Coesão Referencial.ts",
+            "Aula 17 - Coesão Referencial Exercícios.ts",
+            "Temas 03/Tema 10 - O_ESPIRITO_MILITAR.pdf",
+            "Temas 03/Tema 11 - Cooperação e Zelo.docx",
+            "Temas 03/Tema 12 - LER PAGINA 169.pdf",
+            "Temas 03/Tema 13 - DISCIPLINA E HIERARQUIA.pdf",
+            "Temas 03/Tema 9 - Etica_das_Virtudes_FGV.pdf",
+            "Temas 03/Temas de março.pdf"
+          ]
+        },
+        {
+          "name": "04 - ABR24",
+          "videos": [
+            "Aula 18 - Título.pdf",
+            "Aula 18 - Título.ts",
+            "Aula 19 - Texto de apoio.pdf",
+            "Aula 19 - Texto de apoio.ts",
+            "Aula 20 - Repertório cultural.pdf",
+            "Aula 20 - Repertório cultural.ts",
+            "Aula 21 - Coesão Sequencial.pdf",
+            "Aula 21 - Coesão Sequencial.ts",
+            "Aula 22 - Coesão Sequencial - Exercícios.pdf",
+            "Aula 22 - Coesão Sequencial - Exercícios.ts",
+            "Aula 23 - Redação Exemplar (modelo antigo) - Fabio Charlesson.pdf",
+            "Aula 24 - Redação exemplar (modelo antigo) - Economia Azul - Erico.pdf",
+            "Aula 24 - Redação exemplar (modelo antigo) - Economia Azul - Erico.ts",
+            "Aula 25 - Redação exemplar (modelo novo) - Repertório cultural e coesão.pdf",
+            "Aula 25 - Redação exemplar (modelo novo) - Repertório cultural e coesão.ts",
+            "Temas 04/Tema 15 - O MILITAR DA MB COM INICIATIVA E ABNEGAÇÃO_LINKS.pdf",
+            "Temas 04/Tema 16.1 - O FOGO SAGRADO E A HONRA PARA O MILITAR DA MARINHA DO BRASIL_LINKS.pdf",
+            "Temas 04/Tema 16.2 - NOSSA VOGA.pdf",
+            "Temas 04/Tema 17 - MILITAR DA MB - DECISÃO E TENACIDADE_LINKS.pdf",
+            "Temas 04/Temas de abril.pdf"
+          ]
+        },
+        {
+          "name": "05 - MAI24",
+          "videos": [
+            "Aula 26 - Paralelismo Semântico.pdf",
+            "Aula 26 - Paralelismo Semântico.ts",
+            "Aula 27 - Paralelismo Sintático.pdf",
+            "Aula 27 - Paralelismo Sintático.ts",
+            "Aula 28 - Redação exemplar (modelo novo) - A influência das comunicações em redes sociais na liderança militar naval.pdf",
+            "Aula 28 - Redação exemplar (modelo novo) - A influência das comunicações em redes sociais na liderança militar naval.ts",
+            "Aula 29 - Paralelismo - Exercícios.pdf",
+            "Aula 29 - Paralelismo - Exercícios.ts",
+            "Aula 30 - Erros mais comuns - Dissertação.ts",
+            "Aula 31 - Redação exemplar (modelo antigo) - Economia Azul - Erico.pdf",
+            "Aula 31 - Redação exemplar (modelo antigo) - Economia Azul - Erico.ts",
+            "Temas 05/Tema 18 - OS EFEITOS DA VIRTUDE DA ORDEM PARA O MILITAR DA MB/OS EFEITOS DA VIRTUDE DA ORDEM PARA O MILITAR DA MB_LINKS.pdf",
+            "Temas 05/Tema 19 - A RELAÇÃO ENTRE ECONOMIA DO MAR E ECONOMIA DA DEFESA/Erika_Ribeiro_a-inter-relação-da-economia-do-mar-e-da-economia-da-defesa.pdf",
+            "Temas 05/Tema 20 - A IMPORTÂNCIA DAS REDES SOCIAIS PARA O MARKETING DIGITAL DA MARINHA DO BRASIL/A IMPORTÂNCIA DAS REDES SOCIAIS PARA O MARKETING DIGITAL DA MARINHA DO BRASIL.pdf",
+            "Temas 05/Tema 21 - A MARINHA DO BRASIL E O JORNALISMO ELETRÔNICO/A MARINHA DO BRASIL E O JORNALISMO ELETRÔNICO.pdf"
+          ]
+        },
+        {
+          "name": "06 - JUN24",
+          "videos": [
+            "Aula 32 - Temas com OU(1).ts",
+            "Aula 32 - Temas com OU.ts",
+            "Aula 33 - Redação exemplar (modelo antigo) - Marinha do Brasil - Mercante ou Mavórcia - Érico(1).pdf",
+            "Aula 33 - Redação exemplar (modelo antigo) - Marinha do Brasil - Mercante ou Mavórcia - Érico.pdf",
+            "Aula 33 - Redação exemplar (modelo antigo) - Marinha do Brasil - Mercante ou Mavórcia - Érico.ts",
+            "Aula 34 - Redação exemplar (modelo antigo) - A Marinha do Brasil e o esporte - Erico(1).pdf",
+            "Aula 34 - Redação exemplar (modelo antigo) - A Marinha do Brasil e o esporte - Erico.pdf",
+            "Aula 34 - Redação exemplar (modelo antigo) - A Marinha do Brasil e o esporte - Erico.ts",
+            "Aula 35 - Todos os itens da Redação nota 10.pdf",
+            "Aula 35 - Todos os itens da Redação nota 10.ts",
+            "Aula 36 - Redação exemplar (modelo antigo) - Operações Navais.pdf",
+            "Aula 36 - Redação exemplar (modelo antigo) - Operações Navais.ts",
+            "Temas 06/Tema 24 –  PORTE DE ARMAS NO BRASIL - SIM OU NÃO_/PORTE DE ARMAS - DEBATE.pdf",
+            "Temas 06/Tema 25 – ECONOMIA AZUL - O DESENVOLVIMENTO QUE VEM DO MAR/MARINHA EM REVISTA - ED 13 - LER PAG 57.pdf"
+          ]
+        },
+        {
+          "name": "07 - JUL24",
+          "videos": [
+            "Aula 37 - Redação Exemplar (modelo antigo) - Busca de Grandeza.pdf",
+            "Aula 37 - Redação Exemplar (modelo antigo) - Busca de Grandeza.ts",
+            "Aula 38 - Redação Exemplar (modelo novo) - Os efeitos da virtude da ordem para o militar da Marinha do Brasil.pdf",
+            "Aula 38 - Redação Exemplar (modelo novo) - Os efeitos da virtude da ordem para o militar da Marinha do Brasil.ts",
+            "Aula 39 - Dicas de Redação.pdf",
+            "Aula 39 - Dicas de Redação.ts",
+            "Aula 40 - Redação Exemplar (modelo antigo)- Os militares da Marinha do Brasil e as redes sociais.pdf",
+            "Aula 40 - Redação Exemplar (modelo antigo)- Os militares da Marinha do Brasil e as redes sociais.ts",
+            "Aula 41 - Redação Exemplar (modelo novo)- Amazônia Azul - crises e ameaças.pdf",
+            "Aula 41 - Redação Exemplar (modelo novo)- Amazônia Azul - crises e ameaças.ts",
+            "Aula 42 - Eixos Temáticos.pdf",
+            "Aula 42 - Eixos Temáticos.ts",
+            "Temas 07/Tema 26 – RENOVAÇÃO DO PODER NAVAL - Projetar é Preciso/Material de apoio-rmb_4t-2018_completa.pdf"
+          ]
+        },
+        {
+          "name": "08 - AGO24",
+          "videos": [
+            "Aula 43 - Frases Truncadas.pdf",
+            "Aula 43 - Frases Truncadas.ts",
+            "Aula 44 - Redação Exemplar (modelo antigo) - Diplomacia Naval Instrumento de Política Externa.pdf",
+            "Aula 44 - Redação Exemplar (modelo antigo) - Diplomacia Naval Instrumento de Política Externa.ts",
+            "Aula 45 - Redação Exemplar (modelo novo) - O Programa Antártico Brasileiro.pdf",
+            "Aula 45 - Redação Exemplar (modelo novo) - O Programa Antártico Brasileiro.ts",
+            "Aula 46 - Redação Exemplar (modelo antigo)- Os projetos estratégicos da Marinha do Brasil.pdf",
+            "Aula 46 - Redação Exemplar (modelo antigo)- Os projetos estratégicos da Marinha do Brasil.ts",
+            "Aula 47 - Redação Exemplar (modelo antigo) - A importância dos oceanos para o bem e a prosperidade da humanidade.pdf",
+            "Aula 47 - Redação Exemplar (modelo antigo) - A importância dos oceanos para o bem e a prosperidade da humanidade.ts",
+            "Aula 48- Redação Exemplar (modelo novo) - Lançamento do Riachuelo marca o primeiro grande passo do PROBUB.pdf",
+            "Aula 48- Redação Exemplar (modelo novo) - Lançamento do Riachuelo marca o primeiro grande passo do PROBUB.ts"
+          ]
+        }
+      ]
+    }
+  ],
+  "manual": [
+    {
+      "id": "exercicios",
+      "name": "Exercícios",
+      "subject": "Exercícios",
+      "items": [
+        "Caderno de Questões - Adsumus RDM",
+        "Lista de Revisão de Crase - Exercícios"
+      ]
+    },
+    {
+      "id": "simulados",
+      "name": "Simulados",
+      "subject": "Simulados",
+      "items": [
+        "Simulado Geral 01 - Fevereiro 2025",
+        "Simulado Geral 02 - Março 2025"
+      ]
+    }
+  ]
+};
+    // END_DATA_STRUCTURE
+
+    // --- Utilitários de Persistência Segura com window.storage ---
+    if (typeof window !== 'undefined' && !window.__inMemoryStorage) {
+      window.__inMemoryStorage = {};
+    }
+
+    const storageGet = async (key) => {
+      try {
+        if (typeof window !== 'undefined' && window.storage && typeof window.storage.get === 'function') {
+          return await window.storage.get(key, { shared: false });
+        } else if (typeof window !== 'undefined' && window.storage && typeof window.storage.getItem === 'function') {
+          return await window.storage.getItem(key);
+        }
+        return window.__inMemoryStorage[key] || null;
+      } catch (e) {
+        console.error(`Erro ao ler chave ${key}:`, e);
+        return window.__inMemoryStorage[key] || null;
+      }
+    };
+
+    const storageSet = async (key, value) => {
+      try {
+        if (typeof window !== 'undefined' && window.storage && typeof window.storage.set === 'function') {
+          await window.storage.set(key, value, { shared: false });
+        } else if (typeof window !== 'undefined' && window.storage && typeof window.storage.setItem === 'function') {
+          await window.storage.setItem(key, value);
+        } else {
+          window.__inMemoryStorage[key] = value;
+        }
+      } catch (e) {
+        console.error(`Erro ao salvar chave ${key}:`, e);
+        window.__inMemoryStorage[key] = value;
+        throw e;
+      }
+    };
+
+    const storageDelete = async (key) => {
+      try {
+        if (typeof window !== 'undefined' && window.storage && typeof window.storage.delete === 'function') {
+          await window.storage.delete(key, { shared: false });
+        } else if (typeof window !== 'undefined' && window.storage && typeof window.storage.removeItem === 'function') {
+          await window.storage.removeItem(key);
+        } else {
+          delete window.__inMemoryStorage[key];
+        }
+      } catch (e) {
+        console.error(`Erro ao deletar chave ${key}:`, e);
+        delete window.__inMemoryStorage[key];
+      }
+    };
+
+    // --- Utilitário de formatação de porcentagem com até 2 casas decimais, sem zeros à direita ---
+    const getPercent = (completed, total) => {
+      if (!total || total <= 0) return 0;
+      return Math.round((completed / total) * 10000) / 100;
+    };
+
+    // --- Componente Principal da Aplicação ---
+    function App() {
+      const [loading, setLoading] = useState(true);
+      const [storageError, setStorageError] = useState(false);
+      const [studyStructure, setStudyStructure] = useState(DEFAULT_STUDY_STRUCTURE);
+      const [completedKeys, setCompletedKeys] = useState({});
+      const [toastMsg, setToastMsg] = useState(null);
+      const [driveLetter, setDriveLetter] = useState("E");
+
+      // Controle de Navegação (Drill-Down)
+      const [navigation, setNavigation] = useState({
+        view: 'home',
+        subjectName: null,
+        courseId: null,
+        periodName: null
+      });
+
+      // Estados para Formulários de Adição
+      const [newCourseName, setNewCourseName] = useState("");
+      const [newCourseSubject, setNewCourseSubject] = useState("Conhecimento Militar Naval");
+      const [newPeriodName, setNewPeriodName] = useState("");
+      const [newVideoText, setNewVideoText] = useState("");
+      const [newManualItem, setNewManualItem] = useState("");
+
+      // --- Inicialização dos Dados ---
+      useEffect(() => {
+        const loadInitialData = async () => {
+          setLoading(true);
+          try {
+            // 0. Carregar a letra do disco configurada
+            const savedDrive = await storageGet("progresso:letra_disco");
+            if (savedDrive) {
+              setDriveLetter(savedDrive);
+            }
+
+            // 1. Carregar a estrutura de dados (cursos e vídeos cadastrados)
+            const savedStructure = await storageGet("progresso:estrutura_dados");
+            let currentStructure = DEFAULT_STUDY_STRUCTURE;
+            if (savedStructure) {
+              try {
+                const parsed = typeof savedStructure === 'string' ? JSON.parse(savedStructure) : savedStructure;
+                if (parsed && (parsed.courses || parsed.manual)) {
+                  currentStructure = parsed;
+                  setStudyStructure(parsed);
+                }
+              } catch (e) {
+                console.error("Falha ao parsear estrutura salva, usando padrão.", e);
+              }
+            }
+
+            // 2. Carregar o progresso de itens marcados como concluídos
+            const progressMap = {};
+            let listedKeys = false;
+            
+            if (window.storage && typeof window.storage.list === 'function') {
+              try {
+                const keys = await window.storage.list("progresso:", { shared: false });
+                if (keys && Array.isArray(keys)) {
+                  keys.forEach(k => {
+                    const keyStr = typeof k === 'string' ? k : k.key;
+                    if (keyStr) {
+                      const relativeKey = keyStr.replace("progresso:", "");
+                      progressMap[relativeKey] = true;
+                    }
+                  });
+                  listedKeys = true;
+                }
+              } catch (e) {
+                console.warn("list() falhou ou indisponível, caindo em loop paralelo", e);
+              }
+            }
+
+            if (!listedKeys) {
+              const keysToQuery = [];
+              currentStructure.courses.forEach(c => {
+                c.periods.forEach(p => {
+                  p.videos.forEach(v => {
+                    keysToQuery.push(`${c.name}/${p.name}/${v}`);
+                  });
+                });
+              });
+              currentStructure.manual.forEach(m => {
+                m.items.forEach(i => {
+                  keysToQuery.push(`manual/${m.id}/${i}`);
+                });
+              });
+
+              await Promise.all(keysToQuery.map(async (relativeKey) => {
+                const status = await storageGet(`progresso:${relativeKey}`);
+                if (status === true || status === 'true') {
+                  progressMap[relativeKey] = true;
+                }
+              }));
+            }
+
+            setCompletedKeys(progressMap);
+          } catch (err) {
+            console.error("Erro no carregamento:", err);
+            setStorageError(true);
+          } finally {
+            setLoading(false);
+          }
+        };
+
+        loadInitialData();
+      }, []);
+
+      const showToast = (msg) => {
+        setToastMsg(msg);
+        setTimeout(() => setToastMsg(null), 3000);
+      };
+
+      const saveStructure = async (newStructure) => {
+        setStudyStructure(newStructure);
+        try {
+          await storageSet("progresso:estrutura_dados", JSON.stringify(newStructure));
+        } catch (e) {
+          showToast("⚠️ Erro ao salvar estrutura de dados!");
+        }
+      };
+
+      const handleDriveChange = async (newDrive) => {
+        const cleanDrive = newDrive.replace(/[^a-zA-Z]/g, '').toUpperCase();
+        setDriveLetter(cleanDrive);
+        if (cleanDrive) {
+          try {
+            await storageSet("progresso:letra_disco", cleanDrive);
+          } catch (e) {
+            console.error("Erro ao salvar letra de disco:", e);
+          }
+        }
+      };
+
+      // --- Lógica de Progresso ---
+      const stats = useMemo(() => {
+        let totalVideos = 0;
+        let completedVideos = 0;
+        let totalManual = 0;
+        let completedManual = 0;
+        const subjectStats = {};
+
+        Object.keys(SUBJECT_METADATA).forEach(subject => {
+          subjectStats[subject] = { total: 0, completed: 0 };
+        });
+
+        studyStructure.courses.forEach(c => {
+          const subject = c.subject || "Conhecimento Militar Naval";
+          if (!subjectStats[subject]) {
+            subjectStats[subject] = { total: 0, completed: 0 };
+          }
+          c.periods.forEach(p => {
+            p.videos.forEach(v => {
+              const key = `${c.name}/${p.name}/${v}`;
+              totalVideos++;
+              subjectStats[subject].total++;
+              if (completedKeys[key]) {
+                completedVideos++;
+                subjectStats[subject].completed++;
+              }
+            });
+          });
+        });
+
+        studyStructure.manual.forEach(m => {
+          const subject = m.subject;
+          if (!subjectStats[subject]) {
+            subjectStats[subject] = { total: 0, completed: 0 };
+          }
+          m.items.forEach(i => {
+            const key = `manual/${m.id}/${i}`;
+            totalManual++;
+            subjectStats[subject].total++;
+            if (completedKeys[key]) {
+              completedManual++;
+              subjectStats[subject].completed++;
+            }
+          });
+        });
+
+        const totalAll = totalVideos + totalManual;
+        const completedAll = completedVideos + completedManual;
+        const percentAll = getPercent(completedAll, totalAll);
+
+        return {
+          totalVideos,
+          completedVideos,
+          totalManual,
+          completedManual,
+          totalAll,
+          completedAll,
+          percentAll,
+          subjectStats
+        };
+      }, [studyStructure, completedKeys]);
+
+      const toggleVideoComplete = async (courseName, periodName, videoName) => {
+        const key = `${courseName}/${periodName}/${videoName}`;
+        const currentVal = completedKeys[key];
+        const newVal = !currentVal;
+
+        setCompletedKeys(prev => ({ ...prev, [key]: newVal }));
+
+        try {
+          const storageKey = `progresso:${key}`;
+          if (newVal) {
+            await storageSet(storageKey, true);
+          } else {
+            await storageDelete(storageKey);
+          }
+        } catch (err) {
+          setCompletedKeys(prev => ({ ...prev, [key]: currentVal }));
+          showToast("❌ Falha ao salvar no storage");
+        }
+      };
+
+      const toggleManualComplete = async (manualId, itemName) => {
+        const key = `manual/${manualId}/${itemName}`;
+        const currentVal = completedKeys[key];
+        const newVal = !currentVal;
+
+        setCompletedKeys(prev => ({ ...prev, [key]: newVal }));
+
+        try {
+          const storageKey = `progresso:${key}`;
+          if (newVal) {
+            await storageSet(storageKey, true);
+          } else {
+            await storageDelete(storageKey);
+          }
+        } catch (err) {
+          setCompletedKeys(prev => ({ ...prev, [key]: currentVal }));
+          showToast("❌ Falha ao salvar no storage");
+        }
+      };
+
+      // --- Operações de Estrutura ---
+      const handleAddCourse = (e) => {
+        e.preventDefault();
+        if (!newCourseName.trim()) return;
+
+        const newCourse = {
+          id: `course-${Date.now()}`,
+          name: newCourseName.trim(),
+          subject: newCourseSubject,
+          periods: []
+        };
+
+        const updated = {
+          ...studyStructure,
+          courses: [...studyStructure.courses, newCourse]
+        };
+
+        saveStructure(updated);
+        setNewCourseName("");
+        showToast(`Curso "${newCourse.name}" adicionado!`);
+      };
+
+      const handleAddPeriod = (e, courseId) => {
+        e.preventDefault();
+        if (!newPeriodName.trim()) return;
+
+        const updatedCourses = studyStructure.courses.map(c => {
+          if (c.id === courseId) {
+            if (c.periods.some(p => p.name.toUpperCase() === newPeriodName.trim().toUpperCase())) {
+              showToast("Este período já existe!");
+              return c;
+            }
+            return {
+              ...c,
+              periods: [...c.periods, { name: newPeriodName.trim(), videos: [] }]
+            };
+          }
+          return c;
+        });
+
+        saveStructure({ ...studyStructure, courses: updatedCourses });
+        setNewPeriodName("");
+        showToast(`Período "${newPeriodName}" adicionado!`);
+      };
+
+      const handleAddVideos = (e, courseId, periodName) => {
+        e.preventDefault();
+        if (!newVideoText.trim()) return;
+
+        const videosToAdd = newVideoText
+          .split("\n")
+          .map(v => v.trim())
+          .filter(v => v.length > 0);
+
+        if (videosToAdd.length === 0) return;
+
+        const updatedCourses = studyStructure.courses.map(c => {
+          if (c.id === courseId) {
+            const updatedPeriods = c.periods.map(p => {
+              if (p.name === periodName) {
+                const uniqueNewVideos = videosToAdd.filter(v => !p.videos.includes(v));
+                return {
+                  ...p,
+                  videos: [...p.videos, ...uniqueNewVideos]
+                };
+              }
+              return p;
+            });
+            return { ...c, periods: updatedPeriods };
+          }
+          return c;
+        });
+
+        saveStructure({ ...studyStructure, courses: updatedCourses });
+        setNewVideoText("");
+        showToast(`${videosToAdd.length} vídeo(s) adicionado(s)!`);
+      };
+
+      const handleAddManualItem = (e, manualId) => {
+        e.preventDefault();
+        if (!newManualItem.trim()) return;
+
+        const updatedManual = studyStructure.manual.map(m => {
+          if (m.id === manualId) {
+            if (m.items.includes(newManualItem.trim())) {
+              showToast("Este item já existe!");
+              return m;
+            }
+            return {
+              ...m,
+              items: [...m.items, newManualItem.trim()]
+            };
+          }
+          return m;
+        });
+
+        saveStructure({ ...studyStructure, manual: updatedManual });
+        setNewManualItem("");
+        showToast("Item adicionado com sucesso!");
+      };
+
+      const handleDeleteCourse = (courseId, courseName) => {
+        if (!confirm(`Deseja realmente remover o curso "${courseName}"?`)) return;
+        const updated = {
+          ...studyStructure,
+          courses: studyStructure.courses.filter(c => c.id !== courseId)
+        };
+        saveStructure(updated);
+        setNavigation({ view: 'home', subjectName: null, courseId: null, periodName: null });
+        showToast("Curso removido!");
+      };
+
+      const handleDeletePeriod = (courseId, periodName) => {
+        if (!confirm(`Deseja realmente remover o período "${periodName}"?`)) return;
+        const updatedCourses = studyStructure.courses.map(c => {
+          if (c.id === courseId) {
+            return {
+              ...c,
+              periods: c.periods.filter(p => p.name !== periodName)
+            };
+          }
+          return c;
+        });
+        saveStructure({ ...studyStructure, courses: updatedCourses });
+        setNavigation(prev => ({ ...prev, view: 'subject', periodName: null }));
+        showToast("Período removido!");
+      };
+
+      const handleDeleteVideo = (courseId, periodName, videoName) => {
+        if (!confirm(`Remover aula: "${videoName}"?`)) return;
+        const updatedCourses = studyStructure.courses.map(c => {
+          if (c.id === courseId) {
+            const updatedPeriods = c.periods.map(p => {
+              if (p.name === periodName) {
+                return {
+                  ...p,
+                  videos: p.videos.filter(v => v !== videoName)
+                };
+              }
+              return p;
+            });
+            return { ...c, periods: updatedPeriods };
+          }
+          return c;
+        });
+        saveStructure({ ...studyStructure, courses: updatedCourses });
+        showToast("Aula removida!");
+      };
+
+      const handleDeleteManualItem = (manualId, itemName) => {
+        if (!confirm(`Remover item "${itemName}"?`)) return;
+        const updatedManual = studyStructure.manual.map(m => {
+          if (m.id === manualId) {
+            return {
+              ...m,
+              items: m.items.filter(i => i !== itemName)
+            };
+          }
+          return m;
+        });
+        saveStructure({ ...studyStructure, manual: updatedManual });
+        showToast("Item removido!");
+      };
+
+      // --- Navegação ---
+      const handleSubjectClick = (subject) => {
+        if (subject === "Exercícios" || subject === "Simulados") {
+          const manualObj = studyStructure.manual.find(m => m.subject === subject);
+          setNavigation({
+            view: 'manual',
+            subjectName: subject,
+            courseId: manualObj ? manualObj.id : null,
+            periodName: null
+          });
+        } else {
+          setNavigation({
+            view: 'subject',
+            subjectName: subject,
+            courseId: null,
+            periodName: null
+          });
+        }
+      };
+
+      const handleCourseClick = (courseId) => {
+        setNavigation(prev => ({
+          ...prev,
+          view: 'course',
+          courseId: courseId
+        }));
+      };
+
+      const handlePeriodClick = (periodName) => {
+        setNavigation(prev => ({
+          ...prev,
+          view: 'period',
+          periodName: periodName
+        }));
+      };
+
+      const handleBack = () => {
+        if (navigation.view === 'period') {
+          setNavigation(prev => ({ ...prev, view: 'course', periodName: null }));
+        } else if (navigation.view === 'course') {
+          setNavigation(prev => ({ ...prev, view: 'subject', courseId: null }));
+        } else if (navigation.view === 'subject' || navigation.view === 'manual') {
+          setNavigation({ view: 'home', subjectName: null, courseId: null, periodName: null });
+        }
+      };
+
+      const makeVideoUrl = (courseName, periodName, videoName) => {
+        const drive = driveLetter ? `${driveLetter}:` : 'E:';
+        return `file:///${drive}/Video aulas/AA/${courseName}/${periodName}/${videoName}`;
+      };
+
+      const copyToClipboard = (text) => {
+        navigator.clipboard.writeText(text);
+        showToast("📋 Caminho copiado!");
+      };
+
+      // Resolvers de visualização atual
+      const currentCourse = useMemo(() => {
+        if (!navigation.courseId) return null;
+        return studyStructure.courses.find(c => c.id === navigation.courseId);
+      }, [studyStructure, navigation.courseId]);
+
+      const currentPeriod = useMemo(() => {
+        if (!currentCourse || !navigation.periodName) return null;
+        return currentCourse.periods.find(p => p.name === navigation.periodName);
+      }, [currentCourse, navigation.periodName]);
+
+      const currentManual = useMemo(() => {
+        if (navigation.view !== 'manual') return null;
+        return studyStructure.manual.find(m => m.subject === navigation.subjectName);
+      }, [studyStructure, navigation]);
+
+      const filteredCourses = useMemo(() => {
+        if (navigation.view !== 'subject') return [];
+        return studyStructure.courses.filter(c => c.subject === navigation.subjectName);
+      }, [studyStructure, navigation.subjectName, navigation.view]);
+
+      // --- Renderizações parciais ---
+      const renderHome = () => {
+        return (
+          <div class="fade-in space-y-8">
+            <div>
+              <h2 class="text-xl font-bold font-outfit text-slate-300 mb-6 flex items-center gap-2">
+                <Icons.Anchor /> Matérias de Estudo
+              </h2>
+              <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                {Object.keys(SUBJECT_METADATA).map(subject => {
+                  const meta = SUBJECT_METADATA[subject];
+                  const SubjectIcon = meta.icon;
+                  const stat = stats.subjectStats[subject] || { total: 0, completed: 0 };
+                  const percent = getPercent(stat.completed, stat.total);
+
+                  return (
+                    <button
+                      key={subject}
+                      onClick={() => handleSubjectClick(subject)}
+                      class={`glass-panel text-left p-5 rounded-2xl border transition-all duration-300 group hover:-translate-y-1 ${meta.border} ${meta.bg} neon-border-blue`}
+                    >
+                      <div class="flex items-center justify-between mb-4">
+                        <div class={`p-3 rounded-xl bg-slate-800/80 text-white ${meta.text} shadow-inner`}>
+                          <SubjectIcon />
+                        </div>
+                        <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                          {stat.completed}/{stat.total} Aulas
+                        </span>
+                      </div>
+                      
+                      <h3 class="text-lg font-bold font-outfit text-slate-100 group-hover:text-white transition-colors duration-200">
+                        {subject}
+                      </h3>
+                      
+                      <div class="mt-5">
+                        <div class="flex justify-between items-center text-sm mb-1.5">
+                          <span class="text-slate-400">Progresso</span>
+                          <span class={`font-bold ${meta.text}`}>{percent}%</span>
+                        </div>
+                        <div class="w-full bg-slate-900/80 rounded-full h-2 overflow-hidden p-[1px] border border-slate-800/40">
+                          <div 
+                            class={`h-full rounded-full bg-gradient-to-r ${meta.color} transition-all duration-500`}
+                            style={{ width: `${percent}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800/80">
+              <h3 class="text-lg font-bold font-outfit text-slate-200 mb-4 flex items-center gap-2">
+                <Icons.Plus /> Cadastrar Novo Curso / Professor
+              </h3>
+              <form onSubmit={handleAddCourse} class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+                <div>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Nome do Curso / Professor</label>
+                  <input
+                    type="text"
+                    required
+                    placeholder="Ex: CMN - Ailson"
+                    value={newCourseName}
+                    onChange={(e) => setNewCourseName(e.target.value)}
+                    class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+                  />
+                </div>
+                <div>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Matéria Vinculada</label>
+                  <select
+                    value={newCourseSubject}
+                    onChange={(e) => setNewCourseSubject(e.target.value)}
+                    class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+                  >
+                    {Object.keys(SUBJECT_METADATA)
+                      .filter(s => s !== "Exercícios" && s !== "Simulados")
+                      .map(s => (
+                        <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+                <button
+                  type="submit"
+                  class="bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm px-6 py-3 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/10 hover:shadow-indigo-600/20 active:scale-[0.98]"
+                >
+                  <Icons.Plus /> Adicionar Curso
+                </button>
+              </form>
+            </div>
+          </div>
+        );
+      };
+
+      const renderSubject = () => {
+        const meta = SUBJECT_METADATA[navigation.subjectName] || SUBJECT_METADATA["Conhecimento Militar Naval"];
+        const SubjectIcon = meta.icon;
+        const stat = stats.subjectStats[navigation.subjectName] || { total: 0, completed: 0 };
+        const percent = getPercent(stat.completed, stat.total);
+
+        return (
+          <div class="fade-in space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <button 
+                onClick={handleBack} 
+                class="flex items-center gap-2 text-slate-400 hover:text-white text-sm bg-slate-900 border border-slate-800/80 px-4 py-2 rounded-xl transition-all self-start"
+              >
+                <Icons.ChevronLeft /> Voltar para Início
+              </button>
+              <div class="text-xs text-slate-500 font-bold uppercase tracking-wider flex items-center gap-2">
+                Matérias <Icons.ChevronRight /> <span class={meta.text}>{navigation.subjectName}</span>
+              </div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800/80 flex flex-col md:flex-row items-center gap-6 justify-between">
+              <div class="flex items-center gap-4">
+                <div class={`p-4 rounded-2xl ${meta.bg} ${meta.text}`}>
+                  <SubjectIcon />
+                </div>
+                <div>
+                  <h1 class="text-2xl font-bold font-outfit text-white">{navigation.subjectName}</h1>
+                  <p class="text-sm text-slate-400">Progresso Geral nesta Matéria</p>
+                </div>
+              </div>
+              
+              <div class="w-full md:w-80">
+                <div class="flex justify-between items-center text-sm mb-2">
+                  <span class="text-slate-400 font-bold">{stat.completed} de {stat.total} aulas concluídas</span>
+                  <span class={`font-black ${meta.text}`}>{percent}%</span>
+                </div>
+                <div class="w-full bg-slate-950 rounded-full h-3 p-[1px] border border-slate-800">
+                  <div 
+                    class={`h-full rounded-full bg-gradient-to-r ${meta.color} transition-all duration-500`}
+                    style={{ width: `${percent}%` }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-bold font-outfit text-slate-300 mb-4 flex items-center gap-2">
+                <Icons.Folder /> Cursos e Professores vinculados
+              </h3>
+              
+              {filteredCourses.length === 0 ? (
+                <div class="glass-panel p-10 rounded-2xl border border-slate-800/60 text-center text-slate-500">
+                  Nenhum curso cadastrado para esta matéria ainda.
+                </div>
+              ) : (
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {filteredCourses.map(course => {
+                    let totalC = 0;
+                    let completedC = 0;
+                    course.periods.forEach(p => {
+                      p.videos.forEach(v => {
+                        totalC++;
+                        if (completedKeys[`${course.name}/${p.name}/${v}`]) completedC++;
+                      });
+                    });
+                    const percentC = getPercent(completedC, totalC);
+
+                    return (
+                      <div 
+                        key={course.id}
+                        class="glass-panel p-5 rounded-2xl border border-slate-800 flex flex-col justify-between hover:border-slate-700 transition-all duration-200 group"
+                      >
+                        <div class="flex items-start justify-between mb-4">
+                          <div>
+                            <h4 class="text-lg font-bold font-outfit text-slate-100 group-hover:text-white transition-colors">{course.name}</h4>
+                            <span class="text-xs text-slate-500 uppercase tracking-wider font-bold">
+                              {course.periods.length} Período(s) • {totalC} Aulas
+                            </span>
+                          </div>
+                          
+                          <button
+                            onClick={() => handleCourseClick(course.id)}
+                            class="bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white p-2.5 rounded-xl transition-all duration-200 flex items-center gap-1.5 text-xs font-bold"
+                          >
+                            Abrir <Icons.ChevronRight />
+                          </button>
+                        </div>
+
+                        <div>
+                          <div class="flex justify-between items-center text-xs mb-1">
+                            <span class="text-slate-500">Progresso</span>
+                            <span class="text-slate-300 font-bold">{percentC}%</span>
+                          </div>
+                          <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
+                            <div 
+                              class="h-full bg-indigo-500 rounded-full"
+                              style={{ width: `${percentC}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          </div>
+        );
+      };
+
+      const renderCourse = () => {
+        if (!currentCourse) return null;
+        const meta = SUBJECT_METADATA[currentCourse.subject] || SUBJECT_METADATA["Conhecimento Militar Naval"];
+
+        return (
+          <div class="fade-in space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <button 
+                onClick={handleBack} 
+                class="flex items-center gap-2 text-slate-400 hover:text-white text-sm bg-slate-900 border border-slate-800/80 px-4 py-2 rounded-xl transition-all self-start"
+              >
+                <Icons.ChevronLeft /> Voltar para {currentCourse.subject}
+              </button>
+              
+              <div class="text-xs text-slate-500 font-bold uppercase tracking-wider flex flex-wrap items-center gap-2">
+                Matérias <Icons.ChevronRight /> 
+                <span class="hover:underline cursor-pointer" onClick={() => setNavigation(prev => ({ ...prev, view: 'subject', courseId: null }))}>
+                  {currentCourse.subject}
+                </span> 
+                <Icons.ChevronRight /> 
+                <span class={meta.text}>{currentCourse.name}</span>
+              </div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div>
+                <span class={`text-xs font-bold uppercase tracking-wider ${meta.text}`}>
+                  {currentCourse.subject}
+                </span>
+                <h1 class="text-2xl font-bold font-outfit text-white mt-1">{currentCourse.name}</h1>
+                <p class="text-sm text-slate-400 mt-0.5">Explore os períodos e cronogramas de aula abaixo.</p>
+              </div>
+
+              <button
+                onClick={() => handleDeleteCourse(currentCourse.id, currentCourse.name)}
+                class="text-red-500 hover:text-white border border-red-500/20 hover:bg-red-600/20 p-2.5 rounded-xl transition-all duration-200 flex items-center gap-2 text-xs font-bold"
+              >
+                <Icons.Trash /> Excluir Curso
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+              <div class="lg:col-span-2 space-y-4">
+                <h3 class="text-lg font-bold font-outfit text-slate-300 flex items-center gap-2">
+                  <Icons.Folder /> Pastas de Período
+                </h3>
+
+                {currentCourse.periods.length === 0 ? (
+                  <div class="glass-panel p-10 rounded-2xl border border-slate-800 text-center text-slate-500">
+                    Nenhum período ou pasta cadastrada ainda.
+                  </div>
+                ) : (
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {currentCourse.periods.map(period => {
+                      let totalP = period.videos.length;
+                      let completedP = 0;
+                      period.videos.forEach(v => {
+                        if (completedKeys[`${currentCourse.name}/${period.name}/${v}`]) completedP++;
+                      });
+                      const percentP = getPercent(completedP, totalP);
+
+                      return (
+                        <button
+                          key={period.name}
+                          onClick={() => handlePeriodClick(period.name)}
+                          class="glass-panel text-left p-5 rounded-2xl border border-slate-800/80 hover:border-slate-700 transition-all duration-200 group flex flex-col justify-between"
+                        >
+                          <div class="flex items-center justify-between w-full mb-3">
+                            <span class="text-slate-100 font-bold font-outfit text-lg group-hover:text-white transition-colors">
+                              📁 {period.name}
+                            </span>
+                            <span class="text-xs bg-slate-800 text-slate-400 font-bold px-2.5 py-1 rounded-lg">
+                              {completedP}/{totalP} Aulas
+                            </span>
+                          </div>
+
+                          <div class="w-full mt-4">
+                            <div class="flex justify-between items-center text-xs mb-1.5 text-slate-400">
+                              <span>Progresso</span>
+                              <span class="font-bold">{percentP}%</span>
+                            </div>
+                            <div class="w-full bg-slate-950 rounded-full h-2">
+                              <div 
+                                class="h-full bg-indigo-500 rounded-full transition-all duration-300"
+                                style={{ width: `${percentP}%` }}
+                              ></div>
+                            </div>
+                          </div>
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              <div class="glass-panel p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                <h4 class="text-md font-bold font-outfit text-slate-200 flex items-center gap-1.5">
+                  <Icons.Plus /> Adicionar Período
+                </h4>
+                <form onSubmit={(e) => handleAddPeriod(e, currentCourse.id)} class="space-y-3">
+                  <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Nome do Período</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Ex: 02 - ABR25"
+                      value={newPeriodName}
+                      onChange={(e) => setNewPeriodName(e.target.value)}
+                      class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm py-2.5 rounded-xl transition-all duration-200 active:scale-[0.98] shadow-lg shadow-indigo-600/10"
+                  >
+                    Adicionar Pasta
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      const renderPeriod = () => {
+        if (!currentCourse || !currentPeriod) return null;
+        const meta = SUBJECT_METADATA[currentCourse.subject] || SUBJECT_METADATA["Conhecimento Militar Naval"];
+
+        return (
+          <div class="fade-in space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <button 
+                onClick={handleBack} 
+                class="flex items-center gap-2 text-slate-400 hover:text-white text-sm bg-slate-900 border border-slate-800/80 px-4 py-2 rounded-xl transition-all self-start"
+              >
+                <Icons.ChevronLeft /> Voltar para {currentCourse.name}
+              </button>
+              
+              <div class="text-xs text-slate-500 font-bold uppercase tracking-wider flex flex-wrap items-center gap-2">
+                Matérias <Icons.ChevronRight /> 
+                <span class="hover:underline cursor-pointer" onClick={() => setNavigation(prev => ({ ...prev, view: 'subject', courseId: null, periodName: null }))}>
+                  {currentCourse.subject}
+                </span> 
+                <Icons.ChevronRight /> 
+                <span class="hover:underline cursor-pointer" onClick={() => setNavigation(prev => ({ ...prev, view: 'course', periodName: null }))}>
+                  {currentCourse.name}
+                </span>
+                <Icons.ChevronRight /> 
+                <span class={meta.text}>{currentPeriod.name}</span>
+              </div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+              <div>
+                <span class="text-xs bg-slate-800 text-slate-400 font-bold px-2.5 py-1 rounded-lg uppercase tracking-wider">
+                  Curso: {currentCourse.name}
+                </span>
+                <h1 class="text-2xl font-bold font-outfit text-white mt-2 flex items-center gap-2">
+                  📁 Período: {currentPeriod.name}
+                </h1>
+                <p class="text-sm text-slate-400 mt-1">Lista de videoaulas disponíveis nesta pasta.</p>
+              </div>
+
+              <button
+                onClick={() => handleDeletePeriod(currentCourse.id, currentPeriod.name)}
+                class="text-red-500 hover:text-white border border-red-500/20 hover:bg-red-600/20 p-2.5 rounded-xl transition-all duration-200 flex items-center gap-2 text-xs font-bold"
+              >
+                <Icons.Trash /> Excluir Período
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+              <div class="lg:col-span-2 space-y-3">
+                <h3 class="text-lg font-bold font-outfit text-slate-300 flex items-center gap-2">
+                  <Icons.Video /> Videoaulas
+                </h3>
+
+                {currentPeriod.videos.length === 0 ? (
+                  <div class="glass-panel p-10 rounded-2xl border border-slate-800 text-center text-slate-500">
+                    Nenhuma videoaula nesta pasta. Cole ou adicione arquivos de vídeo ao lado.
+                  </div>
+                ) : (
+                  <div class="space-y-2.5">
+                    {currentPeriod.videos.map((video, idx) => {
+                      const relativeKey = `${currentCourse.name}/${currentPeriod.name}/${video}`;
+                      const isCompleted = !!completedKeys[relativeKey];
+                      const fileUrl = makeVideoUrl(currentCourse.name, currentPeriod.name, video);
+
+                      return (
+                        <div 
+                          key={idx} 
+                          class={`glass-panel p-4 rounded-xl border transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
+                            isCompleted ? "border-green-500/20 bg-green-500/[0.02]" : "border-slate-800/80 hover:border-slate-700"
+                          }`}
+                        >
+                          <div class="flex items-start gap-3.5">
+                            <button
+                              onClick={() => toggleVideoComplete(currentCourse.name, currentPeriod.name, video)}
+                              class={`w-6 h-6 rounded-lg border flex items-center justify-center transition-all mt-0.5 ${
+                                isCompleted 
+                                  ? "bg-green-500 border-green-400 text-[#070a13]" 
+                                  : "border-slate-600 hover:border-slate-400 bg-slate-900"
+                              }`}
+                            >
+                              {isCompleted && (
+                                <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
+                              )}
+                            </button>
+
+                            <div>
+                              <span class={`text-sm font-semibold break-all ${isCompleted ? "text-slate-400 line-through" : "text-slate-200"}`}>
+                                {video}
+                              </span>
+                              <div class="flex items-center gap-3 mt-1.5 text-xs text-slate-500">
+                                <span class="flex items-center gap-1">
+                                  📂 {currentPeriod.name}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="flex items-center gap-2 self-end sm:self-center">
+                            <a 
+                              href={fileUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              class="bg-slate-800 hover:bg-indigo-600 text-slate-300 hover:text-white px-3 py-2 rounded-lg text-xs font-bold transition-all duration-200 flex items-center gap-1.5 shadow-inner"
+                              title="Abrir arquivo de vídeo"
+                            >
+                              Abrir <Icons.ExternalLink />
+                            </a>
+
+                            <button
+                              onClick={() => copyToClipboard(fileUrl)}
+                              class="bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 p-2 rounded-lg transition-all"
+                              title="Copiar caminho completo do arquivo"
+                            >
+                              <Icons.Clipboard />
+                            </button>
+
+                            <button
+                              onClick={() => handleDeleteVideo(currentCourse.id, currentPeriod.name, video)}
+                              class="text-red-500/60 hover:text-red-400 hover:bg-red-500/10 p-2 rounded-lg transition-all"
+                            >
+                              <Icons.Trash />
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              <div class="glass-panel p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                <div class="flex items-start gap-2">
+                  <div class="p-2 bg-indigo-500/10 text-indigo-400 rounded-lg">
+                    <Icons.Info />
+                  </div>
+                  <div>
+                    <h4 class="text-sm font-bold text-slate-200">Adicionar Videoaulas</h4>
+                    <p class="text-xs text-slate-500 mt-0.5">Cole os nomes de arquivos das aulas abaixo (um por linha para lote).</p>
+                  </div>
+                </div>
+
+                <form onSubmit={(e) => handleAddVideos(e, currentCourse.id, currentPeriod.name)} class="space-y-3.5">
+                  <div>
+                    <textarea
+                      required
+                      placeholder="Exemplo:&#10;Aula 03 - RDM - Regimento Geral&#10;Aula 04 - Exercícios Adsumus"
+                      value={newVideoText}
+                      onChange={(e) => setNewVideoText(e.target.value)}
+                      class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-slate-300 focus:outline-none focus:border-indigo-500 transition-colors font-mono resize-none leading-relaxed"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm py-2.5 rounded-xl transition-all duration-200 active:scale-[0.98] shadow-lg shadow-indigo-600/10"
+                  >
+                    Adicionar Videoaula(s)
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      const renderManual = () => {
+        if (!currentManual) return null;
+        const meta = SUBJECT_METADATA[navigation.subjectName] || SUBJECT_METADATA["Exercícios"];
+        const SubjectIcon = meta.icon;
+        const total = currentManual.items.length;
+        let completed = 0;
+        currentManual.items.forEach(i => {
+          if (completedKeys[`manual/${currentManual.id}/${i}`]) completed++;
+        });
+        const percent = getPercent(completed, total);
+
+        return (
+          <div class="fade-in space-y-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <button 
+                onClick={handleBack} 
+                class="flex items-center gap-2 text-slate-400 hover:text-white text-sm bg-slate-900 border border-slate-800/80 px-4 py-2 rounded-xl transition-all self-start"
+              >
+                <Icons.ChevronLeft /> Voltar para Início
+              </button>
+              
+              <div class="text-xs text-slate-500 font-bold uppercase tracking-wider flex items-center gap-2">
+                Categorias Manuais <Icons.ChevronRight /> <span class={meta.text}>{navigation.subjectName}</span>
+              </div>
+            </div>
+
+            <div class="glass-panel p-6 rounded-2xl border border-slate-800/80 flex flex-col md:flex-row items-center gap-6 justify-between">
+              <div class="flex items-center gap-4">
+                <div class={`p-4 rounded-2xl ${meta.bg} ${meta.text}`}>
+                  <SubjectIcon />
+                </div>
+                <div>
+                  <h1 class="text-2xl font-bold font-outfit text-white">{navigation.subjectName}</h1>
+                  <p class="text-sm text-slate-400 mt-0.5">Progresso de itens de controle manual (sem pasta vinculada).</p>
+                </div>
+              </div>
+              
+              <div class="w-full md:w-80">
+                <div class="flex justify-between items-center text-sm mb-2">
+                  <span class="text-slate-400 font-bold">{completed} de {total} concluintes</span>
+                  <span class={`font-black ${meta.text}`}>{percent}%</span>
+                </div>
+                <div class="w-full bg-slate-950 rounded-full h-3 p-[1px] border border-slate-800">
+                  <div 
+                    class={`h-full rounded-full bg-gradient-to-r ${meta.color} transition-all duration-500`}
+                    style={{ width: `${percent}%` }}
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+              <div class="lg:col-span-2 space-y-3">
+                <h3 class="text-lg font-bold font-outfit text-slate-300 flex items-center gap-2">
+                  <Icons.FileText /> Lista de Cadastro
+                </h3>
+
+                {currentManual.items.length === 0 ? (
+                  <div class="glass-panel p-10 rounded-2xl border border-slate-800 text-center text-slate-500">
+                    Nenhum item cadastrado nesta categoria de acompanhamento.
+                  </div>
+                ) : (
+                  <div class="space-y-2.5">
+                    {currentManual.items.map((item, idx) => {
+                      const relativeKey = `manual/${currentManual.id}/${item}`;
+                      const isCompleted = !!completedKeys[relativeKey];
+
+                      return (
+                        <div 
+                          key={idx}
+                          class={`glass-panel p-4.5 rounded-xl border transition-all duration-200 flex items-center justify-between gap-4 ${
+                            isCompleted ? "border-green-500/20 bg-green-500/[0.02]" : "border-slate-800/80 hover:border-slate-700"
+                          }`}
+                        >
+                          <div class="flex items-center gap-3.5">
+                            <button
+                              onClick={() => toggleManualComplete(currentManual.id, item)}
+                              class={`w-6 h-6 rounded-lg border flex items-center justify-center transition-all ${
+                                isCompleted 
+                                  ? "bg-green-500 border-green-400 text-[#070a13]" 
+                                  : "border-slate-600 hover:border-slate-400 bg-slate-900"
+                              }`}
+                            >
+                              {isCompleted && (
+                                <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
+                              )}
+                            </button>
+
+                            <span class={`text-sm font-semibold ${isCompleted ? "text-slate-400 line-through" : "text-slate-200"}`}>
+                              {item}
+                            </span>
+                          </div>
+
+                          <button
+                            onClick={() => handleDeleteManualItem(currentManual.id, item)}
+                            class="text-red-500/60 hover:text-red-400 p-2 hover:bg-red-500/10 rounded-lg transition-all"
+                          >
+                            <Icons.Trash />
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              <div class="glass-panel p-6 rounded-2xl border border-slate-800/80 space-y-4">
+                <h4 class="text-md font-bold font-outfit text-slate-200 flex items-center gap-1.5">
+                  <Icons.Plus /> Adicionar Novo Item
+                </h4>
+                <form onSubmit={(e) => handleAddManualItem(e, currentManual.id)} class="space-y-3">
+                  <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Título / Descrição</label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Ex: Simulado Geral - Adsumus 03"
+                      value={newManualItem}
+                      onChange={(e) => setNewManualItem(e.target.value)}
+                      class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-500 transition-colors"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm py-2.5 rounded-xl transition-all duration-200 active:scale-[0.98] shadow-lg shadow-indigo-600/10"
+                  >
+                    Cadastrar Item
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+        );
+      };
+
+      return (
+        <div class="max-w-7xl mx-auto space-y-8 pb-12">
+          
+          <header class="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-6 border-b border-slate-800/80">
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="bg-blue-500/10 border border-blue-500/20 text-blue-400 px-3 py-1 rounded-full text-xs font-bold tracking-wider uppercase">
+                  Concurso Militar Naval
+                </span>
+                {storageError && (
+                  <span class="bg-amber-500/10 border border-amber-500/20 text-amber-400 px-3 py-1 rounded-full text-xs font-bold tracking-wider">
+                    Modo Local Alternativo
+                  </span>
+                )}
+              </div>
+              <h1 class="text-3xl font-extrabold font-outfit mt-2 bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-500 bg-clip-text text-transparent">
+                ⚓ Cronograma de Estudos
+              </h1>
+              <div class="flex items-center gap-3 mt-1.5 flex-wrap">
+                <p class="text-slate-400 text-sm">Acompanhamento e controle de progresso das aulas e conteúdos.</p>
+                
+                <div class="flex items-center gap-1.5 bg-slate-900/80 px-2.5 py-1 rounded-lg border border-slate-800/80 text-xs">
+                  <span class="text-slate-400 font-bold">Unidade de Disco:</span>
+                  <input
+                    type="text"
+                    maxLength="1"
+                    value={driveLetter}
+                    onChange={(e) => handleDriveChange(e.target.value)}
+                    class="w-7 bg-slate-950 border border-slate-800 rounded px-1.5 py-0.5 text-center font-bold text-indigo-400 focus:outline-none focus:border-indigo-500 uppercase"
+                    title="Letra da unidade de disco (ex: E, D, C) onde os vídeos estão salvos"
+                  />
+                  <span class="text-slate-500 font-semibold">:\Video aulas\AA</span>
+                </div>
+
+                <button 
+                  onClick={async () => {
+                    if (confirm("Deseja redefinir a estrutura para o padrão dos arquivos locais? (Isso atualizará a lista de pastas e arquivos ocultando metadados, sem apagar suas marcações de concluído)")) {
+                      await storageDelete("progresso:estrutura_dados");
+                      window.location.reload();
+                    }
+                  }}
+                  class="text-xs bg-slate-900/80 hover:bg-slate-800 text-slate-400 hover:text-slate-200 border border-slate-800/80 px-2.5 py-1 rounded-lg transition-all"
+                >
+                  🔄 Recarregar Estrutura Local
+                </button>
+              </div>
+            </div>
+            
+            <div class="glass-panel px-6 py-4 rounded-2xl border border-slate-800 flex items-center gap-6 shadow-xl">
+              <div class="space-y-1">
+                <div class="text-xs text-slate-500 font-bold uppercase tracking-wider">Progresso Geral</div>
+                <div class="flex items-baseline gap-1.5">
+                  <span class="text-3xl font-black font-outfit text-slate-100">{stats.percentAll}%</span>
+                  <span class="text-xs text-slate-400 font-medium">({stats.completedAll}/{stats.totalAll} Concluídos)</span>
+                </div>
+              </div>
+              <div class="w-24 md:w-32 bg-slate-950 rounded-full h-3 p-[1px] border border-slate-800">
+                <div 
+                  class="h-full rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 shadow-[0_0_8px_rgba(99,102,241,0.5)] transition-all duration-500"
+                  style={{ width: `${stats.percentAll}%` }}
+                ></div>
+              </div>
+            </div>
+          </header>
+
+          {loading ? (
+            <div class="flex flex-col items-center justify-center py-24 space-y-4">
+              <div class="w-12 h-12 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin"></div>
+              <p class="text-sm font-semibold text-slate-400">Carregando painel de progresso...</p>
+            </div>
+          ) : (
+            <div>
+              {navigation.view === 'home' && renderHome()}
+              {navigation.view === 'subject' && renderSubject()}
+              {navigation.view === 'course' && renderCourse()}
+              {navigation.view === 'period' && renderPeriod()}
+              {navigation.view === 'manual' && renderManual()}
+            </div>
+          )}
+
+          {toastMsg && (
+            <div class="fixed bottom-6 right-6 bg-slate-900 border border-slate-700/80 text-slate-200 px-4.5 py-3 rounded-xl shadow-2xl z-50 flex items-center gap-2.5 text-sm animate-bounce">
+              <span>{toastMsg}</span>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const container = document.getElementById('root');
+    const root = ReactDOM.createRoot(container);
+    root.render(<App />);
+  </script>
+</body>
+</html>
