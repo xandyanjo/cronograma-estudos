@@ -4352,7 +4352,29 @@ function App(){
             setCompletedKeys(d.concluidosVideos);
           }
         }
-        if(d.estruturaVideos&&isObj(d.estruturaVideos)&&Array.isArray(d.estruturaVideos.courses)&&Array.isArray(d.estruturaVideos.manual))setStudyStructure(d.estruturaVideos);
+        if(d.estruturaVideos&&isObj(d.estruturaVideos)){
+          const courses = Array.isArray(d.estruturaVideos.courses) ? d.estruturaVideos.courses.map(c => {
+            if (!c) return c;
+            return {
+              ...c,
+              periods: Array.isArray(c.periods) ? c.periods.map(p => {
+                if (!p) return p;
+                return {
+                  ...p,
+                  videos: Array.isArray(p.videos) ? p.videos : []
+                };
+              }) : []
+            };
+          }) : [];
+          const manual = Array.isArray(d.estruturaVideos.manual) ? d.estruturaVideos.manual.map(m => {
+            if (!m) return m;
+            return {
+              ...m,
+              items: Array.isArray(m.items) ? m.items : []
+            };
+          }) : [];
+          setStudyStructure({ courses, manual });
+        }
         if(d.driveLetter&&typeof d.driveLetter==='string')setDriveLetter(d.driveLetter);
       }
       // Firebase respondeu — libera saves futuros (setState causa re-render que ativa o save)
@@ -5120,11 +5142,14 @@ function VideoaulasView({ S }) {
               {filteredCourses.map(course => {
                 let totalC = 0;
                 let completedC = 0;
-                course.periods.forEach(p => {
-                  p.videos.forEach(v => {
-                    totalC++;
-                    if (completedKeys[`${course.name}/${p.name}/${v}`]) completedC++;
-                  });
+                const periods = Array.isArray(course.periods) ? course.periods : [];
+                periods.forEach(p => {
+                  if (p && Array.isArray(p.videos)) {
+                    p.videos.forEach(v => {
+                      totalC++;
+                      if (completedKeys[`${course.name}/${p.name}/${v}`]) completedC++;
+                    });
+                  }
                 });
                 const percentC = getPercent(completedC, totalC);
 
@@ -5218,16 +5243,18 @@ function VideoaulasView({ S }) {
               <VideoIcons.Folder /> Pastas de Período
             </h3>
 
-            {currentCourse.periods.length === 0 ? (
+            {!Array.isArray(currentCourse.periods) || currentCourse.periods.length === 0 ? (
               <div className="glass-card p-10 rounded-2xl text-center text-slate-500">
                 Nenhum período ou pasta cadastrada ainda.
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {currentCourse.periods.map(period => {
-                  let totalP = period.videos.length;
+                {(currentCourse.periods || []).map(period => {
+                  if (!period) return null;
+                  const videos = Array.isArray(period.videos) ? period.videos : [];
+                  let totalP = videos.length;
                   let completedP = 0;
-                  period.videos.forEach(v => {
+                  videos.forEach(v => {
                     if (completedKeys[`${currentCourse.name}/${period.name}/${v}`]) completedP++;
                   });
                   const percentP = getPercent(completedP, totalP);
@@ -5348,7 +5375,7 @@ function VideoaulasView({ S }) {
               <VideoIcons.Video /> Videoaulas
             </h3>
 
-            {currentPeriod.videos.length === 0 ? (
+            {!Array.isArray(currentPeriod.videos) || currentPeriod.videos.length === 0 ? (
               <div className="glass-card p-10 rounded-2xl text-center text-slate-500">
                 Nenhuma videoaula nesta pasta. Cole ou adicione arquivos de vídeo ao lado.
               </div>
@@ -5464,9 +5491,10 @@ function VideoaulasView({ S }) {
     if (!currentManual) return null;
     const meta = VIDEO_SUBJECT_METADATA[navigation.subjectName] || VIDEO_SUBJECT_METADATA["Exercícios"];
     const SubjectIcon = meta.icon;
-    const total = currentManual.items.length;
+    const items = Array.isArray(currentManual.items) ? currentManual.items : [];
+    const total = items.length;
     let completed = 0;
-    currentManual.items.forEach(i => {
+    items.forEach(i => {
       if (completedKeys[`manual/${currentManual.id}/${i}`]) completed++;
     });
     const percent = getPercent(completed, total);
@@ -5517,13 +5545,13 @@ function VideoaulasView({ S }) {
               <VideoIcons.FileText /> Lista de Cadastro
             </h3>
 
-            {currentManual.items.length === 0 ? (
+            {items.length === 0 ? (
               <div className="glass-card p-10 rounded-2xl text-center text-slate-500">
                 Nenhum item cadastrado nesta categoria de acompanhamento.
               </div>
             ) : (
               <div className="space-y-2.5">
-                {currentManual.items.map((item, idx) => {
+                {items.map((item, idx) => {
                   const relativeKey = `manual/${currentManual.id}/${item}`;
                   const isCompleted = !!completedKeys[relativeKey];
 
