@@ -4343,7 +4343,15 @@ function App(){
         if(d.dataInicioPlano&&typeof d.dataInicioPlano==='string')setDataInicioPlano(d.dataInicioPlano);
         if(d.flashcards&&Array.isArray(d.flashcards))setFlashcards(d.flashcards);
         if(d.habitos&&isObj(d.habitos))setHabitos(d.habitos);
-        if(d.concluidosVideos&&isObj(d.concluidosVideos))setCompletedKeys(d.concluidosVideos);
+        if(d.concluidosVideos){
+          if(Array.isArray(d.concluidosVideos)){
+            const obj={};
+            d.concluidosVideos.forEach(k=>{if(k)obj[k]=true;});
+            setCompletedKeys(obj);
+          }else if(isObj(d.concluidosVideos)){
+            setCompletedKeys(d.concluidosVideos);
+          }
+        }
         if(d.estruturaVideos&&isObj(d.estruturaVideos))setStudyStructure(d.estruturaVideos);
         if(d.driveLetter&&typeof d.driveLetter==='string')setDriveLetter(d.driveLetter);
       }
@@ -4368,7 +4376,7 @@ function App(){
         resumos,registrosDiarios:reg,diarios,topicosRevisar:topR,
         badges,topicosRenomeados:topRen,dataProva,tempos:tSaved,
         pomodoroRodadas:pRodSaved,dataInicioPlano,flashcards,habitos,
-        concluidosVideos:completedKeys,
+        concluidosVideos:Object.keys(completedKeys).filter(k => completedKeys[k]),
         estruturaVideos:studyStructure,
         driveLetter:driveLetter
       }).then(()=>{
