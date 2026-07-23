@@ -4653,6 +4653,7 @@ function VideoaulasView({ S }) {
   const [newPeriodName, setNewPeriodName] = useState("");
   const [newVideoText, setNewVideoText] = useState("");
   const [newManualItem, setNewManualItem] = useState("");
+  const [editingVideo, setEditingVideo] = useState(null); // { courseId, periodName, oldName, value }
 
   const showToast = (msg) => {
     setToastMsg(msg);
@@ -4889,6 +4890,42 @@ function VideoaulasView({ S }) {
     showToast("Aula removida!");
   };
 
+  const handleRenameVideo = (courseId, periodName, oldName, newName) => {
+    newName = newName.trim();
+    if (!newName || newName === oldName) { setEditingVideo(null); return; }
+    // Verifica duplicata
+    const course = studyStructure.courses.find(c => c.id === courseId);
+    const period = course?.periods?.find(p => p.name === periodName);
+    if (period?.videos?.includes(newName)) {
+      showToast('Já existe uma aula com esse nome!');
+      return;
+    }
+    // Atualiza o nome na estrutura
+    const updatedCourses = studyStructure.courses.map(c => {
+      if (c.id !== courseId) return c;
+      return {
+        ...c,
+        periods: c.periods.map(p => {
+          if (p.name !== periodName) return p;
+          return { ...p, videos: p.videos.map(v => v === oldName ? newName : v) };
+        })
+      };
+    });
+    // Migra chave de progresso (completedKeys)
+    if (course) {
+      const oldKey = `${course.name}/${periodName}/${oldName}`;
+      const newKey = `${course.name}/${periodName}/${newName}`;
+      if (completedKeys[oldKey] !== undefined) {
+        const next = { ...completedKeys, [newKey]: completedKeys[oldKey] };
+        delete next[oldKey];
+        setCompletedKeys(next);
+      }
+    }
+    setStudyStructure({ ...studyStructure, courses: updatedCourses });
+    setEditingVideo(null);
+    showToast('Aula renomeada com sucesso!');
+  };
+
   const handleDeleteManualItem = (manualId, itemName) => {
     if (!confirm(`Remover item "${itemName}"?`)) return;
     const updatedManual = studyStructure.manual.map(m => {
@@ -4952,7 +4989,12 @@ function VideoaulasView({ S }) {
 
   const makeVideoUrl = (courseName, periodName, videoName) => {
     const drive = driveLetter ? `${driveLetter}:` : 'E:';
-    return `file:///${drive}/Video aulas/AA/${courseName}/${periodName}/${videoName}`;
+    // Encodar cada segmento separadamente para suportar acentos e espaços
+    const encodedDrive = `${drive}`;
+    const encodedCourse = encodeURIComponent(courseName);
+    const encodedPeriod = encodeURIComponent(periodName);
+    const encodedVideo  = encodeURIComponent(videoName);
+    return `file:///${encodedDrive}/Video%20aulas/AA/${encodedCourse}/${encodedPeriod}/${encodedVideo}`;
   };
 
   const copyToClipboard = (text) => {
@@ -5385,66 +5427,103 @@ function VideoaulasView({ S }) {
                   const relativeKey = `${currentCourse.name}/${currentPeriod.name}/${video}`;
                   const isCompleted = !!completedKeys[relativeKey];
                   const fileUrl = makeVideoUrl(currentCourse.name, currentPeriod.name, video);
+                  const isEditing = editingVideo && editingVideo.courseId === currentCourse.id && editingVideo.periodName === currentPeriod.name && editingVideo.oldName === video;
 
                   return (
                     <div 
                       key={idx} 
-                      className={`glass-card p-4 rounded-xl border transition-all duration-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
-                        isCompleted ? "border-green-500/20 bg-green-500/[0.02]" : "border-slate-800/80 hover:border-slate-700"
+                      className={`glass-card p-4 rounded-xl border transition-all duration-200 ${
+                        isEditing ? 'border-indigo-500/40 bg-indigo-500/[0.03]' :
+                        isCompleted ? 'border-green-500/20 bg-green-500/[0.02]' : 'border-slate-800/80 hover:border-slate-700'
                       }`}
                     >
-                      <div className="flex items-start gap-3.5">
-                        <button
-                          onClick={() => toggleVideoComplete(currentCourse.name, currentPeriod.name, video)}
-                          className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-all mt-0.5 ${
-                            isCompleted 
-                              ? "bg-green-500 border-green-400 text-slate-900" 
-                              : "border-slate-600 hover:border-slate-400 bg-slate-900"
-                          }`}
-                        >
-                          {isCompleted && (
-                            <svg className="w-4 h-4 fill-current text-slate-900" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
-                          )}
-                        </button>
-
-                        <div>
-                          <span className={`text-sm font-semibold break-all ${isCompleted ? "text-slate-400 line-through" : "text-slate-200"}`}>
-                            {video}
-                          </span>
-                          <div className="flex items-center gap-3 mt-1.5 text-xs text-slate-500">
-                            <span className="flex items-center gap-1">
-                              📂 {currentPeriod.name}
-                            </span>
+                      {isEditing ? (
+                        <div className="flex flex-col gap-3">
+                          <label className="text-xs font-bold uppercase tracking-wider text-indigo-400">✏️ Renomear aula</label>
+                          <input
+                            autoFocus
+                            type="text"
+                            value={editingVideo.value}
+                            onChange={e => setEditingVideo(prev => ({ ...prev, value: e.target.value }))}
+                            onKeyDown={e => {
+                              if (e.key === 'Enter') handleRenameVideo(currentCourse.id, currentPeriod.name, video, editingVideo.value);
+                              if (e.key === 'Escape') setEditingVideo(null);
+                            }}
+                            className="w-full bg-slate-950 border border-indigo-500/50 rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-indigo-400 font-mono transition-colors"
+                          />
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => handleRenameVideo(currentCourse.id, currentPeriod.name, video, editingVideo.value)}
+                              className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs py-2 rounded-lg transition-all"
+                            >
+                              ✅ Salvar
+                            </button>
+                            <button
+                              onClick={() => setEditingVideo(null)}
+                              className="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs py-2 rounded-lg transition-all"
+                            >
+                              ✖ Cancelar
+                            </button>
                           </div>
                         </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 self-end sm:self-center">
-                        <a 
-                          href={fileUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white px-3 py-2 rounded-lg text-xs font-bold transition-all duration-200 flex items-center gap-1.5 shadow-inner"
-                          title="Abrir arquivo de vídeo"
-                        >
-                          Abrir <VideoIcons.ExternalLink />
-                        </a>
-
-                        <button
-                          onClick={() => copyToClipboard(fileUrl)}
-                          className="bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 p-2 rounded-lg transition-all"
-                          title="Copiar caminho completo do arquivo"
-                        >
-                          <VideoIcons.Clipboard />
-                        </button>
-
-                        <button
-                          onClick={() => handleDeleteVideo(currentCourse.id, currentPeriod.name, video)}
-                          className="text-red-500/60 hover:text-red-400 hover:bg-red-500/10 p-2 rounded-lg transition-all"
-                        >
-                          <VideoIcons.Trash />
-                        </button>
-                      </div>
+                      ) : (
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                          <div className="flex items-start gap-3.5">
+                            <button
+                              onClick={() => toggleVideoComplete(currentCourse.name, currentPeriod.name, video)}
+                              className={`w-6 h-6 rounded-lg border flex items-center justify-center transition-all mt-0.5 ${
+                                isCompleted 
+                                  ? 'bg-green-500 border-green-400 text-slate-900' 
+                                  : 'border-slate-600 hover:border-slate-400 bg-slate-900'
+                              }`}
+                            >
+                              {isCompleted && (
+                                <svg className="w-4 h-4 fill-current text-slate-900" viewBox="0 0 20 20"><path d="M0 11l2-2 5 5L18 3l2 2L7 18z"/></svg>
+                              )}
+                            </button>
+                            <div>
+                              <span className={`text-sm font-semibold break-all ${isCompleted ? 'text-slate-400 line-through' : 'text-slate-200'}`}>
+                                {video}
+                              </span>
+                              <div className="flex items-center gap-3 mt-1.5 text-xs text-slate-500">
+                                <span className="flex items-center gap-1">📂 {currentPeriod.name}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 self-end sm:self-center">
+                            <a 
+                              href={fileUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="bg-slate-800 hover:bg-blue-600 text-slate-300 hover:text-white px-3 py-2 rounded-lg text-xs font-bold transition-all duration-200 flex items-center gap-1.5 shadow-inner"
+                              title="Abrir arquivo de vídeo"
+                            >
+                              Abrir <VideoIcons.ExternalLink />
+                            </a>
+                            <button
+                              onClick={() => copyToClipboard(fileUrl)}
+                              className="bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 p-2 rounded-lg transition-all"
+                              title="Copiar caminho do arquivo"
+                            >
+                              <VideoIcons.Clipboard />
+                            </button>
+                            <button
+                              onClick={() => setEditingVideo({ courseId: currentCourse.id, periodName: currentPeriod.name, oldName: video, value: video })}
+                              className="bg-slate-800 hover:bg-indigo-600 text-slate-400 hover:text-white p-2 rounded-lg transition-all"
+                              title="Renomear aula"
+                            >
+                              <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+                            </button>
+                            <button
+                              onClick={() => handleDeleteVideo(currentCourse.id, currentPeriod.name, video)}
+                              className="text-red-500/60 hover:text-red-400 hover:bg-red-500/10 p-2 rounded-lg transition-all"
+                              title="Remover aula"
+                            >
+                              <VideoIcons.Trash />
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   );
                 })}
