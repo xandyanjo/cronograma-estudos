@@ -4262,7 +4262,81 @@ function App(){
       .then(d=>setBancoQuestoes(d.questoes||[]))
       .catch(e=>console.error('Erro ao carregar banco de questões', e));
   },[]);
+
+  // ── Migração: corrige nomes de arquivo corrompidos do localStorage ──
+
+  useEffect(() => {
+    // Sequências corrompidas que precisam ser corrigidas nos nomes de arquivo
+    const FIXES = [
+      [/\u00fc0\u00e59/g, 'Á'],  // ü0å9 → Á  (MATEMÁTICA)
+      [/\u00fc0\u00e75/g, 'Ç'],  // ü0ç5 → Ç  (FUNÇÕES, EQUAÇÕES, etc.)
+      [/\u00fc0\u00ea9/g, 'Õ'],  // ü0ê9 → Õ  (FUNÇÕES, EQUAÇÕES)
+      [/\u00fc0\u00ea1/g, 'Í'],  // ü0ê1 → Í  (EXERCÍCIOS)
+      [/\u00fc0\u00eb3/g, 'Ú'],  // ü0ë3 → Ú  (NÚMEROS)
+      [/\u00fc0\u00e71/g, 'Ã'],  // ü0ç1 → Ã  (FUNÇÃO, POTENCIAÇÃO)
+    ];
+
+    const fixName = name => {
+      let n = name;
+      for (const [pat, rep] of FIXES) n = n.replace(pat, rep);
+      n = n.replace(/  +/g, ' ').trim(); // remove espaços duplos
+      return n;
+    };
+
+    const needsMigration = courses => courses.some(c =>
+      c.periods && c.periods.some(p =>
+        p.videos && p.videos.some(v => FIXES.some(([pat]) => pat.test(v)))
+      )
+    );
+
+    if (!studyStructure || !studyStructure.courses) return;
+    if (!needsMigration(studyStructure.courses)) return; // já está correto
+
+    console.log('[Migração] Corrigindo nomes de arquivo corrompidos...');
+
+    // Migra completedKeys: cria mapa old→new para preservar progresso
+    const keyMap = {};
+    const newCourses = studyStructure.courses.map(course => ({
+      ...course,
+      periods: (course.periods || []).map(period => {
+        const seen = new Set();
+        const newVideos = [];
+        for (const v of (period.videos || [])) {
+          const fixed = fixName(v);
+          if (seen.has(fixed)) continue; // remove duplicatas geradas pela correção
+          seen.add(fixed);
+          newVideos.push(fixed);
+          if (v !== fixed) {
+            const oldKey = `${course.name}||${period.name}||${v}`;
+            const newKey = `${course.name}||${period.name}||${fixed}`;
+            keyMap[oldKey] = newKey;
+          }
+        }
+        return { ...period, videos: newVideos };
+      })
+    }));
+
+    // Migra completedKeys preservando o progresso com novos nomes
+    if (Object.keys(keyMap).length > 0) {
+      setCompletedKeys(prev => {
+        const next = { ...prev };
+        for (const [oldK, newK] of Object.entries(keyMap)) {
+          if (oldK in next) {
+            next[newK] = next[oldK];
+            delete next[oldK];
+          }
+        }
+        return next;
+      });
+    }
+
+    setStudyStructure({ ...studyStructure, courses: newCourses });
+    console.log(`[Migração] ${Object.keys(keyMap).length} nome(s) corrigido(s).`);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // roda apenas uma vez na montagem
+
   // ── estados de UI ──
+
   const[ui,dispatchUI]=useReducer(uiR,UI0);
   const[ed,dispatchED]=useReducer(edR,ED0);
   const[toast,setToast]=useState(null);
