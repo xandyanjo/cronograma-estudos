@@ -3947,16 +3947,16 @@ function QuestoesView({S}){
   const [buscaText, setBuscaText] = useState('');
   const [idx, setIdx] = useState(0);
 
-  const materiasDisp = useMemo(() => [...new Set(bancoQuestoes.map(q=>q.materiaNome))].sort(), [bancoQuestoes]);
-  const anosDisp = useMemo(() => [...new Set(bancoQuestoes.map(q=>q.ano))].sort((a,b)=>b-a), [bancoQuestoes]);
+  const materiasDisp = useMemo(() => [...new Set((bancoQuestoes||[]).map(q=>q.materiaNome))].sort(), [bancoQuestoes]);
+  const anosDisp = useMemo(() => [...new Set((bancoQuestoes||[]).map(q=>q.ano))].sort((a,b)=>b-a), [bancoQuestoes]);
 
   const assuntosDisp = useMemo(() => {
-    const qs = bancoQuestoes.filter(q => !materiaSel || q.materiaNome === materiaSel);
+    const qs = (bancoQuestoes||[]).filter(q => !materiaSel || q.materiaNome === materiaSel);
     return [...new Set(qs.map(q => q.assunto).filter(Boolean))].sort();
   }, [bancoQuestoes, materiaSel]);
 
   const filtradas = useMemo(() => {
-    return bancoQuestoes.filter(q => {
+    return (bancoQuestoes||[]).filter(q => {
       const matchMateria = !materiaSel || q.materiaNome === materiaSel;
       const matchAno = !anoSel || String(q.ano) === String(anoSel);
       const matchAssunto = !assuntoSel || q.assunto === assuntoSel;
@@ -4015,9 +4015,32 @@ function QuestoesView({S}){
     }));
   };
 
-  if(!bancoQuestoes.length) {
+  if(bancoQuestoes === null) {
+    return (
+      <div className="p-8 text-center space-y-4">
+        <div className="text-5xl">⚠️</div>
+        <p className="text-white/70 font-outfit text-lg font-semibold">Banco de Questões indisponível</p>
+        <p className="text-white/40 text-sm max-w-sm mx-auto">
+          O navegador bloqueou o acesso ao arquivo local <code className="text-yellow-400">banco_completo.json</code> por
+          política de segurança (<em>CORS</em>).
+        </p>
+        <div className="bg-white/5 border border-white/10 rounded-xl p-4 text-left text-xs text-white/50 max-w-sm mx-auto space-y-2">
+          <p className="text-white/70 font-semibold">Para ativar no Chrome:</p>
+          <p>1. Feche o Chrome completamente</p>
+          <p>2. Abra pelo atalho com o parâmetro:</p>
+          <code className="block bg-black/30 rounded p-2 text-green-400 break-all">
+            chrome.exe --allow-file-access-from-files
+          </code>
+          <p>3. Abra o <code className="text-yellow-400">index.html</code> novamente</p>
+        </div>
+      </div>
+    );
+  }
+
+  if(!bancoQuestoes || !bancoQuestoes.length) {
     return <div className="p-8 text-center text-white/50">Carregando Banco de Questões...</div>;
   }
+
 
   const q = filtradas[idx];
   const resp = q ? progressoQuestoes[q.id] : null;
@@ -4256,11 +4279,27 @@ function App(){
   const[bancoQuestoes,setBancoQuestoes] = useState([]);
 
   useEffect(()=>{
-    fetch('CA-AA-AFN/banco_completo.json')
-      .then(r => r.ok ? r : fetch('banco_questoes.json'))
-      .then(r=>r.json())
-      .then(d=>setBancoQuestoes(d.questoes||[]))
-      .catch(e=>console.error('Erro ao carregar banco de questões', e));
+    // fetch() é bloqueado por CORS em file:// — usa XMLHttpRequest que funciona localmente
+    const tryXHR = (url) => new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open('GET', url, true);
+      xhr.onload = () => {
+        if (xhr.status === 200 || xhr.status === 0) { // status 0 = sucesso em file://
+          try { resolve(JSON.parse(xhr.responseText)); }
+          catch(e) { reject(new Error('JSON inválido')); }
+        } else { reject(new Error(`HTTP ${xhr.status}`)); }
+      };
+      xhr.onerror = () => reject(new Error('Erro de rede/CORS'));
+      xhr.send();
+    });
+
+    tryXHR('CA-AA-AFN/banco_completo.json')
+      .catch(() => tryXHR('banco_questoes.json'))
+      .then(d => setBancoQuestoes(d.questoes || []))
+      .catch(e => {
+        console.warn('Banco de questões indisponível no modo local:', e.message);
+        setBancoQuestoes(null); // null = erro (diferente de [] = vazio)
+      });
   },[]);
 
   // ── Migração: corrige nomes de arquivo corrompidos do localStorage ──
@@ -5061,12 +5100,12 @@ function VideoaulasView({ S }) {
 
   const makeVideoUrl = (courseName, periodName, videoName) => {
     const drive = driveLetter ? `${driveLetter}:` : 'E:';
-    // Encodar cada segmento separadamente para suportar acentos e espaços
-    const encodedDrive = `${drive}`;
+    // Encodar cada segmento separadamente; '/' dentro do nome indica subpasta — não deve ser codificado
     const encodedCourse = encodeURIComponent(courseName);
     const encodedPeriod = encodeURIComponent(periodName);
-    const encodedVideo  = encodeURIComponent(videoName);
-    return `file:///${encodedDrive}/Video%20aulas/AA/${encodedCourse}/${encodedPeriod}/${encodedVideo}`;
+    // O videoName pode conter '/' para indicar subpasta — encodar só cada sub-segmento
+    const encodedVideo  = videoName.split('/').map(s => encodeURIComponent(s)).join('/');
+    return `file:///${drive}/Video%20aulas/AA/${encodedCourse}/${encodedPeriod}/${encodedVideo}`;
   };
 
   const copyToClipboard = (text) => {
