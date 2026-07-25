@@ -62,6 +62,7 @@ const {useState,useEffect,useReducer,useMemo,useCallback,useRef}=React;
 
 // START_DATA_STRUCTURE
 const DEFAULT_STUDY_STRUCTURE = {
+  "_version": 3,
   "courses": [
     {
       "id": "course-cmn-ailson",
@@ -121,6 +122,45 @@ const DEFAULT_STUDY_STRUCTURE = {
       ]
     },
     {
+      "name": "CMN - Cerimonial",
+      "subject": "CMN - Cerimonial",
+      "periods": [
+        {
+          "name": "Geral",
+          "videos": [
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Títilo 2 - Aula 1 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Títilo 2 - Aula 2 (parte I) - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Títilo 2 - Aula 2 (parte II) - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Títilo 2 - Aula 3 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Títilo 2 - Aula 4 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Títilo 2 - Aula 5 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Títilo 3 - Aula 1 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Títilo 3 - Aula 2 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Títilo 4 - Aula 1 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título 5 - Aula 1 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título 5 - Aula 2 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título 5 - Aula 3 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título 5 - Aula 4 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título 6 - Aula 1 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título 6 - Aula 2 - Curso Ascensão - 1280x720 2293K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título 6 - Aula 3 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título 7 - Aula 1 - Curso Ascensão - 1280x720 2293K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título 8 - Aula 1 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título 8 - Aula 2 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título 8 - Aula 3 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título 9 - Aula 1 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título 9 - Aula 2 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título 9 - Aula 3 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título I - Aula 1 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título I - Aula 2 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título I - Aula 3 - Curso Ascensão - 1280x720 2292K.ts",
+            "CAP-CPA - CA-AA-AFN (Módulo 1) Cerimonial - Título I - Aula 4 - Curso Ascensão - 1280x720 2292K.ts",
+            "XX - CAP e CPA - CERIMONIAL - APOSTILA - COMPLETA.pdf"
+          ]
+        }
+      ]
+    },
+    {
       "id": "course-cmn-gaudencio",
       "name": "CMN - Gaudencio",
       "subject": "Conhecimento Militar Naval",
@@ -167,10 +207,6 @@ const DEFAULT_STUDY_STRUCTURE = {
       "name": "CMN - Marlon",
       "subject": "Conhecimento Militar Naval",
       "periods": [
-        {
-          "name": "01 - JAN25",
-          "videos": []
-        },
         {
           "name": "02 - FEV25",
           "videos": [
@@ -252,12 +288,6 @@ const DEFAULT_STUDY_STRUCTURE = {
             "3/marinha-minissimulado-10102021-aluno-completo.pdf",
             "4/MARINHA 2021-2022. Teoria questões.mp4",
             "4/marinha-minissimulado-2611201-aluno-completo.pdf"
-          ]
-        },
-        {
-          "name": "RESUMOS",
-          "videos": [
-            "SUJEITO.odt"
           ]
         },
         {
@@ -462,7 +492,6 @@ const DEFAULT_STUDY_STRUCTURE = {
             "AULA 45 - TIPOLOGIA TEXTUAL/MARINHA 2021-2022. Teoria questões_1.mp4",
             "AULA 45 - TIPOLOGIA TEXTUAL/MARINHA 2021-2022. Teoria questões_2.mp4",
             "AULA 45 - TIPOLOGIA TEXTUAL/pt-aula-45-tipologia-textual-aluno-mil-ok.pdf",
-            "AULA 5 PA X PIS/PIS PA.odt",
             "AULA 5 PA X PIS/PT - 2021 - AULA 5 - PIS E PA - PARTE 1 - TEORIA E EXERCÍCIOS DE FIXAÇÃO.mp4",
             "AULA 5 PA X PIS/PT - 2021 - AULA 5 - PIS E PA - PARTE 4 - QUESTÕES DE PROVAS MILITARES.mp4",
             "AULA 5 PA X PIS/PT - 2021 - AULA 5 - PIS E PA - PARTE 5 - QUESTÕES DE PROVAS MILITARES.mp4",
@@ -602,6 +631,165 @@ const DEFAULT_STUDY_STRUCTURE = {
             "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 32 - Mod. 4 - 67 a 82 - Dia 13 - Curso Adsumus LTDA - 856x480 1680K.ts",
             "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 33 - PART 01 - Correção Mod. 4 - Dia 20 - Curso Adsumus LTDA - 856x480 1680K.ts",
             "QOAA-AFN _ MASTER _ SETEMBRO -- 2025 Aula 33 - PART 02 - Mod. 4 - 87 a 101 - Dia 20 - Curso Adsumus LTDA - 856x480 1680K.ts"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Geografia - Roberto (2025)",
+      "subject": "Geografia - Roberto (2025)",
+      "periods": [
+        {
+          "name": "Geral",
+          "videos": [
+            "Cronograma de aula QOAM_2025(1).docx",
+            "Cronograma de aula QOAM_2025.docx"
+          ]
+        },
+        {
+          "name": "Geografia - Roberto (2025)",
+          "videos": [
+            "01-10/Aula 01 - Capitalismo Comercial e Industrial.mp4",
+            "01-10/Aula 02 - Capitalismo Financeiro Monopolista.mp4",
+            "01-10/Aula 03 - Capitalismo Informacional.mp4",
+            "01-10/Aula 04 - Globalização.mp4",
+            "01-10/Aula 05 - O Processo de Globalização.mp4",
+            "01-10/Aula 06 - Lógica dos Espaços Industriais e Organização da Produção Industrial.mp4",
+            "01-10/Aula 07 - Desenvolvimento Humano.mp4",
+            "01-10/Aula 08 - Ordem Geopolítica e Econômica - Parte 1.mp4",
+            "01-10/Aula 09 - Ordem Geopolítica e Econômica - Parte 2.mp4",
+            "01-10/Aula 10 - Ordem Geopolítica e Econômica - Parte 3.mp4",
+            "11-20/Aula 11 - Comércio Internacional e Blocos Econômicos - Parte 1.mp4",
+            "11-20/Aula 12 - Comércio Internacional e Blocos Econômicos - Parte 2.mp4",
+            "11-20/Aula 13 - Comércio Exterior e Blocos Econômicos - Parte 3.mp4",
+            "11-20/Aula 14 - Geografia e Política da Energia.mp4",
+            "11-20/Aula 15 - Crises do Petróleo.mp4",
+            "11-20/Aula 16 - Produção Brasileira de Energia.mp4",
+            "11-20/Aula 17 - Meio Ambiente e Política Internacional - Os Fenômenos Climáticos e a Interferência Humana.mp4",
+            "11-20/Aula 18 - Conferências do Meio Ambiente.mp4",
+            "11-20/Aula 19 - Geografia da População - Parte 1.mp4",
+            "11-20/Aula 20 - Geografia da População - Parte 2.mp4",
+            "21-30/Aula 21 - Industrialização do Brasil - Parte 1.mp4",
+            "21-30/Aula 22 - Industrialização do Brasil - Parte 2.mp4",
+            "21-30/Aula 24 - Industrialização dos Estados Unidos.mp4",
+            "21-30/Aula 25 - Industrialização do Japão.mp4",
+            "21-30/Aula 26 - Industrialização da Alemanha e França.mp4",
+            "21-30/Aula 27 - Países de economia planificada Industrialização da URSS Rússia.mp4",
+            "21-30/Aula 28 - Parte 2 - A Rússia e seu entorno estratégico..mp4",
+            "21-30/Aula 28 Parte 1 - A Rússia e seu entorno estratégico.mp4",
+            "21-30/Aula 29 - China.mp4",
+            "21-30/Aula 30 - Índia.mp4",
+            "31-40/Aula 31 - Tigres Asiáticos.mp4",
+            "31-40/Aula 32 - Países de industrialização tardia - Brasil, México e Argentina.mp4",
+            "31-40/Aula 33 - Urbanização.mp4",
+            "31-40/Aula 34 - Urbanização do Brasil.mp4",
+            "31-40/Aula 35 - África.mp4",
+            "31-40/Aula 36 - Oriente Médio - Parte 1.mp4",
+            "31-40/Aula 37 - Oriente Médio - Parte 2.mp4",
+            "31-40/Aula 38 - Organização da Produção Agropecuária.mp4",
+            "31-40/Aula 39 - Agropecuária do Brasil.mp4",
+            "31-40/Aula 40 - Complexos Regionais do Brasil.mp4",
+            "41-47/Aula 41 - Revisão Geral 1.mp4",
+            "41-47/Aula 42 - Unidades de Conservação.mp4",
+            "41-47/Aula 43 - Revisão Geral 2.mp4",
+            "41-47/Aula 44 - Regiões Polares.mp4",
+            "41-47/Aula 45 - Revisão Geral 3.mp4",
+            "41-47/Aula 46 - Conflitos nos Bálcãs.mp4",
+            "41-47/Aula 47 - Revisão geral 4.mp4"
+          ]
+        },
+        {
+          "name": "Material de Apoio",
+          "videos": [
+            "1-10/Aula 01 - Capitalismo Comercial e Industrial.pdf",
+            "1-10/Aula 02 - Capitalismo Financeiro-Monopolista.pdf",
+            "1-10/Aula 03 - Capitalismo Informacional.pdf",
+            "1-10/Aula 04 - Globalização.pdf",
+            "1-10/Aula 05 - Multinacionais.pdf",
+            "1-10/Aula 06 - Lógica dos Espaços Industriais.pdf",
+            "1-10/Aula 07 - Desenvolvimento Humano.pdf",
+            "1-10/Aula 08 - Ordem Geopolítica e Econômica - Parte 1.pdf",
+            "1-10/Aula 09 - Ordem Geopolítica e Econômica - Parte 2.pdf",
+            "1-10/Aula 10 - Ordem Geopolítica e Econômica - Parte 3.pdf",
+            "1-10/Lista 01 - Capitalismo Comercial e Industrial.pdf",
+            "1-10/Lista 02 - Capitalismo Financeiro-Monopolista.pdf",
+            "1-10/Lista 03 - Capitalismo Informacional.pdf",
+            "1-10/Lista 04 - Globalização.pdf",
+            "1-10/Lista 05 - Multinacionais.pdf",
+            "1-10/Lista 06 - Lógica dos Espaços Industriais.pdf",
+            "1-10/Lista 07 - Desenvolvimento Humano.pdf",
+            "1-10/Lista 08 - Ordem Geopolítica e Econômica - Parte 1.pdf",
+            "1-10/Lista 09 - Ordem Geopolítica e Econômica - Parte 2.pdf",
+            "1-10/Lista 10 - Ordem Geopolítica e Econômica - Parte 3.pdf",
+            "11-20/Aula 11 - Comércio Internacional - Parte 1.pdf",
+            "11-20/Aula 12 - Comércio Internacional e Blocos Econômicos - Parte 2.pdf",
+            "11-20/Aula 13 - Comércio Internacional e Blocos Econômicos - Parte 3.pdf",
+            "11-20/Aula 14 - Geografia e Política da Energia.pdf",
+            "11-20/Aula 15 - Crises do Petróleo.pdf",
+            "11-20/Aula 16 - Produção Brasileira de Energia.pdf",
+            "11-20/Aula 17 - Ambiente e Política Internacional.pdf",
+            "11-20/Aula 18 - Conferências em Defesa do Meio Ambiente.pdf",
+            "11-20/Aula 19 - Geografia da População - Parte 1.pdf",
+            "11-20/Aula 20 - Geografia da População - Parte 2.pdf",
+            "11-20/Lista 11 - Comércio Internacional - Parte 1.pdf",
+            "11-20/Lista 12 - Comércio Internacional - Parte 2.pdf",
+            "11-20/Lista 13 - Comércio Internacional - Parte 3.pdf",
+            "11-20/Lista 14 - Geografia e Política da Energia.pdf",
+            "11-20/Lista 15 - Crises do Petróleo.pdf",
+            "11-20/Lista 16 - Produção Brasileira de Energia.pdf",
+            "11-20/Lista 17 - Ambiente e Política Internacional.pdf",
+            "11-20/Lista 18 - Conferências do Meio Ambiente.pdf",
+            "11-20/Lista 19 - Geografia da população - Parte 1.pdf",
+            "11-20/Lista 20 - Geografia da População - Parte 2.pdf",
+            "21-30/Aula 21 - Industrialização Brasileira - Parte 1.pdf",
+            "21-30/Aula 22 - Industrialização Brasileira - Parte 2.pdf",
+            "21-30/Aula 23 - Industrialização do Reino Unido.pdf",
+            "21-30/Aula 24 - Industrialização dos Estados Unidos.pdf",
+            "21-30/Aula 25 - Industrialização do Japão.pdf",
+            "21-30/Aula 26 - Industrialização da França e Alemanha.pdf",
+            "21-30/Aula 27 - Industrialização da URSS-Rússia.pdf",
+            "21-30/Aula 28 - Rússia e seu Entorno Estratégico.pdf",
+            "21-30/Aula 29 - China.pdf",
+            "21-30/Aula 30 - Índia.pdf",
+            "21-30/Lista 21 - Industrialização do Brasil - Parte 1.pdf",
+            "21-30/Lista 22 - Industrialização do Brasil - Parte 2.pdf",
+            "21-30/Lista 23 - Industrialização do Reino Unido.pdf",
+            "21-30/Lista 24 - Industrialização dos Estados Unidos.pdf",
+            "21-30/Lista 25 - Industrialização do Japão.pdf",
+            "21-30/Lista 26 - Industrialização da Alemanha e França.pdf",
+            "31-40/Aula 31 - Tigres Asiáticos.pdf",
+            "31-40/Aula 32- Brasil, México e Argentina.pdf",
+            "31-40/Aula 33 - Urbanização.pdf",
+            "31-40/Aula 34 - Urbanização do Brasil.pdf",
+            "31-40/Aula 35 - África.pdf",
+            "31-40/Aula 36 - Oriente Médio - Parte 1.pdf",
+            "31-40/Aula 37 - Oriente Médio - Parte 2.pdf",
+            "31-40/Aula 38 - Organização da produção Agropecuária -Parte 1.pdf",
+            "31-40/Aula 39 - Organização da Produção Agropecuária - Parte 2.pdf",
+            "31-40/Aula 40 - Complexos Regionais do Brasil.pdf",
+            "31-40/Lista 31 - Tigres Asiáticos.pdf",
+            "31-40/Lista 32- Brasil, México e Argentina.pdf",
+            "31-40/Lista 33 - Urbanização.pdf",
+            "31-40/Lista 34 - Urbanização do Brasil.pdf",
+            "31-40/Lista 35 - África.pdf",
+            "31-40/Lista 36 - Oriente Médio - Parte 1.pdf",
+            "31-40/Lista 37 - Oriente Médio - Parte 2.pdf",
+            "31-40/Lista 38 - Organização da Produção Agropecuária.pdf",
+            "31-40/Lista 39 - Organização da Produção Agropecuária - Parte 2.pdf",
+            "31-40/Lista 40 - Complexos Regionais do Brasil.pdf",
+            "41-44/Aula 42 - Legislação Ambiental e Unidades de Conservação.pdf",
+            "41-44/Aula 44 - Regiões Polares.pdf",
+            "41-44/Lista 41 - Revisão Geral.pdf",
+            "41-44/Lista 42 - Legislação Ambiental e Unidades de Conservação.pdf",
+            "41-44/Lista 43 - Revisão Geral 02.pdf",
+            "41-44/Lista 44 - Regiões Polares.pdf",
+            "41-44/Lista 45 - Revisão Geral 03.pdf",
+            "Simulados/GEOGRAFIA_RobertoFacce_2025_Lista Simulado 1_GABARITO.doc",
+            "Simulados/GEOGRAFIA_RobertoFacce_2025_Lista Simulado 1_sem gabarito.pdf",
+            "Simulados/GEOGRAFIA_RobertoFacce_2025_Lista Simulado 2_GABARITO.doc",
+            "Simulados/GEOGRAFIA_RobertoFacce_2025_Lista Simulado 2_sem gabarito.pdf",
+            "Simulados/GEOGRAFIA_RobertoFacce_2025_Lista Simulado 3_GABARITO.doc",
+            "Simulados/GEOGRAFIA_RobertoFacce_2025_Lista Simulado 3_sem gabarito.pdf"
           ]
         }
       ]
@@ -1277,6 +1465,13 @@ const DEFAULT_STUDY_STRUCTURE = {
       "subject": "Conhecimento Militar Naval",
       "periods": [
         {
+          "name": "Geral",
+          "videos": [
+            "PEM 2040 - PLANO ESTRATÉGICO DA MARINHA - DOCUMENTO OFICIAL(1).pdf",
+            "PEM 2040 - PLANO ESTRATÉGICO DA MARINHA - DOCUMENTO OFICIAL.pdf"
+          ]
+        },
+        {
           "name": "Aula 01",
           "videos": [
             "AULA 1 - MISSÃO FINAL QOAM - PEM 2040 - ALUNO.pdf",
@@ -1307,13 +1502,6 @@ const DEFAULT_STUDY_STRUCTURE = {
             "AULA 4 - MISSÃO FINAL QOAM - PEM-2040 - 28.07.2025.ts",
             "AULA 4 - MISSÃO FINAL QOAM - PEM-2040 - ANOTAÇÕES DA PROFESSORA.pdf"
           ]
-        },
-        {
-          "name": "Geral",
-          "videos": [
-            "PEM 2040 - PLANO ESTRATÉGICO DA MARINHA - DOCUMENTO OFICIAL(1).pdf",
-            "PEM 2040 - PLANO ESTRATÉGICO DA MARINHA - DOCUMENTO OFICIAL.pdf"
-          ]
         }
       ]
     },
@@ -1325,16 +1513,16 @@ const DEFAULT_STUDY_STRUCTURE = {
         {
           "name": "B1 - FONETICA E ORTOGRAFIA",
           "videos": [
-            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_PROVAS_MILITARES_-_P2.mp4",
-            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_PROVAS_MILITARES_-_P3.mp4",
-            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_PROVAS_MILITARES_-_P4.mp4",
-            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_TEORIA_-_P1.mp4",
-            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_TEORIA_-_P2.mp4",
-            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_TEORIA_-_P3.mp4",
-            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_TEORIA_-_P4.mp4",
-            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_TEORIA_-_P5.mp4",
-            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P__ACENTUAÇÃO_-_TEORIA_-_P6.mp4",
-            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_-_PRESSUPOSTOS_P___ACENTUAÇÃO_-_PROVAS_MILITARES_-_P1.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_PROVAS_MILITARES_P1.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_PROVAS_MILITARES_P2.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_PROVAS_MILITARES_P3.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_PROVAS_MILITARES_P4.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_TEORIA_P1.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_TEORIA_P2.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_TEORIA_P3.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_TEORIA_P4.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_TEORIA_P5.mp4",
+            "23 - PRESSUPOSTOS P ACENTUAÇÃO/AULA_23_TEORIA_P6.mp4",
             "23 - PRESSUPOSTOS P ACENTUAÇÃO/pt-aula-23-pressupostos-para-acentuacao-aluno-mil-ok.pdf",
             "24 - ACENTUAÇÃO/AULA_24_-_ACENTUAÇÃO_-_PROVAS_MILITARES.mp4",
             "24 - ACENTUAÇÃO/AULA_24_-_ACENTUAÇÃO_-_TEORIA_-_P1.mp4",
@@ -1846,11 +2034,7 @@ const DEFAULT_STUDY_STRUCTURE = {
             "Aula 29 - Paralelismo - Exercícios.ts",
             "Aula 30 - Erros mais comuns - Dissertação.ts",
             "Aula 31 - Redação exemplar (modelo antigo) - Economia Azul - Erico.pdf",
-            "Aula 31 - Redação exemplar (modelo antigo) - Economia Azul - Erico.ts",
-            "Temas 05/Tema 18 - OS EFEITOS DA VIRTUDE DA ORDEM PARA O MILITAR DA MB/OS EFEITOS DA VIRTUDE DA ORDEM PARA O MILITAR DA MB_LINKS.pdf",
-            "Temas 05/Tema 19 - A RELAÇÃO ENTRE ECONOMIA DO MAR E ECONOMIA DA DEFESA/Erika_Ribeiro_a-inter-relação-da-economia-do-mar-e-da-economia-da-defesa.pdf",
-            "Temas 05/Tema 20 - A IMPORTÂNCIA DAS REDES SOCIAIS PARA O MARKETING DIGITAL DA MARINHA DO BRASIL/A IMPORTÂNCIA DAS REDES SOCIAIS PARA O MARKETING DIGITAL DA MARINHA DO BRASIL.pdf",
-            "Temas 05/Tema 21 - A MARINHA DO BRASIL E O JORNALISMO ELETRÔNICO/A MARINHA DO BRASIL E O JORNALISMO ELETRÔNICO.pdf"
+            "Aula 31 - Redação exemplar (modelo antigo) - Economia Azul - Erico.ts"
           ]
         },
         {
@@ -1867,9 +2051,7 @@ const DEFAULT_STUDY_STRUCTURE = {
             "Aula 35 - Todos os itens da Redação nota 10.pdf",
             "Aula 35 - Todos os itens da Redação nota 10.ts",
             "Aula 36 - Redação exemplar (modelo antigo) - Operações Navais.pdf",
-            "Aula 36 - Redação exemplar (modelo antigo) - Operações Navais.ts",
-            "Temas 06/Tema 24 –  PORTE DE ARMAS NO BRASIL - SIM OU NÃO_/PORTE DE ARMAS - DEBATE.pdf",
-            "Temas 06/Tema 25 – ECONOMIA AZUL - O DESENVOLVIMENTO QUE VEM DO MAR/MARINHA EM REVISTA - ED 13 - LER PAG 57.pdf"
+            "Aula 36 - Redação exemplar (modelo antigo) - Operações Navais.ts"
           ]
         },
         {
@@ -1886,8 +2068,7 @@ const DEFAULT_STUDY_STRUCTURE = {
             "Aula 41 - Redação Exemplar (modelo novo)- Amazônia Azul - crises e ameaças.pdf",
             "Aula 41 - Redação Exemplar (modelo novo)- Amazônia Azul - crises e ameaças.ts",
             "Aula 42 - Eixos Temáticos.pdf",
-            "Aula 42 - Eixos Temáticos.ts",
-            "Temas 07/Tema 26 – RENOVAÇÃO DO PODER NAVAL - Projetar é Preciso/Material de apoio-rmb_4t-2018_completa.pdf"
+            "Aula 42 - Eixos Temáticos.ts"
           ]
         },
         {
@@ -1907,26 +2088,6 @@ const DEFAULT_STUDY_STRUCTURE = {
             "Aula 48- Redação Exemplar (modelo novo) - Lançamento do Riachuelo marca o primeiro grande passo do PROBUB.ts"
           ]
         }
-      ]
-    }
-  ],
-  "manual": [
-    {
-      "id": "exercicios",
-      "name": "Exercícios",
-      "subject": "Exercícios",
-      "items": [
-        "Caderno de Questões - Adsumus RDM",
-        "Lista de Revisão de Crase - Exercícios"
-      ]
-    },
-    {
-      "id": "simulados",
-      "name": "Simulados",
-      "subject": "Simulados",
-      "items": [
-        "Simulado Geral 01 - Fevereiro 2025",
-        "Simulado Geral 02 - Março 2025"
       ]
     }
   ]
@@ -4302,23 +4463,51 @@ function App(){
       });
   },[]);
 
-  // ── Migração: corrige nomes de arquivo corrompidos do localStorage ──
+  // ── Migração: versão da estrutura + correção de nomes corrompidos ──
 
   useEffect(() => {
-    // Sequências corrompidas que precisam ser corrigidas nos nomes de arquivo
+    if (!studyStructure || !studyStructure.courses) return;
+
+    // ── 1. Reset por versão: se estrutura local está desatualizada ──
+    const localVersion  = studyStructure._version || 0;
+    const targetVersion = DEFAULT_STUDY_STRUCTURE._version || 0;
+
+    if (localVersion < targetVersion) {
+      console.log('[Migração] Estrutura desatualizada (v' + localVersion + ' → v' + targetVersion + '). Resetando...');
+      // Preserva apenas completedKeys que ainda existem na nova estrutura
+      const validKeys = new Set();
+      for (const c of DEFAULT_STUDY_STRUCTURE.courses) {
+        for (const p of (c.periods || [])) {
+          for (const v of (p.videos || [])) {
+            validKeys.add(c.name + '||' + p.name + '||' + v);
+          }
+        }
+      }
+      setCompletedKeys(prev => {
+        const next = {};
+        for (const [k, val] of Object.entries(prev || {})) {
+          if (validKeys.has(k)) next[k] = val;
+        }
+        return next;
+      });
+      setStudyStructure({ ...DEFAULT_STUDY_STRUCTURE });
+      return; // já resolvido, não precisa da migração de chars
+    }
+
+    // ── 2. Migração de chars corrompidos (legado) ──
     const FIXES = [
-      [/\u00fc0\u00e59/g, 'Á'],  // ü0å9 → Á  (MATEMÁTICA)
-      [/\u00fc0\u00e75/g, 'Ç'],  // ü0ç5 → Ç  (FUNÇÕES, EQUAÇÕES, etc.)
-      [/\u00fc0\u00ea9/g, 'Õ'],  // ü0ê9 → Õ  (FUNÇÕES, EQUAÇÕES)
-      [/\u00fc0\u00ea1/g, 'Í'],  // ü0ê1 → Í  (EXERCÍCIOS)
-      [/\u00fc0\u00eb3/g, 'Ú'],  // ü0ë3 → Ú  (NÚMEROS)
-      [/\u00fc0\u00e71/g, 'Ã'],  // ü0ç1 → Ã  (FUNÇÃO, POTENCIAÇÃO)
+      [/\u00fc0\u00e59/g, 'Á'],
+      [/\u00fc0\u00e75/g, 'Ç'],
+      [/\u00fc0\u00ea9/g, 'Õ'],
+      [/\u00fc0\u00ea1/g, 'Í'],
+      [/\u00fc0\u00eb3/g, 'Ú'],
+      [/\u00fc0\u00e71/g, 'Ã'],
     ];
 
     const fixName = name => {
       let n = name;
       for (const [pat, rep] of FIXES) n = n.replace(pat, rep);
-      n = n.replace(/  +/g, ' ').trim(); // remove espaços duplos
+      n = n.replace(/  +/g, ' ').trim();
       return n;
     };
 
@@ -4328,12 +4517,9 @@ function App(){
       )
     );
 
-    if (!studyStructure || !studyStructure.courses) return;
-    if (!needsMigration(studyStructure.courses)) return; // já está correto
+    if (!needsMigration(studyStructure.courses)) return;
 
     console.log('[Migração] Corrigindo nomes de arquivo corrompidos...');
-
-    // Migra completedKeys: cria mapa old→new para preservar progresso
     const keyMap = {};
     const newCourses = studyStructure.courses.map(course => ({
       ...course,
@@ -4342,37 +4528,32 @@ function App(){
         const newVideos = [];
         for (const v of (period.videos || [])) {
           const fixed = fixName(v);
-          if (seen.has(fixed)) continue; // remove duplicatas geradas pela correção
+          if (seen.has(fixed)) continue;
           seen.add(fixed);
           newVideos.push(fixed);
           if (v !== fixed) {
-            const oldKey = `${course.name}||${period.name}||${v}`;
-            const newKey = `${course.name}||${period.name}||${fixed}`;
-            keyMap[oldKey] = newKey;
+            keyMap[course.name + '||' + period.name + '||' + v] = course.name + '||' + period.name + '||' + fixed;
           }
         }
         return { ...period, videos: newVideos };
       })
     }));
 
-    // Migra completedKeys preservando o progresso com novos nomes
     if (Object.keys(keyMap).length > 0) {
       setCompletedKeys(prev => {
         const next = { ...prev };
         for (const [oldK, newK] of Object.entries(keyMap)) {
-          if (oldK in next) {
-            next[newK] = next[oldK];
-            delete next[oldK];
-          }
+          if (oldK in next) { next[newK] = next[oldK]; delete next[oldK]; }
         }
         return next;
       });
     }
 
     setStudyStructure({ ...studyStructure, courses: newCourses });
-    console.log(`[Migração] ${Object.keys(keyMap).length} nome(s) corrigido(s).`);
+    console.log('[Migração] ' + Object.keys(keyMap).length + ' nome(s) corrigido(s).');
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // roda apenas uma vez na montagem
+
 
   // ── estados de UI ──
 
