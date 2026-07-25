@@ -5056,12 +5056,12 @@ function VideoaulasView({ S }) {
     showToast(`Curso "${newCourse.name}" adicionado!`);
   };
 
-  const handleAddPeriod = (e, courseId) => {
+  const handleAddPeriod = (e, courseName) => {
     e.preventDefault();
     if (!newPeriodName.trim()) return;
 
     const updatedCourses = studyStructure.courses.map(c => {
-      if (c.id === courseId) {
+      if (c.name === courseName) {
         if (c.periods.some(p => p.name.toUpperCase() === newPeriodName.trim().toUpperCase())) {
           showToast("Este período já existe!");
           return c;
@@ -5079,7 +5079,7 @@ function VideoaulasView({ S }) {
     showToast(`Período "${newPeriodName}" adicionado!`);
   };
 
-  const handleAddVideos = (e, courseId, periodName) => {
+  const handleAddVideos = (e, courseName, periodName) => {
     e.preventDefault();
     if (!newVideoText.trim()) return;
 
@@ -5091,7 +5091,7 @@ function VideoaulasView({ S }) {
     if (videosToAdd.length === 0) return;
 
     const updatedCourses = studyStructure.courses.map(c => {
-      if (c.id === courseId) {
+      if (c.name === courseName) {
         const updatedPeriods = c.periods.map(p => {
           if (p.name === periodName) {
             const uniqueNewVideos = videosToAdd.filter(v => !p.videos.includes(v));
@@ -5638,7 +5638,7 @@ function VideoaulasView({ S }) {
             <h4 className="text-md font-bold font-outfit text-slate-200 flex items-center gap-1.5">
               <VideoIcons.Plus /> Adicionar Período
             </h4>
-            <form onSubmit={(e) => handleAddPeriod(e, currentCourse.id)} className="space-y-3">
+            <form onSubmit={(e) => handleAddPeriod(e, currentCourse.name)} className="space-y-3">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-1.5">Nome do Período</label>
                 <input
@@ -5841,7 +5841,7 @@ function VideoaulasView({ S }) {
               </div>
             </div>
 
-            <form onSubmit={(e) => handleAddVideos(e, currentCourse.id, currentPeriod.name)} className="space-y-3.5">
+            <form onSubmit={(e) => handleAddVideos(e, currentCourse.name, currentPeriod.name)} className="space-y-3.5">
               <div>
                 <textarea
                   required
