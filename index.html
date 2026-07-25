@@ -4434,7 +4434,7 @@ function App(){
   const[flashcards,setFlashcards]=useLS(LS.F,[],Array.isArray);
   const[habitos,setHabitos]      =useLS(LS.H,{},isObj);
   const[progressoQuestoes,setProgressoQuestoes] = useLS('progresso_questoes',{},isObj);
-  const [studyStructure, setStudyStructure] = useLS('progresso_estrutura_dados', DEFAULT_STUDY_STRUCTURE, isObj);
+  const [studyStructure, setStudyStructure] = useLS('progresso_estrutura_dados', DEFAULT_STUDY_STRUCTURE, v => isObj(v) && (v._version||0) >= (DEFAULT_STUDY_STRUCTURE._version||0));
   const [completedKeys, setCompletedKeys] = useLS('progresso_completados_videos', {}, isObj);
   const [driveLetter, setDriveLetter] = useLS('progresso_letra_disco_videos', 'E', v => typeof v === 'string');
   const[bancoQuestoes,setBancoQuestoes] = useState([]);
