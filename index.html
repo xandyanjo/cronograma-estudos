@@ -5280,7 +5280,14 @@ function VideoaulasView({ S }) {
   };
 
   const makeVideoUrl = (courseName, periodName, videoName) => {
-    const drive = driveLetter ? `${driveLetter}:` : 'E:';
+    // Auto-detecta a letra do drive a partir do caminho do app (file:///F:/...)
+    // Isso garante que vídeo e app sempre usem o mesmo drive, evitando erro cross-origin
+    let drive = driveLetter ? `${driveLetter}:` : 'E:';
+    if (typeof window !== 'undefined' && window.location.protocol === 'file:') {
+      // ex: "file:///F:/dashboard.concurso.html" → "F"
+      const m = window.location.href.match(/^file:\/\/\/([A-Za-z]):/);
+      if (m) drive = m[1].toUpperCase() + ':';
+    }
     // Encodar cada segmento separadamente; '/' dentro do nome indica subpasta — não deve ser codificado
     const encodedCourse = encodeURIComponent(courseName);
     const encodedPeriod = encodeURIComponent(periodName);
