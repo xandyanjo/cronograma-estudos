@@ -4636,13 +4636,15 @@ function App(){
         if(d.flashcards&&Array.isArray(d.flashcards))setFlashcards(d.flashcards);
         if(d.habitos&&isObj(d.habitos))setHabitos(d.habitos);
         if(d.concluidosVideos){
+          // Merge Firebase + localStorage: preserva progresso de ambos os modos
+          const fbObj={};
           if(Array.isArray(d.concluidosVideos)){
-            const obj={};
-            d.concluidosVideos.forEach(k=>{if(k)obj[k]=true;});
-            setCompletedKeys(obj);
+            d.concluidosVideos.forEach(k=>{if(k)fbObj[k]=true;});
           }else if(isObj(d.concluidosVideos)){
-            setCompletedKeys(d.concluidosVideos);
+            Object.assign(fbObj,d.concluidosVideos);
           }
+          // Lê completedKeys local atual e une com Firebase (union — não perde nada)
+          setCompletedKeys(prev=>(Object.keys(fbObj).length>0?{...prev,...fbObj}:prev));
         }
         if(d.estruturaVideos&&isObj(d.estruturaVideos)){
           const courses = Array.isArray(d.estruturaVideos.courses) ? d.estruturaVideos.courses.map(c => {
@@ -4665,7 +4667,10 @@ function App(){
               items: Array.isArray(m.items) ? m.items : []
             };
           }) : [];
-          setStudyStructure({ courses, manual });
+          // Inclui _version para que o useLS persista corretamente no localStorage
+          const restoredVersion = d.estruturaVideos._version || DEFAULT_STUDY_STRUCTURE._version || 4;
+          setStudyStructure({ courses, manual, _version: restoredVersion });
+
         }
         if(d.driveLetter&&typeof d.driveLetter==='string')setDriveLetter(d.driveLetter);
       }
